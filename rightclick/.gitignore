@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Visual Studio cache
+.vs/
+
+# Build output (ExB builds this in client/dist, not in the widget folder,
+# but keep this here in case anything is generated locally)
+dist/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Environment files
+.env
+.env.local

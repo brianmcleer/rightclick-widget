@@ -1,0 +1,34 @@
+# .npmignore controls what gets packed when this widget is published as an
+# npm tarball. We don't publish this widget to npm (private: true in
+# package.json), but having .npmignore in place keeps things consistent
+# with the standardization conventions and protects against accidental
+# publishes.
+
+# Dependencies
+node_modules/
+
+# Visual Studio cache
+.vs/
+
+# Build output
+dist/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Logs
+npm-debug.log*
+*.log
+
+# Source maps and TypeScript build artifacts (ExB compiles from src/)
+*.map
+*.tsbuildinfo

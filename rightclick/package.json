@@ -1,0 +1,20 @@
+{
+  "name": "rightclick",
+  "version": "1.0.0",
+  "description": "Adds a configurable right-click context menu to ArcGIS Experience Builder map widgets. Actions include zoom, copy coordinates, plot markers, measure, What's Here, Property Report, and Mailing Labels.",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Brian McLeer",
+  "keywords": [
+    "exb-widget",
+    "experience-builder",
+    "exb",
+    "arcgis",
+    "right-click",
+    "context-menu",
+    "map-tools",
+    "measure",
+    "geocoding"
+  ],
+  "dependencies": {}
+}
