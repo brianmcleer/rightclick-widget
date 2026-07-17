@@ -419,6 +419,12 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         unitDisplay: 'single' as const
     };
 
+    const defaultLongPressSettings = {
+        enabled: true,
+        durationMs: 500,
+        moveThresholdPx: 10
+    };
+
     const defaultMarkerSettings = {
         markerSize: 8,
         markerColor: '#0078ff',
@@ -467,6 +473,11 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const measurementSettings = React.useMemo(() =>
         ({ ...defaultMeasurementSettings, ...config.measurementSettings }),
         [config.measurementSettings]
+    );
+
+    const longPressSettings = React.useMemo(() =>
+        ({ ...defaultLongPressSettings, ...config.longPressSettings }),
+        [config.longPressSettings]
     );
 
     const plotSettings = React.useMemo(() =>
@@ -810,6 +821,19 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
                 ...config,
                 measurementSettings: {
                     ...measurementSettings,
+                    [property]: value
+                }
+            })
+        });
+    };
+
+    const updateLongPressSetting = (property: keyof typeof longPressSettings, value: any) => {
+        props.onSettingChange({
+            id: props.id,
+            config: Immutable({
+                ...config,
+                longPressSettings: {
+                    ...longPressSettings,
                     [property]: value
                 }
             })
@@ -3937,6 +3961,59 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
                     </SettingRow>
                 </SettingSection>
             )}
+
+            {/* Mobile Long Press Settings - controls touch long-press
+                behavior for phones and tablets. The long-press opens the
+                same context menu that right-click opens on desktop. */}
+            <SettingSection title="Mobile Long Press">
+                <SettingRow>
+                    <div style={styles.sectionDescription}>
+                        On touch devices (phones and tablets), press and hold on the map to open the right-click context menu. Drag to cancel.
+                    </div>
+                </SettingRow>
+                <SettingRow label="Enable long-press on touch devices">
+                    <Switch
+                        checked={longPressSettings.enabled !== false}
+                        onChange={(e) => updateLongPressSetting('enabled', e.target.checked)}
+                    />
+                </SettingRow>
+                <SettingRow label="Hold duration (ms)">
+                    <NumericInput
+                        value={longPressSettings.durationMs}
+                        min={200}
+                        max={2000}
+                        step={50}
+                        onChange={(value) => {
+                            // NumericInput emits the new number directly.
+                            // Reject empty or non-numeric inputs (which arrive
+                            // as undefined) so we don't blow away the default.
+                            if (typeof value === 'number' && value >= 200 && value <= 2000) {
+                                updateLongPressSetting('durationMs', value);
+                            }
+                        }}
+                        disabled={longPressSettings.enabled === false}
+                    />
+                </SettingRow>
+                <SettingRow label="Movement threshold (px)">
+                    <NumericInput
+                        value={longPressSettings.moveThresholdPx}
+                        min={3}
+                        max={40}
+                        step={1}
+                        onChange={(value) => {
+                            if (typeof value === 'number' && value >= 3 && value <= 40) {
+                                updateLongPressSetting('moveThresholdPx', value);
+                            }
+                        }}
+                        disabled={longPressSettings.enabled === false}
+                    />
+                </SettingRow>
+                <SettingRow>
+                    <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
+                        If the finger moves more than the threshold before the duration elapses, the gesture is treated as a pan and the menu does not open.
+                    </div>
+                </SettingRow>
+            </SettingSection>
         </div>
     );
 };

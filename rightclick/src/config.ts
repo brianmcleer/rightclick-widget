@@ -65,6 +65,20 @@ export interface IMConfig {
         defaultUnits: 'feet' | 'meters' | 'miles' | 'kilometers' | 'yards';
         unitDisplay: 'single' | 'both';
     };
+    // Long-press behavior for touch devices (phones, tablets). On touch
+    // input the user presses and holds on the map to open the same context
+    // menu that right-click opens on desktop. Defaults match the iOS and
+    // Android native long-press feel:
+    //   enabled:         true. Set false to disable mobile long-press entirely.
+    //   durationMs:      500. Press-and-hold time before the menu opens.
+    //   moveThresholdPx: 10. If the finger drifts farther than this in screen
+    //                    pixels before the timer fires, treat the gesture as
+    //                    a pan and cancel.
+    longPressSettings?: {
+        enabled?: boolean;
+        durationMs?: number;
+        moveThresholdPx?: number;
+    };
     reverseGeocodeUrl?: string;
     reverseGeocodeWkid?: number;
     pictometryUrl?: string;

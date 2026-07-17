@@ -4737,6 +4737,138 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         hideContextMenu();
     }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName]);
 
+    // Long-press (mobile) refs. Mobile touch devices have no right-click,
+    // so the user presses and holds on the map to open the same context
+    // menu. The pointer-down handler starts a timer; if the user holds
+    // without moving more than moveThresholdPx, the timer fires and opens
+    // the menu. pointer-move, pointer-up, pointer-cancel, and drag all
+    // cancel the timer cleanly.
+    const longPressTimerRef = React.useRef<number | null>(null);
+    const longPressPointerIdRef = React.useRef<number | null>(null);
+    const longPressStartXRef = React.useRef<number>(0);
+    const longPressStartYRef = React.useRef<number>(0);
+    const longPressMoveThresholdRef = React.useRef<number>(10);
+    // True for a short window after a long-press successfully fires. The
+    // OS / browser fires a trailing tap-click when the finger lifts; this
+    // flag tells the click handler to ignore that one click so it doesn't
+    // immediately dismiss the menu we just opened.
+    const longPressJustFiredRef = React.useRef<boolean>(false);
+
+    const clearLongPressTimer = React.useCallback(() => {
+        if (longPressTimerRef.current !== null) {
+            window.clearTimeout(longPressTimerRef.current);
+            longPressTimerRef.current = null;
+        }
+        longPressPointerIdRef.current = null;
+    }, []);
+
+    // Shared menu-opening logic. Used by both the desktop right-click path
+    // and the mobile long-press path so both produce identical menu
+    // positioning, coordinate labels, and lat/lon refinement. screenX and
+    // screenY are MapView container coordinates (same as event.x / event.y
+    // on Esri pointer events).
+    const openContextMenuAtPoint = React.useCallback((
+        mapPoint: __esri.Point,
+        screenX: number,
+        screenY: number
+    ) => {
+        const mapView = mapViewRef.current;
+        if (!mapView || !mapPoint) return;
+        const container = mapView.container;
+        if (!container) return;
+
+        const copySettings = props.config?.copySettings || {
+            coordinateSystem: 'map',
+            customWkid: undefined,
+            coordinateFormat: 'decimal',
+            decimalPlaces: 2
+        };
+
+        // Synchronous coordinate label, refined async below if needed.
+        let coordinateLabel: string;
+        if (copySettings.coordinateSystem === 'webMercator') {
+            const manualLatLon = manualProjectToLatLon(mapPoint);
+            if (copySettings.coordinateFormat === 'dms') {
+                coordinateLabel = `${convertToDMS(manualLatLon.lat, 'lat')}, ${convertToDMS(manualLatLon.lon, 'lon')}`;
+            } else {
+                coordinateLabel = `${manualLatLon.lat.toFixed(copySettings.decimalPlaces || 6)}, ${manualLatLon.lon.toFixed(copySettings.decimalPlaces || 6)}`;
+            }
+        } else {
+            coordinateLabel = `${mapPoint.x.toFixed(copySettings.decimalPlaces || 2)}, ${mapPoint.y.toFixed(copySettings.decimalPlaces || 2)}`;
+        }
+
+        const rect = container.getBoundingClientRect();
+        let x = screenX + rect.left;
+        let y = screenY + rect.top;
+
+        const menuWidth = 200;
+        const menuHeight = 450;
+        const mapRight = rect.left + rect.width;
+        const mapBottom = rect.top + rect.height;
+
+        if (x + menuWidth > mapRight) {
+            x = Math.max(rect.left + 4, x - menuWidth);
+        }
+        if (y + menuHeight > mapBottom) {
+            y = Math.max(rect.top + 4, y - menuHeight);
+        }
+        x = Math.max(rect.left + 4, Math.min(x, mapRight - menuWidth - 4));
+        y = Math.max(rect.top + 4, Math.min(y, mapBottom - menuHeight - 4));
+
+        const initialLatLon = manualProjectToLatLon(mapPoint);
+
+        setState(prevState => ({
+            ...prevState,
+            showingContextMenu: true,
+            contextMenu: {
+                visible: true,
+                x,
+                y,
+                mapPoint,
+                coordinateLabel,
+                projectedLatLon: initialLatLon
+            }
+        }));
+
+        // Refine projectedLatLon with accurate async projection. Street
+        // View and Pictometry consume this, so accuracy matters.
+        projectToLatLon(mapPoint).then(latLonPoint => {
+            if (latLonPoint?.x !== undefined && latLonPoint?.y !== undefined &&
+                Math.abs(latLonPoint.y) <= 90 && Math.abs(latLonPoint.x) <= 180) {
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: {
+                        ...prev.contextMenu,
+                        projectedLatLon: { lat: latLonPoint.y, lon: latLonPoint.x }
+                    }
+                }));
+            }
+        }).catch(() => { });
+
+        if (copySettings.coordinateSystem === 'webMercator') {
+            projectToLatLon(mapPoint).then(latLonPoint => {
+                if (latLonPoint?.x !== undefined && latLonPoint?.y !== undefined &&
+                    Math.abs(latLonPoint.y) <= 90 && Math.abs(latLonPoint.x) <= 180) {
+                    const newLabel = copySettings.coordinateFormat === 'dms'
+                        ? `${convertToDMS(latLonPoint.y, 'lat')}, ${convertToDMS(latLonPoint.x, 'lon')}`
+                        : `${latLonPoint.y.toFixed(copySettings.decimalPlaces || 6)}, ${latLonPoint.x.toFixed(copySettings.decimalPlaces || 6)}`;
+                    setState(prev => ({
+                        ...prev,
+                        contextMenu: { ...prev.contextMenu, coordinateLabel: newLabel }
+                    }));
+                }
+            }).catch(() => { });
+        } else if (copySettings.coordinateSystem === 'custom' && copySettings.customWkid) {
+            projectToSpatialReference(mapPoint, copySettings.customWkid).then(projectedPoint => {
+                const newLabel = `${projectedPoint.x.toFixed(copySettings.decimalPlaces || 2)}, ${projectedPoint.y.toFixed(copySettings.decimalPlaces || 2)}`;
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: { ...prev.contextMenu, coordinateLabel: newLabel }
+                }));
+            }).catch(() => { });
+        }
+    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, props.config?.copySettings]);
+
     const onActiveViewChange = React.useCallback((jmv: JimuMapView) => {
         if (jmv?.view) {
             const mapView = jmv.view as __esri.MapView;
@@ -4785,124 +4917,158 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                 mapView.on('pointer-down', (event) => {
                     if (event.button === 2) {
+                        // Desktop right-click.
                         if (event.native) {
                             event.native.preventDefault?.();
                             event.native.stopImmediatePropagation?.();
                         }
-
                         event.stopPropagation();
-
                         const mapPoint = mapView.toMap({ x: event.x, y: event.y });
-                        const copySettings = props.config?.copySettings || {
-                            coordinateSystem: 'map',
-                            customWkid: undefined,
-                            coordinateFormat: 'decimal',
-                            decimalPlaces: 2
-                        };
+                        openContextMenuAtPoint(mapPoint, event.x, event.y);
+                        return;
+                    }
 
-                        // Get quick coordinate label synchronously
-                        let coordinateLabel: string;
-                        if (copySettings.coordinateSystem === 'webMercator') {
-                            const manualLatLon = manualProjectToLatLon(mapPoint);
-                            if (copySettings.coordinateFormat === 'dms') {
-                                coordinateLabel = `${convertToDMS(manualLatLon.lat, 'lat')}, ${convertToDMS(manualLatLon.lon, 'lon')}`;
-                            } else {
-                                coordinateLabel = `${manualLatLon.lat.toFixed(copySettings.decimalPlaces || 6)}, ${manualLatLon.lon.toFixed(copySettings.decimalPlaces || 6)}`;
-                            }
-                        } else {
-                            coordinateLabel = `${mapPoint.x.toFixed(copySettings.decimalPlaces || 2)}, ${mapPoint.y.toFixed(copySettings.decimalPlaces || 2)}`;
-                        }
+                    // Mobile long-press path. Touch input only; mouse and
+                    // pen are handled by their native flows.
+                    const lp = props.config?.longPressSettings || {};
+                    const longPressEnabled = lp.enabled !== false;
+                    const isTouch = (event as any).pointerType === 'touch'
+                        || event.native?.pointerType === 'touch';
+                    if (!longPressEnabled || !isTouch) return;
 
-                        const rect = container.getBoundingClientRect();
-                        let x = event.x + rect.left;
-                        let y = event.y + rect.top;
+                    // If a long-press is already pending and a second
+                    // pointer touches (pinch zoom), cancel and bail.
+                    if (longPressPointerIdRef.current !== null) {
+                        clearLongPressTimer();
+                        return;
+                    }
 
-                        const menuWidth = 200;
-                        const menuHeight = 450; // Use fixed estimate for positioning
+                    const duration = typeof lp.durationMs === 'number' && lp.durationMs > 0
+                        ? lp.durationMs : 500;
+                    const moveThreshold = typeof lp.moveThresholdPx === 'number' && lp.moveThresholdPx > 0
+                        ? lp.moveThresholdPx : 10;
 
-                        // Clamp menu position within the map container bounds
-                        const mapRight = rect.left + rect.width;
-                        const mapBottom = rect.top + rect.height;
+                    const pid = (event as any).pointerId
+                        ?? event.native?.pointerId
+                        ?? -1;
+                    longPressPointerIdRef.current = pid;
+                    longPressStartXRef.current = event.x;
+                    longPressStartYRef.current = event.y;
+                    longPressMoveThresholdRef.current = moveThreshold;
 
-                        if (x + menuWidth > mapRight) {
-                            x = Math.max(rect.left + 4, x - menuWidth);
-                        }
-                        if (y + menuHeight > mapBottom) {
-                            y = Math.max(rect.top + 4, y - menuHeight);
-                        }
+                    if (longPressTimerRef.current !== null) {
+                        window.clearTimeout(longPressTimerRef.current);
+                    }
+                    longPressTimerRef.current = window.setTimeout(() => {
+                        longPressTimerRef.current = null;
+                        // Re-check the active pointer matches. If the
+                        // gesture was cancelled, the pointer-up handler
+                        // already cleared the id.
+                        if (longPressPointerIdRef.current !== pid) return;
 
-                        // Ensure menu stays fully within map container
-                        x = Math.max(rect.left + 4, Math.min(x, mapRight - menuWidth - 4));
-                        y = Math.max(rect.top + 4, Math.min(y, mapBottom - menuHeight - 4));
+                        longPressJustFiredRef.current = true;
+                        // Best-effort haptic on Android. iOS Safari ignores
+                        // navigator.vibrate, which is fine. The user gets
+                        // the menu either way.
+                        try { navigator.vibrate?.(10); } catch { /* ignore */ }
 
-                        // Set initial projectedLatLon from manual math immediately
-                        const initialLatLon = manualProjectToLatLon(mapPoint);
+                        const startX = longPressStartXRef.current;
+                        const startY = longPressStartYRef.current;
+                        const mp = mapView.toMap({ x: startX, y: startY });
+                        if (mp) openContextMenuAtPoint(mp, startX, startY);
 
-                        setState(prevState => ({
-                            ...prevState,
-                            showingContextMenu: true,
-                            contextMenu: {
-                                visible: true,
-                                x,
-                                y,
-                                mapPoint,
-                                coordinateLabel,
-                                projectedLatLon: initialLatLon
-                            }
-                        }));
+                        // Clear the just-fired flag after a short window.
+                        // Long enough to swallow the trailing click,
+                        // short enough that a genuine subsequent tap still
+                        // dismisses the menu.
+                        window.setTimeout(() => {
+                            longPressJustFiredRef.current = false;
+                        }, 400);
+                    }, duration);
+                });
 
-                        // Always refine projectedLatLon with accurate async projection
-                        // (used by Street View and Pictometry — must be accurate)
-                        projectToLatLon(mapPoint).then(latLonPoint => {
-                            if (latLonPoint?.x !== undefined && latLonPoint?.y !== undefined &&
-                                Math.abs(latLonPoint.y) <= 90 && Math.abs(latLonPoint.x) <= 180) {
-                                setState(prev => ({
-                                    ...prev,
-                                    contextMenu: {
-                                        ...prev.contextMenu,
-                                        projectedLatLon: { lat: latLonPoint.y, lon: latLonPoint.x }
-                                    }
-                                }));
-                            }
-                        }).catch(() => { });
-
-                        // Update coordinateLabel with accurate projection if needed
-                        if (copySettings.coordinateSystem === 'webMercator') {
-                            projectToLatLon(mapPoint).then(latLonPoint => {
-                                if (latLonPoint?.x !== undefined && latLonPoint?.y !== undefined &&
-                                    Math.abs(latLonPoint.y) <= 90 && Math.abs(latLonPoint.x) <= 180) {
-                                    const newLabel = copySettings.coordinateFormat === 'dms'
-                                        ? `${convertToDMS(latLonPoint.y, 'lat')}, ${convertToDMS(latLonPoint.x, 'lon')}`
-                                        : `${latLonPoint.y.toFixed(copySettings.decimalPlaces || 6)}, ${latLonPoint.x.toFixed(copySettings.decimalPlaces || 6)}`;
-                                    setState(prev => ({
-                                        ...prev,
-                                        contextMenu: { ...prev.contextMenu, coordinateLabel: newLabel }
-                                    }));
-                                }
-                            }).catch(() => { });
-                        } else if (copySettings.coordinateSystem === 'custom' && copySettings.customWkid) {
-                            projectToSpatialReference(mapPoint, copySettings.customWkid).then(projectedPoint => {
-                                const newLabel = `${projectedPoint.x.toFixed(copySettings.decimalPlaces || 2)}, ${projectedPoint.y.toFixed(copySettings.decimalPlaces || 2)}`;
-                                setState(prev => ({
-                                    ...prev,
-                                    contextMenu: { ...prev.contextMenu, coordinateLabel: newLabel }
-                                }));
-                            }).catch(() => { });
-                        }
+                // Cancel if the finger moves more than the threshold from
+                // its starting point. A small displacement is allowed since
+                // a finger never sits perfectly still during a press.
+                mapView.on('pointer-move', (event) => {
+                    if (longPressTimerRef.current === null) return;
+                    const pid = (event as any).pointerId
+                        ?? event.native?.pointerId
+                        ?? -1;
+                    if (pid !== longPressPointerIdRef.current) return;
+                    const dx = event.x - longPressStartXRef.current;
+                    const dy = event.y - longPressStartYRef.current;
+                    const threshold = longPressMoveThresholdRef.current;
+                    if (dx * dx + dy * dy > threshold * threshold) {
+                        clearLongPressTimer();
                     }
                 });
 
+                mapView.on('pointer-up', (event) => {
+                    const pid = (event as any).pointerId
+                        ?? event.native?.pointerId
+                        ?? -1;
+                    if (pid === longPressPointerIdRef.current) {
+                        clearLongPressTimer();
+                    }
+                });
+
+                // pointer-leave covers fingers dragged off the canvas
+                // without lifting (rare, but it happens at the edges).
+                (mapView as any).on?.('pointer-leave', () => {
+                    clearLongPressTimer();
+                });
+
                 mapView.on('click', (event) => {
-                    // Always hide context menu on left click
+                    // After a successful long-press, swallow the trailing
+                    // synthetic tap so it doesn't dismiss the menu we just
+                    // opened.
+                    if (longPressJustFiredRef.current) return;
                     if (event.button !== 2) {
                         hideContextMenu();
                     }
                 });
 
-                mapView.on('drag', hideContextMenu);
+                mapView.on('drag', () => {
+                    // A confirmed pan also cancels any in-flight long-press.
+                    // Defense in depth: the move threshold should have
+                    // caught it already.
+                    clearLongPressTimer();
+                    hideContextMenu();
+                });
+
+                // Suppress iOS Safari's native "touch callout" (the copy /
+                // look-up popover that appears on long-press of any
+                // element) so it doesn't fight our own long-press menu.
+                // Same for text selection during a press.
+                //
+                // IMPORTANT: apply this to the canvas surface
+                // (.esri-view-surface) only, NOT the whole MapView
+                // container. The popup (.esri-ui > .esri-popup) is a
+                // sibling of the surface inside the container; setting
+                // user-select:none on the container is inherited by the
+                // popup and makes all popup text unselectable/uncopyable
+                // app-wide. Scoping to the surface keeps long-press
+                // suppression on the map canvas while popup text stays
+                // selectable (matches Portal Map Viewer behavior).
+                try {
+                    const c = container as HTMLElement;
+                    const surface = c.querySelector('.esri-view-surface') as HTMLElement | null;
+                    const target = surface ?? c;
+                    (target.style as any).webkitTouchCallout = 'none';
+                    (target.style as any).webkitUserSelect = 'none';
+                    target.style.userSelect = 'none';
+                    // Defensive: clear any container-level suppression a
+                    // previous build of this widget may have stamped.
+                    if (surface) {
+                        (c.style as any).webkitTouchCallout = '';
+                        (c.style as any).webkitUserSelect = '';
+                        c.style.userSelect = '';
+                    }
+                } catch { /* ignore */ }
             }).catch(() => { });
         }
-    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, hideContextMenu, props.config?.copySettings]);
+    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, hideContextMenu, openContextMenuAtPoint, clearLongPressTimer, props.config?.copySettings, props.config?.longPressSettings]);
 
     // Build menu items array for keyboard navigation
     const getMenuItems = React.useCallback(() => {
