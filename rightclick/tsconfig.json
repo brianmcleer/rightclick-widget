@@ -1,0 +1,28 @@
+{
+  // Editor support only. This file exists so Visual Studio / VS Code get
+  // sane compiler settings when opening this widget folder from ANY
+  // location (the Experience Builder install or the GitHub repo mirror,
+  // which has no node_modules). Without it, editors fall back to a
+  // default project (ES5 target, no JSX types) and flood the error list
+  // with false positives. The Experience Builder webpack build uses the
+  // client tsconfig and ignores this file entirely.
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+    // Files use the classic /** @jsx jsx */ pragma (emotion via
+    // jimu-core), so classic transform, no jsx-runtime resolution.
+    "jsx": "react",
+    "jsxFactory": "jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": false
+  },
+  "include": [ "src/**/*" ]
+}

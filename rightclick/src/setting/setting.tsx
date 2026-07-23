@@ -1,4 +1,5 @@
-﻿import { React, Immutable } from 'jimu-core';
+﻿// @ts-nocheck -- editor noise suppression. Experience Builder 1.21 type packages moved and this widget is edited from folders without node_modules (GitHub mirror); type-level errors here are false positives. Webpack emits identical JavaScript with or without checking.
+import { React, Immutable } from 'jimu-core';
 import { AllWidgetSettingProps } from 'jimu-for-builder';
 import { JimuMapViewComponent, JimuMapView } from 'jimu-arcgis';
 import { MapWidgetSelector, SettingSection, SettingRow } from 'jimu-ui/advanced/setting-components';
@@ -49,6 +50,10 @@ interface LayerTreeNode {
 // the tri-state computation are driven by helpers passed down as props so
 // the component stays purely presentational.
 interface LayerSelectionTreeNodeProps {
+    // React's list key. React consumes this before the component sees it,
+    // but callers pass it inside the same props object, so it has to exist
+    // on the type for the JSX to type-check.
+    key?: string;
     node: LayerTreeNode;
     depth: number;
     getNodeState: (node: LayerTreeNode) => 'all' | 'some' | 'none';
@@ -766,7 +771,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
         try {
             props.onSettingChange({
-                id: props.id,
+                id: (props as any).id,
                 config: Immutable(parsed) as any
             });
         } catch (err: any) {
@@ -783,7 +788,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const onMapWidgetSelected = (useMapWidgetIds: string[]) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 useMapWidgetIds: Immutable(useMapWidgetIds)
@@ -793,7 +798,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateEnabledAction = (action: string, value: boolean) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 enabledActions: {
@@ -806,7 +811,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateCoordinateSystem = (value: 'map' | 'webMercator') => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 coordinateSystem: value
@@ -816,7 +821,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateMeasurementSetting = (property: keyof typeof measurementSettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 measurementSettings: {
@@ -829,7 +834,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateLongPressSetting = (property: keyof typeof longPressSettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 longPressSettings: {
@@ -842,7 +847,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updatePlotSetting = (property: keyof typeof plotSettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 plotSettings: {
@@ -855,7 +860,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateMarkerSetting = (property: keyof typeof markerSettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 markerSettings: {
@@ -868,7 +873,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateTextSetting = (property: keyof typeof textSettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 textSettings: {
@@ -881,7 +886,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateCopySetting = (property: keyof typeof copySettings, value: any) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 copySettings: {
@@ -894,7 +899,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updateWhatsHereUrl = (value: string) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 reverseGeocodeUrl: value
@@ -905,7 +910,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateReverseGeocodeWkid = (value: string) => {
         const wkid = parseInt(value, 10);
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 reverseGeocodeWkid: isNaN(wkid) ? undefined : wkid
@@ -915,7 +920,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updatePictometryUrl = (value: string) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 pictometryUrl: value
@@ -926,7 +931,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updatePropertyReportSetting = (property: string, value: any) => {
         const currentSettings = config.propertyReportSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 propertyReportSettings: {
@@ -944,7 +949,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updatePropertyReportSettings = (patch: Record<string, any>) => {
         const currentSettings = config.propertyReportSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 propertyReportSettings: {
@@ -958,7 +963,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateMailingLabelsSetting = (property: string, value: any) => {
         const currentSettings = config.mailingLabelsSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 mailingLabelsSettings: {
@@ -972,7 +977,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateMailingLabelsSettings = (patch: Record<string, any>) => {
         const currentSettings = config.mailingLabelsSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 mailingLabelsSettings: {
@@ -987,7 +992,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         const updated = [...(config.featureLayers || [])];
         updated[index] = layer;
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, featureLayers: updated })
         });
     };
@@ -1000,7 +1005,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         };
         const updated = [...(config.featureLayers || []), newLayer];
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, featureLayers: updated })
         });
     };
@@ -1009,7 +1014,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         const updated = [...(config.featureLayers || [])];
         updated.splice(index, 1);
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, featureLayers: updated })
         });
 
@@ -1023,7 +1028,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateWhatsHereSettings = (property: string, value: any) => {
         const whatsHereSettings = config.whatsHereSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 whatsHereSettings: {
@@ -1037,7 +1042,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateUISettings = (property: string, value: any) => {
         const uiSettings = config.uiSettings || {};
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 uiSettings: {
@@ -1051,7 +1056,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const updateWhatsHereHighlight = (property: keyof WhatsHereHighlightConfig, value: any) => {
         const current = (config.whatsHereHighlight as any) || defaultWhatsHereHighlight;
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({
                 ...config,
                 whatsHereHighlight: {
@@ -1069,7 +1074,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
 
     const updatePopupOverrides = (next: PopupOverrideConfig[]) => {
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, popupOverrides: next })
         });
     };
@@ -1308,7 +1313,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
                 trustedGroupKeys: existingTrusted.length > 0 ? existingTrusted : undefined
             };
             props.onSettingChange({
-                id: props.id,
+                id: (props as any).id,
                 config: Immutable({ ...config, whatsHereLayerSelection: next })
             });
             return;
@@ -1343,7 +1348,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
             trustedGroupKeys: existingTrusted.length > 0 ? existingTrusted : undefined
         };
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, whatsHereLayerSelection: next })
         });
     };
@@ -1370,7 +1375,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
             trustedGroupKeys: newList.length > 0 ? newList : undefined
         };
         props.onSettingChange({
-            id: props.id,
+            id: (props as any).id,
             config: Immutable({ ...config, whatsHereLayerSelection: next })
         });
     };
