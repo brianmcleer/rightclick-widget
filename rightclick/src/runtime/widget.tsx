@@ -2,19 +2,20 @@
 /* eslint-disable */
 /** @jsx jsx */
 import { React, jsx, css, AllWidgetProps, ReactRedux, MutableStoreManager, getAppStore, appActions } from 'jimu-core';
-import { JimuMapViewComponent, JimuMapView } from 'jimu-arcgis';
+import { JimuMapViewComponent, JimuMapView, loadArcGISJSAPIModules } from 'jimu-arcgis';
 
 // Hoisted Esri module imports (JS API 5.x ESM pattern). Modules used on every
 // right-click or routinely throughout the widget are imported statically here
-// so they're tree-shaken into the bundle and don't pay the AMD-require cost on
+// so they're tree-shaken into the bundle and don't pay a lazy-load cost on
 // each invocation. Heavy / rarely-used modules (DistanceMeasurement2D,
-// AreaMeasurement2D, geometryEngine) are still loaded lazily via window.require
-// at their call sites so they don't bloat the initial widget bundle.
+// AreaMeasurement2D, length/area math) are loaded lazily at their call sites
+// via loadArcGISJSAPIModules so they don't bloat the initial widget bundle.
 import Point from 'esri/geometry/Point';
 import SpatialReference from 'esri/geometry/SpatialReference';
 import * as projectOperator from 'esri/geometry/operators/projectOperator';
 import * as geometryJsonUtils from 'esri/geometry/support/jsonUtils';
 import * as locator from 'esri/rest/locator';
+import * as reactiveUtils from 'esri/core/reactiveUtils';
 import Graphic from 'esri/Graphic';
 import TextSymbol from 'esri/symbols/TextSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
@@ -81,21 +82,64 @@ const ensureProjectOperator = (): Promise<void> => {
 // Lazy-load the Arcade module. Arcade is only needed when a popup override
 // with expressionInfos fires, so it doesn't belong in the initial widget
 // bundle. Cached at module scope so concurrent calls share one load.
+// Loaded through jimu-arcgis loadArcGISJSAPIModules, which works under both
+// the AMD loader (EB 1.20 / JS API 4.x) and the ESM build (EB 1.21 /
+// JS API 5.x) where window.require may not exist.
 let _arcadeModulePromise: Promise<any> | null = null;
 const loadArcadeModule = (): Promise<any> => {
     if (!_arcadeModulePromise) {
-        _arcadeModulePromise = new Promise((resolve, reject) => {
-            try {
-                (window as any).require(['esri/arcade'], resolve, reject);
-            } catch (e) {
-                reject(e);
-            }
-        }).catch((err) => {
-            _arcadeModulePromise = null; // allow retry next click
-            throw err;
-        });
+        _arcadeModulePromise = loadArcGISJSAPIModules(['esri/arcade'])
+            .then((mods: any[]) => mods[0])
+            .catch((err: any) => {
+                _arcadeModulePromise = null; // allow retry next click
+                throw err;
+            });
     }
     return _arcadeModulePromise;
+};
+
+// Length / area math for the measurement label overlays. geometryEngine is
+// deprecated in JS API 5.x in favor of the individual geometry operators
+// and is slated for removal. Load geometryEngine when it exists (EB 1.20
+// and current 1.21 builds) and fall back to the operator modules with a
+// geometryEngine-shaped shim when it doesn't, so the widget keeps working
+// the day Esri drops the module. Cached at module scope.
+let _lengthAreaMathPromise: Promise<any> | null = null;
+const loadLengthAreaMath = (): Promise<any> => {
+    if (_lengthAreaMathPromise) return _lengthAreaMathPromise;
+    _lengthAreaMathPromise = (async () => {
+        try {
+            const [ge] = await loadArcGISJSAPIModules(['esri/geometry/geometryEngine']);
+            if (ge && typeof ge.geodesicLength === 'function') return ge;
+        } catch (e) {
+            // Module removed in this JS API build. Fall through to operators.
+        }
+        const [geodeticLengthOperator, lengthOperator, geodeticAreaOperator, areaOperator] =
+            await loadArcGISJSAPIModules([
+                'esri/geometry/operators/geodeticLengthOperator',
+                'esri/geometry/operators/lengthOperator',
+                'esri/geometry/operators/geodeticAreaOperator',
+                'esri/geometry/operators/areaOperator'
+            ]);
+        // Some operators require an async load() before first execute().
+        for (const op of [geodeticLengthOperator, lengthOperator, geodeticAreaOperator, areaOperator]) {
+            try {
+                if (op && typeof op.load === 'function' && typeof op.isLoaded === 'function' && !op.isLoaded()) {
+                    await op.load();
+                }
+            } catch (e) { /* operator load is best-effort */ }
+        }
+        return {
+            geodesicLength: (g: any, unit: any) => geodeticLengthOperator.execute(g, { unit }),
+            planarLength: (g: any, unit: any) => lengthOperator.execute(g, { unit }),
+            geodesicArea: (g: any, unit: any) => geodeticAreaOperator.execute(g, { unit }),
+            planarArea: (g: any, unit: any) => areaOperator.execute(g, { unit })
+        };
+    })().catch((err) => {
+        _lengthAreaMathPromise = null; // allow retry
+        throw err;
+    });
+    return _lengthAreaMathPromise;
 };
 
 interface State {
@@ -139,6 +183,178 @@ interface State {
 
 // Enhanced unit and button cleanup function with MutationObserver for instant "New Measurement" suppression.
 // Returns a disconnect function to stop the observer when the measurement widget is destroyed.
+// CSS for the What's Here popup content (master rows, Back / Zoom-to
+// buttons, links). This is injected in TWO places:
+//   1. document.head, which reaches the popup in EB 1.20 and earlier,
+//      where the popup renders in the light DOM of the page.
+//   2. Inside the popup root element itself, required in EB 1.21 /
+//      JS API 5.x, where popup content renders inside a shadow root
+//      that document-level stylesheets cannot penetrate. A <style>
+//      element carried inside the content applies wherever the
+//      content lands, light DOM or shadow DOM.
+const RC_WH_CONTENT_CSS = `
+.rc-wh-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 4px; border-radius: 4px; box-sizing: border-box; }
+.rc-wh-row--clickable { background: #f4f8fb; border: 1px solid #d9e6ef; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+.rc-wh-row--clickable:hover, .rc-wh-row--clickable:focus { background: #e3eef6; border-color: #0079c1; outline: none; }
+.rc-wh-row--clickable:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
+.rc-wh-row--disabled { background: #fafafa; border: 1px solid #e0e0e0; color: #6e6e6e; }
+.rc-wh-row__label { flex: 1; color: #0079c1; font-weight: 500; }
+.rc-wh-row--disabled .rc-wh-row__label { color: #6e6e6e; font-weight: 400; }
+.rc-wh-row__chevron { color: #0079c1; font-size: 16px; line-height: 1; font-weight: 600; }
+.rc-wh-row__hint { font-size: 11px; color: #999; font-style: italic; }
+.rc-wh-back { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+.rc-wh-back:hover, .rc-wh-back:focus { background: #0079c1; color: #fff; outline: none; }
+.rc-wh-back:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
+.rc-wh-zoom-to { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+.rc-wh-zoom-to:hover, .rc-wh-zoom-to:focus { background: #0079c1; color: #fff; outline: none; }
+.rc-wh-zoom-to:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
+.rc-wh-popup-root a { color: #0079c1; }
+.rc-wh-popup-root a:hover, .rc-wh-popup-root a:focus { color: #005a92; }
+.rc-wh-popup-root { box-sizing: border-box; }
+`.trim();
+
+// Apply the What's Here look as INLINE styles plus JS hover handlers.
+// This is the belt-and-suspenders path for EB 1.21: it needs no
+// stylesheet to reach the content at all, so it works even if the popup
+// sanitizes or relocates our embedded <style>. Hover effects that CSS
+// pseudo-classes would normally provide are wired as mouseenter/leave
+// listeners. Idempotent per element via a dataset flag.
+const applyRcWhInlineStyles = (root: HTMLElement) => {
+    try {
+        const mark = (el: HTMLElement): boolean => {
+            if (el.dataset.rcStyled) return false;
+            el.dataset.rcStyled = '1';
+            return true;
+        };
+
+        root.querySelectorAll<HTMLElement>('.rc-wh-row').forEach((el) => {
+            if (!mark(el)) return;
+            el.style.cssText += ';display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:4px;border-radius:4px;box-sizing:border-box;';
+            if (el.classList.contains('rc-wh-row--clickable')) {
+                el.style.cssText += ';background:#f4f8fb;border:1px solid #d9e6ef;cursor:pointer;';
+                el.addEventListener('mouseenter', () => { el.style.background = '#e3eef6'; el.style.borderColor = '#0079c1'; });
+                el.addEventListener('mouseleave', () => { el.style.background = '#f4f8fb'; el.style.borderColor = '#d9e6ef'; });
+            } else if (el.classList.contains('rc-wh-row--disabled')) {
+                el.style.cssText += ';background:#fafafa;border:1px solid #e0e0e0;color:#6e6e6e;';
+            }
+        });
+
+        root.querySelectorAll<HTMLElement>('.rc-wh-row__label').forEach((el) => {
+            if (!mark(el)) return;
+            const disabled = !!el.closest('.rc-wh-row--disabled');
+            el.style.cssText += `;flex:1;color:${disabled ? '#6e6e6e' : '#0079c1'};font-weight:${disabled ? '400' : '500'};`;
+        });
+        root.querySelectorAll<HTMLElement>('.rc-wh-row__chevron').forEach((el) => {
+            if (!mark(el)) return;
+            el.style.cssText += ';color:#0079c1;font-size:16px;line-height:1;font-weight:600;';
+        });
+        root.querySelectorAll<HTMLElement>('.rc-wh-row__hint').forEach((el) => {
+            if (!mark(el)) return;
+            el.style.cssText += ';font-size:11px;color:#999;font-style:italic;';
+        });
+
+        root.querySelectorAll<HTMLElement>('.rc-wh-back, .rc-wh-zoom-to').forEach((el) => {
+            if (!mark(el)) return;
+            el.style.cssText += ';display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:#fff;border:1px solid #0079c1;color:#0079c1;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;line-height:1.2;flex-shrink:0;';
+            el.addEventListener('mouseenter', () => { el.style.background = '#0079c1'; el.style.color = '#fff'; });
+            el.addEventListener('mouseleave', () => { el.style.background = '#fff'; el.style.color = '#0079c1'; });
+        });
+
+        root.querySelectorAll<HTMLElement>('a').forEach((el) => {
+            if (!mark(el)) return;
+            el.style.color = '#0079c1';
+        });
+    } catch (e) { /* styling is best-effort */ }
+};
+
+// Walk to the parent element, crossing shadow DOM boundaries. In JS API
+// 5.x (EB 1.21) the popup content is rendered inside a shadow root;
+// parentElement returns null at the shadow boundary, so hop out to the
+// shadow host and keep climbing.
+const rcParentAcrossShadow = (el: HTMLElement | null): HTMLElement | null => {
+    if (!el) return null;
+    if (el.parentElement) return el.parentElement;
+    try {
+        const rn = el.getRootNode();
+        if (rn && (rn as any).host && rn instanceof ShadowRoot) {
+            return rn.host as HTMLElement;
+        }
+    } catch (e) { /* ignore */ }
+    return null;
+};
+
+// Restore the 1.20-style stacked layout inside the Esri measurement panel
+// WITHOUT depending on Esri class names, which changed in EB 1.21 /
+// JS API 5.x and left the panel unstyled ("Distance328.91 ft" on one
+// line). Elements are identified by their CONTENT: a leaf element whose
+// text is exactly a known label gets label styling; the value next to it
+// gets value styling. Every rule is guarded so it only fires when the
+// element is visibly unstyled (inline display), making this a no-op on
+// EB 1.20 where Esri's own stylesheet still applies.
+const beautifyMeasurePanel = (rootEl: Element | null) => {
+    if (!rootEl) return;
+    try {
+        const allEls = Array.from(rootEl.querySelectorAll<HTMLElement>('*'));
+
+        // Pass 1: leaf label elements ("Distance", "Area", "Perimeter",
+        // "Unit") and their sibling values.
+        for (const el of allEls) {
+            if (el.childElementCount !== 0) continue;
+            const t = (el.textContent || '').trim();
+            if (/^(Distance|Area|Perimeter)$/i.test(t)) {
+                if (getComputedStyle(el).display === 'inline') {
+                    el.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:8px 0 2px;';
+                    const sib = el.nextElementSibling as HTMLElement | null;
+                    if (sib && /\d/.test(sib.textContent || '') && getComputedStyle(sib).display === 'inline') {
+                        sib.style.cssText += ';display:block;font-size:18px;font-weight:600;color:#151515;margin:0 0 8px;';
+                    }
+                }
+            } else if (/^Unit$/i.test(t)) {
+                if (getComputedStyle(el).display === 'inline') {
+                    el.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:0 0 4px;';
+                }
+            }
+        }
+
+        // Pass 2: a parent holding exactly [label, value] as its two
+        // children (the 4.x span-pair pattern) where both render inline.
+        for (const el of allEls) {
+            if (el.childElementCount !== 2) continue;
+            const c0 = el.children[0] as HTMLElement;
+            const c1 = el.children[1] as HTMLElement;
+            const t0 = (c0.textContent || '').trim();
+            const t1 = (c1.textContent || '').trim();
+            if (/^(Distance|Area|Perimeter)$/i.test(t0) && /\d/.test(t1)) {
+                if (getComputedStyle(c0).display === 'inline') {
+                    c0.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:8px 0 2px;';
+                }
+                if (getComputedStyle(c1).display === 'inline') {
+                    c1.style.cssText += ';display:block;font-size:18px;font-weight:600;color:#151515;margin:0 0 8px;';
+                }
+            }
+        }
+
+        // Unit dropdowns fill the panel width.
+        rootEl.querySelectorAll<HTMLElement>('select, calcite-select').forEach((s) => {
+            if (!s.dataset.rcWidthApplied) {
+                s.dataset.rcWidthApplied = '1';
+                s.style.cssText += ';width:100%;box-sizing:border-box;margin-bottom:6px;';
+            }
+        });
+
+        // If the panel itself lost its padding (1.21 unstyled state), give
+        // it breathing room. Skip when Esri's own padding is in effect.
+        const panel = rootEl as HTMLElement;
+        if (panel.style && !panel.dataset.rcPadApplied) {
+            const cs = getComputedStyle(panel);
+            if (parseFloat(cs.paddingLeft || '0') < 4) {
+                panel.dataset.rcPadApplied = '1';
+                panel.style.cssText += ';padding:12px 14px;';
+            }
+        }
+    } catch (e) { /* styling is best-effort */ }
+};
+
 const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'distance'): (() => void) => {
     const unwantedUnits = {
         distance: [
@@ -172,6 +388,41 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
                     overflow: hidden !important;
                     pointer-events: none !important;
                 }
+
+                /* Layout restore for JS API 5.x (EB 1.21). The measurement
+                   widget's Calcite rework can collapse the label and value
+                   onto one line with no separation ("Distance378.15 ft")
+                   and shrink the panel. Force the 1.20-style stacked
+                   layout: label on its own line, value below it in a
+                   larger bold face, with breathing room. These rules are
+                   additive and match the widget's own 1.20 styling, so
+                   they are harmless on older versions. */
+                .esri-distance-measurement-2d__measurement-item-title,
+                .esri-area-measurement-2d__measurement-item-title {
+                    display: block !important;
+                    margin-bottom: 4px;
+                }
+                .esri-distance-measurement-2d__measurement-item-value,
+                .esri-area-measurement-2d__measurement-item-value {
+                    display: block !important;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                .esri-distance-measurement-2d__measurement-item,
+                .esri-area-measurement-2d__measurement-item {
+                    display: block !important;
+                    margin: 8px 0;
+                }
+                .esri-distance-measurement-2d__measurement,
+                .esri-area-measurement-2d__measurement {
+                    display: block !important;
+                    padding: 6px 0;
+                }
+                .esri-distance-measurement-2d,
+                .esri-area-measurement-2d {
+                    min-width: 220px;
+                    box-sizing: border-box;
+                }
             `;
             document.head.appendChild(styleEl);
         } catch (e) {
@@ -185,7 +436,14 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
             const buttons = container.querySelectorAll('button, calcite-button');
             buttons.forEach((button: any) => {
                 const text = (button.textContent || '').toLowerCase().trim();
-                if (text.includes('new measurement') || text === 'new measurement') {
+                // Exact-match only, and never remove an element that also
+                // contains a digit. In JS API 5.x (EB 1.21) the widget DOM
+                // moved to Calcite components where a parent's textContent
+                // includes all child text; a substring match could remove a
+                // wrapper that holds the live measurement value.
+                const isExactNewMeasurement = text === 'new measurement';
+                const hasNumericContent = /\d/.test(text);
+                if (isExactNewMeasurement && !hasNumericContent) {
                     button.style.display = 'none';
                     button.style.visibility = 'hidden';
                     button.hidden = true;
@@ -197,8 +455,13 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
                 '.esri-distance-measurement-2d__hint, .esri-area-measurement-2d__hint, .esri-measurement__hint'
             );
             hints.forEach((hint: any) => {
-                hint.style.display = 'none';
-                try { hint.remove(); } catch (e) { /* silent */ }
+                // Only remove a hint that carries no numeric content. If a
+                // future JS API build repurposes or wraps the value in an
+                // element matching these selectors, leave it alone.
+                if (!/\d/.test(hint.textContent || '')) {
+                    hint.style.display = 'none';
+                    try { hint.remove(); } catch (e) { /* silent */ }
+                }
             });
         } catch (e) {
             // Silent fail
@@ -222,14 +485,15 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
                     const text = (option.textContent || option.innerText || '').toLowerCase().trim();
                     const label = (option.label || '').toLowerCase().trim();
 
+                    // Exact matches only. Substring matching (includes)
+                    // is dangerous against Calcite DOM in JS API 5.x where
+                    // wrapper elements can surface child text; an exact
+                    // match can only hit a leaf option element.
                     const shouldRemove = targetUnits.some(unwantedUnit => {
                         const unwanted = unwantedUnit.toLowerCase();
                         return value === unwanted ||
                             text === unwanted ||
-                            label === unwanted ||
-                            value.includes(unwanted) ||
-                            text.includes(unwanted) ||
-                            label.includes(unwanted);
+                            label === unwanted;
                     });
 
                     if (shouldRemove) {
@@ -253,6 +517,10 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
             if (!container) return;
             removeNewMeasurementButtons(container);
             removeUnwantedOptions(container);
+            // Re-apply the label/value layout on every pass; the observer
+            // and timed retries make this track Esri re-renders as the
+            // measurement value updates.
+            beautifyMeasurePanel(container);
         } catch (e) {
             // Silent fail
         }
@@ -287,6 +555,7 @@ const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'dista
                 for (const mutation of mutations) {
                     if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                         removeNewMeasurementButtons(container);
+                        beautifyMeasurePanel(container);
                     }
                 }
             });
@@ -1936,14 +2205,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             const labelSuppressor = createLabelSuppressor(mapView);
             labelSuppressor.snapshotLayers();
 
-            (window as any).require([
-                'esri/widgets/DistanceMeasurement2D',
-                'esri/Graphic',
-                'esri/symbols/TextSymbol',
-                'esri/geometry/geometryEngine',
-                'esri/geometry/Point',
-                'esri/geometry/Polyline'
-            ], (DistanceMeasurement2D: any, Graphic: any, TextSymbol: any, geometryEngine: any, Point: any, Polyline: any) => {
+            Promise.all([
+                loadArcGISJSAPIModules([
+                    'esri/widgets/DistanceMeasurement2D',
+                    'esri/Graphic',
+                    'esri/symbols/TextSymbol',
+                    'esri/geometry/Point',
+                    'esri/geometry/Polyline'
+                ]),
+                loadLengthAreaMath()
+            ]).then(([[DistanceMeasurement2D, Graphic, TextSymbol, Point, Polyline], geometryEngine]: [any[], any]) => {
                 try {
                     const distanceMeasurement2D = new DistanceMeasurement2D({
                         view: mapView,
@@ -2121,13 +2392,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     const watchHandles: __esri.WatchHandle[] = [];
 
-                    watchHandles.push(distanceMeasurement2D.viewModel.watch('measurement', (m: any) => {
+                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.viewModel.measurement, (m: any) => {
                         if (!m?.geometry) return;
                         clearLabels();
                         drawLabels(m.geometry, distanceMeasurement2D.unit);
                     }));
 
-                    watchHandles.push(distanceMeasurement2D.watch('unit', (newUnit: string) => {
+                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.unit, (newUnit: string) => {
                         if (!validUnits.includes(newUnit)) {
                             // console.warn(`Invalid unit received: ${newUnit}. Reverting to primary unit: ${primaryUnit}`);
                             setTimeout(() => {
@@ -2142,7 +2413,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         drawLabels(m.geometry, newUnit);
                     }));
 
-                    watchHandles.push(distanceMeasurement2D.viewModel.watch('state', (s: string) => {
+                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.viewModel.state, (s: string) => {
                         if (s === 'ready') {
                             clearLabels();
                         } else if (s === 'measured') {
@@ -2220,6 +2491,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 } catch (err: any) {
                     // console.error(`Error starting measurement: ${err.message}`);
                 }
+            }).catch((err: any) => {
+                console.warn('[rightclick] Failed to load distance measurement modules:', err);
             });
         } catch (err: any) {
             // console.error(`Error loading measurement tools: ${err.message}`);
@@ -2254,13 +2527,15 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             const labelSuppressor = createLabelSuppressor(mapView);
             labelSuppressor.snapshotLayers();
 
-            (window as any).require([
-                'esri/widgets/AreaMeasurement2D',
-                'esri/Graphic',
-                'esri/symbols/TextSymbol',
-                'esri/geometry/geometryEngine',
-                'esri/geometry/Point'
-            ], (AreaMeasurement2D: any, Graphic: any, TextSymbol: any, geometryEngine: any, Point: any) => {
+            Promise.all([
+                loadArcGISJSAPIModules([
+                    'esri/widgets/AreaMeasurement2D',
+                    'esri/Graphic',
+                    'esri/symbols/TextSymbol',
+                    'esri/geometry/Point'
+                ]),
+                loadLengthAreaMath()
+            ]).then(([[AreaMeasurement2D, Graphic, TextSymbol, Point], geometryEngine]: [any[], any]) => {
                 try {
                     const validAreaUnits = ['square-feet', 'square-yards', 'square-miles', 'square-meters', 'square-kilometers', 'acres'];
                     const areaMeasurement2D = new AreaMeasurement2D({
@@ -2475,12 +2750,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     // Watch for measurement updates to draw custom labels
                     const areaWatchHandles: __esri.WatchHandle[] = [];
 
-                    areaWatchHandles.push(measurement.viewModel.watch('measurement', (m: any) => {
+                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.viewModel.measurement, (m: any) => {
                         if (!m) return;
                         drawAreaLabels(m, measurement.unit);
                     }));
 
-                    measurement.watch('unit', (newUnit: string) => {
+                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.unit, (newUnit: string) => {
                         if (!validAreaUnits.includes(newUnit)) {
                             // console.warn(`Invalid area unit received: ${newUnit}. Reverting to primary unit: ${primaryUnit}`);
                             setTimeout(() => {
@@ -2490,9 +2765,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         }
                         const m = measurement.viewModel.measurement;
                         if (m) drawAreaLabels(m, newUnit);
-                    });
+                    }));
 
-                    areaWatchHandles.push(measurement.viewModel.watch('state', (s: string) => {
+                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.viewModel.state, (s: string) => {
                         if (s === 'ready') clearAreaLabels();
                     }));
 
@@ -2531,6 +2806,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 } catch (error) {
                     // console.error(`Error starting area measurement: ${error.message}`);
                 }
+            }).catch((error: any) => {
+                console.warn('[rightclick] Failed to load area measurement modules:', error);
             });
 
         } catch (error) {
@@ -4080,9 +4357,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             whatsHerePopupCloseHandleRef.current = null;
         }
         try {
-            const popup: any = (mapView as any).popup;
-            if (popup && typeof popup.watch === 'function') {
-                whatsHerePopupCloseHandleRef.current = popup.watch('visible', (visible: boolean) => {
+            // reactiveUtils works on every JS API version EB ships (4.2x and
+            // 5.x) and tolerates the popup being created lazily: the getter
+            // re-reads mapView.popup on each evaluation.
+            whatsHerePopupCloseHandleRef.current = reactiveUtils.watch(
+                () => (mapView as any).popup?.visible,
+                (visible: boolean) => {
                     if (!visible) {
                         clearHighlight();
                         if (whatsHerePopupCloseHandleRef.current) {
@@ -4090,9 +4370,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             whatsHerePopupCloseHandleRef.current = null;
                         }
                     }
-                });
-            }
-        } catch (_) { /* popup.watch may not exist on every JS API version */ }
+                }
+            );
+        } catch (_) { /* watcher is best-effort; highlight clears on next open */ }
 
         // Build the scrolling container as a real DOM element. We pass an
         // HTMLElement (not a string) to popup.content because Esri's popup
@@ -4128,21 +4408,39 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             ].join(';');
             root.innerHTML = innerHtml;
 
+            // Carry the What's Here content styles WITH the content. In
+            // EB 1.21 / JS API 5.x the popup renders content inside a
+            // shadow root, where the document.head stylesheet (injected
+            // on mount for EB 1.20 and earlier) cannot reach. A <style>
+            // element inside the root applies in either world.
+            const embeddedStyle = document.createElement('style');
+            embeddedStyle.textContent = RC_WH_CONTENT_CSS;
+            root.appendChild(embeddedStyle);
+
+            // Belt and suspenders for EB 1.21: also apply the same look as
+            // inline styles with JS hover handlers, so the content is
+            // styled even if no stylesheet (document-level or embedded)
+            // reaches it in the popup's shadow DOM.
+            applyRcWhInlineStyles(root);
+
             // Wire up the popup chrome (the `.esri-popup__main-container`
             // ancestor) as the resizable element. Has to run after Esri has
             // inserted our wrapper into the DOM, which happens during
             // openPopup — a small timeout is enough.
             const setupChromeResize = () => {
-                // Find the popup main container ancestor.
+                // Find the popup main container ancestor. Use the
+                // shadow-crossing walker: in EB 1.21 the content sits in
+                // a shadow root and parentElement dead-ends at the
+                // boundary before reaching the popup chrome.
                 let mainContainer: HTMLElement | null = null;
-                let node: HTMLElement | null = root.parentElement;
+                let node: HTMLElement | null = rcParentAcrossShadow(root);
                 let hops = 0;
-                while (node && hops < 10) {
+                while (node && hops < 15) {
                     if (node.classList.contains('esri-popup__main-container')) {
                         mainContainer = node;
                         break;
                     }
-                    node = node.parentElement;
+                    node = rcParentAcrossShadow(node);
                     hops++;
                 }
 
@@ -4193,9 +4491,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 // size caps on every popup-chrome ancestor inline — covers
                 // browsers without :has() support and cases where Esri sets
                 // inline styles that beat stylesheet rules.
-                let n2: HTMLElement | null = root.parentElement;
+                let n2: HTMLElement | null = rcParentAcrossShadow(root);
                 let h2 = 0;
-                while (n2 && h2 < 10) {
+                while (n2 && h2 < 15) {
                     const cls = n2.classList;
                     if (
                         cls.contains('esri-popup') ||
@@ -4211,7 +4509,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         n2.style.setProperty('max-width', 'none', 'important');
                     }
                     if (cls.contains('esri-popup')) break;
-                    n2 = n2.parentElement;
+                    n2 = rcParentAcrossShadow(n2);
                     h2++;
                 }
             };
@@ -4446,31 +4744,19 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         renderMaster();
     }, [isPopupEnabledForLayerUrl, generateMasterWhatsHereContent, generateFeatureDetailContent, findMatchingPopupOverride, evaluateOverrideExpressions, substituteOverrideTemplate, escapePopupHtml, props.config?.uiSettings?.popupMaxHeight]);
 
-    // Inject a stylesheet for the What's Here popup rows once on mount. Esri's
-    // popup HTML sanitizer disallows pseudo-class selectors in inline `style`,
-    // but a stylesheet in document.head applies normally to the popup content
-    // since the popup renders into the same document.
+    // Inject a stylesheet for the What's Here popup rows once on mount.
+    // This document.head copy styles the popup in EB 1.20 and earlier
+    // (light-DOM popup). In EB 1.21 / JS API 5.x the popup content sits in
+    // a shadow root this stylesheet cannot reach, so buildPopupRoot also
+    // embeds RC_WH_CONTENT_CSS inside the content element itself. The
+    // chrome rules (:has() on .esri-popup*) stay document-level only:
+    // the popup chrome remains in the light DOM.
     React.useEffect(() => {
         const STYLE_ID = 'rc-whats-here-styles';
         if (document.getElementById(STYLE_ID)) return;
         const styleEl = document.createElement('style');
         styleEl.id = STYLE_ID;
-        styleEl.textContent = `
-.rc-wh-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 4px; border-radius: 4px; box-sizing: border-box; }
-.rc-wh-row--clickable { background: #f4f8fb; border: 1px solid #d9e6ef; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
-.rc-wh-row--clickable:hover, .rc-wh-row--clickable:focus { background: #e3eef6; border-color: #0079c1; outline: none; }
-.rc-wh-row--clickable:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
-.rc-wh-row--disabled { background: #fafafa; border: 1px solid #e0e0e0; color: #6e6e6e; }
-.rc-wh-row__label { flex: 1; color: #0079c1; font-weight: 500; }
-.rc-wh-row--disabled .rc-wh-row__label { color: #6e6e6e; font-weight: 400; }
-.rc-wh-row__chevron { color: #0079c1; font-size: 16px; line-height: 1; font-weight: 600; }
-.rc-wh-row__hint { font-size: 11px; color: #999; font-style: italic; }
-.rc-wh-back { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
-.rc-wh-back:hover, .rc-wh-back:focus { background: #0079c1; color: #fff; outline: none; }
-.rc-wh-back:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
-.rc-wh-zoom-to { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
-.rc-wh-zoom-to:hover, .rc-wh-zoom-to:focus { background: #0079c1; color: #fff; outline: none; }
-.rc-wh-zoom-to:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
+        styleEl.textContent = RC_WH_CONTENT_CSS + `
 
 /* Make the host popup chrome itself the resizable element when our
  * What's Here wrapper is mounted inside it. The CSS resize property needs
@@ -4498,8 +4784,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     max-height: none !important;
     max-width: none !important;
 }
-.rc-wh-popup-root { box-sizing: border-box; }
-        `.trim();
+        `.trimEnd();
         document.head.appendChild(styleEl);
         // Don't remove on unmount — the stylesheet is idempotent and inexpensive,
         // and another widget instance may still be using it.
