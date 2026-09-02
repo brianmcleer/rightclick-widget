@@ -21,7 +21,7 @@ import Graphic from 'esri/Graphic';
 import TextSymbol from 'esri/symbols/TextSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
 
-import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereLayerSelection, WhatsHereHighlightConfig, computeLayerSelectionKey } from '../config';
+import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereHighlightConfig, computeLayerSelectionKey } from '../config';
 
 // Ambient declarations for the `__esri` global namespace. Esri's TypeScript
 // definitions normally expose this globally via @types/arcgis-js-api, but
@@ -160,6 +160,21 @@ interface State {
         mapPoint?: __esri.Point;
         coordinateLabel?: string;
         projectedLatLon?: { lat: number; lon: number };
+        // Reverse-geocoded address for the header. undefined = not requested,
+        // null = loading, '' = lookup failed, string = address.
+        addressText?: string | null;
+        // Pre-computed alternate coordinate strings for the "More formats"
+        // submenu. Computed at menu-open time so copying stays synchronous
+        // (clipboard access requires an unbroken user-gesture chain).
+        coordAlternates?: {
+            dd?: string;
+            dms?: string;
+            native?: string;
+            utm?: string;
+            custom?: string;
+            geojson?: string;
+        };
+        copyFormatsExpanded?: boolean;
     };
     showingContextMenu: boolean;
     isMeasuring: boolean;
@@ -778,6 +793,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     });
 
     const mapViewRef = React.useRef<__esri.MapView | null>(null);
+    // Ordered history of user-placed graphics (coordinate markers, simple
+    // markers, text) so "Undo last graphic" can remove the most recent one
+    // regardless of type. Cleared by the clear-* actions.
+    const graphicHistoryRef = React.useRef<Array<{ kind: 'coord' | 'marker' | 'text'; id: string }>>([]);
+    // Identifies the current menu-open so late async results (address,
+    // UTM projection) from a previous right-click are discarded.
+    const menuOpenTokenRef = React.useRef<number>(0);
     const menuRef = React.useRef<HTMLDivElement | null>(null);
     const dialogRef = React.useRef<HTMLDivElement | null>(null);
     const textInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -903,7 +925,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         });
                     }
                 } catch (error) {
-                    // console.warn(`Failed to load field metadata for layer: ${layer.url}`, error);
                 }
             }
 
@@ -1210,13 +1231,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     showTextDialog: false,
                     pendingTextLocation: null
                 }));
+                graphicHistoryRef.current.push({ kind: 'text', id: newTextGraphic.id });
 
                 // Announce success and restore focus
                 announce(`Text "${text.trim()}" added to map`);
                 previousActiveElement.current?.focus();
 
             } catch (error) {
-                // console.error('Error creating text graphic:', error);
                 alert('Error creating text graphic: ' + error.message);
                 setState(prev => ({
                     ...prev,
@@ -1226,7 +1247,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             }
 
         } catch (error) {
-            // console.error('Error adding text to map:', error);
             alert(`Error adding text to map: ${error.message}`);
             setState(prev => ({
                 ...prev,
@@ -1763,6 +1783,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             textGraphics: []
         }));
 
+        graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'text');
         announce(`${count} text graphics cleared`);
     }, [announce]);
 
@@ -1967,17 +1988,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     coordinateMarkers: [...prev.coordinateMarkers, newMarker],
                     nextMarkerNumber: prev.nextMarkerNumber + 1
                 }));
+                graphicHistoryRef.current.push({ kind: 'coord', id: newMarker.id });
 
                 // Announce success
                 announce(`Coordinate marker ${markerNumber} placed on map`);
 
             } catch (error) {
-                // console.error('Error creating coordinate marker:', error);
                 alert('Error creating coordinate marker: ' + error.message);
             }
 
         } catch (error) {
-            // console.error('Error plotting coordinate:', error);
             alert(`Error plotting coordinate: ${error.message}`);
         }
     }, [state.contextMenu, state.nextMarkerNumber, props.config?.plotSettings, manualProjectToLatLon, convertToDMS, announce, themeFont]);
@@ -2055,17 +2075,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     ...prev,
                     simpleMarkers: [...prev.simpleMarkers, newMarker]
                 }));
+                graphicHistoryRef.current.push({ kind: 'marker', id: newMarker.id });
 
                 // Announce success
                 announce('Marker placed on map');
 
             } catch (error) {
-                // console.error('Error creating simple marker:', error);
                 alert('Error creating simple marker: ' + error.message);
             }
 
         } catch (error) {
-            // console.error('Error plotting simple marker:', error);
             alert(`Error plotting simple marker: ${error.message}`);
         }
     }, [state.contextMenu, props.config?.markerSettings, announce]);
@@ -2092,6 +2111,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             nextMarkerNumber: 1
         }));
 
+        graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'coord');
         announce(`${count} coordinate markers cleared`);
     }, [announce]);
 
@@ -2114,6 +2134,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             simpleMarkers: []
         }));
 
+        graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'marker');
         announce(`${count} markers cleared`);
     }, [announce]);
 
@@ -2147,9 +2168,71 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             simpleMarkers: [],
             textGraphics: []
         }));
+        graphicHistoryRef.current = [];
 
         announce(`${count} graphics cleared from map`);
     }, [announce]);
+
+    // Undo the most recently placed graphic (coordinate marker, simple
+    // marker, or text), whichever type it was. Coordinate markers carry
+    // companion graphics (number text and coordinate label) tagged with
+    // parentMarker, so those are removed with the marker.
+    const undoLastGraphic = React.useCallback(() => {
+        const mapView = mapViewRef.current;
+        if (!mapView) return;
+        const last = graphicHistoryRef.current.pop();
+        if (!last) { announce('Nothing to undo'); return; }
+
+        setState(prev => {
+            const next = { ...prev };
+            try {
+                if (last.kind === 'text') {
+                    const item = prev.textGraphics.find(t => t.id === last.id);
+                    if (item) {
+                        try { mapView.graphics.remove(item.graphic); } catch (e) { /* ignore */ }
+                        next.textGraphics = prev.textGraphics.filter(t => t.id !== last.id);
+                    }
+                } else if (last.kind === 'marker') {
+                    const item = prev.simpleMarkers.find(m => m.id === last.id);
+                    if (item) {
+                        try { mapView.graphics.remove(item.graphic); } catch (e) { /* ignore */ }
+                        next.simpleMarkers = prev.simpleMarkers.filter(m => m.id !== last.id);
+                    }
+                } else if (last.kind === 'coord') {
+                    const item = prev.coordinateMarkers.find(m => m.id === last.id);
+                    if (item) {
+                        const related = mapView.graphics.filter((g: any) =>
+                            g === item.graphic || g.attributes?.parentMarker === item.number
+                        );
+                        try { mapView.graphics.removeMany(related.toArray()); } catch (e) { /* ignore */ }
+                        next.coordinateMarkers = prev.coordinateMarkers.filter(m => m.id !== last.id);
+                        // If the undone marker was the highest-numbered one, give the
+                        // number back so the sequence stays contiguous.
+                        if (item.number === prev.nextMarkerNumber - 1) {
+                            next.nextMarkerNumber = item.number;
+                        }
+                    }
+                }
+            } catch (e) { /* ignore */ }
+            return next;
+        });
+        announce('Last graphic removed');
+    }, [announce]);
+
+    // Open the right-click location in Google Maps (satellite context, pin
+    // at the point). Uses the same accurate lat/lon that Street View uses.
+    const openGoogleMaps = React.useCallback(() => {
+        const { mapPoint, projectedLatLon } = state.contextMenu;
+        if (!mapViewRef.current || !mapPoint) return;
+        const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
+        if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+            announce('Unable to open Google Maps for this location');
+            return;
+        }
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(7)},${lon.toFixed(7)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+        announce('Opened location in Google Maps');
+    }, [state.contextMenu, manualProjectToLatLon, announce]);
 
     const openStreetView = React.useCallback(() => {
         const { mapPoint, projectedLatLon } = state.contextMenu;
@@ -2258,7 +2341,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 distanceMeasurement2D.viewModel.unit = primaryUnit;
                             }
                         } catch (e) {
-                            // console.warn('Error setting initial distance unit:', e);
                         }
                     };
 
@@ -2410,7 +2492,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.unit, (newUnit: string) => {
                         if (!validUnits.includes(newUnit)) {
-                            // console.warn(`Invalid unit received: ${newUnit}. Reverting to primary unit: ${primaryUnit}`);
                             setTimeout(() => {
                                 distanceMeasurement2D.unit = primaryUnit;
                             }, 50);
@@ -2499,13 +2580,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         measurementWidget: distanceMeasurement2D
                     }));
                 } catch (err: any) {
-                    // console.error(`Error starting measurement: ${err.message}`);
                 }
             }).catch((err: any) => {
                 console.warn('[rightclick] Failed to load distance measurement modules:', err);
             });
         } catch (err: any) {
-            // console.error(`Error loading measurement tools: ${err.message}`);
         }
     }, [state.measurementWidget, props.config?.measurementSettings]);
 
@@ -2586,7 +2665,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 measurement.viewModel.unit = primaryUnit;
                             }
                         } catch (e) {
-                            // console.warn('Error setting initial unit:', e);
                         }
                     };
 
@@ -2711,7 +2789,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 createAreaLabel(offset, formatPerimeter(perimeterLength, unit), 'perimeter-label');
                             }
                         } catch (e) {
-                            // console.warn('Error drawing area labels:', e);
                         }
                     };
                     // --- End custom area label helpers ---
@@ -2767,7 +2844,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     areaWatchHandles.push(reactiveUtils.watch(() => measurement.unit, (newUnit: string) => {
                         if (!validAreaUnits.includes(newUnit)) {
-                            // console.warn(`Invalid area unit received: ${newUnit}. Reverting to primary unit: ${primaryUnit}`);
                             setTimeout(() => {
                                 measurement.unit = primaryUnit;
                             }, 50);
@@ -2814,14 +2890,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     document.addEventListener('keydown', handleKeyPress);
 
                 } catch (error) {
-                    // console.error(`Error starting area measurement: ${error.message}`);
                 }
             }).catch((error: any) => {
                 console.warn('[rightclick] Failed to load area measurement modules:', error);
             });
 
         } catch (error) {
-            // console.error(`Error loading area measurement tools: ${error.message}`);
         }
     }, [state.areaMeasurementWidget, props.config?.measurementSettings]);
 
@@ -2840,7 +2914,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 try {
                     queryPoint = await projectToSpatialReference(mapPoint, props.config.reverseGeocodeWkid);
                 } catch (projectionError) {
-                    // console.warn(`Projection failed, using original coordinates:`, projectionError);
                     queryPoint = mapPoint;
                 }
             }
@@ -2991,7 +3064,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             throw lastError || new Error(`All query attempts failed for layer ${layer.name}`);
 
         } catch (error) {
-            // console.error(`Error querying layer ${layer.name}:`, error);
             // Return empty result instead of throwing to prevent breaking other layers
             return { layerName: layer.name, features: [], layerUrl: layer.url };
         }
@@ -4845,6 +4917,42 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             case 'clear-all-graphics':
                 clearAllGraphics();
                 break;
+            case 'undo-last-graphic':
+                undoLastGraphic();
+                break;
+            case 'google-maps':
+                openGoogleMaps();
+                break;
+            case 'copy-address': {
+                const addr = state.contextMenu.addressText;
+                if (addr) {
+                    copyWithPrompt(addr);
+                    announce(`Address copied: ${addr}`);
+                }
+                break;
+            }
+            case 'copy-formats-toggle':
+                // Expand or collapse the alternate-format submenu. Keep the
+                // menu open; the focused index stays on the toggle row.
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: { ...prev.contextMenu, copyFormatsExpanded: !prev.contextMenu.copyFormatsExpanded }
+                }));
+                return;
+            case 'copy-dd':
+            case 'copy-dms':
+            case 'copy-native':
+            case 'copy-utm':
+            case 'copy-custom':
+            case 'copy-geojson': {
+                const key = action.replace('copy-', '') as keyof NonNullable<State['contextMenu']['coordAlternates']>;
+                const value = state.contextMenu.coordAlternates?.[key];
+                if (value) {
+                    copyWithPrompt(value);
+                    announce(`Copied: ${value}`);
+                }
+                break;
+            }
             case 'street-view':
                 openStreetView();
                 break;
@@ -5030,7 +5138,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
 
         hideContextMenu();
-    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName]);
+    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, undoLastGraphic, openGoogleMaps, copyWithPrompt, announce, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName]);
 
     // Long-press (mobile) refs. Mobile touch devices have no right-click,
     // so the user presses and holds on the map to open the same context
@@ -5112,6 +5220,18 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         const initialLatLon = manualProjectToLatLon(mapPoint);
 
+        const menuSettings = props.config?.menuSettings || {};
+        const wantAddress = menuSettings.showAddress !== false && !!props.config?.reverseGeocodeUrl;
+        const wantFormats = menuSettings.showCoordinateFormats !== false;
+
+        // Synchronous alternates available immediately from the manual math.
+        const buildSyncAlternates = (lat: number, lon: number) => ({
+            dd: `${lat.toFixed(6)}, ${lon.toFixed(6)}`,
+            dms: `${convertToDMS(lat, 'lat')}, ${convertToDMS(lon, 'lon')}`,
+            native: `${mapPoint.x.toFixed(2)}, ${mapPoint.y.toFixed(2)}${mapPoint.spatialReference?.wkid ? ` (WKID ${mapPoint.spatialReference.wkid})` : ''}`,
+            geojson: `{"type":"Point","coordinates":[${lon.toFixed(7)},${lat.toFixed(7)}]}`
+        });
+
         setState(prevState => ({
             ...prevState,
             showingContextMenu: true,
@@ -5121,20 +5241,94 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 y,
                 mapPoint,
                 coordinateLabel,
-                projectedLatLon: initialLatLon
+                projectedLatLon: initialLatLon,
+                addressText: wantAddress ? null : undefined,
+                copyFormatsExpanded: false,
+                coordAlternates: wantFormats ? buildSyncAlternates(initialLatLon.lat, initialLatLon.lon) : undefined
             }
         }));
+
+        // Token guards every async update below so a fast second right-click
+        // never gets stale results from the first.
+        const openToken = Date.now() + Math.random();
+        menuOpenTokenRef.current = openToken;
+        const stillCurrent = () => menuOpenTokenRef.current === openToken;
+
+        // Address for the menu header (only when configured).
+        if (wantAddress) {
+            (async () => {
+                let addressText = '';
+                try {
+                    const { lat, lon } = initialLatLon;
+                    const geoPoint = { x: lon, y: lat, spatialReference: { wkid: 4326 } };
+                    const response: any = await (locator as any).locationToAddress(
+                        props.config!.reverseGeocodeUrl,
+                        { location: geoPoint, distance: 1000, outSR: { wkid: 4326 } }
+                    );
+                    const raw = response?.address ||
+                        response?.attributes?.Match_addr ||
+                        response?.attributes?.Address ||
+                        response?.attributes?.StAddr ||
+                        response?.attributes?.Street || '';
+                    addressText = typeof raw === 'string' ? raw : '';
+                } catch (e) { addressText = ''; }
+                if (!stillCurrent()) return;
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: { ...prev.contextMenu, addressText }
+                }));
+            })();
+        }
+
+        // UTM (auto zone from longitude) and configured custom WKID, both
+        // async projections, filled in when they resolve.
+        if (wantFormats) {
+            (async () => {
+                const { lat, lon } = initialLatLon;
+                const updates: any = {};
+                try {
+                    const zone = Math.max(1, Math.min(60, Math.floor((lon + 180) / 6) + 1));
+                    const utmWkid = (lat >= 0 ? 32600 : 32700) + zone;
+                    const p = await projectToSpatialReference(mapPoint, utmWkid);
+                    if (p && isFinite(p.x) && isFinite(p.y)) {
+                        updates.utm = `${zone}${lat >= 0 ? 'N' : 'S'} ${p.x.toFixed(2)}E ${p.y.toFixed(2)}N`;
+                    }
+                } catch (e) { /* UTM unavailable */ }
+                const customWkid = props.config?.copySettings?.customWkid;
+                if (customWkid && customWkid !== mapPoint.spatialReference?.wkid) {
+                    try {
+                        const p = await projectToSpatialReference(mapPoint, customWkid);
+                        if (p && isFinite(p.x) && isFinite(p.y)) {
+                            updates.custom = `${p.x.toFixed(2)}, ${p.y.toFixed(2)} (WKID ${customWkid})`;
+                        }
+                    } catch (e) { /* custom unavailable */ }
+                }
+                if (!stillCurrent() || Object.keys(updates).length === 0) return;
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: {
+                        ...prev.contextMenu,
+                        coordAlternates: { ...(prev.contextMenu.coordAlternates || {}), ...updates }
+                    }
+                }));
+            })();
+        }
 
         // Refine projectedLatLon with accurate async projection. Street
         // View and Pictometry consume this, so accuracy matters.
         projectToLatLon(mapPoint).then(latLonPoint => {
             if (latLonPoint?.x !== undefined && latLonPoint?.y !== undefined &&
                 Math.abs(latLonPoint.y) <= 90 && Math.abs(latLonPoint.x) <= 180) {
+                if (!stillCurrent()) return;
                 setState(prev => ({
                     ...prev,
                     contextMenu: {
                         ...prev.contextMenu,
-                        projectedLatLon: { lat: latLonPoint.y, lon: latLonPoint.x }
+                        projectedLatLon: { lat: latLonPoint.y, lon: latLonPoint.x },
+                        // Refresh the sync alternates with the accurate values.
+                        coordAlternates: prev.contextMenu.coordAlternates
+                            ? { ...prev.contextMenu.coordAlternates, ...buildSyncAlternates(latLonPoint.y, latLonPoint.x) }
+                            : prev.contextMenu.coordAlternates
                     }
                 }));
             }
@@ -5162,7 +5356,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 }));
             }).catch(() => { });
         }
-    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, props.config?.copySettings]);
+    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, props.config?.copySettings, props.config?.menuSettings, props.config?.reverseGeocodeUrl]);
 
     const onActiveViewChange = React.useCallback((jmv: JimuMapView) => {
         if (jmv?.view) {
@@ -5179,36 +5373,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
             mapView.when(() => {
                 const container = mapView.container;
-
-                // One-time permanent filter for projection / projectOperator CSP/WASM noise in local dev.
-                // projectOperator.load() (and the legacy projection.load()) fail silently on the local
-                // dev server (WASM blocked by CSP) but work correctly on Portal. The AMD loader emits a
-                // 4-line sequence:
-                //   console.error: Error: scriptError: .../projectOperator.js  (stack trace)
-                //   console.log:   src: dojoLoader
-                //   console.log:   info: [url, Event]
-                //   console.log:   .
-                // All four are suppressed below; all other output passes through unchanged.
-                const _origConsoleError = console.error;
-                const _origConsoleLog = console.log;
-                const _isProjectionNoise = (...args: any[]): boolean => {
-                    const s = String(args[0] || '');
-                    return (
-                        s.includes('projection.js') ||
-                        s.includes('projectOperator.js') ||
-                        s.includes('scriptError') ||
-                        s.includes('dojoLoader') ||
-                        /^(src:|info:|\.)\s*$/.test(s.trim())
-                    );
-                };
-                console.error = (...args: any[]) => {
-                    if (_isProjectionNoise(...args)) return;
-                    _origConsoleError.apply(console, args);
-                };
-                console.log = (...args: any[]) => {
-                    if (_isProjectionNoise(...args)) return;
-                    _origConsoleLog.apply(console, args);
-                };
 
                 mapView.on('pointer-down', (event) => {
                     if (event.button === 2) {
@@ -5365,62 +5529,74 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
     }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, hideContextMenu, openContextMenuAtPoint, clearLongPressTimer, props.config?.copySettings, props.config?.longPressSettings]);
 
-    // Build menu items array for keyboard navigation
+    // Build menu items array for keyboard navigation and rendering. Each
+    // item carries a `group` so the renderer can draw a separator when the
+    // group changes, and an optional `sub` flag for indented submenu rows.
+    type MenuItem = { action: string; icon: string; text: string; enabled: boolean; group: string; sub?: boolean; hint?: string };
     const getMenuItems = React.useCallback(() => {
-        const items: Array<{ action: string; icon: string; text: string; enabled: boolean }> = [];
+        const items: MenuItem[] = [];
+        const ea = props.config?.enabledActions || {};
+        const ms = props.config?.menuSettings || {};
+        const cm = state.contextMenu;
 
-        if (props.config?.enabledActions?.zoomIn !== false) {
-            items.push({ action: 'zoom-in', icon: '🔍', text: 'Zoom In', enabled: true });
+        // Navigation
+        if (ea.zoomIn !== false) items.push({ action: 'zoom-in', icon: '🔍', text: 'Zoom In', enabled: true, group: 'nav' });
+        if (ea.zoomOut !== false) items.push({ action: 'zoom-out', icon: '🔎', text: 'Zoom Out', enabled: true, group: 'nav' });
+        if (ea.centerHere !== false) items.push({ action: 'center-here', icon: '🎯', text: 'Center Here', enabled: true, group: 'nav' });
+
+        // Coordinates
+        if (ea.copyCoordinates !== false && cm.coordinateLabel) {
+            items.push({ action: 'get-coordinates', icon: '📋', text: 'Copy Coordinates', enabled: true, group: 'coords', hint: cm.coordinateLabel });
+            if (ms.showCoordinateFormats !== false && cm.coordAlternates) {
+                const expanded = !!cm.copyFormatsExpanded;
+                items.push({ action: 'copy-formats-toggle', icon: expanded ? '▾' : '▸', text: expanded ? 'Fewer formats' : 'More coordinate formats', enabled: true, group: 'coords' });
+                if (expanded) {
+                    const alt = cm.coordAlternates;
+                    if (alt.dd) items.push({ action: 'copy-dd', icon: '🌐', text: 'Lat / Lon (decimal)', enabled: true, group: 'coords', sub: true, hint: alt.dd });
+                    if (alt.dms) items.push({ action: 'copy-dms', icon: '🧭', text: 'Lat / Lon (DMS)', enabled: true, group: 'coords', sub: true, hint: alt.dms });
+                    if (alt.utm) items.push({ action: 'copy-utm', icon: '🗂️', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
+                    if (alt.custom) items.push({ action: 'copy-custom', icon: '🧮', text: 'Custom projection', enabled: true, group: 'coords', sub: true, hint: alt.custom });
+                    if (alt.native) items.push({ action: 'copy-native', icon: '🗺️', text: 'Map native X / Y', enabled: true, group: 'coords', sub: true, hint: alt.native });
+                    if (alt.geojson) items.push({ action: 'copy-geojson', icon: '{ }', text: 'GeoJSON point', enabled: true, group: 'coords', sub: true, hint: alt.geojson });
+                }
+            }
         }
-        if (props.config?.enabledActions?.zoomOut !== false) {
-            items.push({ action: 'zoom-out', icon: '🔍', text: 'Zoom Out', enabled: true });
+        if (typeof cm.addressText === 'string' && cm.addressText) {
+            items.push({ action: 'copy-address', icon: '🏠', text: 'Copy Address', enabled: true, group: 'coords', hint: cm.addressText });
         }
-        if (props.config?.enabledActions?.centerHere !== false) {
-            items.push({ action: 'center-here', icon: '📍', text: 'Center Here', enabled: true });
+
+        // Graphics
+        if (ea.plotMarker !== false) items.push({ action: 'plot-marker', icon: '🔴', text: 'Plot Marker', enabled: true, group: 'graphics' });
+        if (ea.plotCoordinates !== false) items.push({ action: 'plot-coordinates', icon: '📌', text: 'Plot Coordinate', enabled: true, group: 'graphics' });
+        if (ea.addText !== false) items.push({ action: 'add-text', icon: '🅰️', text: 'Add Text', enabled: true, group: 'graphics' });
+        const graphicCount = state.coordinateMarkers.length + state.simpleMarkers.length + state.textGraphics.length;
+        const anyGraphicAction = ea.plotCoordinates !== false || ea.plotMarker !== false || ea.addText !== false;
+        if (graphicCount > 0 && anyGraphicAction) {
+            items.push({ action: 'undo-last-graphic', icon: '↩️', text: 'Undo Last Graphic', enabled: true, group: 'graphics' });
+            items.push({ action: 'clear-all-graphics', icon: '🧹', text: `Clear All Graphics (${graphicCount})`, enabled: true, group: 'graphics' });
         }
-        if (props.config?.enabledActions?.plotMarker !== false) {
-            items.push({ action: 'plot-marker', icon: '🔴', text: 'Plot Marker', enabled: true });
+
+        // External
+        if (ea.streetView !== false) items.push({ action: 'street-view', icon: '🚶', text: 'Open in Google Street View', enabled: true, group: 'external' });
+        if (ea.googleMaps !== false) items.push({ action: 'google-maps', icon: '🗺️', text: 'Open in Google Maps', enabled: true, group: 'external' });
+        if (ea.pictometry !== false && props.config?.pictometryUrl) items.push({ action: 'pictometry', icon: '📷', text: 'Open in Pictometry', enabled: true, group: 'external' });
+
+        // Tools
+        if (ea.measureDistance !== false) items.push({ action: 'measure-distance', icon: '📏', text: 'Measure Distance', enabled: true, group: 'tools' });
+        if (ea.measureArea !== false) items.push({ action: 'measure-area', icon: '📐', text: 'Measure Area', enabled: true, group: 'tools' });
+
+        // Information
+        if (ea.whatsHere !== false) items.push({ action: 'whats-here', icon: '❓', text: "What's here?", enabled: true, group: 'info' });
+        if (ea.propertyReport && props.config?.propertyReportSettings?.targetWidgetId) {
+            items.push({ action: 'property-report', icon: '🏘️', text: props.config.propertyReportSettings.menuLabel || 'Property Information', enabled: true, group: 'info' });
         }
-        if (props.config?.enabledActions?.copyCoordinates !== false && state.contextMenu.coordinateLabel) {
-            items.push({ action: 'get-coordinates', icon: '📋', text: `Copy Coordinates: ${state.contextMenu.coordinateLabel}`, enabled: true });
-        }
-        if (props.config?.enabledActions?.plotCoordinates !== false) {
-            items.push({ action: 'plot-coordinates', icon: '📌', text: 'Plot Coordinate', enabled: true });
-        }
-        if (props.config?.enabledActions?.addText !== false) {
-            items.push({ action: 'add-text', icon: '🅰️', text: 'Add Text', enabled: true });
-        }
-        if ((state.coordinateMarkers.length > 0 || state.simpleMarkers.length > 0 || state.textGraphics.length > 0) &&
-            (props.config?.enabledActions?.plotCoordinates !== false || props.config?.enabledActions?.plotMarker !== false || props.config?.enabledActions?.addText !== false)) {
-            const count = state.coordinateMarkers.length + state.simpleMarkers.length + state.textGraphics.length;
-            items.push({ action: 'clear-all-graphics', icon: '🧹', text: `Clear All Graphics (${count})`, enabled: true });
-        }
-        if (props.config?.enabledActions?.streetView !== false) {
-            items.push({ action: 'street-view', icon: '🗺️', text: 'Open in Google Street View', enabled: true });
-        }
-        if (props.config?.enabledActions?.pictometry !== false && props.config?.pictometryUrl) {
-            items.push({ action: 'pictometry', icon: '📷', text: 'Open in Pictometry', enabled: true });
-        }
-        if (props.config?.enabledActions?.measureDistance !== false) {
-            items.push({ action: 'measure-distance', icon: '📏', text: 'Measure Distance', enabled: true });
-        }
-        if (props.config?.enabledActions?.measureArea !== false) {
-            items.push({ action: 'measure-area', icon: '📐', text: 'Measure Area', enabled: true });
-        }
-        if (props.config?.enabledActions?.whatsHere !== false) {
-            items.push({ action: 'whats-here', icon: '❓', text: "What's here?", enabled: true });
-        }
-        if (props.config?.enabledActions?.propertyReport && props.config?.propertyReportSettings?.targetWidgetId) {
-            const menuLabel = props.config.propertyReportSettings.menuLabel || 'Property Information';
-            items.push({ action: 'property-report', icon: '🏠', text: menuLabel, enabled: true });
-        }
-        if (props.config?.enabledActions?.mailingLabels && props.config?.mailingLabelsSettings?.targetWidgetId) {
-            const menuLabel = props.config.mailingLabelsSettings.menuLabel || 'Mailing Labels';
-            items.push({ action: 'mailing-labels', icon: '✉️', text: menuLabel, enabled: true });
+        if (ea.mailingLabels && props.config?.mailingLabelsSettings?.targetWidgetId) {
+            items.push({ action: 'mailing-labels', icon: '✉️', text: props.config.mailingLabelsSettings.menuLabel || 'Mailing Labels', enabled: true, group: 'info' });
         }
 
         return items;
-    }, [props.config?.enabledActions, props.config?.pictometryUrl, props.config?.propertyReportSettings?.targetWidgetId, props.config?.propertyReportSettings?.menuLabel, props.config?.mailingLabelsSettings?.targetWidgetId, props.config?.mailingLabelsSettings?.menuLabel, state.contextMenu.coordinateLabel, state.coordinateMarkers.length, state.simpleMarkers.length, state.textGraphics.length]);
+    }, [props.config?.enabledActions, props.config?.menuSettings, props.config?.pictometryUrl, props.config?.propertyReportSettings?.targetWidgetId, props.config?.propertyReportSettings?.menuLabel, props.config?.mailingLabelsSettings?.targetWidgetId, props.config?.mailingLabelsSettings?.menuLabel, state.contextMenu, state.coordinateMarkers.length, state.simpleMarkers.length, state.textGraphics.length]);
+
 
     const menuItems = getMenuItems();
 
@@ -5428,6 +5604,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     const handleMenuKeyDown = React.useCallback((e: React.KeyboardEvent) => {
         const items = menuItems;
         const currentIndex = state.focusedMenuIndex;
+
+        // Number hotkeys: 1-9 trigger the corresponding visible row.
+        if (props.config?.menuSettings?.showHotkeys !== false && /^[1-9]$/.test(e.key)) {
+            const idx = parseInt(e.key, 10) - 1;
+            if (idx < items.length) {
+                e.preventDefault();
+                handleContextMenuAction(items[idx].action);
+                return;
+            }
+        }
 
         switch (e.key) {
             case 'ArrowDown':
@@ -5464,7 +5650,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 setState(prev => ({ ...prev, focusedMenuIndex: items.length - 1 }));
                 break;
         }
-    }, [menuItems, state.focusedMenuIndex, handleContextMenuAction, hideContextMenu]);
+    }, [menuItems, state.focusedMenuIndex, handleContextMenuAction, hideContextMenu, props.config?.menuSettings?.showHotkeys]);
 
     // Focus menu when it becomes visible
     React.useEffect(() => {
@@ -5496,57 +5682,112 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         top: state.contextMenu.y,
         left: state.contextMenu.x,
         backgroundColor: 'white',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        border: '1px solid #d0d7de',
+        borderRadius: '8px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.12)',
         zIndex: 2147483647,
-        minWidth: '200px',
+        minWidth: '260px',
+        maxWidth: '340px',
+        padding: '4px 0',
         display: state.contextMenu.visible ? 'block' : 'none',
         fontFamily: themeFont,
-        outline: 'none'
+        outline: 'none',
+        color: '#1f2328'
     };
 
-    const getMenuItemStyle = (index: number): React.CSSProperties => ({
-        padding: '8px 12px',
+    const getMenuItemStyle = (index: number, sub?: boolean): React.CSSProperties => ({
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        padding: sub ? '6px 12px 6px 30px' : '7px 12px',
+        margin: '0 4px',
+        borderRadius: '5px',
         cursor: 'pointer',
-        borderBottom: index < menuItems.length - 1 ? '1px solid #eee' : 'none',
-        fontSize: '14px',
-        backgroundColor: state.focusedMenuIndex === index ? '#e3f2fd' : 'transparent',
-        outline: state.focusedMenuIndex === index ? '2px solid #1976d2' : 'none',
-        outlineOffset: '-2px'
+        fontSize: sub ? '13px' : '14px',
+        lineHeight: '1.3',
+        backgroundColor: state.focusedMenuIndex === index ? '#e8f0fe' : 'transparent',
+        outline: state.focusedMenuIndex === index ? '2px solid #1a73e8' : 'none',
+        outlineOffset: '-2px',
+        userSelect: 'none'
     });
 
-    // Accessible MenuItem render function - NOT memoized to avoid stale closure issues
-    const renderMenuItem = (action: string, icon: string, text: string, index: number) => (
+    const showHotkeys = props.config?.menuSettings?.showHotkeys !== false;
+
+    // Accessible MenuItem render function - NOT memoized to avoid stale closure issues.
+    // Rows show an icon, the label, an optional muted hint (the value that will be
+    // copied) and, for the first nine rows, a number badge matching the hotkey.
+    const renderMenuItem = (item: { action: string; icon: string; text: string; sub?: boolean; hint?: string }, index: number) => (
         <div
-            key={action}
+            key={item.action}
             role="menuitem"
             tabIndex={state.focusedMenuIndex === index ? 0 : -1}
-            style={getMenuItemStyle(index)}
+            style={getMenuItemStyle(index, item.sub)}
             onMouseDown={(e) => {
                 // Stop propagation AND prevent default to avoid document handler closing menu
                 e.stopPropagation();
                 e.preventDefault();
             }}
             onClick={(e) => {
-                // Handle the action on click
                 e.stopPropagation();
                 e.preventDefault();
-                handleContextMenuAction(action);
+                handleContextMenuAction(item.action);
             }}
             onMouseEnter={() => setState(prev => ({ ...prev, focusedMenuIndex: index }))}
             onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     e.stopPropagation();
-                    handleContextMenuAction(action);
+                    handleContextMenuAction(item.action);
                 }
             }}
-            aria-label={text}
+            aria-label={item.hint ? `${item.text}: ${item.hint}` : item.text}
+            title={item.hint || undefined}
         >
-            <span aria-hidden="true">{icon}</span> {text}
+            <span aria-hidden="true" style={{ width: '20px', textAlign: 'center', flexShrink: 0, fontSize: item.sub ? '12px' : '14px' }}>{item.icon}</span>
+            <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+                <span>{item.text}</span>
+                {item.hint && (
+                    <span style={{ fontSize: '11px', color: '#6e7781', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {item.hint}
+                    </span>
+                )}
+            </span>
+            {showHotkeys && index < 9 && (
+                <span aria-hidden="true" style={{
+                    fontSize: '10px', color: '#6e7781', border: '1px solid #d0d7de', borderRadius: '3px',
+                    padding: '0 5px', lineHeight: '16px', minWidth: '16px', textAlign: 'center', flexShrink: 0,
+                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
+                }}>{index + 1}</span>
+            )}
         </div>
     );
+
+    // Header block: where the user right-clicked. Coordinates always; address
+    // when reverse geocoding is configured (shows a subtle loading state while
+    // the lookup is in flight). Clicking the address copies it.
+    const renderMenuHeader = () => {
+        const cm = state.contextMenu;
+        const addrState = cm.addressText;
+        return (
+            <div style={{ padding: '8px 16px 8px', borderBottom: '1px solid #e6e8eb', marginBottom: '4px' }} role="presentation">
+                <div style={{ fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#8b949e', fontWeight: 600 }}>Location</div>
+                {addrState === null && (
+                    <div style={{ fontSize: '13px', color: '#8b949e', fontStyle: 'italic', marginTop: '2px' }}>Looking up address…</div>
+                )}
+                {typeof addrState === 'string' && addrState && (
+                    <div
+                        style={{ fontSize: '13px', fontWeight: 600, color: '#1f2328', marginTop: '2px', cursor: 'copy', wordBreak: 'break-word' }}
+                        title="Click to copy address"
+                        onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleContextMenuAction('copy-address'); }}
+                    >{addrState}</div>
+                )}
+                {cm.coordinateLabel && (
+                    <div style={{ fontSize: '11px', color: '#57606a', marginTop: '2px', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' }}>{cm.coordinateLabel}</div>
+                )}
+            </div>
+        );
+    };
 
     // CSS styles using theme - this ensures proper font inheritance
     const getWidgetStyles = () => {
@@ -5588,9 +5829,19 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
             >
-                {menuItems.map((item, index) =>
-                    renderMenuItem(item.action, item.icon, item.text, index)
-                )}
+                {renderMenuHeader()}
+                {menuItems.map((item, index) => {
+                    const prev = index > 0 ? menuItems[index - 1] : null;
+                    const separator = prev && prev.group !== item.group
+                        ? <div key={`sep-${index}`} role="separator" style={{ height: '1px', background: '#e6e8eb', margin: '4px 10px' }} />
+                        : null;
+                    return (
+                        <React.Fragment key={item.action}>
+                            {separator}
+                            {renderMenuItem(item, index)}
+                        </React.Fragment>
+                    );
+                })}
             </div>
 
             {/* Live region for screen reader announcements */}

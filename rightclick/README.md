@@ -11,13 +11,19 @@ and Mailing Labels with the clicked location.
 
 ### Map actions
 
+- **Menu header**: shows the clicked location's address (reverse geocoded,
+  click to copy) and coordinates at the top of every menu. Items are grouped
+  with separators and carry 1-9 number hotkeys for keyboard use
 - **Navigation**: Zoom In, Zoom Out, Center Here
-- **Coordinates**: Copy Coordinates (configurable coordinate system, including
-  custom WKID and lat/lon), Plot Coordinates (numbered markers with optional
-  labels), Plot Marker (simple markers)
+- **Coordinates**: Copy Coordinates in the configured system, plus a "More
+  coordinate formats" entry that expands to Lat/Lon decimal, DMS, UTM (zone
+  detected automatically), the configured custom projection, map native X/Y,
+  and a GeoJSON point, each copied on click. Plot Coordinates (numbered
+  markers with optional labels), Plot Marker (simple markers)
 - **Graphics**: Add Text (custom font, color, halo, optional background),
-  Clear All Graphics
-- **External services**: Open in Google Street View, Open in Pictometry
+  Undo Last Graphic, Clear All Graphics
+- **External services**: Open in Google Street View, Open in Google Maps,
+  Open in Pictometry
 - **Measurement**: Measure Distance, Measure Area, with filtered unit options
   and single or dual unit display
 - **What's Here**: reverse geocoding plus feature-layer queries against

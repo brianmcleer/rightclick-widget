@@ -411,6 +411,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         plotMarker: true,
         addText: true,
         streetView: true,
+        googleMaps: true,
         pictometry: true,
         measureDistance: true,
         measureArea: true,
@@ -428,6 +429,12 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
         enabled: true,
         durationMs: 500,
         moveThresholdPx: 10
+    };
+
+    const defaultMenuSettings = {
+        showAddress: true,
+        showHotkeys: true,
+        showCoordinateFormats: true
     };
 
     const defaultMarkerSettings = {
@@ -483,6 +490,11 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
     const longPressSettings = React.useMemo(() =>
         ({ ...defaultLongPressSettings, ...config.longPressSettings }),
         [config.longPressSettings]
+    );
+
+    const menuSettings = React.useMemo(() =>
+        ({ ...defaultMenuSettings, ...config.menuSettings }),
+        [config.menuSettings]
     );
 
     const plotSettings = React.useMemo(() =>
@@ -826,6 +838,19 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
                 ...config,
                 measurementSettings: {
                     ...measurementSettings,
+                    [property]: value
+                }
+            })
+        });
+    };
+
+    const updateMenuSetting = (property: keyof typeof menuSettings, value: any) => {
+        props.onSettingChange({
+            id: (props as any).id,
+            config: Immutable({
+                ...config,
+                menuSettings: {
+                    ...menuSettings,
                     [property]: value
                 }
             })
@@ -1459,6 +1484,7 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
             plotMarker: 'Plot Marker',
             addText: 'Add Text',
             streetView: 'Open in Google Street View',
+            googleMaps: 'Open in Google Maps',
             pictometry: 'Open in Pictometry',
             measureDistance: 'Measure Distance',
             measureArea: 'Measure Area',
@@ -3970,6 +3996,43 @@ const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
             {/* Mobile Long Press Settings - controls touch long-press
                 behavior for phones and tablets. The long-press opens the
                 same context menu that right-click opens on desktop. */}
+            {/* Context Menu presentation options */}
+            <SettingSection title="Context Menu">
+                <SettingRow>
+                    <div style={styles.sectionDescription}>
+                        Presentation options for the right-click menu itself.
+                    </div>
+                </SettingRow>
+                <SettingRow label="Show address in menu header">
+                    <Switch
+                        checked={menuSettings.showAddress !== false}
+                        onChange={(e) => updateMenuSetting('showAddress', e.target.checked)}
+                    />
+                </SettingRow>
+                <SettingRow>
+                    <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
+                        Reverse-geocodes the clicked point using the What's Here geocoder URL. Click the address in the menu to copy it.
+                    </div>
+                </SettingRow>
+                <SettingRow label="Show number hotkeys (1-9)">
+                    <Switch
+                        checked={menuSettings.showHotkeys !== false}
+                        onChange={(e) => updateMenuSetting('showHotkeys', e.target.checked)}
+                    />
+                </SettingRow>
+                <SettingRow label="Offer additional coordinate formats">
+                    <Switch
+                        checked={menuSettings.showCoordinateFormats !== false}
+                        onChange={(e) => updateMenuSetting('showCoordinateFormats', e.target.checked)}
+                    />
+                </SettingRow>
+                <SettingRow>
+                    <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
+                        Adds a "More coordinate formats" entry that expands to Lat/Lon decimal, DMS, UTM (zone detected automatically), the custom projection from Copy Coordinates Settings when one is configured, map native X/Y, and a GeoJSON point. Each copies on click.
+                    </div>
+                </SettingRow>
+            </SettingSection>
+
             <SettingSection title="Mobile Long Press">
                 <SettingRow>
                     <div style={styles.sectionDescription}>

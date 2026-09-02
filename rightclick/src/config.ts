@@ -23,12 +23,28 @@ export interface IMConfig {
         plotMarker?: boolean;           // NEW: Plot simple markers
         addText?: boolean;              // NEW: Add text functionality
         streetView?: boolean;
+        googleMaps?: boolean;           // Open the location in Google Maps
         pictometry?: boolean;
         measureDistance?: boolean;
         measureArea?: boolean;
         whatsHere?: boolean;
         propertyReport?: boolean;
         mailingLabels?: boolean;
+    };
+    // Context menu presentation options.
+    //   showAddress:          true. Reverse-geocode the right-click point and
+    //                         show the address in the menu header (requires
+    //                         reverseGeocodeUrl). Click the address to copy it.
+    //   showHotkeys:          true. Show 1-9 number badges on menu items and
+    //                         let those keys trigger the item.
+    //   showCoordinateFormats: true. Add a "More coordinate formats" entry
+    //                         that expands to Lat/Lon, DMS, map native, UTM,
+    //                         custom WKID (if configured), and GeoJSON, each
+    //                         copied on click.
+    menuSettings?: {
+        showAddress?: boolean;
+        showHotkeys?: boolean;
+        showCoordinateFormats?: boolean;
     };
     propertyReportSettings?: {
         targetWidgetId?: string;
