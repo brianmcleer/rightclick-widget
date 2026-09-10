@@ -1,20 +1,23 @@
 {
-  // Editor support only. This file exists so Visual Studio / VS Code get
-  // sane compiler settings when opening this widget folder from ANY
-  // location (the Experience Builder install or the GitHub repo mirror,
-  // which has no node_modules). Without it, editors fall back to a
-  // default project (ES5 target, no JSX types) and flood the error list
-  // with false positives. The Experience Builder webpack build uses the
-  // client tsconfig and ignores this file entirely.
+  // Visual Studio / VS Code editor support only (mode B, self-contained).
+  // The Experience Builder webpack build uses client\tsconfig.json and never
+  // reads this file. noEmit keeps it inert.
+  //
+  // Why self-contained: on this EB 1.21 (pnpm) install Visual Studio cannot
+  // read client\node_modules (IDE1100 "Access to the path is denied" on the
+  // pnpm junctions). So: no "paths", no "baseUrl", "types": [] and every
+  // module the widget imports is declared ambiently in
+  // src/exb-editor-shims.d.ts (copied unchanged from widgets\_vs) plus the
+  // widget-specific src/vendor-shims.d.ts. Classic "jsx": "react" never
+  // resolves a jsx-runtime module, so the denied @types\react file is never
+  // opened. Verify with `npx tsc -p .` from this folder (0 errors expected).
   "compilerOptions": {
     "target": "ES2020",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "lib": [ "ES2020", "DOM", "DOM.Iterable" ],
-    // Files use the classic /** @jsx jsx */ pragma (emotion via
-    // jimu-core), so classic transform, no jsx-runtime resolution.
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": [ "ESNext", "DOM", "DOM.Iterable" ],
+    "types": [],
     "jsx": "react",
-    "jsxFactory": "jsx",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
@@ -22,7 +25,9 @@
     "strict": false,
     "noImplicitAny": false,
     "noEmit": true,
+    "isolatedModules": false,
     "forceConsistentCasingInFileNames": false
   },
-  "include": [ "src/**/*" ]
+  "include": [ "src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts" ],
+  "exclude": [ "node_modules", "dist" ]
 }

@@ -1,9 +1,14 @@
 ﻿/* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 /** @jsx jsx */
-// @ts-nocheck -- editor noise suppression. Experience Builder 1.21 type packages moved and this widget is edited from folders without node_modules (GitHub mirror); type-level errors here are false positives. Webpack emits identical JavaScript with or without checking.
-import { React, jsx, css, AllWidgetProps, ReactRedux, MutableStoreManager, getAppStore, appActions } from 'jimu-core';
+import { React, ReactDOM, jsx, css, AllWidgetProps, ReactRedux, MutableStoreManager, getAppStore, appActions } from 'jimu-core';
 import { JimuMapViewComponent, JimuMapView, loadArcGISJSAPIModules } from 'jimu-arcgis';
+import { CalciteIcon } from 'calcite-components';
+import { useTokens } from './theme';
+import { Button } from 'jimu-ui';
+import HelpPopup from './components/HelpPopup';
+import { buildHelpSections, HelpFeatures } from './helpSections';
+import defaultMessages from './translations/default';
 
 // Hoisted Esri module imports (JS API 5.x ESM pattern). Modules used on every
 // right-click or routinely throughout the widget are imported statically here
@@ -759,6 +764,20 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     }, [props.theme, storeTheme]);
 
     const themeFont = getThemeFont() || DEFAULT_FONT;
+
+    // Theme tokens for the menu (colors, radii, shadows follow the Experience's theme).
+    const tokens = useTokens();
+
+    // Help guide (handoff Section 10). Strings come from translations/default.ts;
+    // {token} placeholders are filled from `values`.
+    const t = React.useCallback((id: string, values?: Record<string, string>): string => {
+        let msg: string = (defaultMessages as any)[id] ?? id;
+        if (values) {
+            Object.keys(values).forEach((k) => { msg = msg.split(`{${k}}`).join(values[k]); });
+        }
+        return msg;
+    }, []);
+    const [helpOpen, setHelpOpen] = React.useState(false);
 
     const mapWidgetIds = props.config?.useMapWidgetIds || (props as any).useMapWidgetIds;
 
@@ -5200,23 +5219,15 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             coordinateLabel = `${mapPoint.x.toFixed(copySettings.decimalPlaces || 2)}, ${mapPoint.y.toFixed(copySettings.decimalPlaces || 2)}`;
         }
 
+        // Store the raw anchor (the pointer position in viewport pixels). The
+        // menu is rendered in a portal on document.body and placed by the
+        // layout effect below, which measures the menu's real size after it
+        // renders and flips or clamps it so it always stays fully on screen.
+        // The old code guessed a fixed 200 x 450 size here, which is why the
+        // menu ran off the bottom of the page.
         const rect = container.getBoundingClientRect();
-        let x = screenX + rect.left;
-        let y = screenY + rect.top;
-
-        const menuWidth = 200;
-        const menuHeight = 450;
-        const mapRight = rect.left + rect.width;
-        const mapBottom = rect.top + rect.height;
-
-        if (x + menuWidth > mapRight) {
-            x = Math.max(rect.left + 4, x - menuWidth);
-        }
-        if (y + menuHeight > mapBottom) {
-            y = Math.max(rect.top + 4, y - menuHeight);
-        }
-        x = Math.max(rect.left + 4, Math.min(x, mapRight - menuWidth - 4));
-        y = Math.max(rect.top + 4, Math.min(y, mapBottom - menuHeight - 4));
+        const x = screenX + rect.left;
+        const y = screenY + rect.top;
 
         const initialLatLon = manualProjectToLatLon(mapPoint);
 
@@ -5540,58 +5551,58 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const cm = state.contextMenu;
 
         // Navigation
-        if (ea.zoomIn !== false) items.push({ action: 'zoom-in', icon: '🔍', text: 'Zoom In', enabled: true, group: 'nav' });
-        if (ea.zoomOut !== false) items.push({ action: 'zoom-out', icon: '🔎', text: 'Zoom Out', enabled: true, group: 'nav' });
-        if (ea.centerHere !== false) items.push({ action: 'center-here', icon: '🎯', text: 'Center Here', enabled: true, group: 'nav' });
+        if (ea.zoomIn !== false) items.push({ action: 'zoom-in', icon: 'zoom-in-fixed', text: 'Zoom In', enabled: true, group: 'nav' });
+        if (ea.zoomOut !== false) items.push({ action: 'zoom-out', icon: 'zoom-out-fixed', text: 'Zoom Out', enabled: true, group: 'nav' });
+        if (ea.centerHere !== false) items.push({ action: 'center-here', icon: 'gps-on', text: 'Center Here', enabled: true, group: 'nav' });
 
         // Coordinates
         if (ea.copyCoordinates !== false && cm.coordinateLabel) {
-            items.push({ action: 'get-coordinates', icon: '📋', text: 'Copy Coordinates', enabled: true, group: 'coords', hint: cm.coordinateLabel });
+            items.push({ action: 'get-coordinates', icon: 'copy-to-clipboard', text: 'Copy Coordinates', enabled: true, group: 'coords', hint: cm.coordinateLabel });
             if (ms.showCoordinateFormats !== false && cm.coordAlternates) {
                 const expanded = !!cm.copyFormatsExpanded;
-                items.push({ action: 'copy-formats-toggle', icon: expanded ? '▾' : '▸', text: expanded ? 'Fewer formats' : 'More coordinate formats', enabled: true, group: 'coords' });
+                items.push({ action: 'copy-formats-toggle', icon: expanded ? 'chevron-down' : 'chevron-right', text: expanded ? 'Fewer formats' : 'More coordinate formats', enabled: true, group: 'coords' });
                 if (expanded) {
                     const alt = cm.coordAlternates;
-                    if (alt.dd) items.push({ action: 'copy-dd', icon: '🌐', text: 'Lat / Lon (decimal)', enabled: true, group: 'coords', sub: true, hint: alt.dd });
-                    if (alt.dms) items.push({ action: 'copy-dms', icon: '🧭', text: 'Lat / Lon (DMS)', enabled: true, group: 'coords', sub: true, hint: alt.dms });
-                    if (alt.utm) items.push({ action: 'copy-utm', icon: '🗂️', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
-                    if (alt.custom) items.push({ action: 'copy-custom', icon: '🧮', text: 'Custom projection', enabled: true, group: 'coords', sub: true, hint: alt.custom });
-                    if (alt.native) items.push({ action: 'copy-native', icon: '🗺️', text: 'Map native X / Y', enabled: true, group: 'coords', sub: true, hint: alt.native });
-                    if (alt.geojson) items.push({ action: 'copy-geojson', icon: '{ }', text: 'GeoJSON point', enabled: true, group: 'coords', sub: true, hint: alt.geojson });
+                    if (alt.dd) items.push({ action: 'copy-dd', icon: 'globe', text: 'Lat / Lon (decimal)', enabled: true, group: 'coords', sub: true, hint: alt.dd });
+                    if (alt.dms) items.push({ action: 'copy-dms', icon: 'compass', text: 'Lat / Lon (DMS)', enabled: true, group: 'coords', sub: true, hint: alt.dms });
+                    if (alt.utm) items.push({ action: 'copy-utm', icon: 'grid', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
+                    if (alt.custom) items.push({ action: 'copy-custom', icon: 'coordinate-system', text: 'Custom projection', enabled: true, group: 'coords', sub: true, hint: alt.custom });
+                    if (alt.native) items.push({ action: 'copy-native', icon: 'map', text: 'Map native X / Y', enabled: true, group: 'coords', sub: true, hint: alt.native });
+                    if (alt.geojson) items.push({ action: 'copy-geojson', icon: 'code', text: 'GeoJSON point', enabled: true, group: 'coords', sub: true, hint: alt.geojson });
                 }
             }
         }
         if (typeof cm.addressText === 'string' && cm.addressText) {
-            items.push({ action: 'copy-address', icon: '🏠', text: 'Copy Address', enabled: true, group: 'coords', hint: cm.addressText });
+            items.push({ action: 'copy-address', icon: 'home', text: 'Copy Address', enabled: true, group: 'coords', hint: cm.addressText });
         }
 
         // Graphics
-        if (ea.plotMarker !== false) items.push({ action: 'plot-marker', icon: '🔴', text: 'Plot Marker', enabled: true, group: 'graphics' });
-        if (ea.plotCoordinates !== false) items.push({ action: 'plot-coordinates', icon: '📌', text: 'Plot Coordinate', enabled: true, group: 'graphics' });
-        if (ea.addText !== false) items.push({ action: 'add-text', icon: '🅰️', text: 'Add Text', enabled: true, group: 'graphics' });
+        if (ea.plotMarker !== false) items.push({ action: 'plot-marker', icon: 'pin', text: 'Plot Marker', enabled: true, group: 'graphics' });
+        if (ea.plotCoordinates !== false) items.push({ action: 'plot-coordinates', icon: 'point', text: 'Plot Coordinate', enabled: true, group: 'graphics' });
+        if (ea.addText !== false) items.push({ action: 'add-text', icon: 'text', text: 'Add Text', enabled: true, group: 'graphics' });
         const graphicCount = state.coordinateMarkers.length + state.simpleMarkers.length + state.textGraphics.length;
         const anyGraphicAction = ea.plotCoordinates !== false || ea.plotMarker !== false || ea.addText !== false;
         if (graphicCount > 0 && anyGraphicAction) {
-            items.push({ action: 'undo-last-graphic', icon: '↩️', text: 'Undo Last Graphic', enabled: true, group: 'graphics' });
-            items.push({ action: 'clear-all-graphics', icon: '🧹', text: `Clear All Graphics (${graphicCount})`, enabled: true, group: 'graphics' });
+            items.push({ action: 'undo-last-graphic', icon: 'undo', text: 'Undo Last Graphic', enabled: true, group: 'graphics' });
+            items.push({ action: 'clear-all-graphics', icon: 'trash', text: `Clear All Graphics (${graphicCount})`, enabled: true, group: 'graphics' });
         }
 
         // External
-        if (ea.streetView !== false) items.push({ action: 'street-view', icon: '🚶', text: 'Open in Google Street View', enabled: true, group: 'external' });
-        if (ea.googleMaps !== false) items.push({ action: 'google-maps', icon: '🗺️', text: 'Open in Google Maps', enabled: true, group: 'external' });
-        if (ea.pictometry !== false && props.config?.pictometryUrl) items.push({ action: 'pictometry', icon: '📷', text: 'Open in Pictometry', enabled: true, group: 'external' });
+        if (ea.streetView !== false) items.push({ action: 'street-view', icon: 'walking', text: 'Open in Google Street View', enabled: true, group: 'external' });
+        if (ea.googleMaps !== false) items.push({ action: 'google-maps', icon: 'map-pin', text: 'Open in Google Maps', enabled: true, group: 'external' });
+        if (ea.pictometry !== false && props.config?.pictometryUrl) items.push({ action: 'pictometry', icon: 'camera', text: 'Open in Pictometry', enabled: true, group: 'external' });
 
         // Tools
-        if (ea.measureDistance !== false) items.push({ action: 'measure-distance', icon: '📏', text: 'Measure Distance', enabled: true, group: 'tools' });
-        if (ea.measureArea !== false) items.push({ action: 'measure-area', icon: '📐', text: 'Measure Area', enabled: true, group: 'tools' });
+        if (ea.measureDistance !== false) items.push({ action: 'measure-distance', icon: 'measure', text: 'Measure Distance', enabled: true, group: 'tools' });
+        if (ea.measureArea !== false) items.push({ action: 'measure-area', icon: 'measure-area', text: 'Measure Area', enabled: true, group: 'tools' });
 
         // Information
-        if (ea.whatsHere !== false) items.push({ action: 'whats-here', icon: '❓', text: "What's here?", enabled: true, group: 'info' });
+        if (ea.whatsHere !== false) items.push({ action: 'whats-here', icon: 'question', text: "What's here?", enabled: true, group: 'info' });
         if (ea.propertyReport && props.config?.propertyReportSettings?.targetWidgetId) {
-            items.push({ action: 'property-report', icon: '🏘️', text: props.config.propertyReportSettings.menuLabel || 'Property Information', enabled: true, group: 'info' });
+            items.push({ action: 'property-report', icon: 'information', text: props.config.propertyReportSettings.menuLabel || 'Property Information', enabled: true, group: 'info' });
         }
         if (ea.mailingLabels && props.config?.mailingLabelsSettings?.targetWidgetId) {
-            items.push({ action: 'mailing-labels', icon: '✉️', text: props.config.mailingLabelsSettings.menuLabel || 'Mailing Labels', enabled: true, group: 'info' });
+            items.push({ action: 'mailing-labels', icon: 'envelope', text: props.config.mailingLabelsSettings.menuLabel || 'Mailing Labels', enabled: true, group: 'info' });
         }
 
         return items;
@@ -5599,6 +5610,42 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
 
     const menuItems = getMenuItems();
+
+    // Feature flags for the help guide, computed from the same checks
+    // getMenuItems() uses so the guide never describes a row the menu hides.
+    const helpFeatures: HelpFeatures = (() => {
+        const ea = props.config?.enabledActions || {};
+        const ms = props.config?.menuSettings || {};
+        return {
+            zoomIn: ea.zoomIn !== false,
+            zoomOut: ea.zoomOut !== false,
+            centerHere: ea.centerHere !== false,
+            copyCoordinates: ea.copyCoordinates !== false,
+            coordinateFormats: ms.showCoordinateFormats !== false,
+            address: ms.showAddress !== false && !!props.config?.reverseGeocodeUrl,
+            plotMarker: ea.plotMarker !== false,
+            plotCoordinates: ea.plotCoordinates !== false,
+            addText: ea.addText !== false,
+            streetView: ea.streetView !== false,
+            googleMaps: ea.googleMaps !== false,
+            pictometry: ea.pictometry !== false && !!props.config?.pictometryUrl,
+            measureDistance: ea.measureDistance !== false,
+            measureArea: ea.measureArea !== false,
+            whatsHere: ea.whatsHere !== false,
+            propertyReport: !!ea.propertyReport && !!props.config?.propertyReportSettings?.targetWidgetId,
+            mailingLabels: !!ea.mailingLabels && !!props.config?.mailingLabelsSettings?.targetWidgetId,
+            hotkeys: ms.showHotkeys !== false,
+            longPress: props.config?.longPressSettings?.enabled !== false,
+            propertyReportLabel: props.config?.propertyReportSettings?.menuLabel || 'Property Information',
+            mailingLabelsLabel: props.config?.mailingLabelsSettings?.menuLabel || 'Mailing Labels',
+            measureUnits: props.config?.measurementSettings?.defaultUnits || 'feet'
+        };
+    })();
+
+    const openHelp = React.useCallback(() => {
+        hideContextMenu();
+        setHelpOpen(true);
+    }, [hideContextMenu]);
 
     // Handle keyboard navigation in context menu
     const handleMenuKeyDown = React.useCallback((e: React.KeyboardEvent) => {
@@ -5637,6 +5684,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 e.preventDefault();
                 hideContextMenu();
                 break;
+            case '?':
+            case 'F1':
+                e.preventDefault();
+                openHelp();
+                break;
             case 'Tab':
                 e.preventDefault();
                 hideContextMenu();
@@ -5650,7 +5702,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 setState(prev => ({ ...prev, focusedMenuIndex: items.length - 1 }));
                 break;
         }
-    }, [menuItems, state.focusedMenuIndex, handleContextMenuAction, hideContextMenu, props.config?.menuSettings?.showHotkeys]);
+    }, [menuItems, state.focusedMenuIndex, handleContextMenuAction, hideContextMenu, openHelp, props.config?.menuSettings?.showHotkeys]);
 
     // Focus menu when it becomes visible
     React.useEffect(() => {
@@ -5659,6 +5711,63 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             menuRef.current.focus();
         }
     }, [state.contextMenu.visible]);
+
+    // Menu placement. Runs after every render while the menu is open, before
+    // the browser paints, so the user never sees the unplaced position.
+    //   1. Put the menu at the pointer with its height capped to the viewport.
+    //   2. Measure the real rendered size (content varies: address header,
+    //      expanded coordinate formats, undo/clear rows).
+    //   3. If it would run off the right edge, open it to the left of the
+    //      pointer; if it would run off the bottom, open it above the pointer.
+    //   4. Clamp whatever is left inside the viewport with a small margin.
+    // The result is written straight to the element and remembered in a ref
+    // so re-renders (hover, address arriving) reuse it instead of resetting
+    // to the raw anchor.
+    const MENU_VIEWPORT_MARGIN = 8;
+    const menuPlacementRef = React.useRef<{ left: number; top: number; maxHeight: number } | null>(null);
+    React.useLayoutEffect(() => {
+        const el = menuRef.current;
+        if (!el || !state.contextMenu.visible) {
+            menuPlacementRef.current = null;
+            return;
+        }
+        const vw = document.documentElement.clientWidth || window.innerWidth;
+        const vh = document.documentElement.clientHeight || window.innerHeight;
+        const m = MENU_VIEWPORT_MARGIN;
+        const ax = state.contextMenu.x;
+        const ay = state.contextMenu.y;
+        const maxHeight = Math.max(120, vh - 2 * m);
+
+        el.style.maxHeight = `${maxHeight}px`;
+        el.style.left = `${ax}px`;
+        el.style.top = `${ay}px`;
+        const { width, height } = el.getBoundingClientRect();
+
+        let left = ax;
+        if (left + width + m > vw) left = ax - width;
+        left = Math.min(Math.max(left, m), Math.max(m, vw - width - m));
+
+        let top = ay;
+        if (top + height + m > vh) top = ay - height;
+        top = Math.min(Math.max(top, m), Math.max(m, vh - height - m));
+
+        el.style.left = `${left}px`;
+        el.style.top = `${top}px`;
+        menuPlacementRef.current = { left, top, maxHeight };
+    });
+
+    // The anchor is only valid for the layout it was measured in: a window
+    // resize or a page scroll moves the map under the menu, so close it.
+    React.useEffect(() => {
+        if (!state.contextMenu.visible) return;
+        const close = () => { hideContextMenu(); };
+        window.addEventListener('resize', close);
+        window.addEventListener('scroll', close, true);
+        return () => {
+            window.removeEventListener('resize', close);
+            window.removeEventListener('scroll', close, true);
+        };
+    }, [state.contextMenu.visible, hideContextMenu]);
 
     // Focus trap for text dialog
     React.useEffect(() => {
@@ -5677,45 +5786,57 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
     }, [state.showMailingLabelsBufferDialog]);
 
+    const placement = menuPlacementRef.current;
     const contextMenuStyle: React.CSSProperties = {
         position: 'fixed',
-        top: state.contextMenu.y,
-        left: state.contextMenu.x,
-        backgroundColor: 'white',
-        border: '1px solid #d0d7de',
-        borderRadius: '8px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.12)',
+        top: placement ? placement.top : state.contextMenu.y,
+        left: placement ? placement.left : state.contextMenu.x,
+        maxHeight: placement ? `${placement.maxHeight}px` : undefined,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        boxSizing: 'border-box',
+        backgroundColor: tokens.surface,
+        color: tokens.text,
+        border: `1px solid ${tokens.divider}`,
+        borderRadius: tokens.radiusLg,
+        boxShadow: tokens.shadowHover,
         zIndex: 2147483647,
         minWidth: '260px',
         maxWidth: '340px',
         padding: '4px 0',
-        display: state.contextMenu.visible ? 'block' : 'none',
         fontFamily: themeFont,
-        outline: 'none',
-        color: '#1f2328'
+        fontSize: '14px',
+        lineHeight: 1.3,
+        outline: 'none'
     };
 
-    const getMenuItemStyle = (index: number, sub?: boolean): React.CSSProperties => ({
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        padding: sub ? '6px 12px 6px 30px' : '7px 12px',
-        margin: '0 4px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontSize: sub ? '13px' : '14px',
-        lineHeight: '1.3',
-        backgroundColor: state.focusedMenuIndex === index ? '#e8f0fe' : 'transparent',
-        outline: state.focusedMenuIndex === index ? '2px solid #1a73e8' : 'none',
-        outlineOffset: '-2px',
-        userSelect: 'none'
-    });
+    const MONO_FONT = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+    const getMenuItemStyle = (index: number, sub?: boolean): React.CSSProperties => {
+        const focused = state.focusedMenuIndex === index;
+        return {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: sub ? '6px 12px 6px 30px' : '7px 12px',
+            margin: '0 4px',
+            borderRadius: tokens.radius,
+            cursor: 'pointer',
+            fontSize: sub ? '13px' : '14px',
+            lineHeight: 1.3,
+            color: tokens.text,
+            backgroundColor: focused ? tokens.infoBg : 'transparent',
+            outline: focused ? `2px solid ${tokens.primary}` : 'none',
+            outlineOffset: '-2px',
+            userSelect: 'none'
+        };
+    };
 
     const showHotkeys = props.config?.menuSettings?.showHotkeys !== false;
 
     // Accessible MenuItem render function - NOT memoized to avoid stale closure issues.
-    // Rows show an icon, the label, an optional muted hint (the value that will be
-    // copied) and, for the first nine rows, a number badge matching the hotkey.
+    // Rows show a Calcite icon, the label, an optional muted hint (the value that
+    // will be copied) and, for the first nine rows, a number badge matching the hotkey.
     const renderMenuItem = (item: { action: string; icon: string; text: string; sub?: boolean; hint?: string }, index: number) => (
         <div
             key={item.action}
@@ -5743,20 +5864,22 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             aria-label={item.hint ? `${item.text}: ${item.hint}` : item.text}
             title={item.hint || undefined}
         >
-            <span aria-hidden="true" style={{ width: '20px', textAlign: 'center', flexShrink: 0, fontSize: item.sub ? '12px' : '14px' }}>{item.icon}</span>
+            <span aria-hidden="true" style={{ width: '20px', display: 'flex', justifyContent: 'center', flexShrink: 0, color: item.sub ? tokens.textSecondary : tokens.primary }}>
+                <CalciteIcon icon={item.icon} scale="s" />
+            </span>
             <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
                 <span>{item.text}</span>
                 {item.hint && (
-                    <span style={{ fontSize: '11px', color: '#6e7781', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <span style={{ fontSize: '11px', color: tokens.textSecondary, fontFamily: MONO_FONT, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {item.hint}
                     </span>
                 )}
             </span>
             {showHotkeys && index < 9 && (
                 <span aria-hidden="true" style={{
-                    fontSize: '10px', color: '#6e7781', border: '1px solid #d0d7de', borderRadius: '3px',
+                    fontSize: '10px', color: tokens.textSecondary, border: `1px solid ${tokens.divider}`, borderRadius: '3px',
                     padding: '0 5px', lineHeight: '16px', minWidth: '16px', textAlign: 'center', flexShrink: 0,
-                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
+                    fontFamily: MONO_FONT
                 }}>{index + 1}</span>
             )}
         </div>
@@ -5769,24 +5892,76 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const cm = state.contextMenu;
         const addrState = cm.addressText;
         return (
-            <div style={{ padding: '8px 16px 8px', borderBottom: '1px solid #e6e8eb', marginBottom: '4px' }} role="presentation">
-                <div style={{ fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#8b949e', fontWeight: 600 }}>Location</div>
+            <div style={{ padding: '8px 16px 8px', borderBottom: `1px solid ${tokens.divider}`, marginBottom: '4px' }} role="presentation">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ flex: 1, minWidth: 0, fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: tokens.textSecondary, fontWeight: 600 }}>Location</div>
+                    <Button
+                        size="sm"
+                        type="tertiary"
+                        icon
+                        title={t('helpTitle')}
+                        aria-label={t('helpTitle')}
+                        style={{ flexShrink: 0, marginRight: '-8px' }}
+                        onMouseDown={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); }}
+                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); openHelp(); }}
+                    >
+                        <CalciteIcon icon="question" scale="s" />
+                    </Button>
+                </div>
                 {addrState === null && (
-                    <div style={{ fontSize: '13px', color: '#8b949e', fontStyle: 'italic', marginTop: '2px' }}>Looking up address…</div>
+                    <div style={{ fontSize: '13px', color: tokens.textSecondary, fontStyle: 'italic', marginTop: '2px' }}>Looking up address...</div>
                 )}
                 {typeof addrState === 'string' && addrState && (
                     <div
-                        style={{ fontSize: '13px', fontWeight: 600, color: '#1f2328', marginTop: '2px', cursor: 'copy', wordBreak: 'break-word' }}
+                        style={{ fontSize: '13px', fontWeight: 600, color: tokens.text, marginTop: '2px', cursor: 'copy', wordBreak: 'break-word' }}
                         title="Click to copy address"
                         onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
                         onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleContextMenuAction('copy-address'); }}
                     >{addrState}</div>
                 )}
                 {cm.coordinateLabel && (
-                    <div style={{ fontSize: '11px', color: '#57606a', marginTop: '2px', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' }}>{cm.coordinateLabel}</div>
+                    <div style={{ fontSize: '11px', color: tokens.textSecondary, marginTop: '2px', fontFamily: MONO_FONT }}>{cm.coordinateLabel}</div>
                 )}
             </div>
         );
+    };
+
+    // The menu is rendered in a portal on document.body so `position: fixed`
+    // is measured against the viewport regardless of how the widget's own
+    // container is transformed or clipped by the Experience layout.
+    const renderContextMenu = () => {
+        if (!state.contextMenu.visible) return null;
+        const menu = (
+            <div
+                id="context-menu"
+                ref={menuRef}
+                role="menu"
+                aria-label="Map context menu"
+                tabIndex={-1}
+                style={contextMenuStyle}
+                onKeyDown={handleMenuKeyDown}
+                onMouseDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
+                onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); }}
+            >
+                {renderMenuHeader()}
+                {menuItems.map((item, index) => {
+                    const prev = index > 0 ? menuItems[index - 1] : null;
+                    const separator = prev && prev.group !== item.group
+                        ? <div key={`sep-${index}`} role="separator" style={{ height: '1px', background: tokens.divider, margin: '4px 10px' }} />
+                        : null;
+                    return (
+                        <React.Fragment key={item.action}>
+                            {separator}
+                            {renderMenuItem(item, index)}
+                        </React.Fragment>
+                    );
+                })}
+            </div>
+        );
+        return typeof document !== 'undefined' && document.body
+            ? ReactDOM.createPortal(menu, document.body)
+            : menu;
     };
 
     // CSS styles using theme - this ensures proper font inheritance
@@ -5796,7 +5971,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             height: 100%;
             position: relative;
             font-family: ${themeFont};
-            
+
             *, *::before, *::after {
                 font-family: inherit;
             }
@@ -5817,32 +5992,20 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 </div>
             )}
 
-            {/* Accessible context menu */}
-            <div
-                id="context-menu"
-                ref={menuRef}
-                role="menu"
-                aria-label="Map context menu"
-                tabIndex={-1}
-                style={contextMenuStyle}
-                onKeyDown={handleMenuKeyDown}
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-            >
-                {renderMenuHeader()}
-                {menuItems.map((item, index) => {
-                    const prev = index > 0 ? menuItems[index - 1] : null;
-                    const separator = prev && prev.group !== item.group
-                        ? <div key={`sep-${index}`} role="separator" style={{ height: '1px', background: '#e6e8eb', margin: '4px 10px' }} />
-                        : null;
-                    return (
-                        <React.Fragment key={item.action}>
-                            {separator}
-                            {renderMenuItem(item, index)}
-                        </React.Fragment>
-                    );
-                })}
-            </div>
+            {/* Accessible context menu (portaled to document.body) */}
+            {renderContextMenu()}
+
+            {/* Help guide (shared pattern, handoff Section 10) */}
+            <HelpPopup
+                open={helpOpen}
+                onClose={() => { setHelpOpen(false); }}
+                sections={buildHelpSections(t, helpFeatures)}
+                title={t('helpTitle')}
+                intro={t('helpIntro')}
+                searchPlaceholder={t('helpSearchPlaceholder')}
+                noMatches={t('helpNoMatches')}
+                closeLabel={t('close')}
+            />
 
             {/* Live region for screen reader announcements */}
             <div

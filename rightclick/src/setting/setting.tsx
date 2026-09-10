@@ -1,6 +1,4 @@
-﻿// @ts-nocheck -- editor noise suppression. Experience Builder 1.21 type packages moved and this widget is edited from folders without node_modules (GitHub mirror); type-level errors here are false positives. Webpack emits identical JavaScript with or without checking.
 import { React, Immutable } from 'jimu-core';
-import { AllWidgetSettingProps } from 'jimu-for-builder';
 import { JimuMapViewComponent, JimuMapView } from 'jimu-arcgis';
 import { MapWidgetSelector, SettingSection, SettingRow } from 'jimu-ui/advanced/setting-components';
 import { SymbolSelector, JimuSymbolType } from 'jimu-ui/advanced/map';
@@ -381,7 +379,23 @@ const parseXmlToConfig = (xmlStr: string): any => {
     return parseXmlElement(root);
 };
 
-const Setting = (props: AllWidgetSettingProps<IMConfig>) => {
+// Local structural type for the setting props. The editor shim declares
+// 'jimu-for-builder' as a shorthand module, and a shorthand module cannot be
+// used as a generic type (TS2709), so the shape is spelled out here. The
+// builder passes the same object either way.
+interface SettingProps {
+    id: string;
+    config: IMConfig;
+    onSettingChange: (settings: any, ...rest: any[]) => void;
+    useDataSources?: any;
+    useMapWidgetIds?: any;
+    intl?: any;
+    theme?: any;
+    portalUrl?: string;
+    [key: string]: any;
+}
+
+const Setting = (props: SettingProps) => {
     const { config } = props;
 
     // State for managing field loading
