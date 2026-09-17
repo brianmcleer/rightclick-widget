@@ -86,6 +86,12 @@ and Mailing Labels with the clicked location.
 4. Drop the widget into an experience, open its settings, pick the map
    widget(s) it should listen to, and turn on the actions you want.
 
+### The release zip and the editor shims
+
+The zip is the widget only. The Visual Studio type shims in the repo (`rightclick/src/exb-editor-shims.d.ts`, `rightclick/src/vendor-shims.d.ts`) are left out on purpose: their ambient `declare module` blocks are not file-scoped and would rewrite the react, jimu and esri types for every other widget in your `your-extensions` folder.
+
+If you clone the repository instead of using the zip, delete `rightclick/src/exb-editor-shims.d.ts` and the other shim files listed above before building; nothing else depends on them.
+
 ## Placement in the experience
 
 The widget runs in the background and doesn't render any visible UI on
@@ -95,7 +101,7 @@ the page (the context menu and dialogs are overlays). Recommended:
 - Place it in an unused corner of the layout
 - Use "Send to back" so it doesn't intercept clicks
 - Keep it visible (not in a hidden state)
-- Desktop layouts only — the right-click model doesn't fit
+- Desktop layouts only - the right-click model doesn't fit
   tablet or phone viewers
 
 ## Configuration tips
@@ -109,7 +115,7 @@ the page (the context menu and dialogs are overlays). Recommended:
   widget lives inside a Widget Controller, set Container Type to "Widget
   Controller". If it lives inside an Accordion, set it to "Accordion".
   If the Accordion is itself inside a Widget Controller, use the third
-  option "Widget Controller → Accordion (nested)" — that gives you a
+  option "Widget Controller → Accordion (nested)" - that gives you a
   second dropdown for the inner Accordion's widget id, and the widget
   will open the controller's panel, then expand the right accordion
   section automatically.

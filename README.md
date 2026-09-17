@@ -26,6 +26,12 @@ start`. The widget then appears in the Custom section of the builder.
 Full install steps and configuration tips are in the widget's own
 [README](rightclick/README.md).
 
+### The release zip and the editor shims
+
+The zip is the widget only. The Visual Studio type shims in the repo (`rightclick/src/exb-editor-shims.d.ts`, `rightclick/src/vendor-shims.d.ts`) are left out on purpose: their ambient `declare module` blocks are not file-scoped and would rewrite the react, jimu and esri types for every other widget in your `your-extensions` folder.
+
+If you clone the repository instead of using the zip, delete `rightclick/src/exb-editor-shims.d.ts` and the other shim files listed above before building; nothing else depends on them.
+
 ## Compatibility
 
 Built and tested on ArcGIS Experience Builder Developer Edition **1.19

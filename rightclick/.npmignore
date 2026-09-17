@@ -32,3 +32,7 @@ npm-debug.log*
 # Source maps and TypeScript build artifacts (ExB compiles from src/)
 *.map
 *.tsbuildinfo
+
+# Cowork working folder and release zips never ship
+Claude outputs/
+*.zip
