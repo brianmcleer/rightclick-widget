@@ -6,6 +6,8 @@ import { JimuMapViewComponent, JimuMapView, loadArcGISJSAPIModules } from 'jimu-
 import { CalciteIcon } from 'calcite-components';
 import { useTokens } from './theme';
 import { Button } from 'jimu-ui';
+import { beacon } from '../shared/beacon';
+import type { BeaconHandle } from '../shared/beacon';
 import HelpPopup from './components/HelpPopup';
 import { buildHelpSections, HelpFeatures } from './helpSections';
 import defaultMessages from './translations/default';
@@ -825,6 +827,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     const mailingLabelsDialogRef = React.useRef<HTMLDivElement | null>(null);
     const mailingLabelsApplyBufferBtnRef = React.useRef<HTMLInputElement | null>(null);
     const previousActiveElement = React.useRef<HTMLElement | null>(null);
+    const beaconRef = React.useRef<BeaconHandle | null>(null);
+    React.useEffect(() => { beaconRef.current = beacon.init(props) }, []);
     // Track event handlers to prevent duplicates
     const handlersAttachedRef = React.useRef<boolean>(false);
     const lastMapViewRef = React.useRef<__esri.MapView | null>(null);
@@ -1108,6 +1112,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     }, []);
 
     const copyCoordinates = React.useCallback(() => {
+        beaconRef.current?.action('copy-coordinates');
         const { mapPoint, projectedLatLon } = state.contextMenu;
         if (!mapViewRef.current || !mapPoint) return;
 
@@ -2288,6 +2293,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     }, [state.contextMenu, manualProjectToLatLon, props.config?.pictometryUrl]);
 
     const startMeasurement = React.useCallback(async () => {
+        beaconRef.current?.action('measure');
         const mapView = mapViewRef.current;
         if (!mapView) return;
 
@@ -2604,10 +2610,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 console.warn('[rightclick] Failed to load distance measurement modules:', err);
             });
         } catch (err: any) {
+            beaconRef.current?.error(err, 'measure');
         }
     }, [state.measurementWidget, props.config?.measurementSettings]);
 
     const startAreaMeasurement = React.useCallback(async () => {
+        beaconRef.current?.action('measure-area');
         const mapView = mapViewRef.current;
         if (!mapView) return;
 
@@ -2915,6 +2923,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             });
 
         } catch (error) {
+            beaconRef.current?.error(error, 'measure-area');
         }
     }, [state.areaMeasurementWidget, props.config?.measurementSettings]);
 
@@ -4986,6 +4995,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 break;
             case 'whats-here': {
                 const handleWhatsHere = async () => {
+                    beaconRef.current?.action('whats-here');
                     hideContextMenu(); // hide menu immediately before async work begins
                     try {
                         type ResultRow = { layerName: string; features: any[]; layerUrl: string; popupEnabled?: boolean; mapLayer?: any };
@@ -5084,6 +5094,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         openWhatsHerePopup(mapPoint, addressText, allResults);
 
                     } catch (error) {
+                        beaconRef.current?.error(error, 'whats-here');
                         (mapView as any).openPopup({
                             title: "📍 What's here?",
                             content: '<div style="color:#d32f2f;padding:16px;text-align:center;"><strong>Error querying location information.</strong></div>',
