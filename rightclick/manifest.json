@@ -2,7 +2,7 @@
   "name": "rightclick",
   "label": "Right Click",
   "type": "widget",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "exbVersion": "1.21.0",
   "author": "Brian McLeer, City of Grand Junction",
   "description": "Adds custom right-click functionality to map widgets",

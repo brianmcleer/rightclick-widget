@@ -11,6 +11,9 @@ export interface FeatureLayerConfig {
 }
 
 export interface IMConfig {
+  /** Show the question-mark button that opens the help guide. Undefined means on,
+   *  so apps configured before this setting existed keep their help button. */
+  showHelp?: boolean
     useMapWidgetIds: string[];
     coordinateSystem?: 'map' | 'webMercator';
     enabledActions?: {

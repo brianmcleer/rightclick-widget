@@ -5906,18 +5906,20 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             <div style={{ padding: '8px 16px 8px', borderBottom: `1px solid ${tokens.divider}`, marginBottom: '4px' }} role="presentation">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ flex: 1, minWidth: 0, fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: tokens.textSecondary, fontWeight: 600 }}>Location</div>
-                    <Button
-                        size="sm"
-                        type="tertiary"
-                        icon
-                        title={t('helpTitle')}
-                        aria-label={t('helpTitle')}
-                        style={{ flexShrink: 0, marginRight: '-8px' }}
-                        onMouseDown={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); }}
-                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); openHelp(); }}
-                    >
-                        <CalciteIcon icon="question" scale="s" />
-                    </Button>
+                    {props.config?.showHelp !== false && (
+                        <Button
+                            size="sm"
+                            type="tertiary"
+                            icon
+                            title={t('helpTitle')}
+                            aria-label={t('helpTitle')}
+                            style={{ flexShrink: 0, marginRight: '-8px' }}
+                            onMouseDown={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); }}
+                            onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); openHelp(); }}
+                        >
+                            <CalciteIcon icon="question" scale="s" />
+                        </Button>
+                    )}
                 </div>
                 {addrState === null && (
                     <div style={{ fontSize: '13px', color: tokens.textSecondary, fontStyle: 'italic', marginTop: '2px' }}>Looking up address...</div>
