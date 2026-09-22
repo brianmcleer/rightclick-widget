@@ -1,6 +1,6 @@
 # Right Click Widget
 
-[![License](https://img.shields.io/github/license/brianmcleer/rightclick-widget)](LICENSE) [![Release](https://img.shields.io/github/v/release/brianmcleer/=tag)](https://github.com/brianmcleer/rightclick-widget/releases) [![Issues](https://img.shields.io/github/issues/brianmcleer/rightclick-widget)](https://github.com/brianmcleer/rightclick-widget/issues)
+[![License](https://img.shields.io/github/license/brianmcleer/rightclick-widget)](LICENSE) [![Release](https://img.shields.io/github/v/release/brianmcleer/rightclick-widget?display_name=tag)](https://github.com/brianmcleer/rightclick-widget/releases) [![Issues](https://img.shields.io/github/issues/brianmcleer/rightclick-widget)](https://github.com/brianmcleer/rightclick-widget/issues)
 
 A custom widget for ArcGIS Experience Builder that adds a configurable
 right-click context menu to map widgets. Right-click anywhere on the map
@@ -44,21 +44,21 @@ supported.
 
 ```
 rightclick-widget/
-â”œâ”€â”€ README.md             this file (GitHub landing page)
-â”œâ”€â”€ LICENSE               Apache 2.0
-â”œâ”€â”€ .gitignore            ignores node_modules, .vs, etc.
-â”œâ”€â”€ publish.ps1           one-command sync/commit/publish script
-â””â”€â”€ rightclick/           the actual widget
-    â”œâ”€â”€ manifest.json
-    â”œâ”€â”€ config.json
-    â”œâ”€â”€ icon.svg
-    â”œâ”€â”€ package.json
-    â”œâ”€â”€ package-lock.json
-    â”œâ”€â”€ README.md
-    â”œâ”€â”€ LICENSE
-    â”œâ”€â”€ .gitignore
-    â”œâ”€â”€ .npmignore
-    â””â”€â”€ src/
+├── README.md             this file (GitHub landing page)
+├── LICENSE               Apache 2.0
+├── .gitignore            ignores node_modules, .vs, etc.
+├── publish.ps1           one-command sync/commit/publish script
+└── rightclick/           the actual widget
+    ├── manifest.json
+    ├── config.json
+    ├── icon.svg
+    ├── package.json
+    ├── package-lock.json
+    ├── README.md
+    ├── LICENSE
+    ├── .gitignore
+    ├── .npmignore
+    └── src/
 ```
 
 The `rightclick/` subfolder is the only thing downstream users need. The
