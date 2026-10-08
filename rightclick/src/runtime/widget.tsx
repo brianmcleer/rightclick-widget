@@ -1146,9 +1146,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
             // Synchronous clipboard write — preserves user gesture
             copyWithPrompt(coords);
-            announce(`Coordinates copied: ${coords}`);
+            announce(t('coordinatesCopiedCoords', { coords: String(coords) }));
         } catch (error) {
-            announce(`Error copying coordinates`);
+            announce(t('errorCopyingCoordinates'));
         }
     }, [state.contextMenu, props.config?.copySettings, manualProjectToLatLon, convertToDMS, copyWithPrompt, announce]);
 
@@ -1258,7 +1258,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 graphicHistoryRef.current.push({ kind: 'text', id: newTextGraphic.id });
 
                 // Announce success and restore focus
-                announce(`Text "${text.trim()}" added to map`);
+                announce(t('textTextAddedToMap', { text: text.trim() }));
                 previousActiveElement.current?.focus();
 
             } catch (error) {
@@ -1271,7 +1271,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             }
 
         } catch (error) {
-            alert(`Error adding text to map: ${error.message}`);
+            alert(t('errorAddingTextToMapMessage', { message: String(error.message) }));
             setState(prev => ({
                 ...prev,
                 showTextDialog: false,
@@ -1289,7 +1289,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
         // Restore focus to previous element
         previousActiveElement.current?.focus();
-        announce('Text input cancelled');
+        announce(t('textInputCancelled'));
     }, [announce]);
 
     // Open the buffer-choice dialog for Mailing Labels. Mirrors showTextInputDialog:
@@ -1323,7 +1323,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             mailingLabelsBufferError: ''
         }));
         previousActiveElement.current?.focus();
-        announce('Mailing Labels cancelled');
+        announce(t('mailingLabelsCancelled'));
     }, [announce]);
 
     // Open the target widget, handling the parent-container's type correctly:
@@ -1808,7 +1808,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
 
         graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'text');
-        announce(`${count} text graphics cleared`);
+        announce(t('countTextGraphicsCleared', { count: String(count) }));
     }, [announce]);
 
     // Plot coordinate marker function
@@ -2015,14 +2015,14 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 graphicHistoryRef.current.push({ kind: 'coord', id: newMarker.id });
 
                 // Announce success
-                announce(`Coordinate marker ${markerNumber} placed on map`);
+                announce(t('coordinateMarkerMarkerNumberPlacedOnMap', { markerNumber: String(markerNumber) }));
 
             } catch (error) {
                 alert('Error creating coordinate marker: ' + error.message);
             }
 
         } catch (error) {
-            alert(`Error plotting coordinate: ${error.message}`);
+            alert(t('errorPlottingCoordinateMessage', { message: String(error.message) }));
         }
     }, [state.contextMenu, state.nextMarkerNumber, props.config?.plotSettings, manualProjectToLatLon, convertToDMS, announce, themeFont]);
 
@@ -2102,14 +2102,14 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 graphicHistoryRef.current.push({ kind: 'marker', id: newMarker.id });
 
                 // Announce success
-                announce('Marker placed on map');
+                announce(t('markerPlacedOnMap'));
 
             } catch (error) {
                 alert('Error creating simple marker: ' + error.message);
             }
 
         } catch (error) {
-            alert(`Error plotting simple marker: ${error.message}`);
+            alert(t('errorPlottingSimpleMarkerMessage', { message: String(error.message) }));
         }
     }, [state.contextMenu, props.config?.markerSettings, announce]);
 
@@ -2136,7 +2136,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
 
         graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'coord');
-        announce(`${count} coordinate markers cleared`);
+        announce(t('countCoordinateMarkersCleared', { count: String(count) }));
     }, [announce]);
 
     // Clear all simple markers
@@ -2159,7 +2159,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
 
         graphicHistoryRef.current = graphicHistoryRef.current.filter(h => h.kind !== 'marker');
-        announce(`${count} markers cleared`);
+        announce(t('countMarkersCleared', { count: String(count) }));
     }, [announce]);
 
     // Clear all graphics
@@ -2194,7 +2194,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
         graphicHistoryRef.current = [];
 
-        announce(`${count} graphics cleared from map`);
+        announce(t('countGraphicsClearedFromMap', { count: String(count) }));
     }, [announce]);
 
     // Undo the most recently placed graphic (coordinate marker, simple
@@ -2205,7 +2205,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const mapView = mapViewRef.current;
         if (!mapView) return;
         const last = graphicHistoryRef.current.pop();
-        if (!last) { announce('Nothing to undo'); return; }
+        if (!last) { announce(t('nothingToUndo')); return; }
 
         setState(prev => {
             const next = { ...prev };
@@ -2240,7 +2240,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             } catch (e) { /* ignore */ }
             return next;
         });
-        announce('Last graphic removed');
+        announce(t('lastGraphicRemoved'));
     }, [announce]);
 
     // Open the right-click location in Google Maps (satellite context, pin
@@ -2250,12 +2250,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         if (!mapViewRef.current || !mapPoint) return;
         const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
         if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-            announce('Unable to open Google Maps for this location');
+            announce(t('unableToOpenGoogleMapsFor'));
             return;
         }
         const url = `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(7)},${lon.toFixed(7)}`;
         window.open(url, '_blank', 'noopener,noreferrer');
-        announce('Opened location in Google Maps');
+        announce(t('openedLocationInGoogleMaps'));
     }, [state.contextMenu, manualProjectToLatLon, announce]);
 
     const openStreetView = React.useCallback(() => {
@@ -2267,7 +2267,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
 
         if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-            alert('Invalid coordinates - cannot open Street View');
+            alert(t('invalidCoordinatesCannotOpenStreetView'));
             return;
         }
 
@@ -2284,7 +2284,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
 
         if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-            alert('Invalid coordinates - cannot open Pictometry');
+            alert(t('invalidCoordinatesCannotOpenPictometry'));
             return;
         }
 
@@ -4955,7 +4955,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 const addr = state.contextMenu.addressText;
                 if (addr) {
                     copyWithPrompt(addr);
-                    announce(`Address copied: ${addr}`);
+                    announce(t('addressCopiedAddr', { addr: String(addr) }));
                 }
                 break;
             }
@@ -4977,7 +4977,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 const value = state.contextMenu.coordAlternates?.[key];
                 if (value) {
                     copyWithPrompt(value);
-                    announce(`Copied: ${value}`);
+                    announce(t('copiedValue', { value: String(value) }));
                 }
                 break;
             }
@@ -5110,7 +5110,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 const mv = mapViewRef.current;
                 const hasAnyLayers = !!mv?.map && (((mv.map as any).allLayers?.items?.length || 0) > 0);
                 if (!props.config?.reverseGeocodeUrl && !hasAnyLayers && (!props.config?.featureLayers || props.config.featureLayers.length === 0)) {
-                    alert("What's Here functionality requires the map to have layers loaded, or a geocoding service URL, or feature layers configured in widget settings.");
+                    alert(t('whatSHereFunctionalityRequiresThe'));
                     break;
                 }
 
@@ -5905,7 +5905,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         return (
             <div style={{ padding: '8px 16px 8px', borderBottom: `1px solid ${tokens.divider}`, marginBottom: '4px' }} role="presentation">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ flex: 1, minWidth: 0, fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: tokens.textSecondary, fontWeight: 600 }}>Location</div>
+                    <div style={{ flex: 1, minWidth: 0, fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase', color: tokens.textSecondary, fontWeight: 600 }}>{t('location')}</div>
                     {props.config?.showHelp !== false && (
                         <Button
                             size="sm"
@@ -5922,12 +5922,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     )}
                 </div>
                 {addrState === null && (
-                    <div style={{ fontSize: '13px', color: tokens.textSecondary, fontStyle: 'italic', marginTop: '2px' }}>Looking up address...</div>
+                    <div style={{ fontSize: '13px', color: tokens.textSecondary, fontStyle: 'italic', marginTop: '2px' }}>{t('lookingUpAddress')}</div>
                 )}
                 {typeof addrState === 'string' && addrState && (
                     <div
                         style={{ fontSize: '13px', fontWeight: 600, color: tokens.text, marginTop: '2px', cursor: 'copy', wordBreak: 'break-word' }}
-                        title="Click to copy address"
+                        title={t('clickToCopyAddress')}
                         onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
                         onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleContextMenuAction('copy-address'); }}
                     >{addrState}</div>
@@ -5949,7 +5949,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 id="context-menu"
                 ref={menuRef}
                 role="menu"
-                aria-label="Map context menu"
+                aria-label={t('mapContextMenu')}
                 tabIndex={-1}
                 style={contextMenuStyle}
                 onKeyDown={handleMenuKeyDown}
@@ -6000,8 +6000,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 />
             ) : (
                 <div style={{ padding: '20px', textAlign: 'center' }}>
-                    <p>Please configure this widget to use a Map widget.</p>
-                    <p>Go to widget settings and select a map to connect to.</p>
+                    <p>{t('pleaseConfigureThisWidgetToUse')}</p>
+                    <p>{t('goToWidgetSettingsAndSelect')}</p>
                 </div>
             )}
 
@@ -6114,11 +6114,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 id="text-dialog-title"
                                 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}
                             >
-                                <span aria-hidden="true">🅰️ </span>Enter Your Text
+                                <span aria-hidden="true">🅰️ </span>{t('enterYourText')}
                             </h2>
                             <button
                                 onClick={cancelTextInput}
-                                aria-label="Close dialog"
+                                aria-label={t('closeDialog')}
                                 style={{
                                     background: 'none',
                                     border: '2px solid transparent',
@@ -6149,7 +6149,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 lineHeight: '1.4'
                             }}
                         >
-                            Type the text you want to add at this location on the map.
+                            {t('typeTheTextYouWantTo')}
                         </p>
                         <label
                             htmlFor="map-text-input"
@@ -6161,13 +6161,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 color: '#333'
                             }}
                         >
-                            Text label
+                            {t('textLabel')}
                         </label>
                         <input
                             ref={textInputRef}
                             id="map-text-input"
                             type="text"
-                            placeholder="Enter text here"
+                            placeholder={t('enterTextHere')}
                             aria-describedby="text-dialog-description"
                             style={{
                                 width: '100%',
@@ -6211,7 +6211,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
                                 onBlur={(e) => { e.currentTarget.style.borderColor = '#555'; }}
                             >
-                                Cancel
+                                {t('cancel')}
                             </button>
                             <button
                                 onClick={() => {
@@ -6233,7 +6233,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 onFocus={(e) => { e.currentTarget.style.borderColor = '#004499'; e.currentTarget.style.backgroundColor = '#004499'; e.currentTarget.style.outline = 'none'; }}
                                 onBlur={(e) => { e.currentTarget.style.borderColor = '#0066cc'; e.currentTarget.style.backgroundColor = '#0066cc'; }}
                             >
-                                Add Text
+                                {t('addText')}
                             </button>
                         </div>
                     </div>
@@ -6315,11 +6315,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 id="mailing-labels-dialog-title"
                                 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}
                             >
-                                <span aria-hidden="true">✉️ </span>Mailing Labels
+                                <span aria-hidden="true">✉️ </span>{t('mailingLabels')}
                             </h2>
                             <button
                                 onClick={cancelMailingLabelsBufferDialog}
-                                aria-label="Close dialog"
+                                aria-label={t('closeDialog')}
                                 style={{
                                     background: 'none',
                                     border: '2px solid transparent',
@@ -6350,9 +6350,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 lineHeight: '1.5'
                             }}
                         >
-                            Would you like to apply a buffer to your selection? Tick the
-                            box below and enter a distance to include all features within
-                            that range of the right-clicked location.
+                            {t('wouldYouLikeToApplyA')}
                         </p>
 
                         {/* Apply-buffer toggle */}
@@ -6393,7 +6391,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                     userSelect: 'none'
                                 }}
                             >
-                                Apply a buffer to the selection
+                                {t('applyABufferToTheSelection')}
                             </label>
                         </div>
 
@@ -6415,7 +6413,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                     minWidth: '70px'
                                 }}
                             >
-                                Distance
+                                {t('distance')}
                             </label>
                             <input
                                 id="mailing-labels-buffer-distance"
@@ -6464,7 +6462,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                     border: 0
                                 }}
                             >
-                                Buffer unit
+                                {t('bufferUnit')}
                             </label>
                             <select
                                 id="mailing-labels-buffer-unit"
@@ -6490,10 +6488,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
                                 onBlur={(e) => { e.currentTarget.style.borderColor = '#ccc'; }}
                             >
-                                <option value="feet">feet</option>
-                                <option value="meters">meters</option>
-                                <option value="kilometers">kilometers</option>
-                                <option value="miles">miles</option>
+                                <option value="feet">{t('feet')}</option>
+                                <option value="meters">{t('meters')}</option>
+                                <option value="kilometers">{t('kilometers')}</option>
+                                <option value="miles">{t('miles')}</option>
                             </select>
                         </div>
 
@@ -6537,7 +6535,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
                                 onBlur={(e) => { e.currentTarget.style.borderColor = '#555'; }}
                             >
-                                Cancel
+                                {t('cancel')}
                             </button>
                             <button
                                 onClick={() => launchMailingLabels()}
@@ -6555,7 +6553,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 onFocus={(e) => { e.currentTarget.style.borderColor = '#004499'; e.currentTarget.style.backgroundColor = '#004499'; e.currentTarget.style.outline = 'none'; }}
                                 onBlur={(e) => { e.currentTarget.style.borderColor = '#0066cc'; e.currentTarget.style.backgroundColor = '#0066cc'; }}
                             >
-                                Apply
+                                {t('apply')}
                             </button>
                         </div>
                     </div>

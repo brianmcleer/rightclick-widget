@@ -21,6 +21,9 @@ import {
     Loading
 } from 'jimu-ui';
 import { IMConfig, FeatureLayerConfig, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereLayerSelection, WhatsHereHighlightConfig, defaultWhatsHereHighlight, computeLayerSelectionKey } from '../config';
+import { hooks as __exbI18nHooks } from 'jimu-core';
+import __exbI18nMessages from './translations/default';
+
 
 // Define the field interface
 interface ServiceField {
@@ -396,6 +399,7 @@ interface SettingProps {
 }
 
 const Setting = (props: SettingProps) => {
+  const t = __exbI18nHooks.useTranslation(__exbI18nMessages);
     const { config } = props;
 
     // State for managing field loading
@@ -566,7 +570,7 @@ const Setting = (props: SettingProps) => {
                 appId = pathMatch ? pathMatch[1] : null;
             }
             if (!appId) {
-                alert('Could not determine app ID from URL. Please enter the widget ID manually.');
+                alert(t('couldNotDetermineAppIdFrom'));
                 setScanning(false);
                 return;
             }
@@ -1830,10 +1834,10 @@ const Setting = (props: SettingProps) => {
                     onActiveViewChange={onMapViewActivated}
                 />
             )}
-            <SettingSection title="Map Configuration">
+            <SettingSection title={t('mapConfiguration')}>
                 <SettingRow>
                     <div style={styles.sectionDescription}>
-                        Select a map widget to enable right-click functionality
+                        {t('selectAMapWidgetToEnable')}
                     </div>
                 </SettingRow>
                 <SettingRow>
@@ -1844,13 +1848,10 @@ const Setting = (props: SettingProps) => {
                 </SettingRow>
             </SettingSection>
 
-            <SettingSection title="Import / Export Configuration">
+            <SettingSection title={t('importExportConfiguration')}>
                 <SettingRow>
                     <div style={{ ...styles.sectionDescription, lineHeight: 1.45 }}>
-                        Save the current widget configuration to an XML file you
-                        can share or load into another Experience. Everything in
-                        this panel is captured except the bound map widget, which
-                        stays tied to its Experience.
+                        {t('saveTheCurrentWidgetConfigurationTo')}
                     </div>
                 </SettingRow>
 
@@ -1865,18 +1866,18 @@ const Setting = (props: SettingProps) => {
                             opacity: 0.7,
                             marginBottom: '8px'
                         }}>
-                            Export
+                            {t('export')}
                         </div>
                         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                             <Button size="sm" type="primary" onClick={handleGenerateExport}>
-                                Generate XML
+                                {t('generateXml')}
                             </Button>
                             <Button size="sm" type="default" onClick={handleDownloadExport}>
-                                Download
+                                {t('download')}
                             </Button>
                             {exportXml && (
                                 <Button size="sm" type="tertiary" onClick={handleCopyExport}>
-                                    Copy
+                                    {t('copy')}
                                 </Button>
                             )}
                         </div>
@@ -1912,7 +1913,7 @@ const Setting = (props: SettingProps) => {
                             opacity: 0.7,
                             marginBottom: '8px'
                         }}>
-                            Import
+                            {t('import')}
                         </div>
                         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
                             <Button
@@ -1920,7 +1921,7 @@ const Setting = (props: SettingProps) => {
                                 type="default"
                                 onClick={() => importFileInputRef.current?.click()}
                             >
-                                Load file
+                                {t('loadFile')}
                             </Button>
                             <Button
                                 size="sm"
@@ -1928,7 +1929,7 @@ const Setting = (props: SettingProps) => {
                                 onClick={handleImport}
                                 disabled={!importXml.trim()}
                             >
-                                Apply
+                                {t('apply')}
                             </Button>
                             {importXml && (
                                 <Button
@@ -1940,7 +1941,7 @@ const Setting = (props: SettingProps) => {
                                         setImportSuccess(false);
                                     }}
                                 >
-                                    Clear
+                                    {t('clear')}
                                 </Button>
                             )}
                             <input
@@ -1963,7 +1964,7 @@ const Setting = (props: SettingProps) => {
                             setImportError(null);
                             setImportSuccess(false);
                         }}
-                        placeholder="Paste exported XML here, or use Load file."
+                        placeholder={t('pasteExportedXmlHereOrUse')}
                         spellCheck={false}
                         style={{
                             width: '100%',
@@ -1991,7 +1992,7 @@ const Setting = (props: SettingProps) => {
                     <SettingRow>
                         <Alert
                             type="success"
-                            text="Configuration imported. Map widget binding preserved."
+                            text={t('configurationImportedMapWidgetBindingPreserved')}
                             closable
                             onClose={() => setImportSuccess(false)}
                             style={{ width: '100%' }}
@@ -2000,7 +2001,7 @@ const Setting = (props: SettingProps) => {
                 )}
             </SettingSection>
 
-            <SettingSection title="Enable Right-Click Actions">
+            <SettingSection title={t('enableRightClickActions')}>
                 {actionEntries.map(([key, value]) => (
                     <SettingRow key={key} label={formatActionName(key)}>
                         <Switch checked={value} onChange={(e) => updateEnabledAction(key, e.target.checked)} />
@@ -2010,21 +2011,21 @@ const Setting = (props: SettingProps) => {
 
             {/* Property Report Settings - Only show if propertyReport is enabled */}
             {enabledActions.propertyReport && (
-                <SettingSection title="Property Report Settings">
+                <SettingSection title={t('propertyReportSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Opens the Property Information widget in its widget controller and triggers a report at the right-clicked location.
+                            {t('opensThePropertyInformationWidgetIn')}
                         </div>
                     </SettingRow>
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Target Widget</label>
+                            <label style={styles.inputLabel}>{t('targetWidget')}</label>
                             <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                                 <Button size="sm" type="primary" onClick={scanForPropertyReportWidgets} disabled={scanning} style={{ whiteSpace: 'nowrap' }}>
-                                    {scanning ? 'Scanning...' : 'Scan App'}
+                                    {scanning ? 'Scanning...' : t('scanApp')}
                                 </Button>
                                 <span style={{ ...styles.helpText, margin: 0 }}>
-                                    Reads app config to find widgets
+                                    {t('readsAppConfigToFindWidgets')}
                                 </span>
                             </div>
                             {detectedWidgets.length > 0 ? (
@@ -2032,9 +2033,9 @@ const Setting = (props: SettingProps) => {
                                     value={config.propertyReportSettings?.targetWidgetId || ''}
                                     onChange={(e) => updatePropertyReportSetting('targetWidgetId', e.target.value)}
                                     size="sm"
-                                    placeholder="Select a widget..."
+                                    placeholder={t('selectAWidget')}
                                 >
-                                    <Option value="">— Select a widget —</Option>
+                                    <Option value="">{t('selectAWidget2')}</Option>
                                     {detectedWidgets.map((w) => (
                                         <Option key={w.id} value={w.id}>
                                             {w.label}
@@ -2045,16 +2046,16 @@ const Setting = (props: SettingProps) => {
                                 <TextInput
                                     value={config.propertyReportSettings?.targetWidgetId || ''}
                                     onChange={(e) => updatePropertyReportSetting('targetWidgetId', e.target.value)}
-                                    placeholder="e.g. widget_3"
+                                    placeholder={t('eGWidget3')}
                                     size="sm"
                                 />
                             )}
                             {config.propertyReportSettings?.targetWidgetId && (
                                 <span style={styles.helpText}>
-                                    Widget ID: {config.propertyReportSettings.targetWidgetId}
+                                    {t('widgetIdTargetWidgetId', { targetWidgetId: config.propertyReportSettings.targetWidgetId })}
                                 </span>
                             )}
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Parent Container</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('parentContainer')}</label>
                             {detectedWidgets.length > 0 ? (
                                 <Select
                                     value={config.propertyReportSettings?.parentControllerId || ''}
@@ -2072,12 +2073,12 @@ const Setting = (props: SettingProps) => {
                                         });
                                     }}
                                     size="sm"
-                                    placeholder="Select the parent container..."
+                                    placeholder={t('selectTheParentContainer')}
                                 >
-                                    <Option value="">— None (target widget opens directly) —</Option>
+                                    <Option value="">{t('noneTargetWidgetOpensDirectly')}</Option>
                                     {containerWidgets.map((w) => {
                                         const cls = classifyContainerUri(w.uri);
-                                        const badge = cls === 'accordion' ? ' [Accordion]' : (cls === 'controller' ? ' [Controller]' : '');
+                                        const badge = cls === 'accordion' ? t('accordion') : (cls === 'controller' ? t('controller') : '');
                                         return (
                                             <Option key={w.id} value={w.id}>
                                                 {w.label}{badge}
@@ -2089,26 +2090,26 @@ const Setting = (props: SettingProps) => {
                                 <TextInput
                                     value={config.propertyReportSettings?.parentControllerId || ''}
                                     onChange={(e) => updatePropertyReportSetting('parentControllerId', e.target.value)}
-                                    placeholder="e.g. widget_75"
+                                    placeholder={t('eGWidget75')}
                                     size="sm"
                                 />
                             )}
                             <span style={styles.helpText}>
-                                The container widget that holds the Property Information widget. Pick a Widget Controller (sidebar/panel) or an Accordion. Leave empty if the target widget is shown directly (top-level).
+                                {t('theContainerWidgetThatHoldsThe')}
                             </span>
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Container Type</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('containerType')}</label>
                             <Select
                                 value={config.propertyReportSettings?.parentContainerType || (config.propertyReportSettings?.parentControllerId ? 'controller' : 'none')}
                                 onChange={(e) => updatePropertyReportSetting('parentContainerType', e.target.value)}
                                 size="sm"
                             >
-                                <Option value="controller">Widget Controller (open / close as a panel)</Option>
-                                <Option value="accordion">Accordion (expand the matching section)</Option>
-                                <Option value="controller+accordion">Widget Controller → Accordion (nested)</Option>
-                                <Option value="none">No container (just open the target widget)</Option>
+                                <Option value="controller">{t('widgetControllerOpenCloseAsA')}</Option>
+                                <Option value="accordion">{t('accordionExpandTheMatchingSection')}</Option>
+                                <Option value="controller+accordion">{t('widgetControllerAccordionNested')}</Option>
+                                <Option value="none">{t('noContainerJustOpenTheTarget')}</Option>
                             </Select>
                             <span style={styles.helpText}>
-                                Auto-detected from the parent above. Pick &quot;Widget Controller → Accordion&quot; when the accordion lives inside a widget controller panel.
+                                {t('autoDetectedFromTheParentAbove')}
                             </span>
 
                             {/* Inner Accordion picker — only when nested. The
@@ -2117,15 +2118,15 @@ const Setting = (props: SettingProps) => {
                                 into. */}
                             {config.propertyReportSettings?.parentContainerType === 'controller+accordion' && (
                                 <>
-                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Accordion Widget (inside the controller)</label>
+                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('accordionWidgetInsideTheController')}</label>
                                     {detectedWidgets.length > 0 ? (
                                         <Select
                                             value={config.propertyReportSettings?.accordionWidgetId || ''}
                                             onChange={(e) => updatePropertyReportSetting('accordionWidgetId', e.target.value)}
                                             size="sm"
-                                            placeholder="Select the accordion widget..."
+                                            placeholder={t('selectTheAccordionWidget')}
                                         >
-                                            <Option value="">— Select accordion —</Option>
+                                            <Option value="">{t('selectAccordion')}</Option>
                                             {containerWidgets
                                                 .filter(w => classifyContainerUri(w.uri) === 'accordion' || (w.label || '').toLowerCase().includes('accordion'))
                                                 .map((w) => (
@@ -2136,24 +2137,24 @@ const Setting = (props: SettingProps) => {
                                         <TextInput
                                             value={config.propertyReportSettings?.accordionWidgetId || ''}
                                             onChange={(e) => updatePropertyReportSetting('accordionWidgetId', e.target.value)}
-                                            placeholder="e.g. widget_82"
+                                            placeholder={t('eGWidget82')}
                                             size="sm"
                                         />
                                     )}
                                     <span style={styles.helpText}>
-                                        The accordion widget that holds the Property Information section. After the controller panel opens, the right-click widget will expand this accordion&apos;s matching section.
+                                        {t('theAccordionWidgetThatHoldsThe')}
                                     </span>
                                 </>
                             )}
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Menu Label</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('menuLabel')}</label>
                             <TextInput
                                 value={config.propertyReportSettings?.menuLabel || ''}
                                 onChange={(e) => updatePropertyReportSetting('menuLabel', e.target.value)}
-                                placeholder="Property Information"
+                                placeholder={t('propertyInformation')}
                                 size="sm"
                             />
                             <span style={styles.helpText}>
-                                The text shown in the right-click context menu. Leave blank to use "Property Information".
+                                {t('theTextShownInTheRight')}
                             </span>
                         </div>
                     </SettingRow>
@@ -2167,21 +2168,21 @@ const Setting = (props: SettingProps) => {
                 and, before launching, prompts the user whether to apply a
                 buffer; the choice rides along in the actionPoint payload. */}
             {enabledActions.mailingLabels && (
-                <SettingSection title="Mailing Labels Settings">
+                <SettingSection title={t('mailingLabelsSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Opens the Mailing Labels widget in its widget controller at the right-clicked location. Before launching, the user is asked whether to apply a buffer to the selection.
+                            {t('opensTheMailingLabelsWidgetIn')}
                         </div>
                     </SettingRow>
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Target Widget</label>
+                            <label style={styles.inputLabel}>{t('targetWidget')}</label>
                             <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                                 <Button size="sm" type="primary" onClick={scanForPropertyReportWidgets} disabled={scanning} style={{ whiteSpace: 'nowrap' }}>
-                                    {scanning ? 'Scanning...' : 'Scan App'}
+                                    {scanning ? 'Scanning...' : t('scanApp')}
                                 </Button>
                                 <span style={{ ...styles.helpText, margin: 0 }}>
-                                    Reads app config to find widgets
+                                    {t('readsAppConfigToFindWidgets')}
                                 </span>
                             </div>
                             {detectedWidgets.length > 0 ? (
@@ -2189,9 +2190,9 @@ const Setting = (props: SettingProps) => {
                                     value={config.mailingLabelsSettings?.targetWidgetId || ''}
                                     onChange={(e) => updateMailingLabelsSetting('targetWidgetId', e.target.value)}
                                     size="sm"
-                                    placeholder="Select a widget..."
+                                    placeholder={t('selectAWidget')}
                                 >
-                                    <Option value="">— Select a widget —</Option>
+                                    <Option value="">{t('selectAWidget2')}</Option>
                                     {detectedWidgets.map((w) => (
                                         <Option key={w.id} value={w.id}>
                                             {w.label}
@@ -2202,16 +2203,16 @@ const Setting = (props: SettingProps) => {
                                 <TextInput
                                     value={config.mailingLabelsSettings?.targetWidgetId || ''}
                                     onChange={(e) => updateMailingLabelsSetting('targetWidgetId', e.target.value)}
-                                    placeholder="e.g. widget_4"
+                                    placeholder={t('eGWidget4')}
                                     size="sm"
                                 />
                             )}
                             {config.mailingLabelsSettings?.targetWidgetId && (
                                 <span style={styles.helpText}>
-                                    Widget ID: {config.mailingLabelsSettings.targetWidgetId}
+                                    {t('widgetIdTargetWidgetId', { targetWidgetId: config.mailingLabelsSettings.targetWidgetId })}
                                 </span>
                             )}
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Parent Container</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('parentContainer')}</label>
                             {detectedWidgets.length > 0 ? (
                                 <Select
                                     value={config.mailingLabelsSettings?.parentControllerId || ''}
@@ -2228,12 +2229,12 @@ const Setting = (props: SettingProps) => {
                                         });
                                     }}
                                     size="sm"
-                                    placeholder="Select the parent container..."
+                                    placeholder={t('selectTheParentContainer')}
                                 >
-                                    <Option value="">— None (target widget opens directly) —</Option>
+                                    <Option value="">{t('noneTargetWidgetOpensDirectly')}</Option>
                                     {containerWidgets.map((w) => {
                                         const cls = classifyContainerUri(w.uri);
-                                        const badge = cls === 'accordion' ? ' [Accordion]' : (cls === 'controller' ? ' [Controller]' : '');
+                                        const badge = cls === 'accordion' ? t('accordion') : (cls === 'controller' ? t('controller') : '');
                                         return (
                                             <Option key={w.id} value={w.id}>
                                                 {w.label}{badge}
@@ -2245,39 +2246,39 @@ const Setting = (props: SettingProps) => {
                                 <TextInput
                                     value={config.mailingLabelsSettings?.parentControllerId || ''}
                                     onChange={(e) => updateMailingLabelsSetting('parentControllerId', e.target.value)}
-                                    placeholder="e.g. widget_75"
+                                    placeholder={t('eGWidget75')}
                                     size="sm"
                                 />
                             )}
                             <span style={styles.helpText}>
-                                The container widget that holds the Mailing Labels widget. Pick a Widget Controller (sidebar/panel) or an Accordion. Leave empty if the target widget is shown directly (top-level).
+                                {t('theContainerWidgetThatHoldsThe2')}
                             </span>
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Container Type</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('containerType')}</label>
                             <Select
                                 value={config.mailingLabelsSettings?.parentContainerType || (config.mailingLabelsSettings?.parentControllerId ? 'controller' : 'none')}
                                 onChange={(e) => updateMailingLabelsSetting('parentContainerType', e.target.value)}
                                 size="sm"
                             >
-                                <Option value="controller">Widget Controller (open / close as a panel)</Option>
-                                <Option value="accordion">Accordion (expand the matching section)</Option>
-                                <Option value="controller+accordion">Widget Controller → Accordion (nested)</Option>
-                                <Option value="none">No container (just open the target widget)</Option>
+                                <Option value="controller">{t('widgetControllerOpenCloseAsA')}</Option>
+                                <Option value="accordion">{t('accordionExpandTheMatchingSection')}</Option>
+                                <Option value="controller+accordion">{t('widgetControllerAccordionNested')}</Option>
+                                <Option value="none">{t('noContainerJustOpenTheTarget')}</Option>
                             </Select>
                             <span style={styles.helpText}>
-                                Auto-detected from the parent above. Pick &quot;Widget Controller → Accordion&quot; when the accordion lives inside a widget controller panel.
+                                {t('autoDetectedFromTheParentAbove')}
                             </span>
 
                             {config.mailingLabelsSettings?.parentContainerType === 'controller+accordion' && (
                                 <>
-                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Accordion Widget (inside the controller)</label>
+                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('accordionWidgetInsideTheController')}</label>
                                     {detectedWidgets.length > 0 ? (
                                         <Select
                                             value={config.mailingLabelsSettings?.accordionWidgetId || ''}
                                             onChange={(e) => updateMailingLabelsSetting('accordionWidgetId', e.target.value)}
                                             size="sm"
-                                            placeholder="Select the accordion widget..."
+                                            placeholder={t('selectTheAccordionWidget')}
                                         >
-                                            <Option value="">— Select accordion —</Option>
+                                            <Option value="">{t('selectAccordion')}</Option>
                                             {containerWidgets
                                                 .filter(w => classifyContainerUri(w.uri) === 'accordion' || (w.label || '').toLowerCase().includes('accordion'))
                                                 .map((w) => (
@@ -2288,24 +2289,24 @@ const Setting = (props: SettingProps) => {
                                         <TextInput
                                             value={config.mailingLabelsSettings?.accordionWidgetId || ''}
                                             onChange={(e) => updateMailingLabelsSetting('accordionWidgetId', e.target.value)}
-                                            placeholder="e.g. widget_82"
+                                            placeholder={t('eGWidget82')}
                                             size="sm"
                                         />
                                     )}
                                     <span style={styles.helpText}>
-                                        The accordion widget that holds the Mailing Labels section. After the controller panel opens, the right-click widget will expand this accordion&apos;s matching section.
+                                        {t('theAccordionWidgetThatHoldsThe2')}
                                     </span>
                                 </>
                             )}
-                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>Menu Label</label>
+                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('menuLabel')}</label>
                             <TextInput
                                 value={config.mailingLabelsSettings?.menuLabel || ''}
                                 onChange={(e) => updateMailingLabelsSetting('menuLabel', e.target.value)}
-                                placeholder="Mailing Labels"
+                                placeholder={t('mailingLabels')}
                                 size="sm"
                             />
                             <span style={styles.helpText}>
-                                The text shown in the right-click context menu. Leave blank to use "Mailing Labels".
+                                {t('theTextShownInTheRight2')}
                             </span>
                         </div>
                     </SettingRow>
@@ -2314,16 +2315,16 @@ const Setting = (props: SettingProps) => {
 
             {/* Plot Coordinates Settings - Only show if plotCoordinates is enabled */}
             {enabledActions.plotCoordinates && (
-                <SettingSection title="Plot Coordinates Settings">
+                <SettingSection title={t('plotCoordinatesSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Configure how coordinate markers appear on the map. Markers are numbered sequentially and persist during the browser session.
+                            {t('configureHowCoordinateMarkersAppearOn')}
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Coordinate System for Display</label>
+                            <label style={styles.inputLabel}>{t('coordinateSystemForDisplay')}</label>
                             <div role="radiogroup" style={styles.radioGroup}>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -2332,7 +2333,7 @@ const Setting = (props: SettingProps) => {
                                         checked={plotSettings.coordinateSystem === 'map' || !plotSettings.coordinateSystem}
                                         onChange={() => updatePlotSetting('coordinateSystem', 'map')}
                                     />
-                                    Use Map's Native Coordinate System
+                                    {t('useMapSNativeCoordinateSystem')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -2341,7 +2342,7 @@ const Setting = (props: SettingProps) => {
                                         checked={plotSettings.coordinateSystem === 'webMercator'}
                                         onChange={() => updatePlotSetting('coordinateSystem', 'webMercator')}
                                     />
-                                    Lat/Lon (WGS84)
+                                    {t('latLonWgs84')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -2350,7 +2351,7 @@ const Setting = (props: SettingProps) => {
                                         checked={plotSettings.coordinateSystem === 'custom'}
                                         onChange={() => updatePlotSetting('coordinateSystem', 'custom')}
                                     />
-                                    Custom Coordinate System
+                                    {t('customCoordinateSystem')}
                                 </label>
                             </div>
                         </div>
@@ -2359,7 +2360,7 @@ const Setting = (props: SettingProps) => {
                     {plotSettings.coordinateSystem === 'custom' && (
                         <SettingRow>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Custom WKID</label>
+                                <label style={styles.inputLabel}>{t('customWkid')}</label>
                                 <NumericInput
                                     value={plotSettings.customWkid || ''}
                                     onChange={(value) => updatePlotSetting('customWkid', value)}
@@ -2367,7 +2368,7 @@ const Setting = (props: SettingProps) => {
                                     size="sm"
                                 />
                                 <div style={styles.helpText}>
-                                    Enter the WKID (Well-Known ID) for your desired coordinate system
+                                    {t('enterTheWkidWellKnownId')}
                                 </div>
                             </div>
                         </SettingRow>
@@ -2377,7 +2378,7 @@ const Setting = (props: SettingProps) => {
                         <SettingRow>
                             <div style={styles.settingsGrid}>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Lat/Lon Format</label>
+                                    <label style={styles.inputLabel}>{t('latLonFormat')}</label>
                                     <div role="radiogroup" style={styles.radioGroup}>
                                         <label style={styles.radioLabel}>
                                             <Radio
@@ -2386,7 +2387,7 @@ const Setting = (props: SettingProps) => {
                                                 checked={plotSettings.coordinateFormat === 'decimal' || !plotSettings.coordinateFormat}
                                                 onChange={() => updatePlotSetting('coordinateFormat', 'decimal')}
                                             />
-                                            Decimal Degrees
+                                            {t('decimalDegrees')}
                                         </label>
                                         <label style={styles.radioLabel}>
                                             <Radio
@@ -2395,12 +2396,12 @@ const Setting = (props: SettingProps) => {
                                                 checked={plotSettings.coordinateFormat === 'dms'}
                                                 onChange={() => updatePlotSetting('coordinateFormat', 'dms')}
                                             />
-                                            Degrees, Minutes, Seconds
+                                            {t('degreesMinutesSeconds')}
                                         </label>
                                     </div>
                                 </div>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Decimal Places</label>
+                                    <label style={styles.inputLabel}>{t('decimalPlaces')}</label>
                                     <NumericInput
                                         value={plotSettings.decimalPlaces || 6}
                                         onChange={(value) => updatePlotSetting('decimalPlaces', value)}
@@ -2417,7 +2418,7 @@ const Setting = (props: SettingProps) => {
                     {(plotSettings.coordinateSystem === 'map' || plotSettings.coordinateSystem === 'custom') && (
                         <SettingRow>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Decimal Places</label>
+                                <label style={styles.inputLabel}>{t('decimalPlaces')}</label>
                                 <NumericInput
                                     value={plotSettings.decimalPlaces || 2}
                                     onChange={(value) => updatePlotSetting('decimalPlaces', value)}
@@ -2431,22 +2432,22 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Marker Style</label>
+                            <label style={styles.inputLabel}>{t('markerStyle')}</label>
                             <Select
                                 value={plotSettings.markerStyle || 'circle'}
                                 onChange={(e) => updatePlotSetting('markerStyle', e.target.value)}
                                 size="sm"
                             >
-                                <Option value="circle">Circle</Option>
-                                <Option value="square">Square</Option>
-                                <Option value="cross">Cross</Option>
+                                <Option value="circle">{t('circle')}</Option>
+                                <Option value="square">{t('square')}</Option>
+                                <Option value="cross">{t('cross')}</Option>
                                 <Option value="x">X</Option>
-                                <Option value="diamond">Diamond</Option>
-                                <Option value="triangle">Triangle</Option>
-                                <Option value="pin">Pin</Option>
+                                <Option value="diamond">{t('diamond')}</Option>
+                                <Option value="triangle">{t('triangle')}</Option>
+                                <Option value="pin">{t('pin')}</Option>
                             </Select>
                             <div style={styles.helpText}>
-                                Choose the shape style for your marker symbol
+                                {t('chooseTheShapeStyleForYour')}
                             </div>
                         </div>
                     </SettingRow>
@@ -2454,7 +2455,7 @@ const Setting = (props: SettingProps) => {
                     <SettingRow>
                         <div style={styles.plotSettingsGrid}>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Marker Size</label>
+                                <label style={styles.inputLabel}>{t('markerSize')}</label>
                                 <NumericInput
                                     value={plotSettings.markerSize}
                                     onChange={(value) => updatePlotSetting('markerSize', value)}
@@ -2464,7 +2465,7 @@ const Setting = (props: SettingProps) => {
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Text Size</label>
+                                <label style={styles.inputLabel}>{t('textSize')}</label>
                                 <NumericInput
                                     value={plotSettings.textSize}
                                     onChange={(value) => updatePlotSetting('textSize', value)}
@@ -2474,7 +2475,7 @@ const Setting = (props: SettingProps) => {
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Show Coordinate Labels</label>
+                                <label style={styles.inputLabel}>{t('showCoordinateLabels')}</label>
                                 <Switch
                                     checked={plotSettings.showCoordinateLabels}
                                     onChange={(e) => updatePlotSetting('showCoordinateLabels', e.target.checked)}
@@ -2487,7 +2488,7 @@ const Setting = (props: SettingProps) => {
                         <SettingRow>
                             <div style={styles.settingsGrid}>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Label Offset (pixels)</label>
+                                    <label style={styles.inputLabel}>{t('labelOffsetPixels')}</label>
                                     <NumericInput
                                         value={plotSettings.labelOffset || 20}
                                         onChange={(value) => updatePlotSetting('labelOffset', value)}
@@ -2496,11 +2497,11 @@ const Setting = (props: SettingProps) => {
                                         size="sm"
                                     />
                                     <div style={styles.helpText}>
-                                        Distance from marker to coordinate label
+                                        {t('distanceFromMarkerToCoordinateLabel')}
                                     </div>
                                 </div>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Label Text Size</label>
+                                    <label style={styles.inputLabel}>{t('labelTextSize')}</label>
                                     <NumericInput
                                         value={plotSettings.labelTextSize || 10}
                                         onChange={(value) => updatePlotSetting('labelTextSize', value)}
@@ -2516,14 +2517,14 @@ const Setting = (props: SettingProps) => {
                     <SettingRow>
                         <div style={styles.plotSettingsGrid}>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Show Coordinates in Popup</label>
+                                <label style={styles.inputLabel}>{t('showCoordinatesInPopup')}</label>
                                 <Switch
                                     checked={plotSettings.showCoordinateText}
                                     onChange={(e) => updatePlotSetting('showCoordinateText', e.target.checked)}
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Marker Color</label>
+                                <label style={styles.inputLabel}>{t('markerColor')}</label>
                                 <div style={styles.colorInputContainer}>
                                     <input
                                         type="color"
@@ -2541,7 +2542,7 @@ const Setting = (props: SettingProps) => {
                                 </div>
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Text Color</label>
+                                <label style={styles.inputLabel}>{t('textColor')}</label>
                                 <div style={styles.colorInputContainer}>
                                     <input
                                         type="color"
@@ -2563,7 +2564,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Color</label>
+                            <label style={styles.inputLabel}>{t('outlineColor')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -2584,7 +2585,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Width</label>
+                            <label style={styles.inputLabel}>{t('outlineWidth')}</label>
                             <NumericInput
                                 value={plotSettings.markerOutlineWidth || 1}
                                 onChange={(value) => updatePlotSetting('markerOutlineWidth', value)}
@@ -2592,13 +2593,13 @@ const Setting = (props: SettingProps) => {
                                 max={8}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Thickness in pixels</div>
+                            <div style={styles.helpText}>{t('thicknessInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Rotation Angle</label>
+                            <label style={styles.inputLabel}>{t('rotationAngle')}</label>
                             <NumericInput
                                 value={plotSettings.markerAngle || 0}
                                 onChange={(value) => updatePlotSetting('markerAngle', value)}
@@ -2608,14 +2609,14 @@ const Setting = (props: SettingProps) => {
                                 style={{ maxWidth: '150px' }}
                             />
                             <div style={styles.helpText}>
-                                Rotation angle in degrees (0-360)
+                                {t('rotationAngleInDegrees0360')}
                             </div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>X Offset</label>
+                            <label style={styles.inputLabel}>{t('xOffset')}</label>
                             <NumericInput
                                 value={plotSettings.markerXOffset || 0}
                                 onChange={(value) => updatePlotSetting('markerXOffset', value)}
@@ -2623,13 +2624,13 @@ const Setting = (props: SettingProps) => {
                                 max={50}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Horizontal offset in pixels</div>
+                            <div style={styles.helpText}>{t('horizontalOffsetInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Y Offset</label>
+                            <label style={styles.inputLabel}>{t('yOffset')}</label>
                             <NumericInput
                                 value={plotSettings.markerYOffset || 0}
                                 onChange={(value) => updatePlotSetting('markerYOffset', value)}
@@ -2637,14 +2638,14 @@ const Setting = (props: SettingProps) => {
                                 max={50}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Vertical offset in pixels</div>
+                            <div style={styles.helpText}>{t('verticalOffsetInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     {plotSettings.showCoordinateLabels && (
                         <SettingRow>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Label Text Color</label>
+                                <label style={styles.inputLabel}>{t('labelTextColor')}</label>
                                 <div style={styles.colorInputContainer}>
                                     <input
                                         type="color"
@@ -2671,7 +2672,7 @@ const Setting = (props: SettingProps) => {
                             marginTop: '16px'
                         }}>
                             <div style={styles.fieldSelectionHeader}>
-                                Marker Preview
+                                {t('markerPreview')}
                             </div>
                             <div style={{
                                 display: 'flex',
@@ -2708,12 +2709,12 @@ const Setting = (props: SettingProps) => {
                                     color: 'var(--light-600)',
                                     textAlign: 'left'
                                 }}>
-                                    <div>Size: {plotSettings.markerSize}px</div>
-                                    <div>Style: {plotSettings.markerStyle || 'circle'}</div>
-                                    <div>Outline: {plotSettings.markerOutlineWidth || 1}px</div>
-                                    {(plotSettings.markerAngle || 0) !== 0 && <div>Rotation: {plotSettings.markerAngle}°</div>}
+                                    <div>{t('sizeMarkerSizePx', { markerSize: plotSettings.markerSize })}</div>
+                                    <div>{t('styleMarkerStyle', { markerStyle: plotSettings.markerStyle || 'circle' })}</div>
+                                    <div>{t('outlineMarkerOutlineWidthPx', { markerOutlineWidth: plotSettings.markerOutlineWidth || 1 })}</div>
+                                    {(plotSettings.markerAngle || 0) !== 0 && <div>{t('rotationMarkerAngle', { markerAngle: plotSettings.markerAngle })}</div>}
                                     {((plotSettings.markerXOffset || 0) !== 0 || (plotSettings.markerYOffset || 0) !== 0) &&
-                                        <div>Offset: {plotSettings.markerXOffset || 0}, {plotSettings.markerYOffset || 0}</div>
+                                        <div>{t('offsetMarkerXOffsetMarkerYOffset', { markerXOffset: plotSettings.markerXOffset || 0, markerYOffset: plotSettings.markerYOffset || 0 })}</div>
                                     }
                                 </div>
                             </div>
@@ -2724,38 +2725,38 @@ const Setting = (props: SettingProps) => {
 
             {/* Simple Marker Settings - Only show if plotMarker is enabled */}
             {enabledActions.plotMarker && (
-                <SettingSection title="Simple Marker Settings">
+                <SettingSection title={t('simpleMarkerSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Configure simple markers with various styles and customization options.
+                            {t('configureSimpleMarkersWithVariousStyles')}
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Marker Style</label>
+                            <label style={styles.inputLabel}>{t('markerStyle')}</label>
                             <Select
                                 value={markerSettings.markerStyle || 'circle'}
                                 onChange={(e) => updateMarkerSetting('markerStyle', e.target.value)}
                                 size="sm"
                             >
-                                <Option value="circle">Circle</Option>
-                                <Option value="square">Square</Option>
-                                <Option value="cross">Cross</Option>
+                                <Option value="circle">{t('circle')}</Option>
+                                <Option value="square">{t('square')}</Option>
+                                <Option value="cross">{t('cross')}</Option>
                                 <Option value="x">X</Option>
-                                <Option value="diamond">Diamond</Option>
-                                <Option value="triangle">Triangle</Option>
-                                <Option value="pin">Pin</Option>
+                                <Option value="diamond">{t('diamond')}</Option>
+                                <Option value="triangle">{t('triangle')}</Option>
+                                <Option value="pin">{t('pin')}</Option>
                             </Select>
                             <div style={styles.helpText}>
-                                Choose the shape style for your marker symbol
+                                {t('chooseTheShapeStyleForYour')}
                             </div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Marker Size</label>
+                            <label style={styles.inputLabel}>{t('markerSize')}</label>
                             <NumericInput
                                 value={markerSettings.markerSize}
                                 onChange={(value) => updateMarkerSetting('markerSize', value)}
@@ -2763,13 +2764,13 @@ const Setting = (props: SettingProps) => {
                                 max={48}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Size in pixels</div>
+                            <div style={styles.helpText}>{t('sizeInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Opacity</label>
+                            <label style={styles.inputLabel}>{t('opacity')}</label>
                             <NumericInput
                                 value={markerSettings.markerOpacity || 1}
                                 onChange={(value) => updateMarkerSetting('markerOpacity', value)}
@@ -2778,13 +2779,13 @@ const Setting = (props: SettingProps) => {
                                 step={0.1}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>0.0 to 1.0 transparency</div>
+                            <div style={styles.helpText}>{t('_00To10Transparency')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Marker Color</label>
+                            <label style={styles.inputLabel}>{t('markerColor')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -2805,7 +2806,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Color</label>
+                            <label style={styles.inputLabel}>{t('outlineColor')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -2826,7 +2827,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Width</label>
+                            <label style={styles.inputLabel}>{t('outlineWidth')}</label>
                             <NumericInput
                                 value={markerSettings.markerOutlineWidth || 1}
                                 onChange={(value) => updateMarkerSetting('markerOutlineWidth', value)}
@@ -2834,13 +2835,13 @@ const Setting = (props: SettingProps) => {
                                 max={8}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Thickness in pixels</div>
+                            <div style={styles.helpText}>{t('thicknessInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Rotation Angle</label>
+                            <label style={styles.inputLabel}>{t('rotationAngle')}</label>
                             <NumericInput
                                 value={markerSettings.markerAngle || 0}
                                 onChange={(value) => updateMarkerSetting('markerAngle', value)}
@@ -2850,14 +2851,14 @@ const Setting = (props: SettingProps) => {
                                 style={{ maxWidth: '150px' }}
                             />
                             <div style={styles.helpText}>
-                                Rotation angle in degrees (0-360)
+                                {t('rotationAngleInDegrees0360')}
                             </div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>X Offset</label>
+                            <label style={styles.inputLabel}>{t('xOffset')}</label>
                             <NumericInput
                                 value={markerSettings.markerXOffset || 0}
                                 onChange={(value) => updateMarkerSetting('markerXOffset', value)}
@@ -2865,13 +2866,13 @@ const Setting = (props: SettingProps) => {
                                 max={50}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Horizontal offset in pixels</div>
+                            <div style={styles.helpText}>{t('horizontalOffsetInPixels')}</div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Y Offset</label>
+                            <label style={styles.inputLabel}>{t('yOffset')}</label>
                             <NumericInput
                                 value={markerSettings.markerYOffset || 0}
                                 onChange={(value) => updateMarkerSetting('markerYOffset', value)}
@@ -2879,7 +2880,7 @@ const Setting = (props: SettingProps) => {
                                 max={50}
                                 size="sm"
                             />
-                            <div style={styles.helpText}>Vertical offset in pixels</div>
+                            <div style={styles.helpText}>{t('verticalOffsetInPixels')}</div>
                         </div>
                     </SettingRow>
 
@@ -2890,7 +2891,7 @@ const Setting = (props: SettingProps) => {
                             marginTop: '16px'
                         }}>
                             <div style={styles.fieldSelectionHeader}>
-                                Marker Preview
+                                {t('markerPreview')}
                             </div>
                             <div style={{
                                 display: 'flex',
@@ -2927,10 +2928,10 @@ const Setting = (props: SettingProps) => {
                                     color: 'var(--light-600)',
                                     textAlign: 'left'
                                 }}>
-                                    <div>Size: {markerSettings.markerSize}px</div>
-                                    <div>Style: {markerSettings.markerStyle || 'circle'}</div>
-                                    <div>Opacity: {markerSettings.markerOpacity || 1}</div>
-                                    {(markerSettings.markerAngle || 0) !== 0 && <div>Rotation: {markerSettings.markerAngle}°</div>}
+                                    <div>{t('sizeMarkerSizePx', { markerSize: markerSettings.markerSize })}</div>
+                                    <div>{t('styleMarkerStyle', { markerStyle: markerSettings.markerStyle || 'circle' })}</div>
+                                    <div>{t('opacityMarkerOpacity', { markerOpacity: markerSettings.markerOpacity || 1 })}</div>
+                                    {(markerSettings.markerAngle || 0) !== 0 && <div>{t('rotationMarkerAngle', { markerAngle: markerSettings.markerAngle })}</div>}
                                 </div>
                             </div>
                         </div>
@@ -2940,17 +2941,17 @@ const Setting = (props: SettingProps) => {
 
             {/* Text Settings - Only show if addText is enabled */}
             {enabledActions.addText && (
-                <SettingSection title="Text Settings">
+                <SettingSection title={t('textSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Configure how text appears when added to the map. Text graphics persist during the browser session.
+                            {t('configureHowTextAppearsWhenAdded')}
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.settingsGrid}>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Font Size</label>
+                                <label style={styles.inputLabel}>{t('fontSize')}</label>
                                 <NumericInput
                                     value={textSettings.fontSize}
                                     onChange={(value) => updateTextSetting('fontSize', value)}
@@ -2960,20 +2961,20 @@ const Setting = (props: SettingProps) => {
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Font Family</label>
+                                <label style={styles.inputLabel}>{t('fontFamily')}</label>
                                 <Select
                                     value={textSettings.fontFamily || 'Arial'}
                                     onChange={(e) => updateTextSetting('fontFamily', e.target.value)}
                                     size="sm"
                                 >
-                                    <Option value="Arial">Arial</Option>
-                                    <Option value="Helvetica">Helvetica</Option>
-                                    <Option value="Times New Roman">Times New Roman</Option>
-                                    <Option value="Courier New">Courier New</Option>
-                                    <Option value="Georgia">Georgia</Option>
-                                    <Option value="Verdana">Verdana</Option>
-                                    <Option value="Tahoma">Tahoma</Option>
-                                    <Option value="Trebuchet MS">Trebuchet MS</Option>
+                                    <Option value="Arial">{t('arial')}</Option>
+                                    <Option value="Helvetica">{t('helvetica')}</Option>
+                                    <Option value="Times New Roman">{t('timesNewRoman')}</Option>
+                                    <Option value="Courier New">{t('courierNew')}</Option>
+                                    <Option value="Georgia">{t('georgia')}</Option>
+                                    <Option value="Verdana">{t('verdana')}</Option>
+                                    <Option value="Tahoma">{t('tahoma')}</Option>
+                                    <Option value="Trebuchet MS">{t('trebuchetMs')}</Option>
                                 </Select>
                             </div>
                         </div>
@@ -2981,7 +2982,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Font Weight</label>
+                            <label style={styles.inputLabel}>{t('fontWeight')}</label>
                             <div role="radiogroup" style={styles.radioGroup}>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -2990,7 +2991,7 @@ const Setting = (props: SettingProps) => {
                                         checked={textSettings.fontWeight === 'normal'}
                                         onChange={() => updateTextSetting('fontWeight', 'normal')}
                                     />
-                                    Normal
+                                    {t('normal')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -2999,7 +3000,7 @@ const Setting = (props: SettingProps) => {
                                         checked={textSettings.fontWeight === 'bold' || !textSettings.fontWeight}
                                         onChange={() => updateTextSetting('fontWeight', 'bold')}
                                     />
-                                    Bold
+                                    {t('bold')}
                                 </label>
                             </div>
                         </div>
@@ -3007,7 +3008,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Text Color</label>
+                            <label style={styles.inputLabel}>{t('textColor')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -3028,7 +3029,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Color</label>
+                            <label style={styles.inputLabel}>{t('outlineColor')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -3049,7 +3050,7 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Outline Size</label>
+                            <label style={styles.inputLabel}>{t('outlineSize')}</label>
                             <NumericInput
                                 value={textSettings.haloSize}
                                 onChange={(value) => updateTextSetting('haloSize', value)}
@@ -3059,14 +3060,14 @@ const Setting = (props: SettingProps) => {
                                 style={{ maxWidth: '120px' }}
                             />
                             <div style={styles.helpText}>
-                                Set to 0 to disable text outline
+                                {t('setTo0ToDisableText')}
                             </div>
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Background Color (optional)</label>
+                            <label style={styles.inputLabel}>{t('backgroundColorOptional')}</label>
                             <div style={styles.colorInputContainer}>
                                 <input
                                     type="color"
@@ -3093,10 +3094,10 @@ const Setting = (props: SettingProps) => {
                                 onClick={() => updateTextSetting('backgroundColor', 'transparent')}
                                 style={{ alignSelf: 'flex-start' }}
                             >
-                                Clear Background
+                                {t('clearBackground')}
                             </Button>
                             <div style={styles.helpText}>
-                                Set to "transparent" for no background, or choose a color for text with background
+                                {t('setToTransparentForNoBackground')}
                             </div>
                         </div>
                     </SettingRow>
@@ -3105,10 +3106,10 @@ const Setting = (props: SettingProps) => {
 
             {/* Pictometry Settings - Only show if pictometry is enabled */}
             {enabledActions.pictometry && (
-                <SettingSection title="Pictometry Settings">
+                <SettingSection title={t('pictometrySettings')}>
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Pictometry URL</label>
+                            <label style={styles.inputLabel}>{t('pictometryUrl')}</label>
                             <TextInput
                                 style={{ width: '100%' }}
                                 value={config.pictometryUrl || ''}
@@ -3120,7 +3121,7 @@ const Setting = (props: SettingProps) => {
                     {!config.pictometryUrl && (
                         <SettingRow>
                             <div style={styles.warningBox}>
-                                <strong>Warning:</strong> Pictometry is enabled but no URL is configured. The right-click option will not work without a valid URL.
+                                <strong>{t('warning')}</strong> {t('pictometryIsEnabledButNoUrl')}
                             </div>
                         </SettingRow>
                     )}
@@ -3129,10 +3130,10 @@ const Setting = (props: SettingProps) => {
 
             {/* What's Here Service - Only show if whatsHere is enabled */}
             {enabledActions.whatsHere && (
-                <SettingSection title="What's Here? Service">
+                <SettingSection title={t('whatSHereService')}>
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Geocoding Service URL</label>
+                            <label style={styles.inputLabel}>{t('geocodingServiceUrl')}</label>
                             <TextInput
                                 style={{ width: '100%' }}
                                 value={config.reverseGeocodeUrl || ''}
@@ -3143,7 +3144,7 @@ const Setting = (props: SettingProps) => {
                     </SettingRow>
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Locator WKID</label>
+                            <label style={styles.inputLabel}>{t('locatorWkid')}</label>
                             <TextInput
                                 style={{ width: '100%' }}
                                 value={config.reverseGeocodeWkid?.toString() || ''}
@@ -3156,7 +3157,7 @@ const Setting = (props: SettingProps) => {
                     <SettingRow>
                         <div style={styles.settingsGrid}>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Max Results Per Layer</label>
+                                <label style={styles.inputLabel}>{t('maxResultsPerLayer')}</label>
                                 <NumericInput
                                     value={config.whatsHereSettings?.maxResults || 10}
                                     onChange={(value) => updateWhatsHereSettings('maxResults', value)}
@@ -3166,7 +3167,7 @@ const Setting = (props: SettingProps) => {
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Search Radius (meters)</label>
+                                <label style={styles.inputLabel}>{t('searchRadiusMeters')}</label>
                                 <NumericInput
                                     value={config.whatsHereSettings?.searchRadius || 10}
                                     onChange={(value) => updateWhatsHereSettings('searchRadius', value)}
@@ -3182,16 +3183,16 @@ const Setting = (props: SettingProps) => {
 
             {/* Feature Layers - Only show if whatsHere is enabled */}
             {enabledActions.whatsHere && (
-                <SettingSection title="Feature Layers for What's Here?">
+                <SettingSection title={t('featureLayersForWhatSHere')}>
                     {(!config.featureLayers || config.featureLayers.length === 0) ? (
                         <SettingRow>
                             <div style={styles.emptyState}>
                                 <div style={{ fontSize: '24px', marginBottom: '8px' }}>
                                     <Icon icon="widget-table" size={24} />
                                 </div>
-                                <div><strong>No feature layers configured</strong></div>
+                                <div><strong>{t('noFeatureLayersConfigured')}</strong></div>
                                 <div style={{ fontSize: '11px', marginTop: '4px' }}>
-                                    Add feature layers to enhance the "What's Here?" functionality
+                                    {t('addFeatureLayersToEnhanceThe')}
                                 </div>
                             </div>
                         </SettingRow>
@@ -3208,7 +3209,7 @@ const Setting = (props: SettingProps) => {
                                     <div style={styles.featureLayerContainer}>
                                         <div style={styles.featureLayerHeader}>
                                             <div style={styles.featureLayerTitle}>
-                                                {layer.name || `Feature Layer ${index + 1}`}
+                                                {layer.name || t('featureLayerIndex', { index: index + 1 })}
                                             </div>
                                             <Button
                                                 type="tertiary"
@@ -3223,7 +3224,7 @@ const Setting = (props: SettingProps) => {
 
                                         <div style={styles.featureLayerContent}>
                                             <div style={styles.fieldRow}>
-                                                <label style={styles.inputLabel}>Layer Name</label>
+                                                <label style={styles.inputLabel}>{t('layerName')}</label>
                                                 <TextInput
                                                     value={layer.name || ''}
                                                     onChange={(e) =>
@@ -3232,13 +3233,13 @@ const Setting = (props: SettingProps) => {
                                                             name: e.target.value
                                                         })
                                                     }
-                                                    placeholder="Display name for this layer"
+                                                    placeholder={t('displayNameForThisLayer')}
                                                     size="sm"
                                                 />
                                             </div>
 
                                             <div style={styles.fieldRow}>
-                                                <label style={styles.inputLabel}>Feature Service URL</label>
+                                                <label style={styles.inputLabel}>{t('featureServiceUrl')}</label>
                                                 <div style={styles.urlInputContainer}>
                                                     <TextInput
                                                         style={{ flex: 1 }}
@@ -3262,7 +3263,7 @@ const Setting = (props: SettingProps) => {
                                                         size="sm"
                                                     />
                                                     {hasUrl && (
-                                                        <Tooltip title="Load fields from service">
+                                                        <Tooltip title={t('loadFieldsFromService')}>
                                                             <Button
                                                                 type="tertiary"
                                                                 size="sm"
@@ -3280,38 +3281,38 @@ const Setting = (props: SettingProps) => {
 
                                             <div style={styles.fieldRow}>
                                                 <label style={{ ...styles.inputLabel, color: hasUrl ? styles.inputLabel.color : 'var(--light-500)' }}>
-                                                    Fields to Display
+                                                    {t('fieldsToDisplay')}
                                                 </label>
 
                                                 {!hasUrl && (
                                                     <div style={styles.disabledText}>
-                                                        Enter a Feature Service URL above to load available fields
+                                                        {t('enterAFeatureServiceUrlAbove')}
                                                     </div>
                                                 )}
 
                                                 {hasUrl && !layerFieldState && (
                                                     <div style={styles.helpText}>
-                                                        Click the refresh button to load fields from the service
+                                                        {t('clickTheRefreshButtonToLoad')}
                                                     </div>
                                                 )}
 
                                                 {layerFieldState?.loading && (
                                                     <div style={styles.loadingContainer}>
                                                         <Loading />
-                                                        Loading fields from service...
+                                                        {t('loadingFieldsFromService')}
                                                     </div>
                                                 )}
 
                                                 {layerFieldState?.error && (
                                                     <div style={styles.errorContainer}>
-                                                        <strong>Error:</strong> {layerFieldState.error}
+                                                        <strong>{t('error')}</strong> {layerFieldState.error}
                                                     </div>
                                                 )}
 
                                                 {availableFields.length > 0 && (
                                                     <div style={styles.fieldSelectionContainer}>
                                                         <div style={styles.fieldSelectionHeader}>
-                                                            Select fields to display ({selectedFields.length} of {availableFields.length} selected):
+                                                            {t('selectFieldsToDisplaySelectedFieldsCountOf', { selectedFieldsCount: selectedFields.length, availableFieldsCount: availableFields.length })}
                                                         </div>
 
                                                         <div style={styles.fieldCheckboxList}>
@@ -3338,7 +3339,7 @@ const Setting = (props: SettingProps) => {
                                                                 onClick={() => toggleAllFields(index, true)}
                                                                 disabled={selectedFields.length === availableFields.length}
                                                             >
-                                                                Select All
+                                                                {t('selectAll')}
                                                             </Button>
                                                             <Button
                                                                 type="tertiary"
@@ -3346,7 +3347,7 @@ const Setting = (props: SettingProps) => {
                                                                 onClick={() => toggleAllFields(index, false)}
                                                                 disabled={selectedFields.length === 0}
                                                             >
-                                                                Clear All
+                                                                {t('clearAll')}
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -3367,7 +3368,7 @@ const Setting = (props: SettingProps) => {
                             onClick={addFeatureLayer}
                         >
                             <PlusOutlined />
-                            Add Feature Layer
+                            {t('addFeatureLayer')}
                         </Button>
                     </SettingRow>
                 </SettingSection>
@@ -3375,49 +3376,46 @@ const Setting = (props: SettingProps) => {
 
             {/* Layer Selection — pick which layers feed What's Here at runtime */}
             {enabledActions.whatsHere && (
-                <SettingSection title="What's Here? Layer Selection">
+                <SettingSection title={t('whatSHereLayerSelection')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Choose which map layers participate in What's Here. By default every queryable layer is included. Toggling a group layer cascades to all layers nested beneath it.
+                            {t('chooseWhichMapLayersParticipateIn')}
                         </div>
                     </SettingRow>
 
                     {!(config.useMapWidgetIds && config.useMapWidgetIds.length > 0) ? (
                         <SettingRow>
-                            <Alert form="basic" type="info" text="Select a map widget above first to load its layer tree." />
+                            <Alert form="basic" type="info" text={t('selectAMapWidgetAboveFirst')} />
                         </SettingRow>
                     ) : !layerTreeReady ? (
                         <SettingRow>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--dark-600)', fontSize: '12px' }}>
                                 <Loading width={16} height={16} />
-                                Loading layers from the map…
+                                {t('loadingLayersFromTheMap')}
                             </div>
                         </SettingRow>
                     ) : layerTree.length === 0 ? (
                         <SettingRow>
-                            <Alert form="basic" type="warning" text="No layers found in the connected map." />
+                            <Alert form="basic" type="warning" text={t('noLayersFoundInTheConnected')} />
                         </SettingRow>
                     ) : (
                         <>
                             <SettingRow>
                                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                    <Button size="sm" type="tertiary" onClick={selectAllLayers}>Select all</Button>
-                                    <Button size="sm" type="tertiary" onClick={deselectAllLayers}>Deselect all</Button>
+                                    <Button size="sm" type="tertiary" onClick={selectAllLayers}>{t('selectAll2')}</Button>
+                                    <Button size="sm" type="tertiary" onClick={deselectAllLayers}>{t('deselectAll')}</Button>
                                     <span style={{ ...styles.helpText, marginLeft: 'auto' }}>
                                         {(() => {
                                             const eff = getEffectiveSelection();
                                             const n = allLeafKeys.filter(k => eff.has(k)).length;
-                                            return `${n} of ${allLeafKeys.length} layers selected`;
+                                            return t('nOfAllLeafKeysCountLayersSelected', { n, allLeafKeysCount: allLeafKeys.length });
                                         })()}
                                     </span>
                                 </div>
                             </SettingRow>
                             <SettingRow>
                                 <div style={{ ...styles.helpText, padding: '4px 0' }}>
-                                    Use the <strong>Trust</strong> button next to a group or map service to auto-include
-                                    every nested layer — current and future. Trusted groups don&apos;t need individual
-                                    layer checkboxes, and new layers added to the service later will be picked up
-                                    automatically without re-saving these settings.
+                                    {t('useThe')} <strong>{t('trust')}</strong> {t('buttonNextToAGroupOr')}
                                 </div>
                             </SettingRow>
                             <SettingRow>
@@ -3466,51 +3464,47 @@ const Setting = (props: SettingProps) => {
                 // Native picker UI varies by OS — keep the swatch compact and
                 // align it with the rest of the form controls.
                 const swatchStyle: React.CSSProperties = {
-                    width: '40px',
-                    height: '28px',
+                    width: t('_40px'),
+                    height: t('_28px'),
                     padding: 0,
-                    border: '1px solid var(--light-400)',
-                    borderRadius: '3px',
+                    border: t('_1pxSolidVarLight400'),
+                    borderRadius: t('_3px'),
                     cursor: 'pointer',
                     background: 'transparent'
                 };
                 return (
-                    <SettingSection title="What's Here? Highlight Style">
+                    <SettingSection title={t('whatSHereHighlightStyle')}>
                         <SettingRow>
                             <div style={styles.sectionDescription}>
-                                How a selected feature is drawn on the map while its
-                                detail view is open. Defaults to a 2px cyan outline
-                                (Esri's standard selection colour) with no fill.
-                                Polylines use only the outline; points use it as
-                                their stroke.
+                                {t('howASelectedFeatureIsDrawn')}
                             </div>
                         </SettingRow>
-                        <SettingRow label="Fill">
+                        <SettingRow label={t('fill')}>
                             <Switch
                                 checked={fillEnabled}
                                 onChange={(e: any) => updateWhatsHereHighlight('fillEnabled', !!e?.target?.checked)}
                             />
                         </SettingRow>
-                        <SettingRow label="Fill color">
+                        <SettingRow label={t('fillColor')}>
                             <input
                                 type="color"
                                 value={fillColor}
                                 disabled={!fillEnabled}
                                 onChange={(e) => updateWhatsHereHighlight('fillColor', e.target.value)}
                                 style={{ ...swatchStyle, opacity: fillEnabled ? 1 : 0.4 }}
-                                title={fillEnabled ? 'Pick fill color' : 'Enable Fill to choose a color'}
+                                title={fillEnabled ? t('pickFillColor') : t('enableFillToChooseAColor')}
                             />
                         </SettingRow>
-                        <SettingRow label="Outline color">
+                        <SettingRow label={t('outlineColor2')}>
                             <input
                                 type="color"
                                 value={outlineColor}
                                 onChange={(e) => updateWhatsHereHighlight('outlineColor', e.target.value)}
                                 style={swatchStyle}
-                                title="Pick outline color"
+                                title={t('pickOutlineColor')}
                             />
                         </SettingRow>
-                        <SettingRow label="Outline width (px)">
+                        <SettingRow label={t('outlineWidthPx')}>
                             <NumericInput
                                 value={outlineWidth}
                                 min={1}
@@ -3526,11 +3520,11 @@ const Setting = (props: SettingProps) => {
 
             {/* Popup Display Settings - Only show if whatsHere is enabled */}
             {enabledActions.whatsHere && (
-                <SettingSection title="Popup Display Settings">
+                <SettingSection title={t('popupDisplaySettings')}>
                     <SettingRow>
                         <div style={styles.settingsGrid}>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Popup Max Height (px)</label>
+                                <label style={styles.inputLabel}>{t('popupMaxHeightPx')}</label>
                                 <NumericInput
                                     value={config.uiSettings?.popupMaxHeight || 400}
                                     onChange={(value) => updateUISettings('popupMaxHeight', value)}
@@ -3540,7 +3534,7 @@ const Setting = (props: SettingProps) => {
                                 />
                             </div>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Popup Width (px)</label>
+                                <label style={styles.inputLabel}>{t('popupWidthPx')}</label>
                                 <NumericInput
                                     value={config.uiSettings?.popupWidth || 300}
                                     onChange={(value) => updateUISettings('popupWidth', value)}
@@ -3558,21 +3552,21 @@ const Setting = (props: SettingProps) => {
                                     checked={config.uiSettings?.showLayerNames !== false}
                                     onChange={(e) => updateUISettings('showLayerNames', e.target.checked)}
                                 />
-                                Show layer names in popup
+                                {t('showLayerNamesInPopup')}
                             </label>
                             <label style={styles.radioLabel}>
                                 <Switch
                                     checked={config.uiSettings?.groupByLayer !== false}
                                     onChange={(e) => updateUISettings('groupByLayer', e.target.checked)}
                                 />
-                                Group results by layer
+                                {t('groupResultsByLayer')}
                             </label>
                             <label style={styles.radioLabel}>
                                 <Switch
                                     checked={config.uiSettings?.showFieldAliases !== false}
                                     onChange={(e) => updateUISettings('showFieldAliases', e.target.checked)}
                                 />
-                                Use field aliases for display
+                                {t('useFieldAliasesForDisplay')}
                             </label>
                         </div>
                     </SettingRow>
@@ -3581,10 +3575,10 @@ const Setting = (props: SettingProps) => {
 
             {/* Popup Overrides (Arcade) - Only show if whatsHere is enabled */}
             {enabledActions.whatsHere && (
-                <SettingSection title="Popup Overrides (Arcade)">
+                <SettingSection title={t('popupOverridesArcade')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Replace the default attribute list for matching layers with custom HTML and Arcade-computed values. Each override matches by a substring of the layer's URL and/or title. Inside the HTML, use <code>{'{FIELDNAME}'}</code> for attribute values (HTML-escaped) and <code>{'{expression/name}'}</code> for Arcade results (rendered as HTML).
+                            {t('replaceTheDefaultAttributeListFor')} <code>{'{FIELDNAME}'}</code> {t('forAttributeValuesHtmlEscapedAnd')} <code>{'{expression/name}'}</code> {t('forArcadeResultsRenderedAsHtml')}
                         </div>
                     </SettingRow>
 
@@ -3620,12 +3614,12 @@ const Setting = (props: SettingProps) => {
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis'
                                     }}
-                                    title={override.title || `Override #${idx + 1}`}
+                                    title={override.title || t('overrideIdx', { idx: idx + 1 })}
                                 >
-                                    Override #{idx + 1}{override.title ? ` — ${override.title}` : ''}
+                                    {t('overrideIdx', { idx: idx + 1 })}{override.title ? ` — ${override.title}` : ''}
                                 </span>
-                                <Tooltip title="Remove this override" placement="top">
-                                    <Button size="sm" type="tertiary" onClick={() => removePopupOverride(idx)} aria-label="Remove override">
+                                <Tooltip title={t('removeThisOverride')} placement="top">
+                                    <Button size="sm" type="tertiary" onClick={() => removePopupOverride(idx)} aria-label={t('removeOverride')}>
                                         <TrashOutlined />
                                     </Button>
                                 </Tooltip>
@@ -3636,45 +3630,44 @@ const Setting = (props: SettingProps) => {
                                 set it's used as a case-insensitive substring filter, and if both are
                                 set both must match. */}
                             <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
-                                <label style={styles.inputLabel}>Match URL contains</label>
+                                <label style={styles.inputLabel}>{t('matchUrlContains')}</label>
                                 <TextInput
                                     size="sm"
                                     value={override.matchUrl || ''}
-                                    placeholder="e.g. /Parcels/FeatureServer/0"
+                                    placeholder={t('eGParcelsFeatureServer0')}
                                     onChange={(e) => updatePopupOverride(idx, { matchUrl: e.target.value })}
                                     style={{ width: '100%' }}
                                 />
                             </div>
 
                             <div style={{ ...styles.inputContainer, marginBottom: '6px' }}>
-                                <label style={styles.inputLabel}>Match Layer Title contains</label>
+                                <label style={styles.inputLabel}>{t('matchLayerTitleContains')}</label>
                                 <TextInput
                                     size="sm"
                                     value={override.matchTitle || ''}
-                                    placeholder="e.g. Parcels"
+                                    placeholder={t('eGParcels')}
                                     onChange={(e) => updatePopupOverride(idx, { matchTitle: e.target.value })}
                                     style={{ width: '100%' }}
                                 />
                             </div>
 
                             <div style={{ fontSize: '11px', color: 'var(--light-600)', fontStyle: 'italic', marginBottom: '10px', lineHeight: 1.4 }}>
-                                Leave both blank to apply this override to every layer. More-specific
-                                overrides (with a URL or title filter) take precedence over a blank one.
+                                {t('leaveBothBlankToApplyThis')}
                             </div>
 
                             <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
-                                <label style={styles.inputLabel}>Header title (optional)</label>
+                                <label style={styles.inputLabel}>{t('headerTitleOptional')}</label>
                                 <TextInput
                                     size="sm"
                                     value={override.title || ''}
-                                    placeholder="Leave blank to use the layer name"
+                                    placeholder={t('leaveBlankToUseTheLayer')}
                                     onChange={(e) => updatePopupOverride(idx, { title: e.target.value })}
                                     style={{ width: '100%' }}
                                 />
                             </div>
 
                             <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
-                                <label style={styles.inputLabel}>Content (HTML)</label>
+                                <label style={styles.inputLabel}>{t('contentHtml')}</label>
                                 <textarea
                                     value={override.content || ''}
                                     onChange={(e) => updatePopupOverride(idx, { content: e.target.value })}
@@ -3696,21 +3689,21 @@ const Setting = (props: SettingProps) => {
                                     }}
                                 />
                                 <div style={styles.helpText}>
-                                    Use <code>{'{FIELDNAME}'}</code> for attributes and <code>{'{expression/name}'}</code> for Arcade results.
+                                    {t('use')} <code>{'{FIELDNAME}'}</code> {t('forAttributesAnd')} <code>{'{expression/name}'}</code> {t('forArcadeResults')}
                                 </div>
                             </div>
 
                             {/* Arcade expressions sub-section */}
                             <div style={{ borderTop: '1px solid var(--light-400)', paddingTop: '10px', marginTop: '6px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', minWidth: 0 }}>
-                                    <label style={{ ...styles.inputLabel, margin: 0, flex: 1, minWidth: 0 }}>Arcade expressions</label>
+                                    <label style={{ ...styles.inputLabel, margin: 0, flex: 1, minWidth: 0 }}>{t('arcadeExpressions')}</label>
                                     <Button size="sm" type="tertiary" onClick={() => addOverrideExpression(idx)}>
-                                        <PlusOutlined /> Add
+                                        <PlusOutlined /> {t('add')}
                                     </Button>
                                 </div>
 
                                 {(override.expressionInfos || []).length === 0 ? (
-                                    <div style={styles.helpText}>No expressions defined. Add one to compute values for use in the content template via <code>{'{expression/<name>}'}</code>.</div>
+                                    <div style={styles.helpText}>{t('noExpressionsDefinedAddOneTo')} <code>{'{expression/<name>}'}</code>.</div>
                                 ) : (
                                     (override.expressionInfos || []).map((expr, eIdx) => (
                                         <div
@@ -3740,12 +3733,12 @@ const Setting = (props: SettingProps) => {
                                                         overflow: 'hidden',
                                                         textOverflow: 'ellipsis'
                                                     }}
-                                                    title={expr.name || `expression #${eIdx + 1}`}
+                                                    title={expr.name || t('expressionEIdx', { eIdx: eIdx + 1 })}
                                                 >
-                                                    Expression: <code>{expr.name || `expr${eIdx + 1}`}</code>
+                                                    {t('expression')} <code>{expr.name || `expr${eIdx + 1}`}</code>
                                                 </span>
-                                                <Tooltip title="Remove expression" placement="top">
-                                                    <Button size="sm" type="tertiary" onClick={() => removeOverrideExpression(idx, eIdx)} aria-label="Remove expression">
+                                                <Tooltip title={t('removeExpression')} placement="top">
+                                                    <Button size="sm" type="tertiary" onClick={() => removeOverrideExpression(idx, eIdx)} aria-label={t('removeExpression')}>
                                                         <TrashOutlined />
                                                     </Button>
                                                 </Tooltip>
@@ -3753,7 +3746,7 @@ const Setting = (props: SettingProps) => {
 
                                             {/* All meta fields stacked vertically — fits a narrow panel cleanly */}
                                             <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
-                                                <label style={styles.inputLabel}>Name</label>
+                                                <label style={styles.inputLabel}>{t('name')}</label>
                                                 <TextInput
                                                     size="sm"
                                                     value={expr.name || ''}
@@ -3763,31 +3756,31 @@ const Setting = (props: SettingProps) => {
                                                 />
                                             </div>
                                             <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
-                                                <label style={styles.inputLabel}>Title (optional)</label>
+                                                <label style={styles.inputLabel}>{t('titleOptional')}</label>
                                                 <TextInput
                                                     size="sm"
                                                     value={expr.title || ''}
-                                                    placeholder="Friendly label"
+                                                    placeholder={t('friendlyLabel')}
                                                     onChange={(e) => updateOverrideExpression(idx, eIdx, { title: e.target.value })}
                                                     style={{ width: '100%' }}
                                                 />
                                             </div>
                                             <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
-                                                <label style={styles.inputLabel}>Return type</label>
+                                                <label style={styles.inputLabel}>{t('returnType')}</label>
                                                 <Select
                                                     size="sm"
                                                     value={expr.returnType || 'string'}
                                                     onChange={(e: any) => updateOverrideExpression(idx, eIdx, { returnType: e.target.value })}
                                                     style={{ width: '100%' }}
                                                 >
-                                                    <Option value="string">string</Option>
-                                                    <Option value="number">number</Option>
-                                                    <Option value="date">date</Option>
-                                                    <Option value="boolean">boolean</Option>
+                                                    <Option value="string">{t('string')}</Option>
+                                                    <Option value="number">{t('number')}</Option>
+                                                    <Option value="date">{t('date')}</Option>
+                                                    <Option value="boolean">{t('boolean')}</Option>
                                                 </Select>
                                             </div>
                                             <div style={styles.inputContainer}>
-                                                <label style={styles.inputLabel}>Expression</label>
+                                                <label style={styles.inputLabel}>{t('expression2')}</label>
                                                 <textarea
                                                     value={expr.expression || ''}
                                                     onChange={(e) => updateOverrideExpression(idx, eIdx, { expression: e.target.value })}
@@ -3819,14 +3812,14 @@ const Setting = (props: SettingProps) => {
 
                     <SettingRow>
                         <Button onClick={addPopupOverride} type="primary" size="sm">
-                            <PlusOutlined /> Add Popup Override
+                            <PlusOutlined /> {t('addPopupOverride')}
                         </Button>
                     </SettingRow>
 
                     {((config.popupOverrides as any) || []).length === 0 && (
                         <SettingRow>
                             <div style={styles.helpText}>
-                                No overrides yet. The default attribute list will be shown for every layer.
+                                {t('noOverridesYetTheDefaultAttribute')}
                             </div>
                         </SettingRow>
                     )}
@@ -3835,16 +3828,16 @@ const Setting = (props: SettingProps) => {
 
             {/* Coordinate System - Only show if copyCoordinates is enabled */}
             {enabledActions.copyCoordinates && (
-                <SettingSection title="Copy Coordinates Settings">
+                <SettingSection title={t('copyCoordinatesSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Configure the coordinate system and format for the Copy Coordinates action.
+                            {t('configureTheCoordinateSystemAndFormat')}
                         </div>
                     </SettingRow>
 
                     <SettingRow>
                         <div style={styles.inputContainer}>
-                            <label style={styles.inputLabel}>Coordinate System</label>
+                            <label style={styles.inputLabel}>{t('coordinateSystem')}</label>
                             <div role="radiogroup" style={styles.radioGroup}>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -3853,7 +3846,7 @@ const Setting = (props: SettingProps) => {
                                         checked={copySettings.coordinateSystem === 'map' || !copySettings.coordinateSystem}
                                         onChange={() => updateCopySetting('coordinateSystem', 'map')}
                                     />
-                                    Use Map's Native Coordinate System
+                                    {t('useMapSNativeCoordinateSystem')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -3862,7 +3855,7 @@ const Setting = (props: SettingProps) => {
                                         checked={copySettings.coordinateSystem === 'webMercator'}
                                         onChange={() => updateCopySetting('coordinateSystem', 'webMercator')}
                                     />
-                                    Lat/Lon (WGS84)
+                                    {t('latLonWgs84')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -3871,7 +3864,7 @@ const Setting = (props: SettingProps) => {
                                         checked={copySettings.coordinateSystem === 'custom'}
                                         onChange={() => updateCopySetting('coordinateSystem', 'custom')}
                                     />
-                                    Custom Coordinate System
+                                    {t('customCoordinateSystem')}
                                 </label>
                             </div>
                         </div>
@@ -3880,7 +3873,7 @@ const Setting = (props: SettingProps) => {
                     {copySettings.coordinateSystem === 'custom' && (
                         <SettingRow>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Custom WKID</label>
+                                <label style={styles.inputLabel}>{t('customWkid')}</label>
                                 <NumericInput
                                     value={copySettings.customWkid || ''}
                                     onChange={(value) => updateCopySetting('customWkid', value)}
@@ -3888,7 +3881,7 @@ const Setting = (props: SettingProps) => {
                                     size="sm"
                                 />
                                 <div style={styles.helpText}>
-                                    Enter the WKID (Well-Known ID) for your desired coordinate system
+                                    {t('enterTheWkidWellKnownId')}
                                 </div>
                             </div>
                         </SettingRow>
@@ -3898,7 +3891,7 @@ const Setting = (props: SettingProps) => {
                         <SettingRow>
                             <div style={styles.settingsGrid}>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Lat/Lon Format</label>
+                                    <label style={styles.inputLabel}>{t('latLonFormat')}</label>
                                     <div role="radiogroup" style={styles.radioGroup}>
                                         <label style={styles.radioLabel}>
                                             <Radio
@@ -3907,7 +3900,7 @@ const Setting = (props: SettingProps) => {
                                                 checked={copySettings.coordinateFormat === 'decimal' || !copySettings.coordinateFormat}
                                                 onChange={() => updateCopySetting('coordinateFormat', 'decimal')}
                                             />
-                                            Decimal Degrees
+                                            {t('decimalDegrees')}
                                         </label>
                                         <label style={styles.radioLabel}>
                                             <Radio
@@ -3916,12 +3909,12 @@ const Setting = (props: SettingProps) => {
                                                 checked={copySettings.coordinateFormat === 'dms'}
                                                 onChange={() => updateCopySetting('coordinateFormat', 'dms')}
                                             />
-                                            Degrees, Minutes, Seconds
+                                            {t('degreesMinutesSeconds')}
                                         </label>
                                     </div>
                                 </div>
                                 <div style={styles.inputContainer}>
-                                    <label style={styles.inputLabel}>Decimal Places</label>
+                                    <label style={styles.inputLabel}>{t('decimalPlaces')}</label>
                                     <NumericInput
                                         value={copySettings.decimalPlaces || 6}
                                         onChange={(value) => updateCopySetting('decimalPlaces', value)}
@@ -3938,7 +3931,7 @@ const Setting = (props: SettingProps) => {
                     {(copySettings.coordinateSystem === 'map' || copySettings.coordinateSystem === 'custom' || !copySettings.coordinateSystem) && (
                         <SettingRow>
                             <div style={styles.inputContainer}>
-                                <label style={styles.inputLabel}>Decimal Places</label>
+                                <label style={styles.inputLabel}>{t('decimalPlaces')}</label>
                                 <NumericInput
                                     value={copySettings.decimalPlaces || 2}
                                     onChange={(value) => updateCopySetting('decimalPlaces', value)}
@@ -3954,15 +3947,15 @@ const Setting = (props: SettingProps) => {
 
             {/* Measurement Settings - Only show if measurement actions are enabled */}
             {isMeasurementEnabled && (
-                <SettingSection title="Measurement Settings">
+                <SettingSection title={t('measurementSettings')}>
                     <SettingRow>
                         <div style={styles.sectionDescription}>
-                            Configure measurement units and display options.
+                            {t('configureMeasurementUnitsAndDisplayOptions')}
                         </div>
                     </SettingRow>
                     <SettingRow>
                         <div style={styles.measurementContainer}>
-                            <div style={styles.measurementLabel}>Default Units:</div>
+                            <div style={styles.measurementLabel}>{t('defaultUnits')}</div>
                             <div role="radiogroup" style={styles.measurementRadioGroup}>
                                 {unitOptions.map(unit => (
                                     <label key={unit} style={styles.radioLabel}>
@@ -3980,7 +3973,7 @@ const Setting = (props: SettingProps) => {
                     </SettingRow>
                     <SettingRow style={{ marginTop: '20px' }}>
                         <div style={styles.measurementContainer}>
-                            <div style={styles.measurementLabel}>Unit Display:</div>
+                            <div style={styles.measurementLabel}>{t('unitDisplay')}</div>
 
                             <div role="radiogroup" style={styles.measurementRadioGroup}>
                                 <label style={styles.radioLabel}>
@@ -3990,7 +3983,7 @@ const Setting = (props: SettingProps) => {
                                         checked={measurementSettings.unitDisplay === 'single' || !measurementSettings.unitDisplay}
                                         onChange={() => updateMeasurementSetting('unitDisplay', 'single')}
                                     />
-                                    Single Unit Only
+                                    {t('singleUnitOnly')}
                                 </label>
                                 <label style={styles.radioLabel}>
                                     <Radio
@@ -3999,7 +3992,7 @@ const Setting = (props: SettingProps) => {
                                         checked={measurementSettings.unitDisplay === 'both'}
                                         onChange={() => updateMeasurementSetting('unitDisplay', 'both')}
                                     />
-                                    Show Both Units
+                                    {t('showBothUnits')}
                                 </label>
                             </div>
                         </div>
@@ -4011,13 +4004,13 @@ const Setting = (props: SettingProps) => {
                 behavior for phones and tablets. The long-press opens the
                 same context menu that right-click opens on desktop. */}
             {/* Context Menu presentation options */}
-            <SettingSection title="Context Menu">
+            <SettingSection title={t('contextMenu')}>
                 <SettingRow>
                     <div style={styles.sectionDescription}>
-                        Presentation options for the right-click menu itself.
+                        {t('presentationOptionsForTheRightClick')}
                     </div>
                 </SettingRow>
-                <SettingRow label="Show address in menu header">
+                <SettingRow label={t('showAddressInMenuHeader')}>
                     <Switch
                         checked={menuSettings.showAddress !== false}
                         onChange={(e) => updateMenuSetting('showAddress', e.target.checked)}
@@ -4025,16 +4018,16 @@ const Setting = (props: SettingProps) => {
                 </SettingRow>
                 <SettingRow>
                     <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
-                        Reverse-geocodes the clicked point using the What's Here geocoder URL. Click the address in the menu to copy it.
+                        {t('reverseGeocodesTheClickedPointUsing')}
                     </div>
                 </SettingRow>
-                <SettingRow label="Show number hotkeys (1-9)">
+                <SettingRow label={t('showNumberHotkeys19')}>
                     <Switch
                         checked={menuSettings.showHotkeys !== false}
                         onChange={(e) => updateMenuSetting('showHotkeys', e.target.checked)}
                     />
                 </SettingRow>
-                <SettingRow label="Offer additional coordinate formats">
+                <SettingRow label={t('offerAdditionalCoordinateFormats')}>
                     <Switch
                         checked={menuSettings.showCoordinateFormats !== false}
                         onChange={(e) => updateMenuSetting('showCoordinateFormats', e.target.checked)}
@@ -4042,24 +4035,24 @@ const Setting = (props: SettingProps) => {
                 </SettingRow>
                 <SettingRow>
                     <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
-                        Adds a "More coordinate formats" entry that expands to Lat/Lon decimal, DMS, UTM (zone detected automatically), the custom projection from Copy Coordinates Settings when one is configured, map native X/Y, and a GeoJSON point. Each copies on click.
+                        {t('addsAMoreCoordinateFormatsEntry')}
                     </div>
                 </SettingRow>
             </SettingSection>
 
-            <SettingSection title="Mobile Long Press">
+            <SettingSection title={t('mobileLongPress')}>
                 <SettingRow>
                     <div style={styles.sectionDescription}>
-                        On touch devices (phones and tablets), press and hold on the map to open the right-click context menu. Drag to cancel.
+                        {t('onTouchDevicesPhonesAndTablets')}
                     </div>
                 </SettingRow>
-                <SettingRow label="Enable long-press on touch devices">
+                <SettingRow label={t('enableLongPressOnTouchDevices')}>
                     <Switch
                         checked={longPressSettings.enabled !== false}
                         onChange={(e) => updateLongPressSetting('enabled', e.target.checked)}
                     />
                 </SettingRow>
-                <SettingRow label="Hold duration (ms)">
+                <SettingRow label={t('holdDurationMs')}>
                     <NumericInput
                         value={longPressSettings.durationMs}
                         min={200}
@@ -4076,7 +4069,7 @@ const Setting = (props: SettingProps) => {
                         disabled={longPressSettings.enabled === false}
                     />
                 </SettingRow>
-                <SettingRow label="Movement threshold (px)">
+                <SettingRow label={t('movementThresholdPx')}>
                     <NumericInput
                         value={longPressSettings.moveThresholdPx}
                         min={3}
@@ -4092,16 +4085,16 @@ const Setting = (props: SettingProps) => {
                 </SettingRow>
                 <SettingRow>
                     <div style={{ ...styles.sectionDescription, fontSize: '11px', fontStyle: 'italic' }}>
-                        If the finger moves more than the threshold before the duration elapses, the gesture is treated as a pan and the menu does not open.
+                        {t('ifTheFingerMovesMoreThan')}
                     </div>
                 </SettingRow>
             </SettingSection>
-            <SettingSection title='Help'>
-              <SettingRow tag='label' label='Show help guide'>
+            <SettingSection title={t('help')}>
+              <SettingRow tag='label' label={t('showHelpGuide')}>
                 <Switch
                   checked={props.config?.showHelp !== false}
                   onChange={(evt) => { props.onSettingChange({ id: (props as any).id, config: (props.config as any).set('showHelp', evt.target.checked) }) }}
-                  aria-label='Show the question-mark button that opens the widget help guide'
+                  aria-label={t('showTheQuestionMarkButtonThat')}
                 />
               </SettingRow>
             </SettingSection>
