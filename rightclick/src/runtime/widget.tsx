@@ -29,7 +29,7 @@ import TextSymbol from 'esri/symbols/TextSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
 
 import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereHighlightConfig, computeLayerSelectionKey } from '../config';
-import { __setIntl, __t, __tc } from './i18n-t'
+import { __locale, __setIntl, __t, __tc } from './i18n-t'
 
 // Ambient declarations for the `__esri` global namespace. Esri's TypeScript
 // definitions normally expose this globally via @types/arcgis-js-api, but
@@ -1265,7 +1265,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 previousActiveElement.current?.focus();
 
             } catch (error) {
-                alert('Error creating text graphic: ' + error.message);
+                alert(__t("errorCreatingTextGraphicValue1", { value1: error.message }));
                 setState(prev => ({
                     ...prev,
                     showTextDialog: false,
@@ -2021,7 +2021,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 announce(t('coordinateMarkerMarkerNumberPlacedOnMap', { markerNumber: String(markerNumber) }));
 
             } catch (error) {
-                alert('Error creating coordinate marker: ' + error.message);
+                alert(__t("errorCreatingCoordinateMarkerValue1", { value1: error.message }));
             }
 
         } catch (error) {
@@ -2108,7 +2108,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 announce(t('markerPlacedOnMap'));
 
             } catch (error) {
-                alert('Error creating simple marker: ' + error.message);
+                alert(__t("errorCreatingSimpleMarkerValue1", { value1: error.message }));
             }
 
         } catch (error) {
@@ -2716,13 +2716,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     const formatArea = (area: number, unit: string): string => {
                         const displayUnit = unitDisplayNames[unit] || unit;
-                        let formatted = `${area.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${displayUnit}`;
+                        let formatted = `${area.toLocaleString(__locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${displayUnit}`;
                         if (secondaryUnit && measurementSettings.unitDisplay === 'both') {
                             const key = `${unit}->${secondaryUnit}`;
                             const factor = areaConversions[key] ?? 1;
                             const converted = area * factor;
                             const secDisplay = unitDisplayNames[secondaryUnit] || secondaryUnit;
-                            formatted += ` (${converted.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${secDisplay})`;
+                            formatted += ` (${converted.toLocaleString(__locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${secDisplay})`;
                         }
                         return formatted;
                     };
@@ -2734,7 +2734,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             'square-yards': 'yards', 'acres': 'feet'
                         };
                         const linearUnit = linearUnitMap[unit] || 'feet';
-                        return `Perimeter: ${perim.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${linearUnit}`;
+                        return `Perimeter: ${perim.toLocaleString(__locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${linearUnit}`;
                     };
 
                     const createAreaLabel = (pt: __esri.Point, text: string, attrType: string) => {
@@ -3300,7 +3300,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             try {
                 const date = new Date(value);
                 if (!isNaN(date.getTime())) {
-                    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                    return date.toLocaleDateString(__locale()) + ' ' + date.toLocaleTimeString(__locale());
                 }
             } catch (e) {
                 // Fall through to default formatting
@@ -3309,13 +3309,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         if (typeof value === 'number') {
             if (fieldName.toLowerCase().includes('area')) {
-                return value.toLocaleString() + ' sq units';
+                return value.toLocaleString(__locale()) + ' sq units';
             } else if (fieldName.toLowerCase().includes('length') || fieldName.toLowerCase().includes('distance')) {
-                return value.toLocaleString() + ' units';
+                return value.toLocaleString(__locale()) + ' units';
             } else if (value % 1 !== 0) {
                 return value.toFixed(2);
             } else {
-                return value.toLocaleString();
+                return value.toLocaleString(__locale());
             }
         }
 
@@ -4196,7 +4196,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             if (value === null || value === undefined) return '';
             if (typeof value === 'string') return value;
             if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-            if (value instanceof Date) return value.toLocaleString();
+            if (value instanceof Date) return value.toLocaleString(__locale());
             if (Array.isArray(value)) {
                 // Arrays of content elements — render each child recursively
                 // and concatenate. Useful when an Arcade author returns

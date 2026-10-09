@@ -253,7 +253,23 @@ System.register([], function (e) {
         failedToParseXml: "Failed to parse XML.",
         failedToApplyTheImportedConfiguration: "Failed to apply the imported configuration.",
         sublayerId: "Sublayer {id}",
-        layer: "Sloj"
+        layer: "Sloj",
+        couldNotLoadAppConfigPlease: "Could not load app config. Please enter the widget ID manually.\n\nYour config is at: server/public/apps/{value1}/config.json\nSearch for \"property-report\" to find the widget ID.",
+        couldNotLoadAppConfigPlease2: "Could not load app config. Please enter the widget ID manually.\n\nYour config is at: server/public/apps/{value1}",
+        couldNotLoadAppConfigPlease3: "Could not load app config. Please enter the widget ID manually.\n\nYour config is at: server/public/apps/",
+        zoomIn: "Povećaj",
+        zoomOut: "Smanji",
+        centerHere: "Center Here",
+        copyCoordinates: "Copy Coordinates",
+        plotCoordinates: "Plot Coordinates",
+        plotMarker: "Plot Marker",
+        addText: "Dodaj tekst",
+        openInGoogleStreetView: "Open in Google Street View",
+        openInGoogleMaps: "Open in Google Maps",
+        openInPictometry: "Open in Pictometry",
+        measureDistance: "Izmjere udaljenost",
+        measureArea: "Izmjeri područje",
+        whatSHere: "What's here?"
       })
     }
   }

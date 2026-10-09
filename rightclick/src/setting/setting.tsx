@@ -616,7 +616,7 @@ const Setting = (props: SettingProps) => {
                 setDetectedWidgets(allWidgets);
             } else {
                 console.warn('Right-Click Scan: Could not load config.json');
-                alert('Could not load app config. Please enter the widget ID manually.\n\nYour config is at: server/public/apps/' + appId + '/config.json\nSearch for "property-report" to find the widget ID.');
+                alert(__t("couldNotLoadAppConfigPlease", { value1: appId }));
             }
         } catch (e) {
             console.warn('Right-Click Scan: Error', e);
@@ -1496,21 +1496,21 @@ const Setting = (props: SettingProps) => {
 
     const formatActionName = (key: string): string => {
         const actionNames = {
-            zoomIn: 'Zoom In',
-            zoomOut: 'Zoom Out',
-            centerHere: 'Center Here',
-            copyCoordinates: 'Copy Coordinates',
-            plotCoordinates: 'Plot Coordinates',
-            plotMarker: 'Plot Marker',
-            addText: 'Add Text',
-            streetView: 'Open in Google Street View',
-            googleMaps: 'Open in Google Maps',
-            pictometry: 'Open in Pictometry',
-            measureDistance: 'Measure Distance',
-            measureArea: 'Measure Area',
-            whatsHere: `What's here?`,
-            propertyReport: 'Property Information',
-            mailingLabels: 'Mailing Labels'
+            zoomIn: __t("zoomIn"),
+            zoomOut: __t("zoomOut"),
+            centerHere: __t("centerHere"),
+            copyCoordinates: __t("copyCoordinates"),
+            plotCoordinates: __t("plotCoordinates"),
+            plotMarker: __t("plotMarker"),
+            addText: __t("addText"),
+            streetView: __t("openInGoogleStreetView"),
+            googleMaps: __t("openInGoogleMaps"),
+            pictometry: __t("openInPictometry"),
+            measureDistance: __t("measureDistance"),
+            measureArea: __t("measureArea"),
+            whatsHere: __t("whatSHere"),
+            propertyReport: __t("propertyInformation"),
+            mailingLabels: __t("mailingLabels")
         };
         return actionNames[key] || key.replace(/([A-Z])/g, ' $1');
     };

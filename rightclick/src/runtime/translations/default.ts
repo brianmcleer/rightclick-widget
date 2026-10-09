@@ -156,5 +156,11 @@ export default {
   whatSHere2: 'What\'s here?',
   propertyInformation: 'Property Information',
   unknownError: 'unknown error',
-  unserializableError: 'unserializable error'
+  unserializableError: 'unserializable error',
+  errorCreatingTextGraphicValue1: 'Error creating text graphic: {value1}',
+  errorCreatingCoordinateMarkerValue1: 'Error creating coordinate marker: {value1}',
+  errorCreatingSimpleMarkerValue1: 'Error creating simple marker: {value1}',
+  errorCreatingTextGraphic: 'Error creating text graphic:',
+  errorCreatingCoordinateMarker: 'Error creating coordinate marker:',
+  errorCreatingSimpleMarker: 'Error creating simple marker:'
 }
