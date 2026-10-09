@@ -119,32 +119,94 @@
       },
       "locales": {
         "ar": {
-          "file": "8a7d207b486c",
+          "file": "7a7dc87336a4",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "لا شيء في الدليل يطابق تلك الكلمة جرّبْ آخر، أَو يَفْتحُ الأقسامَ أعلاه.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "ابدأ هنا: ثلاث خطوات",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "القياس",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "إذا كان هناك شيء ما يبدو خاطئا",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "من الجيد معرفة",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "bg": {
-          "file": "bca6d7c8585b",
+          "file": "f357ebba78bc",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Нищо в ръководството не съвпада с тази дума. Опитайте друг, или отвори секциите по-горе.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Започнете от тук: три стъпки",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Измерване",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Ако нещо не е наред",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Добре е да го знам.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Пощенски етикети",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "bs": {
           "file": "4ab2764f0fc9",
@@ -161,144 +223,454 @@
           "entries": {}
         },
         "ca": {
-          "file": "620840165b68",
+          "file": "367b2e302279",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Res en la guia coincideix amb aquesta paraula. Proveu-ne una altra, o obriu les seccions de dalt.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Comença aquí: tres passes",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "MetasingCity name (optional, probably does not need a translation)",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Si alguna cosa sembla malament",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Bo saber-ho",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etiquetes de correu",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "cs": {
-          "file": "21d7cc285566",
+          "file": "dd33c60d849a",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nic v průvodci neodpovídá tomu slovu. Zkuste jiný, nebo otevřete sekce výše.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Začněte zde: tři kroky",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Měření",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Pokud něco vypadá špatně",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Dobré vědět.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Poštovní štítky",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "da": {
-          "file": "cf13a3b2451e",
+          "file": "d172528db9cb",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Intet i guiden matcher det ord. Prøv en anden, eller åbn afsnittene ovenfor.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Start her: tre trin",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Måling",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Hvis noget ser forkert ud",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Godt at vide",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Postmærker",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "de": {
-          "file": "85fa923f5bb3",
+          "file": "e98965f07e20",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nichts im Guide passt zu diesem Wort. Versuchen Sie es mit einem anderen oder öffnen Sie die obigen Abschnitte.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Beginnen Sie hier: drei Schritte",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Messung",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Wenn etwas falsch aussieht",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Gut zu wissen",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Versandetiketten",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "el": {
-          "file": "7ae010c86580",
+          "file": "211531c90921",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Τίποτα στον οδηγό δεν ταιριάζει με αυτή τη λέξη. Δοκιμάστε ένα άλλο, ή ανοίξτε τα τμήματα παραπάνω.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Εκκίνηση εδώ: τρία βήματα",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Μέτρηση",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Αν κάτι φαίνεται λάθος",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Χαίρομαι που το μαθαίνω.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Ετικέτα αλληλογραφίας",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "es": {
-          "file": "154c17db37f5",
+          "file": "f547cf75ea26",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nada en la guía coincide con esa palabra. Pruebe otro, o abra las secciones anteriores.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Empieza aquí: tres pasos",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Medición",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Si algo se ve mal",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Es bueno saberlo.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etiquetas de correo",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "et": {
-          "file": "56149b70515b",
+          "file": "e9e46e12995a",
           "counts": {
             "esri": 10,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Mitte miski juhendis ei klapi selle sõnaga. Proovige teist või avage ülaltoodud lõigud.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Alusta siit: kolm sammu",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mõõtmine",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Kui midagi on valesti",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Hea teada",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Postituse sildid",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "fi": {
-          "file": "aba5aa4bcb52",
+          "file": "eb3cbab2ae0a",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Mikään oppaassa ei vastaa tuota sanaa. Kokeile toista, tai avaa kohdat yllä.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Aloita tästä: kolme vaihetta",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mittaus",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Jos jokin näyttää väärältä.",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Hyvä tietää",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Postitusmerkit",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "fr": {
-          "file": "cfaec3e23538",
+          "file": "1407fd998376",
           "counts": {
             "esri": 12,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Rien dans le guide ne correspond à ce mot. Essayez un autre, ou ouvrez les sections ci-dessus.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Commencez ici: trois étapes",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mesure",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Si quelque chose ne va pas",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Bon à savoir",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Affichage des étiquettes",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "he": {
-          "file": "20f57c0c4237",
+          "file": "df71b5ee8ce2",
           "counts": {
             "esri": 11,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "שום דבר במדריך לא מתאים למילה הזאת. נסה עוד, או לפתוח את החלקים לעיל.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "התחל כאן: שלושה צעדים",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "אזהרה",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "אם משהו נראה לא בסדר",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "טוב לדעת",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "הודעות דואר",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "hr": {
           "file": "4ab2764f0fc9",
@@ -315,228 +687,724 @@
           "entries": {}
         },
         "hu": {
-          "file": "0d0dcbb6fe9c",
+          "file": "6b27487861b7",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "A kalauzban semmi sem egyezik ezzel a szóval. Próbálja meg egy másik, vagy nyissa ki a fenti szakaszok.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Kezdjük itt: három lépés",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mérés",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Ha valami nem stimmel",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Jó tudni.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Levelezési címkék",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "id": {
-          "file": "3aa1d960921e",
+          "file": "302208b28c95",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Tidak ada dalam panduan cocok kata itu. Coba yang lain, atau buka bagian di atas.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Mulai dari sini: tiga langkah",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mengukur",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Jika ada sesuatu yang salah",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Baik untuk mengetahui",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Label Mailing",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "it": {
-          "file": "629915edbd6b",
+          "file": "5f3c8f6c994f",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Niente nella guida corrisponde a quella parola. Prova un altro, o apri le sezioni sopra.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Inizia qui: tre passi",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Misurazione",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Se qualcosa sembra sbagliato",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Buono a sapersi",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etichette di mailing",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "ja": {
-          "file": "9b6d087990bb",
+          "file": "ed1cb5a6dd4d",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "ガイドがその単語と一致するわけではありません。 別のセクションを試し、または上記のセクションを開きます。",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "ここから: 3 つのステップ",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "測定器",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "何かが間違っている",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "よく知る",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "郵送ラベル",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "ko": {
-          "file": "dc224aee3048",
+          "file": "e11cb6981513",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "가이드의 아무것도 그 단어 일치. 다른 시도, 또는 위의 섹션을 엽니 다.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "여기에 시작: 세 단계",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "제품정보",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "뭔가 잘못되었는지",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "잘 알고",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "메일링 라벨",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "lt": {
-          "file": "4def2fb9c247",
+          "file": "9dc9b3a50b86",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Vadove nėra nieko, kas atitiktų šį žodį. Pabandykite kitą, arba atidaryti skyrių aukščiau.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Pradėti čia: trys žingsniai",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Matavimas",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Jei kas nors atrodo blogai",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Gera žinoti",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Pašto ženklai",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "lv": {
-          "file": "0be420ccfa89",
+          "file": "3cad797bb5fc",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nekas ceļvedī neatbilst šim vārdam. Mēģiniet citu, vai atvērt sadaļas iepriekš.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Sākt šeit: trīs soļi",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mērīšana",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Ja kaut kas izskatās nepareizi",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Labi zināt",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Pasta etiķetes",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "no": {
-          "file": "eca04bd00153",
+          "file": "e8f283722640",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Ingenting i guiden stemmer med det ordet. Prøv en annen, eller åpne seksjonene ovenfor.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Start her: 3 trinn",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Måling",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Hvis noe ser galt ut",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Godt å vite",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "E-postetiketter",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "nl": {
-          "file": "4efcf5f90611",
+          "file": "03fbb169c9cb",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Niets in de gids komt overeen met dat woord. Probeer een andere, of open de bovenstaande secties.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Begin hier: drie stappen",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Meten",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Als er iets mis lijkt.",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Goed om te weten",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Postetiketten",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "pl": {
-          "file": "c44fc3465a0e",
+          "file": "ed790308d0aa",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nic w przewodniku nie pasuje do tego słowa. Spróbuj innego, albo otwórz powyższe sekcje.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Zacznij tutaj: trzy kroki",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Pomiar",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Jeśli coś wygląda źle",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Dobrze wiedzieć.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etykiety pocztowe",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "pt-br": {
-          "file": "2741ce64030d",
+          "file": "a2f25da96c1a",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nada no guia combina com essa palavra. Tente outro, ou abra as seções acima.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Comece aqui: três passos",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Medição",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Se algo parecer errado",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Bom saber.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etiquetas de Correio",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "pt-pt": {
-          "file": "643ecc2e8fa4",
+          "file": "6b1b77f62208",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nada no guia corresponde a essa palavra. Tente outro, ou abra as seções acima.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Comece aqui: três passos",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Medição",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Se algo parecer errado",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "É bom saber.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "E- mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "ro": {
-          "file": "a4733f74e1f8",
+          "file": "a1a29f633caa",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nimic din ghid nu se potriveşte cu acest cuvânt. Încearcă altul, sau deschide secţiunile de mai sus.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Începe aici: trei pași",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Măsurarea",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Dacă ceva nu arată bine",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "E bine de ştiut.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Etichete poștale",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "ru": {
-          "file": "4e35636c46cf",
+          "file": "a7ccd56b8568",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Ничто в руководстве не соответствует этому слову. Попробуйте другой или откройте разделы выше.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Начните здесь: три шага",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "измерение",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Если что-то выглядит неправильно",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Хорошо знать",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Почтовые этикетки",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "sk": {
-          "file": "49abe291db2a",
+          "file": "22fa11039006",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nič v sprievodcovi nezodpovedá tomu slovu. Skúste iné, alebo otvoriť časti vyššie.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Začnite tu: tri kroky",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Meranie",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Ak niečo vyzerá zle",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Dobré vedieť",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Poštové etikety",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "sl": {
-          "file": "444e781716b2",
+          "file": "2e5ea55ebcee",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Nič v vodiču se ne ujema s to besedo. Poskusite drugo ali pa odprite zgornje oddelke.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Začnite tukaj: trije koraki",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Merjenje",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Če je kaj narobe.",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Dobro je vedeti.",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Poštne oznake",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "sr": {
           "file": "eaa2882127b3",
@@ -553,116 +1421,364 @@
           "entries": {}
         },
         "sv": {
-          "file": "e632bc55b2bf",
+          "file": "908015a24ce3",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Ingenting i guiden matchar det ordet. Prova en annan, eller öppna avsnitten ovan.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Börja här: tre steg",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Mätning",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Om något ser fel",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Bra att veta",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "th": {
-          "file": "8904d87fce13",
+          "file": "0d34fa4160ea",
           "counts": {
             "esri": 12,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "ไม่มีอะไรในคู่มือที่ตรงกับคํานั้น ลอง เปิด อีก ส่วน หนึ่ง ข้าง บน.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "เริ่มที่นี่: สามขั้นตอน",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "การวัด",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "ถ้ามีอะไรผิดปกติ",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "ดีที่ได้รู้",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "ป้ายจดหมายเวียน",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "tr": {
-          "file": "a2127770b88c",
+          "file": "85e939345498",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Rehberde hiçbir şey bu kelimeyi maçları. Başka bir deneyin veya yukarıdaki bölümleri açın.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Buraya başlayın: Üç adım",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Ölçümü",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Bir şey yanlış görünüyorsa",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "İyi bilmek",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Mailing Etiketler",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "zh-cn": {
-          "file": "313032e072a6",
+          "file": "0052ad1d33ef",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "指南中没有任何内容与这个词相符。 尝试另一个,或者打开上面的部分。",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "从这里开始: 三步",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "计量",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "如果有什么不对劲",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "很高兴知道",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "邮寄标签",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "uk": {
-          "file": "be1b9d689d2a",
+          "file": "4e263393c6a8",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Ніщо в інструкції відповідає словом. Спробуйте ще одну або відкрийте розділи вище.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Почати тут: три кроки",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Вимірювання",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Якщо щось виглядає неправильно",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Добре знати",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Каталоги розсилки",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "vi": {
-          "file": "cae2bbdc41c3",
+          "file": "3800284ec7da",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "Không có gì phù hợp với từ đó. Thử cái khác, hoặc mở phần trên.",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "Bắt đầu ở đây: ba bước",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "Đo",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "Nếu có gì không ổn",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "Rất vui được biết",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "Nhãn thư",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "zh-hk": {
-          "file": "1c6baad0975c",
+          "file": "dcaf843c1876",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "向导裡沒有什麼能符合這個詞的 再試一次,或者打開上面的區域",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "從這裡開始: 三步",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "衡量",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "如果有什麼不對勁",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "很高興知道",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "信件標籤",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         },
         "zh-tw": {
-          "file": "1c6baad0975c",
+          "file": "dcaf843c1876",
           "counts": {
             "esri": 13,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 6,
             "stale": 0,
-            "missing": 97
+            "missing": 91
           },
-          "entries": {}
+          "entries": {
+            "helpNoMatches": {
+              "t": "向导裡沒有什麼能符合這個詞的 再試一次,或者打開上面的區域",
+              "src": "machine",
+              "h": "3fe179f75330"
+            },
+            "helpStartTitle": {
+              "t": "從這裡開始: 三步",
+              "src": "machine",
+              "h": "789320b4831d"
+            },
+            "helpMeasureTitle": {
+              "t": "衡量",
+              "src": "machine",
+              "h": "13a40deea915"
+            },
+            "helpTroubleTitle": {
+              "t": "如果有什麼不對勁",
+              "src": "machine",
+              "h": "6f7fec3ff1e0"
+            },
+            "helpTipsTitle": {
+              "t": "很高興知道",
+              "src": "machine",
+              "h": "79fc372dc790"
+            },
+            "mailingLabels": {
+              "t": "信件標籤",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            }
+          }
         }
       }
     },
@@ -913,32 +2029,194 @@
       },
       "locales": {
         "ar": {
-          "file": "d4f53c63df3f",
+          "file": "d332d5e6ca62",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "تشكيلة الخرائط",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "استيراد/تصدير",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generate XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "الهدف",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "أقرأ الوصية على العثور على النباتات",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- اختيار واقي -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "e.g. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "e.g. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "الاستعارة الخارجية",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "التعابير التعاقبية",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "النظام المنسق",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "دليل المساعدة",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "اظهر زر التساؤل الذي يفتح المرشد",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "bg": {
-          "file": "ebcb6f131575",
+          "file": "209a1fa3c450",
           "counts": {
             "esri": 36,
             "esri-check": 4,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Настройки на картата",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Импортиране / експортиране на настройките",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Създаване на XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Целева джаджа",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Сканиране",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Четене на приложения за намиране на джаджи",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Изберете джаджа",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "напр. джаджа 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "напр. джаджа 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Пощенски етикети",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Ариал",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Ширина на изхода (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Аркадни изрази",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Координатна система",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Показване на ръководство за помощ",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Показване на бутона въпрос-марка, която отваря джаджа помощ ръководство",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "bs": {
           "file": "d3346de07537",
@@ -955,144 +2233,954 @@
           "entries": {}
         },
         "ca": {
-          "file": "3590d6b31741",
+          "file": "c2cec89a027b",
           "counts": {
             "esri": 40,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuració del mapa",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Configuració d' importació / exportació",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Genera XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Estri de destí",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Explora l' aplicació",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Llegeix la configuració de l' aplicació per a trobar estris",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Manveen Selecciona un widget",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "p. ex. estri 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "e.g. estri 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etiquetes de correu",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Amplada del contorn (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expressions arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistema de coordenades",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Mostra la guia d' ajuda",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Mostra el botó Pregunta- marca que obre la guia d' ajuda de l' estri",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "cs": {
-          "file": "2f45b7630813",
+          "file": "6b0ba3dbc03a",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Nastavení mapy",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Nastavení importu / exportu",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generovat XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Cílový widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Name",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Name",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Vyberte widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "např. widget _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "např. widget _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Poštovní štítky",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Asie",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Šířka obrysu (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkády",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Souřadnice",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Zobrazit nápovědu",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Zobrazit tlačítko question- mark, které otevře nápovědu widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "da": {
-          "file": "4786a989dad1",
+          "file": "58ea7f9a663e",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Kortindstilling",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Import- / eksportindstilling",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generér XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Målkontrol",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan app",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Læser app config for at finde widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Vælg en kontrol -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "F.eks. kontrol _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "f.eks. widget _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Postmærker",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Indhold bredde (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade udtryk",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinatsystem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Vis hjælpeguide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Vis spørgsmåls- markerings- knappen der åbner kontrolhjælpevejledningen",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "de": {
-          "file": "de9072f325c3",
+          "file": "2bb450f8baf4",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Kartenkonfiguration",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Import/Export Konfiguration",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "XML erzeugen",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Ziel-Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lies App Config, um Widgets zu finden",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Wählen Sie ein Widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "z. B. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "z. B. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Versandetiketten",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Umrissbreite (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade-Ausdrücke",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinatensystem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Show Help Guide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Zeigen Sie die Fragezeichentaste an, die das Widget-Hilfehandbuch öffnet",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "el": {
-          "file": "cd5b103b80e4",
+          "file": "1c3fe3dc1fec",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuration χαρτών",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Import εισαγωγής / εξαγωγής",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Δημιουργία XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Γραφικό συστατικό στόχου",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Εφαρμογή σάρωσης",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Ανάγνωση ρυθμίσεων εφαρμογής για την εύρεση γραφικών συστατικών",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Επιλέξτε ένα γραφικό συστατικό",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "π.χ. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "π.χ. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Ετικέτα αλληλογραφίας",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Άριελ",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Πλάτος περιγράμματος (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Εκφράσεις Arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Σύστημα συντεταγμένων",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Εμφάνιση οδηγού βοήθειας",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Εμφάνιση του κουμπιού ερωτηματολογίου που ανοίγει τον οδηγό βοήθειας widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "es": {
-          "file": "db20019b390d",
+          "file": "aa188fc79c3c",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuración del mapa",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importación / Configuración de exportación",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generar XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Objetivo Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Reads app config para encontrar widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Seleccione un widget —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "por ejemplo widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "por ejemplo widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etiquetas de correo",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Ancho de línea (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expresiones de Arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistema de coordinación",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Mostrar guía de ayuda",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Mostrar el botón de la marca de preguntas que abre el widget guía de ayuda",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "et": {
-          "file": "615e44d2d784",
+          "file": "44dc7467b137",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Kaardi seadistamine",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Impordi/ ekspordi seadistused",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Genereeri XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Sihtvidina",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Skaneerimisrakendus",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Loeb rakenduse seadistusi vidinate leidmiseks",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Vali vidin —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "nt vidin 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "nt vidget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Postituse sildid",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Kontuuri laius (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkaadiavaldised",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinaatide süsteem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Abijuhendi näitamine",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Küsimusemärgi nupu näitamine, mis avab vidina abi juhendi",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "fi": {
-          "file": "64796d748456",
+          "file": "9a1cb25bb2cc",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Karttojen asetukset",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Tuo tai vie asetukset",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Luo XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Kohde",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Etsi sovellus",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lue app config löytää widgetit",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Valitse widget",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "esim. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "esim. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Postitusmerkit",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Ulkoleveys (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade-ilmaisut",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinaattijärjestelmä",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Näytä ohje",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Näytä kysymys-merkki-painike, joka avaa widget ohjeen",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "fr": {
-          "file": "6ece62f51bf3",
+          "file": "e84eeccfd42c",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuration de la carte",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Configuration d'importation / d'exportation",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Générer XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Widget cible",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Analyser l'application",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lit la configuration de l'application pour trouver des widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Sélectionner un widget —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Par exemple widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Par exemple widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Affichage des étiquettes",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Ariel",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Largeur de sortie (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expressions d'arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Système de coordination",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Afficher le guide d'aide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Afficher le bouton question-marque qui ouvre le guide d'aide du widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "he": {
-          "file": "deef66f78c65",
+          "file": "55f53b822675",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "מפה Configuration",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "יבוא / סודיות",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "יצירת XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Target Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "סורק App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Reads App config to Find widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "בחר שרביט -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "תגית: widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "תגית: widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "הודעות דואר",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "אריאל",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "רוחב חיצוני (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "ביטויים ארקייד",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "מערכת תיאום",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "מדריך עזרה",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "הצג את לחצן סימן שאלה פותח את מדריך העזרה widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "hr": {
           "file": "d3346de07537",
@@ -1109,228 +3197,1519 @@
           "entries": {}
         },
         "hu": {
-          "file": "fbbc67063fa7",
+          "file": "5fcd49c43eaf",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Térképbeállítás",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Import / Export beállítások",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "XML generálása",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Célszélesség",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Keresés",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Alkalmazási beállítások kereséséhez",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Válasszon egy widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "pl. widget _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "pl. widget _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Levelezési címkék",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Szélesség (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade kifejezések",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinációs rendszer",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Segítőútmutató megjelenítése",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Megjeleníti a kérdőjel gombot, amely megnyitja a widget súgó útmutatót",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "id": {
-          "file": "a64b44699d2f",
+          "file": "563aa9bf89cd",
           "counts": {
             "esri": 35,
             "esri-check": 5,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Konfigurasi Peta",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Impor / Ekspor Konfigurasi",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Buat XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Widget Target",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Pindai App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Baca konfigurasi aplikasi untuk menemukan widget",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Pilih widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "mis. Widget _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "mis. Widget _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Label Mailing",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Lebar garis luar (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Ekspresi arkade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistem Koordinat",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Tampilkan panduan bantuan",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Tampilkan tombol tanya-tandai yang membuka panduan bantuan widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "it": {
-          "file": "6ff8f87985d2",
+          "file": "930d82193bb5",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configurazione della mappa",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importazione / Configurazione di esportazione",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generare XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Obiettivo Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "App di scansione",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Leggi config app per trovare widget",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Selezionare un widget —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "ad esempio widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "ad esempio widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etichette di mailing",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Aria",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Larghezza esterna (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Espressioni Arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistema coordinato",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Mostra la guida",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Mostra il pulsante di punto interrogativo che apre la guida di aiuto widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "ja": {
-          "file": "ac943d4cbd94",
+          "file": "67aa0b60e466",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "地図構成",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "インポート/エクスポート構成",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "XML生成",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "ターゲットウィジェット",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "スキャンアプリ",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "ウィジェットを見つけるためにアプリの設定を読みます",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— ウィジェットを選択する —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "例:ウィジェット 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "例: ウィジェット 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "郵送ラベル",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "ログイン",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "輪郭幅(px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "アーケード式",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "座標系システム",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "ヘルプガイドを表示",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "ウィジェットヘルプガイドを開く質問のボタンを表示する",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "ko": {
-          "file": "5c97cde6e902",
+          "file": "2060e1bab457",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "지도 설정",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "수입품/수출 윤곽",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "XML 생성",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "목표 위젯",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "스캔 앱",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "위젯을 찾기 위해 앱 설정 읽기",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— 위젯을 선택 —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "e.g. 위젯 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "e.g. 위젯 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "메일링 라벨",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "아리아",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "개략 폭 (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "아케이드 표현",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "좌표계",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "공지사항",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "위젯 도움말 가이드를 열 수있는 질문 표시 버튼",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "lt": {
-          "file": "75c58560d7f5",
+          "file": "946da2155307",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Žemėlapio konfigūracija",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importuoti / eksportuoti konfigūraciją",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generuoti XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Tikslinis valdiklis",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Skaityti programą",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Name",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Pasirinkite valdiklį -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Pvz., valdiklis _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Pvz., valdiklis _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Pašto ženklai",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arialas",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Išdėstymo plotis (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkadų išraiškos",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinačių sistema",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Rodyti pagalbos vadovą",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Rodyti klausimų žymėjimo mygtuką, kuris atveria valdikliui skirtą pagalbos vadovą",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "lv": {
-          "file": "da90c18ceecb",
+          "file": "32756d7efb34",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Kartes konfigurācija",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importēt / eksportēt konfigurāciju",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Vispārējs",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Mērķa logdaļa",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Skenēt programmu",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lasa programmas konfigurāciju, lai atrastu sīkrīkus",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Izvēlieties logdaļu —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Piemēram, logdaļa 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Piemēram, widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Pasta etiķetes",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Kontūrlīnijas platums (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkādes izteiksmes",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinātu sistēma",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Rādīt palīdzības ceļvedi",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Rādīt jautājumu zīmes pogu, kas atver logdaļu palīdzības rokasgrāmatu",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "no": {
-          "file": "0c47e45e6bab",
+          "file": "0495f92b334e",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Konfigurasjon av kart",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importere / eksportere konfigurasjon",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Opprett XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Målelement",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Leser appkonfigurasjon for å finne widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Velg en widget —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "For eksempel widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "For eksempel widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "E-postetiketter",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Omrissbredde (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade uttrykk",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinatsystem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Vis hjelpguide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Vis spørsmålsmerkeknappen som åpner widget-hjelpeguiden",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "nl": {
-          "file": "594ddabe1e8f",
+          "file": "36d36f8400f0",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Kaartconfiguratie",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Configuratie importeren / exporteren",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "XML aanmaken",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Doelwidget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "App scannen",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Leest app-configuratie om widgets te vinden",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Selecteer een widget",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "bv. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "bv. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Postetiketten",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Omtrekbreedte (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade-uitdrukkingen",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Coördinaatsysteem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Hulplijn tonen",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "De knop met het vraagteken tonen die de hulplijn widget opent",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "pl": {
-          "file": "def8d59ea9fe",
+          "file": "e98ad7f7901f",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Konfiguracja mapy",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importuj / Eksportuj konfigurację",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generuj XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Widget docelowy",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Skanuj aplikację",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Odczytuje konfigurację aplikacji, aby znaleźć widżety",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Wybierz widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "np. widget _ 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "np. widget _ 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etykiety pocztowe",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Szerokość linii (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Wyrażenia arkadowe",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "System współrzędnych",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Pokaż przewodnik pomocy",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Pokaż przycisk question- mark, który otwiera przewodnik pomocy widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "pt-br": {
-          "file": "923e8ee42529",
+          "file": "c1a7ffc5cded",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuração do mapa",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Configuração de Importação / Exportação",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Gerar XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Item Alvo",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Aplicativo de varredura",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lê a configuração do aplicativo para encontrar widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Selecione um widget...",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Por exemplo, widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Por exemplo, widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etiquetas de Correio",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial.",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Largura do contorno (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expressões arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistema de coordenadas",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Mostre guia de ajuda.",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Mostre o botão de ponto de interrogação que abre o guia de ajuda do widget.",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "pt-pt": {
-          "file": "95363f848376",
+          "file": "05ef9909955e",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configuração do Mapa",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Configuração da Importação / Exportação",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Gerar XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Widget- Alvo",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Aplicativo de digitalização",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Lê a configuração da aplicação para encontrar widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Selecione um widget —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Por exemplo, widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Por exemplo, widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "E- mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Largura do contorno (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expressões de arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistema de Coordenadas",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Mostrar guia de ajuda",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Mostrar o botão de marca de perguntas que abre o guia de ajuda do elemento",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "ro": {
-          "file": "405312bd8d2f",
+          "file": "e5c72282492e",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Configurare hartă",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Importă / exportă configurare",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generează XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Control țintă",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scanează aplicația",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Reads app config to find widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Selectați un widget",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "de exemplu widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "de exemplu widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Etichete poștale",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Lățimea liniei (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Expresii de arcade",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Sistem de coordonate",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Arată ghidul de ajutor",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Arată butonul semn de întrebare care deschide ghidul de ajutor widget",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "ru": {
-          "file": "76e7b81cf41f",
+          "file": "dc15b75b015c",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Конфигурация карты",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Конфигурация импорта/экспорта",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Генерировать XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Целевой виджет",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Читает конфигурацию приложения, чтобы найти виджеты",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Выберите виджет —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Например, widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Например, widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Почтовые этикетки",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Ариал",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Ширина линии (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Аркадные выражения",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Координационная система",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Показать справочник",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Покажите кнопку вопрос-марка, которая открывает руководство по помощи виджета",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "sk": {
-          "file": "293231b2a5c0",
+          "file": "45bbcd6786f1",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 15,
             "stale": 0,
-            "missing": 200
+            "missing": 185
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Nastavenie mapy",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Nastavenie importu / exportu",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generovať XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Cieľový komponent",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Číta aplikáciu konfigurovať nájsť widgety",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "eGWidget3": {
+              "t": "napr. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "napr. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Poštové etikety",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Šírka obrysu (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkády",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Súradnicový systém",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Zobraziť návod na pomoc",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Zobraziť tlačidlo otázniku, ktoré otvorí sprievodcu pomocníkom",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "sl": {
-          "file": "8558bd8779f1",
+          "file": "07ff9e289d70",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Nastavitev zemljevida",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Nastavitve uvoza/izvoza",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Ustvari XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Ciljni gradnik",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Skeniraj aplikacijo",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Prebere nastavitve aplikacije za iskanje gradnikov",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Izberite gradnik —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Npr. gradnik 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Npr. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Poštne oznake",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Širina črte (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arkadni izrazi",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinatni sistem",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Prikaži vodnik za pomoč",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Prikaži gumb z vprašanji, ki odpre widget pomoč vodnik",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "sr": {
           "file": "0f5065109933",
@@ -1347,116 +4726,764 @@
           "entries": {}
         },
         "sv": {
-          "file": "1b0d58612372",
+          "file": "030dfe619469",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Karta konfiguration",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Import / Exportkonfiguration",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Generera XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Mål Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Läser app config för att hitta widgets",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "Välj en widget -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "t.ex. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "t ex widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Mailing Labels",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Outline bredd (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade uttryck",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Samordnat system",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Visa hjälp guide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Visa frågemärke knappen som öppnar widget hjälp guide",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "th": {
-          "file": "fc1226275414",
+          "file": "fa66b0e8dca8",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "การปรับแต่งแผนที่",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "ปรับแต่งการนําเข้า/ ส่งออก",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "สร้าง XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "วิดเจ็ตเป้าหมาย",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "สแกน แอป",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "ปรับแต่งโปรแกรมสําหรับค้นหาวิดเจ็ต",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "-เลือกเครื่องมือ",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "e.g. วิดเจ็ต 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "e.g. วิดเจ็ต 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "ป้ายจดหมายเวียน",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "เอ เรียล",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "ความกว้างกรอบ (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "นิพจน์อาเขต",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "ระบบพิกัด",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "แสดงคําแนะนํา",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "แสดงปุ่ม เครื่องหมายคําถามที่เปิดวิดเจ็ตคําแนะนํา",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "tr": {
-          "file": "d4c95989617d",
+          "file": "cef461850e88",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Harita Yapılandırma Haritası",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "İthalat / İhracat Konsasyon",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Genrate XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Hedef Widget",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Scan App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Widgets bulmak için uygulama yapılandırılır",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Bir widget seçin -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "e.g. widget 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "e.g. widget 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Mailing Etiketler",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Outline genişlik (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Arcade ifadeleri",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Koordinasyon Sistemi",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Show help guide",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "widget'ı açan soru işaret düğmesine göster",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "zh-cn": {
-          "file": "4e579035d833",
+          "file": "ed60c0f7dfd1",
           "counts": {
             "esri": 38,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "地图配置",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "导入/ 导出配置",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "生成 XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "目标部件",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "扫描 App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "读取应用程序配置以找到部件",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- 选择一个部件 -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "例如部件 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "例如,部件 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "邮寄标签",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "参数",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "大纲宽度 (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "弧形表达式",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "坐标系统",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "显示帮助指南",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "显示打开部件帮助指南的问题标记按钮",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "uk": {
-          "file": "af0af836b4d2",
+          "file": "0a75d0833254",
           "counts": {
             "esri": 39,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Налаштування карт",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Імпорт / Конфігурація експорту",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Генерація XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Мета Віджети",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Додаток для сканування",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Налаштування програми для пошуку віджетів",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "— Оберіть віджет —",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "JavaScript licenses API Веб-сайт Go1.13.8",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "JavaScript licenses API Веб-сайт Go1.13.8",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Каталоги розсилки",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Аріал",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Ширина лінії (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Аркадні вирази",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Координаційна система",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Показати посібник",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Показати натис-mark, який відкриває посібник з підтримки віджету",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "vi": {
-          "file": "a36ce5aeadc9",
+          "file": "eb577dc41667",
           "counts": {
             "esri": 37,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "Cấu hình sơ đồ",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "Cấu hình Nhập / Xuất",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "Tạo XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "Ô điều khiển đích",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "Ứng dụng quét",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "Đọc ứng dụng cấu hình để tìm ô điều khiển",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "- Chọn một ô điều khiển -",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "Name",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "Name",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "Nhãn thư",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "Arial",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "Độ rộng nét (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "Biểu thức hình nền",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "Hệ tọa độ",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "Hiện hướng dẫn trợ giúp",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "Hiển thị nút đánh dấu câu hỏi để mở hướng dẫn trợ giúp ô điều khiển",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "zh-hk": {
-          "file": "4ae7a0d923f6",
+          "file": "cad5e45a83f1",
           "counts": {
             "esri": 40,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "地圖配置",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "匯入/ 匯出設定",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "產生 XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "目標元件",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "掃描 App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "讀取應用程式配置以尋找元件",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "─選擇元件 ─",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "例如元件 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "例如部件 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "信件標籤",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "弧",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "大纲寬度 (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "街机表示式",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "座標系統",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "顯示說明指南",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "顯示開啟元件說明指導的問題標鍵",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         },
         "zh-tw": {
-          "file": "4ae7a0d923f6",
+          "file": "cad5e45a83f1",
           "counts": {
             "esri": 40,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 0,
+            "machine": 16,
             "stale": 0,
-            "missing": 200
+            "missing": 184
           },
-          "entries": {}
+          "entries": {
+            "mapConfiguration": {
+              "t": "地圖配置",
+              "src": "machine",
+              "h": "a5956091feb8"
+            },
+            "importExportConfiguration": {
+              "t": "匯入/ 匯出設定",
+              "src": "machine",
+              "h": "f2f770dc6a0e"
+            },
+            "generateXml": {
+              "t": "產生 XML",
+              "src": "machine",
+              "h": "30835fd73c2d"
+            },
+            "targetWidget": {
+              "t": "目標元件",
+              "src": "machine",
+              "h": "5bb105d8f5a2"
+            },
+            "scanApp": {
+              "t": "掃描 App",
+              "src": "machine",
+              "h": "bd4f846214bd"
+            },
+            "readsAppConfigToFindWidgets": {
+              "t": "讀取應用程式配置以尋找元件",
+              "src": "machine",
+              "h": "f3df1dbcbb3d"
+            },
+            "selectAWidget2": {
+              "t": "─選擇元件 ─",
+              "src": "machine",
+              "h": "755320bd0c62"
+            },
+            "eGWidget3": {
+              "t": "例如元件 3",
+              "src": "machine",
+              "h": "929526ed82fc"
+            },
+            "eGWidget75": {
+              "t": "例如部件 75",
+              "src": "machine",
+              "h": "e91cf509b869"
+            },
+            "mailingLabels": {
+              "t": "信件標籤",
+              "src": "machine",
+              "h": "a1be6f23b258"
+            },
+            "arial": {
+              "t": "弧",
+              "src": "machine",
+              "h": "153188ed89eb"
+            },
+            "outlineWidthPx": {
+              "t": "大纲寬度 (px)",
+              "src": "machine",
+              "h": "686ed3f33abc"
+            },
+            "arcadeExpressions": {
+              "t": "街机表示式",
+              "src": "machine",
+              "h": "0b2e9373d7a4"
+            },
+            "coordinateSystem": {
+              "t": "座標系統",
+              "src": "machine",
+              "h": "d4fae8cd8647"
+            },
+            "showHelpGuide": {
+              "t": "顯示說明指南",
+              "src": "machine",
+              "h": "03e9f0b81336"
+            },
+            "showTheQuestionMarkButtonThat": {
+              "t": "顯示開啟元件說明指導的問題標鍵",
+              "src": "machine",
+              "h": "62c4e81a84ca"
+            }
+          }
         }
       }
     }
