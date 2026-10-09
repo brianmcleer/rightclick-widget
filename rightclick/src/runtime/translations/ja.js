@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "物件情報",
         unknownError: "未知のエラー",
         unserializableError: "unserializable エラー",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "テキストグラフィックを作成するエラー: {value1}",
+        errorCreatingCoordinateMarkerValue1: "座標マーカーを作成するエラー: {value1}",
+        errorCreatingSimpleMarkerValue1: "シンプルなマーカーを作成するエラー: {value1}",
+        errorCreatingTextGraphic: "テキストグラフィックを作成するエラー:",
+        errorCreatingCoordinateMarker: "座標マーカーを作成するエラー:",
+        errorCreatingSimpleMarker: "シンプルなマーカーを作成するエラー:"
       })
     }
   }

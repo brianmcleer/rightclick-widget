@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "מידע רכוש",
         unknownError: "טעות לא ידועה",
         unserializableError: "טעות בלתי אפשרית",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "טעות יצירת טקסט גרפי: {value1}",
+        errorCreatingCoordinateMarkerValue1: "טעות יצירת סמן לתאם: {value1}",
+        errorCreatingSimpleMarkerValue1: "טעות יוצרת סימון פשוט: {value1}",
+        errorCreatingTextGraphic: "טעות יצירת טקסט גרפי:",
+        errorCreatingCoordinateMarker: "טעות יצירת סמן לתאם:",
+        errorCreatingSimpleMarker: "טעות יוצרת סימון פשוט:"
       })
     }
   }

@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Opis nehnuteľnosti",
         unknownError: "neznáma chyba",
         unserializableError: "neserializovateľná chyba",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Chyba pri vytváraní textovej grafiky: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Chyba pri vytváraní označenia súradníc: {value1}",
+        errorCreatingSimpleMarkerValue1: "Chyba pri vytváraní jednoduchého markera: {value1}",
+        errorCreatingTextGraphic: "Chyba pri vytváraní textovej grafiky:",
+        errorCreatingCoordinateMarker: "Chyba pri vytváraní označenia súradníc:",
+        errorCreatingSimpleMarker: "Chyba pri vytváraní jednoduchého markera:"
       })
     }
   }

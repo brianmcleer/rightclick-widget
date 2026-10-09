@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Thông tin tài sản",
         unknownError: "lỗi không rõ",
         unserializableError: "Lỗi không thể gửi đi được",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Gặp lỗi khi tạo đồ họa văn bản: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Gặp lỗi khi tạo dấu hiệu tọa độ: {value1}",
+        errorCreatingSimpleMarkerValue1: "Lỗi tạo dấu hiệu đơn giản: {value1}",
+        errorCreatingTextGraphic: "Gặp lỗi khi tạo đồ họa văn bản:",
+        errorCreatingCoordinateMarker: "Gặp lỗi khi tạo dấu hiệu tọa độ:",
+        errorCreatingSimpleMarker: "Lỗi tạo dấu hiệu đơn giản:"
       })
     }
   }

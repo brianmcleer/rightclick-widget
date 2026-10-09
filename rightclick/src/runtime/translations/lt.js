@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Savybės informacija",
         unknownError: "nežinoma klaida",
         unserializableError: "nenustatoma klaida",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Klaida kuriant teksto grafiką: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Klaida kuriant koordinačių žymeklį: {value1}",
+        errorCreatingSimpleMarkerValue1: "Klaida kuriant paprastą žymeklį: {value1}",
+        errorCreatingTextGraphic: "Klaida kuriant teksto grafiką:",
+        errorCreatingCoordinateMarker: "Klaida kuriant koordinačių žymeklį:",
+        errorCreatingSimpleMarker: "Klaida kuriant paprastą žymeklį:"
       })
     }
   }

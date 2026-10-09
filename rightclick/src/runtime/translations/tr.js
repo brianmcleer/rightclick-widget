@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Emlak Bilgileri",
         unknownError: "Bilinmeyen hata",
         unserializableError: "Başarısız olmayan hata",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "metin grafiği oluşturmak için hata: {value1}",
+        errorCreatingCoordinateMarkerValue1: "koordinatör oluşturma hatası: {value1}",
+        errorCreatingSimpleMarkerValue1: "Basit işaret oluşturma hatası: {value1}",
+        errorCreatingTextGraphic: "metin grafiği oluşturmak için hata:",
+        errorCreatingCoordinateMarker: "koordinatör oluşturma hatası:",
+        errorCreatingSimpleMarker: "Basit işaret oluşturma hatası:"
       })
     }
   }

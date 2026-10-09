@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Omandiinfo",
         unknownError: "tundmatu viga",
         unserializableError: "seeriaviisiline viga",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Viga teksti graafika loomisel: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Viga koordinaatmarkeri loomisel: {value1}",
+        errorCreatingSimpleMarkerValue1: "Viga lihtsa markeri loomisel: {value1}",
+        errorCreatingTextGraphic: "Viga teksti graafika loomisel:",
+        errorCreatingCoordinateMarker: "Viga koordinaatmarkeri loomisel:",
+        errorCreatingSimpleMarker: "Viga lihtsa markeri loomisel:"
       })
     }
   }

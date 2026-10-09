@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Інформація про нерухомість",
         unknownError: "Невідома помилка",
         unserializableError: "несеріалізована помилка",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Помилка створення текстової графіки: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Помилка створення координатного маркера: {value1}",
+        errorCreatingSimpleMarkerValue1: "Помилка створення простих маркерів: {value1}",
+        errorCreatingTextGraphic: "Помилка створення текстової графіки:",
+        errorCreatingCoordinateMarker: "Помилка створення координатного маркера:",
+        errorCreatingSimpleMarker: "Помилка створення простих маркерів:"
       })
     }
   }

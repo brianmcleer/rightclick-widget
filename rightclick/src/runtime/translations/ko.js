@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "재산 정보",
         unknownError: "알 수없는 오류",
         unserializableError: "unserializable 오류",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "텍스트 그래픽 생성 오류: {value1}",
+        errorCreatingCoordinateMarkerValue1: "조정 감적을 창조하는 과실: {value1}",
+        errorCreatingSimpleMarkerValue1: "간단한 마커를 창조하는 과실: {value1}",
+        errorCreatingTextGraphic: "텍스트 그래픽 생성 오류:",
+        errorCreatingCoordinateMarker: "조정 감적을 창조하는 과실:",
+        errorCreatingSimpleMarker: "간단한 마커를 창조하는 과실:"
       })
     }
   }

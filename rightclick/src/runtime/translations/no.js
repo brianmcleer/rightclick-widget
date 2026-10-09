@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Eiendomsinformasjon",
         unknownError: "ukjent feil",
         unserializableError: "uiserbar feil",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Feil ved oppretting av tekstgrafikk: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Feil ved opprettelse av koordinatmarkør: {value1}",
+        errorCreatingSimpleMarkerValue1: "Feil ved opprettelse av enkel markør: {value1}",
+        errorCreatingTextGraphic: "Feil ved oppretting av tekstgrafikk:",
+        errorCreatingCoordinateMarker: "Feil ved opprettelse av koordinatmarkør:",
+        errorCreatingSimpleMarker: "Feil ved opprettelse av enkel markør:"
       })
     }
   }

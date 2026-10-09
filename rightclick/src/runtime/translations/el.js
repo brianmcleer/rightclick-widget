@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Πληροφορίες ιδιοκτησίας",
         unknownError: "άγνωστο σφάλμα",
         unserializableError: "σφάλμα μη ανιχνεύσιμο",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Σφάλμα δημιουργίας γραφικού κειμένου: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Σφάλμα δημιουργίας δείκτη συντεταγμένων: {value1}",
+        errorCreatingSimpleMarkerValue1: "Σφάλμα δημιουργίας απλού δείκτη: {value1}",
+        errorCreatingTextGraphic: "Σφάλμα δημιουργίας γραφικού κειμένου:",
+        errorCreatingCoordinateMarker: "Σφάλμα δημιουργίας δείκτη συντεταγμένων:",
+        errorCreatingSimpleMarker: "Σφάλμα δημιουργίας απλού δείκτη:"
       })
     }
   }

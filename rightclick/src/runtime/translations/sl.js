@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Podatki o lastništvu",
         unknownError: "neznana napaka",
         unserializableError: "Neizvedljiva napaka",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Napaka pri ustvarjanju grafičnega besedila: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Napaka pri ustvarjanju koordinatnega označevalca: {value1}",
+        errorCreatingSimpleMarkerValue1: "Napaka pri ustvarjanju enostavnega označevalca: {value1}",
+        errorCreatingTextGraphic: "Napaka pri ustvarjanju grafičnega besedila:",
+        errorCreatingCoordinateMarker: "Napaka pri ustvarjanju koordinatnega označevalca:",
+        errorCreatingSimpleMarker: "Napaka pri ustvarjanju enostavnega označevalca:"
       })
     }
   }

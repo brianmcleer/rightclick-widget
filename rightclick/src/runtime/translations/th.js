@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "ข้อมูลคุณสมบัติ",
         unknownError: "ข้อผิดพลาดไม่ทราบสาเหตุ",
         unserializableError: "ข้อผิดพลาดที่ไม่สามารถตรวจสอบได้",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "เกิดข้อผิดพลาดขณะสร้างกราฟิกข้อความ: {value1}",
+        errorCreatingCoordinateMarkerValue1: "เกิดความผิดพลาดในการสร้างเครื่องหมายพิกัด: {value1}",
+        errorCreatingSimpleMarkerValue1: "เกิดความผิดพลาดในการสร้างเครื่องหมายขีดฆ่า: {value1}",
+        errorCreatingTextGraphic: "เกิดข้อผิดพลาดขณะสร้างกราฟิกข้อความ:",
+        errorCreatingCoordinateMarker: "เกิดความผิดพลาดในการสร้างเครื่องหมายพิกัด:",
+        errorCreatingSimpleMarker: "เกิดความผิดพลาดในการสร้างเครื่องหมายขีดฆ่า:"
       })
     }
   }

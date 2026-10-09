@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Tulajdoni információk",
         unknownError: "ismeretlen hiba",
         unserializableError: "nem sorozható hiba",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Nem sikerült szöveges grafikont létrehozni: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Nem sikerült létrehozni a koordináta jelölőt: {value1}",
+        errorCreatingSimpleMarkerValue1: "Nem sikerült létrehozni az egyszerű jelölőt: {value1}",
+        errorCreatingTextGraphic: "Nem sikerült szöveges grafikont létrehozni:",
+        errorCreatingCoordinateMarker: "Nem sikerült létrehozni a koordináta jelölőt:",
+        errorCreatingSimpleMarker: "Nem sikerült létrehozni az egyszerű jelölőt:"
       })
     }
   }

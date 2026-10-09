@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Informace o vlastnictví",
         unknownError: "neznámá chyba",
         unserializableError: "neserializovatelná chyba",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Chyba při vytváření textové grafiky: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Chyba při vytváření značky souřadnic: {value1}",
+        errorCreatingSimpleMarkerValue1: "Chyba při vytváření jednoduché značky: {value1}",
+        errorCreatingTextGraphic: "Chyba při vytváření textové grafiky:",
+        errorCreatingCoordinateMarker: "Chyba při vytváření značky souřadnic:",
+        errorCreatingSimpleMarker: "Chyba při vytváření jednoduché značky:"
       })
     }
   }

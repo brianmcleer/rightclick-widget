@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Fastighetsinformation",
         unknownError: "Okänd fel",
         unserializableError: "oserialiserbart fel",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Fel skapa text grafik: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Fel skapa koordinatmarkör: {value1}",
+        errorCreatingSimpleMarkerValue1: "Fel som skapar enkel markör: {value1}",
+        errorCreatingTextGraphic: "Fel skapa text grafik:",
+        errorCreatingCoordinateMarker: "Fel skapa koordinatmarkör:",
+        errorCreatingSimpleMarker: "Fel som skapar enkel markör:"
       })
     }
   }

@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "معلومات عن الممتلكات",
         unknownError: "خطأ مجهول",
         unserializableError: "خطأ غير معقول",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "الرعب الذي يخلق النص {value1}",
+        errorCreatingCoordinateMarkerValue1: "الرعب الذي يخلق علامه تنسيق: {value1}",
+        errorCreatingSimpleMarkerValue1: "يخلق الرعب علامة بسيطة: {value1}",
+        errorCreatingTextGraphic: "الرعب الذي يخلق النص",
+        errorCreatingCoordinateMarker: "الرعب الذي يخلق علامه تنسيق:",
+        errorCreatingSimpleMarker: "يخلق الرعب علامة بسيطة:"
       })
     }
   }

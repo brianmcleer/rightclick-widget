@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Informasi Properti",
         unknownError: "galat tak dikenal",
         unserializableError: "kesalahan tidak serialisasi",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Galat saat membuat grafis teks: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Galat membuat penanda koordinat: {value1}",
+        errorCreatingSimpleMarkerValue1: "Galat membuat penanda sederhana: {value1}",
+        errorCreatingTextGraphic: "Galat saat membuat grafis teks:",
+        errorCreatingCoordinateMarker: "Galat membuat penanda koordinat:",
+        errorCreatingSimpleMarker: "Galat membuat penanda sederhana:"
       })
     }
   }

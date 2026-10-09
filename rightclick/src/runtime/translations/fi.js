@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Kohteen tiedot",
         unknownError: "tuntematon virhe",
         unserializableError: "epätavallinen virhe",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Virhe luotaessa tekstigrafiikkaa: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Virhe luotaessa koordinaattimerkkiä: {value1}",
+        errorCreatingSimpleMarkerValue1: "Virhe luotaessa yksinkertaista merkkiä: {value1}",
+        errorCreatingTextGraphic: "Virhe luotaessa tekstigrafiikkaa:",
+        errorCreatingCoordinateMarker: "Virhe luotaessa koordinaattimerkkiä:",
+        errorCreatingSimpleMarker: "Virhe luotaessa yksinkertaista merkkiä:"
       })
     }
   }

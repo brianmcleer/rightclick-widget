@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Информация о собственности",
         unknownError: "Неизвестная ошибка",
         unserializableError: "несериализируемая ошибка",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Ошибка создания текстовой графики: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Ошибка создания координатного маркера: {value1}",
+        errorCreatingSimpleMarkerValue1: "Ошибка создания простого маркера: {value1}",
+        errorCreatingTextGraphic: "Ошибка создания текстовой графики:",
+        errorCreatingCoordinateMarker: "Ошибка создания координатного маркера:",
+        errorCreatingSimpleMarker: "Ошибка создания простого маркера:"
       })
     }
   }

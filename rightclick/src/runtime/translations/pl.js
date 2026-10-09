@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Informacje o własności",
         unknownError: "nieznany błąd",
         unserializableError: "błąd niezserializowalny",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Błąd przy tworzeniu grafiki tekstowej: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Błąd przy tworzeniu znacznika współrzędnych: {value1}",
+        errorCreatingSimpleMarkerValue1: "Błąd przy tworzeniu prostego znacznika: {value1}",
+        errorCreatingTextGraphic: "Błąd przy tworzeniu grafiki tekstowej:",
+        errorCreatingCoordinateMarker: "Błąd przy tworzeniu znacznika współrzędnych:",
+        errorCreatingSimpleMarker: "Błąd przy tworzeniu prostego znacznika:"
       })
     }
   }

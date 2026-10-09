@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Eigendomsinformatie",
         unknownError: "onbekende fout",
         unserializableError: "onuitwisbare fout",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Fout bij het aanmaken van tekstweergave: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Fout bij aanmaken van coördinatenmarkering: {value1}",
+        errorCreatingSimpleMarkerValue1: "Fout bij aanmaken van eenvoudige markeerder: {value1}",
+        errorCreatingTextGraphic: "Fout bij het aanmaken van tekstweergave:",
+        errorCreatingCoordinateMarker: "Fout bij aanmaken van coördinatenmarkering:",
+        errorCreatingSimpleMarker: "Fout bij aanmaken van eenvoudige markeerder:"
       })
     }
   }

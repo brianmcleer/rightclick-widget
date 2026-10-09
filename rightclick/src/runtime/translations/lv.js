@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Īpašības informācija",
         unknownError: "nezināma kļūda",
         unserializableError: "nepārspējama kļūda",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Kļūda veidojot teksta grafiku: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Kļūda izveidojot koordinātu marķieri: {value1}",
+        errorCreatingSimpleMarkerValue1: "Kļūda izveidojot vienkāršu marķieri: {value1}",
+        errorCreatingTextGraphic: "Kļūda veidojot teksta grafiku:",
+        errorCreatingCoordinateMarker: "Kļūda izveidojot koordinātu marķieri:",
+        errorCreatingSimpleMarker: "Kļūda izveidojot vienkāršu marķieri:"
       })
     }
   }

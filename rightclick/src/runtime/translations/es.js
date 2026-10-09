@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Información sobre bienes",
         unknownError: "error desconocido",
         unserializableError: "error unserializable",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Error de creación de texto gráfico: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Marcador de coordenadas de error: {value1}",
+        errorCreatingSimpleMarkerValue1: "Error creando un simple marcador: {value1}",
+        errorCreatingTextGraphic: "Error de creación de texto gráfico:",
+        errorCreatingCoordinateMarker: "Marcador de coordenadas de error:",
+        errorCreatingSimpleMarker: "Error creando un simple marcador:"
       })
     }
   }

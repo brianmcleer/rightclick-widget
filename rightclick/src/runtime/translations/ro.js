@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Informații privind proprietatea",
         unknownError: "Eroare necunoscută",
         unserializableError: "eroare inoperabilă",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Eroare la crearea graficului text: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Eroare la crearea markerului de coordonate: {value1}",
+        errorCreatingSimpleMarkerValue1: "Eroare la crearea unui simplu marker: {value1}",
+        errorCreatingTextGraphic: "Eroare la crearea graficului text:",
+        errorCreatingCoordinateMarker: "Eroare la crearea markerului de coordonate:",
+        errorCreatingSimpleMarker: "Eroare la crearea unui simplu marker:"
       })
     }
   }

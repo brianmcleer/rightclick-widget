@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "屬性資訊",
         unknownError: "未知的錯誤",
         unserializableError: "不串連的錯誤",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "建立文字圖片出錯 : {value1}",
+        errorCreatingCoordinateMarkerValue1: "建立座標出錯 : {value1}",
+        errorCreatingSimpleMarkerValue1: "建立簡單標籤出錯 : {value1}",
+        errorCreatingTextGraphic: "建立文字圖片出錯 :",
+        errorCreatingCoordinateMarker: "建立座標出錯 :",
+        errorCreatingSimpleMarker: "建立簡單標籤出錯 :"
       })
     }
   }

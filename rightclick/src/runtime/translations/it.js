@@ -141,12 +141,12 @@ System.register([], function (e) {
         propertyInformation: "Informazioni sulla struttura",
         unknownError: "errore sconosciuto",
         unserializableError: "errore non serializzabile",
-        errorCreatingTextGraphicValue1: "Error creating text graphic: {value1}",
-        errorCreatingCoordinateMarkerValue1: "Error creating coordinate marker: {value1}",
-        errorCreatingSimpleMarkerValue1: "Error creating simple marker: {value1}",
-        errorCreatingTextGraphic: "Error creating text graphic:",
-        errorCreatingCoordinateMarker: "Error creating coordinate marker:",
-        errorCreatingSimpleMarker: "Error creating simple marker:"
+        errorCreatingTextGraphicValue1: "Creazione di errore grafica del testo: {value1}",
+        errorCreatingCoordinateMarkerValue1: "Errore che crea marcatore di coordinate: {value1}",
+        errorCreatingSimpleMarkerValue1: "Errore creando semplice marcatore: {value1}",
+        errorCreatingTextGraphic: "Creazione di errore grafica del testo:",
+        errorCreatingCoordinateMarker: "Errore che crea marcatore di coordinate:",
+        errorCreatingSimpleMarker: "Errore creando semplice marcatore:"
       })
     }
   }

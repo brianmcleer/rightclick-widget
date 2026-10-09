@@ -153,16 +153,16 @@
       },
       "locales": {
         "ar": {
-          "file": "177193568a3e",
+          "file": "f1ae21ef2f0c",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -739,20 +739,50 @@
               "t": "معلومات عن الممتلكات",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "الرعب الذي يخلق النص {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "الرعب الذي يخلق علامه تنسيق: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "يخلق الرعب علامة بسيطة: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "الرعب الذي يخلق النص",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "الرعب الذي يخلق علامه تنسيق:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "يخلق الرعب علامة بسيطة:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "bg": {
-          "file": "a344e038b74c",
+          "file": "dc5147f68f06",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -1329,6 +1359,36 @@
               "t": "Информация за собствеността",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Грешка при създаване на текстова графика: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Грешка при създаване на координиращ маркер: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Грешка при създаване на прост маркер: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Грешка при създаване на текстова графика:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Грешка при създаване на координиращ маркер:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Грешка при създаване на прост маркер:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
@@ -1347,16 +1407,16 @@
           "entries": {}
         },
         "ca": {
-          "file": "e928fd904048",
+          "file": "13e7035cdb03",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -1933,20 +1993,50 @@
               "t": "Informació de la propietat",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Error en crear el gràfic de text: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Error en crear el marcador de coordenades: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Error en crear un marcador simple: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Error en crear el gràfic de text:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Error en crear el marcador de coordenades:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Error en crear un marcador simple:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "cs": {
-          "file": "fbc352f23113",
+          "file": "6dd6d1a32961",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -2523,20 +2613,50 @@
               "t": "Informace o vlastnictví",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Chyba při vytváření textové grafiky: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Chyba při vytváření značky souřadnic: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Chyba při vytváření jednoduché značky: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Chyba při vytváření textové grafiky:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Chyba při vytváření značky souřadnic:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Chyba při vytváření jednoduché značky:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "da": {
-          "file": "ce51ea8a6bc2",
+          "file": "ce47cd40ba3d",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -3113,20 +3233,50 @@
               "t": "Ejendomsoplysninger",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Fejl ved oprettelse af tekstgrafik: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Fejl ved oprettelse af koordinatmarkør: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Fejl ved oprettelse af simpel markør: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Fejl ved oprettelse af tekstgrafik:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Fejl ved oprettelse af koordinatmarkør:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Fejl ved oprettelse af simpel markør:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "de": {
-          "file": "b2fe6663d5b9",
+          "file": "f200c2811dda",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -3703,20 +3853,50 @@
               "t": "Immobilieninformationen",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Fehler beim Erstellen von Textgrafiken: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Fehler beim Erstellen eines Koordinatenmarkers: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Fehler beim Erstellen eines einfachen Markers: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Fehler beim Erstellen von Textgrafiken:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Fehler beim Erstellen eines Koordinatenmarkers:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Fehler beim Erstellen eines einfachen Markers:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "el": {
-          "file": "27a1c94414c9",
+          "file": "33a654799381",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -4293,20 +4473,50 @@
               "t": "Πληροφορίες ιδιοκτησίας",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Σφάλμα δημιουργίας γραφικού κειμένου: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Σφάλμα δημιουργίας δείκτη συντεταγμένων: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Σφάλμα δημιουργίας απλού δείκτη: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Σφάλμα δημιουργίας γραφικού κειμένου:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Σφάλμα δημιουργίας δείκτη συντεταγμένων:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Σφάλμα δημιουργίας απλού δείκτη:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "es": {
-          "file": "2204c5df2cfc",
+          "file": "bd8666fed442",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -4883,20 +5093,50 @@
               "t": "Información sobre bienes",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Error de creación de texto gráfico: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Marcador de coordenadas de error: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Error creando un simple marcador: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Error de creación de texto gráfico:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Marcador de coordenadas de error:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Error creando un simple marcador:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "et": {
-          "file": "3ce8c4043823",
+          "file": "73a4cff22d9a",
           "counts": {
             "esri": 20,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -5473,20 +5713,50 @@
               "t": "Omandiinfo",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Viga teksti graafika loomisel: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Viga koordinaatmarkeri loomisel: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Viga lihtsa markeri loomisel: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Viga teksti graafika loomisel:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Viga koordinaatmarkeri loomisel:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Viga lihtsa markeri loomisel:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "fi": {
-          "file": "07897fae8d2b",
+          "file": "26b8c1a02702",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -6063,20 +6333,50 @@
               "t": "Kohteen tiedot",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Virhe luotaessa tekstigrafiikkaa: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Virhe luotaessa koordinaattimerkkiä: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Virhe luotaessa yksinkertaista merkkiä: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Virhe luotaessa tekstigrafiikkaa:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Virhe luotaessa koordinaattimerkkiä:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Virhe luotaessa yksinkertaista merkkiä:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "fr": {
-          "file": "39f3c6c6aaa6",
+          "file": "2f733f10afde",
           "counts": {
             "esri": 20,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 116,
+            "machine": 122,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -6658,20 +6958,50 @@
               "t": "Renseignements sur les biens",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Erreur lors de la création du graphique texte : {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Erreur lors de la création du marqueur de coordonnées & #160;: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Erreur lors de la création d'un marqueur simple : {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Erreur lors de la création du graphique texte :",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Erreur lors de la création du marqueur de coordonnées & #160;:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Erreur lors de la création d'un marqueur simple :",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "he": {
-          "file": "dbf34e60511b",
+          "file": "e9f81df0e5b3",
           "counts": {
             "esri": 21,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -7248,6 +7578,36 @@
               "t": "מידע רכוש",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "טעות יצירת טקסט גרפי: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "טעות יצירת סמן לתאם: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "טעות יוצרת סימון פשוט: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "טעות יצירת טקסט גרפי:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "טעות יצירת סמן לתאם:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "טעות יוצרת סימון פשוט:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
@@ -7266,16 +7626,16 @@
           "entries": {}
         },
         "hu": {
-          "file": "8af8584cd363",
+          "file": "59c8516d2901",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -7852,20 +8212,50 @@
               "t": "Tulajdoni információk",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Nem sikerült szöveges grafikont létrehozni: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Nem sikerült létrehozni a koordináta jelölőt: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Nem sikerült létrehozni az egyszerű jelölőt: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Nem sikerült szöveges grafikont létrehozni:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Nem sikerült létrehozni a koordináta jelölőt:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Nem sikerült létrehozni az egyszerű jelölőt:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "id": {
-          "file": "f1523f4e7516",
+          "file": "4bbd390a719c",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -8442,20 +8832,50 @@
               "t": "Informasi Properti",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Galat saat membuat grafis teks: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Galat membuat penanda koordinat: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Galat membuat penanda sederhana: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Galat saat membuat grafis teks:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Galat membuat penanda koordinat:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Galat membuat penanda sederhana:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "it": {
-          "file": "dce7583165dc",
+          "file": "8f8510e35bb4",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -9032,20 +9452,50 @@
               "t": "Informazioni sulla struttura",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Creazione di errore grafica del testo: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Errore che crea marcatore di coordinate: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Errore creando semplice marcatore: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Creazione di errore grafica del testo:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Errore che crea marcatore di coordinate:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Errore creando semplice marcatore:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "ja": {
-          "file": "6c8649b4627c",
+          "file": "ddb4a0c91186",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -9622,20 +10072,50 @@
               "t": "物件情報",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "テキストグラフィックを作成するエラー: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "座標マーカーを作成するエラー: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "シンプルなマーカーを作成するエラー: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "テキストグラフィックを作成するエラー:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "座標マーカーを作成するエラー:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "シンプルなマーカーを作成するエラー:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "ko": {
-          "file": "e6f6a70ab98a",
+          "file": "be164c766b5f",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -10212,20 +10692,50 @@
               "t": "재산 정보",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "텍스트 그래픽 생성 오류: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "조정 감적을 창조하는 과실: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "간단한 마커를 창조하는 과실: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "텍스트 그래픽 생성 오류:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "조정 감적을 창조하는 과실:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "간단한 마커를 창조하는 과실:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "lt": {
-          "file": "16c2111558fc",
+          "file": "1d14d534a5be",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -10802,20 +11312,50 @@
               "t": "Savybės informacija",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Klaida kuriant teksto grafiką: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Klaida kuriant koordinačių žymeklį: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Klaida kuriant paprastą žymeklį: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Klaida kuriant teksto grafiką:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Klaida kuriant koordinačių žymeklį:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Klaida kuriant paprastą žymeklį:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "lv": {
-          "file": "34bbd1119761",
+          "file": "fa0b83013df7",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -11392,20 +11932,50 @@
               "t": "Īpašības informācija",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Kļūda veidojot teksta grafiku: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Kļūda izveidojot koordinātu marķieri: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Kļūda izveidojot vienkāršu marķieri: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Kļūda veidojot teksta grafiku:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Kļūda izveidojot koordinātu marķieri:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Kļūda izveidojot vienkāršu marķieri:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "no": {
-          "file": "77008fe6eae3",
+          "file": "21856590fa02",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -11982,20 +12552,50 @@
               "t": "Eiendomsinformasjon",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Feil ved oppretting av tekstgrafikk: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Feil ved opprettelse av koordinatmarkør: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Feil ved opprettelse av enkel markør: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Feil ved oppretting av tekstgrafikk:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Feil ved opprettelse av koordinatmarkør:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Feil ved opprettelse av enkel markør:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "nl": {
-          "file": "3582d0879f4a",
+          "file": "ddc56c1553db",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -12572,20 +13172,50 @@
               "t": "Eigendomsinformatie",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Fout bij het aanmaken van tekstweergave: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Fout bij aanmaken van coördinatenmarkering: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Fout bij aanmaken van eenvoudige markeerder: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Fout bij het aanmaken van tekstweergave:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Fout bij aanmaken van coördinatenmarkering:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Fout bij aanmaken van eenvoudige markeerder:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "pl": {
-          "file": "21d5799c3edd",
+          "file": "bd09478a764e",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -13162,20 +13792,50 @@
               "t": "Informacje o własności",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Błąd przy tworzeniu grafiki tekstowej: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Błąd przy tworzeniu znacznika współrzędnych: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Błąd przy tworzeniu prostego znacznika: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Błąd przy tworzeniu grafiki tekstowej:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Błąd przy tworzeniu znacznika współrzędnych:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Błąd przy tworzeniu prostego znacznika:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "pt-br": {
-          "file": "d1b9f648f582",
+          "file": "f20f5c926ac2",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -13752,20 +14412,50 @@
               "t": "Informação da Propriedade",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Erro ao criar o gráfico de texto: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Erro ao criar o marcador de coordenadas: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Erro ao criar um marcador simples: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Erro ao criar o gráfico de texto:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Erro ao criar o marcador de coordenadas:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Erro ao criar um marcador simples:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "pt-pt": {
-          "file": "699c4f5954af",
+          "file": "c8aff2d36e71",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -14342,20 +15032,50 @@
               "t": "Informação da Propriedade",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Erro ao criar o gráfico de texto: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Erro ao criar o marcador de coordenadas: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Erro ao criar um marcador simples: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Erro ao criar o gráfico de texto:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Erro ao criar o marcador de coordenadas:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Erro ao criar um marcador simples:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "ro": {
-          "file": "323ee3d30c50",
+          "file": "e0bd477418b1",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -14932,20 +15652,50 @@
               "t": "Informații privind proprietatea",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Eroare la crearea graficului text: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Eroare la crearea markerului de coordonate: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Eroare la crearea unui simplu marker: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Eroare la crearea graficului text:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Eroare la crearea markerului de coordonate:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Eroare la crearea unui simplu marker:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "ru": {
-          "file": "3f3fb62698c4",
+          "file": "d6824028241b",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -15522,20 +16272,50 @@
               "t": "Информация о собственности",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Ошибка создания текстовой графики: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Ошибка создания координатного маркера: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Ошибка создания простого маркера: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Ошибка создания текстовой графики:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Ошибка создания координатного маркера:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Ошибка создания простого маркера:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "sk": {
-          "file": "c387c755a84c",
+          "file": "f3516b3c7b1b",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -16112,20 +16892,50 @@
               "t": "Opis nehnuteľnosti",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Chyba pri vytváraní textovej grafiky: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Chyba pri vytváraní označenia súradníc: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Chyba pri vytváraní jednoduchého markera: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Chyba pri vytváraní textovej grafiky:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Chyba pri vytváraní označenia súradníc:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Chyba pri vytváraní jednoduchého markera:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "sl": {
-          "file": "ce7d9976c4be",
+          "file": "594f69caa68e",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -16702,6 +17512,36 @@
               "t": "Podatki o lastništvu",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Napaka pri ustvarjanju grafičnega besedila: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Napaka pri ustvarjanju koordinatnega označevalca: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Napaka pri ustvarjanju enostavnega označevalca: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Napaka pri ustvarjanju grafičnega besedila:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Napaka pri ustvarjanju koordinatnega označevalca:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Napaka pri ustvarjanju enostavnega označevalca:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
@@ -16720,16 +17560,16 @@
           "entries": {}
         },
         "sv": {
-          "file": "55fd894e3174",
+          "file": "c9cb1ede2663",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -17306,20 +18146,50 @@
               "t": "Fastighetsinformation",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Fel skapa text grafik: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Fel skapa koordinatmarkör: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Fel som skapar enkel markör: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Fel skapa text grafik:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Fel skapa koordinatmarkör:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Fel som skapar enkel markör:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "th": {
-          "file": "a78c3bf2650f",
+          "file": "6be28899f32b",
           "counts": {
             "esri": 22,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -17896,20 +18766,50 @@
               "t": "ข้อมูลคุณสมบัติ",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "เกิดข้อผิดพลาดขณะสร้างกราฟิกข้อความ: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "เกิดความผิดพลาดในการสร้างเครื่องหมายพิกัด: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "เกิดความผิดพลาดในการสร้างเครื่องหมายขีดฆ่า: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "เกิดข้อผิดพลาดขณะสร้างกราฟิกข้อความ:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "เกิดความผิดพลาดในการสร้างเครื่องหมายพิกัด:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "เกิดความผิดพลาดในการสร้างเครื่องหมายขีดฆ่า:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "tr": {
-          "file": "f19557cf5bb4",
+          "file": "1afd2bcf970d",
           "counts": {
             "esri": 21,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -18486,20 +19386,50 @@
               "t": "Emlak Bilgileri",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "metin grafiği oluşturmak için hata: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "koordinatör oluşturma hatası: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Basit işaret oluşturma hatası: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "metin grafiği oluşturmak için hata:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "koordinatör oluşturma hatası:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Basit işaret oluşturma hatası:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "zh-cn": {
-          "file": "aa5ef561cc1e",
+          "file": "34678d33e964",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -19076,20 +20006,50 @@
               "t": "财产信息",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "创建文本图形出错 : {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "创建坐标标记出错 : {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "创建简单标记出错 : {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "创建文本图形出错 :",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "创建坐标标记出错 :",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "创建简单标记出错 :",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "uk": {
-          "file": "360be49c4c27",
+          "file": "18a53077b342",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -19666,20 +20626,50 @@
               "t": "Інформація про нерухомість",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Помилка створення текстової графіки: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Помилка створення координатного маркера: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Помилка створення простих маркерів: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Помилка створення текстової графіки:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Помилка створення координатного маркера:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Помилка створення простих маркерів:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "vi": {
-          "file": "86926bdd8b63",
+          "file": "29ae2b61bf73",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -20256,20 +21246,50 @@
               "t": "Thông tin tài sản",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "Gặp lỗi khi tạo đồ họa văn bản: {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "Gặp lỗi khi tạo dấu hiệu tọa độ: {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "Lỗi tạo dấu hiệu đơn giản: {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "Gặp lỗi khi tạo đồ họa văn bản:",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "Gặp lỗi khi tạo dấu hiệu tọa độ:",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "Lỗi tạo dấu hiệu đơn giản:",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "zh-hk": {
-          "file": "7924ffc098f4",
+          "file": "aa035ebaa84e",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -20846,20 +21866,50 @@
               "t": "屬性資訊",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "建立文字圖片出錯 : {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "建立座標出錯 : {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "建立簡單標籤出錯 : {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "建立文字圖片出錯 :",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "建立座標出錯 :",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "建立簡單標籤出錯 :",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         },
         "zh-tw": {
-          "file": "7924ffc098f4",
+          "file": "aa035ebaa84e",
           "counts": {
             "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 115,
+            "machine": 121,
             "stale": 0,
-            "missing": 6
+            "missing": 0
           },
           "entries": {
             "_widgetLabel": {
@@ -21436,6 +22486,36 @@
               "t": "屬性資訊",
               "src": "machine",
               "h": "ca8911ec4193"
+            },
+            "errorCreatingTextGraphicValue1": {
+              "t": "建立文字圖片出錯 : {value1}",
+              "src": "machine",
+              "h": "efbddea703c8"
+            },
+            "errorCreatingCoordinateMarkerValue1": {
+              "t": "建立座標出錯 : {value1}",
+              "src": "machine",
+              "h": "214bbefceb06"
+            },
+            "errorCreatingSimpleMarkerValue1": {
+              "t": "建立簡單標籤出錯 : {value1}",
+              "src": "machine",
+              "h": "c6958b02c59c"
+            },
+            "errorCreatingTextGraphic": {
+              "t": "建立文字圖片出錯 :",
+              "src": "machine",
+              "h": "eacb4c81bd66"
+            },
+            "errorCreatingCoordinateMarker": {
+              "t": "建立座標出錯 :",
+              "src": "machine",
+              "h": "9f3a2045c678"
+            },
+            "errorCreatingSimpleMarker": {
+              "t": "建立簡單標籤出錯 :",
+              "src": "machine",
+              "h": "9aa98f0b8d1f"
             }
           }
         }
@@ -21715,16 +22795,16 @@
       },
       "locales": {
         "ar": {
-          "file": "45bd38a88782",
+          "file": "41b30fcd73fa",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -22747,6 +23827,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "لا يمكن تحميل الثقوب التطبيقية. رجاءً إدخلْ الهويةَ المستعارةَ يدوياً. الوصية الخاصة بك هو في: الخادم/العلن/الحدث/{value1}/config.json ابحثي عن \"تقرير جيد\" لإيجاد هوية المستعار",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "لا يمكن تحميل الثقوب التطبيقية. رجاءً إدخلْ الهويةَ المستعارةَ يدوياً. الوصية الخاصة بك هو في: الخادم/العلن/الحدث/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "لا يمكن تحميل الثقوب التطبيقية. رجاءً إدخلْ الهويةَ المستعارةَ يدوياً. الوصية الخاصة بك هو في: الخادم/العلن/الحدث/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "المركز هنا",
               "src": "machine",
@@ -22756,6 +23851,11 @@
               "t": "تنسيق النسخ",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "تنسيق الطاقات",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -22785,16 +23885,16 @@
           }
         },
         "bg": {
-          "file": "5800b776b6e8",
+          "file": "05edd8ea640a",
           "counts": {
             "esri": 48,
             "esri-check": 4,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -23817,6 +24917,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Грешка при зареждане на конфигуриране на приложението. Моля, въведете ръчно джаджата ID. Конфигурирането Ви е на: сървър/публичен/приложения/{value1}/ config.json Търсене на \"право-доклад,\" за да намерите джаджа ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Грешка при зареждане на конфигуриране на приложението. Моля, въведете ръчно джаджата ID. Конфигурирането Ви е на: сървър/публичен/приложения/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Грешка при зареждане на конфигуриране на приложението. Моля, въведете ръчно джаджата ID. Конфигурирането Ви е на: сървър/публичен/приложения/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Център тук",
               "src": "machine",
@@ -23826,6 +24941,11 @@
               "t": "Копиране на координатите",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Координати",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Маркер",
@@ -23869,16 +24989,16 @@
           "entries": {}
         },
         "ca": {
-          "file": "f7852f9e7d58",
+          "file": "dae6998fae2f",
           "counts": {
             "esri": 49,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 214,
+            "machine": 218,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -24916,6 +26036,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "No s' ha pogut carregar la configuració de l' aplicació. Introduïu manualment l' ID de l' estri. La vostra configuració és a: servidor/public/apps /{value1}/ config.json Cerca \"propertura- port\" per trobar l' ID de l' estri.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "No s' ha pogut carregar la configuració de l' aplicació. Introduïu manualment l' ID de l' estri. La vostra configuració és a: servidor/public/apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "No s' ha pogut carregar la configuració de l' aplicació. Introduïu manualment l' ID de l' estri. La vostra configuració és a: servidor/public/apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centre aquí",
               "src": "machine",
@@ -24925,6 +26060,11 @@
               "t": "Copia coordenades",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Dibuixa coordenades",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marcador de gràfic",
@@ -24954,16 +26094,16 @@
           }
         },
         "cs": {
-          "file": "30fb06d76119",
+          "file": "66ef02875477",
           "counts": {
             "esri": 49,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -25986,6 +27126,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nelze načíst konfiguraci aplikace. Prosím zadejte widget ID ručně. Váš konfigurátor je na: server / public / apps /{value1}/ Config.json Hledat \"Property- report\" najít widget ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nelze načíst konfiguraci aplikace. Prosím zadejte widget ID ručně. Váš konfigurátor je na: server / public / apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nelze načíst konfiguraci aplikace. Prosím zadejte widget ID ručně. Váš konfigurátor je na: server / public / apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Střed zde",
               "src": "machine",
@@ -25995,6 +27150,11 @@
               "t": "Kopírovat souřadnice",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Souřadnice vrtů",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Značka plomby",
@@ -26024,16 +27184,16 @@
           }
         },
         "da": {
-          "file": "652ceb12826d",
+          "file": "a77d4c8e53bc",
           "counts": {
             "esri": 47,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -27066,6 +28226,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Kunne ikke indlæse app config. Indtast kontrolID manuelt. Din config er på: server / public / apps /{value1}/ config.json Søg efter \"property- report\" for at finde widget-ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Kunne ikke indlæse app config. Indtast kontrolID manuelt. Din config er på: server / public / apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Kunne ikke indlæse app config. Indtast kontrolID manuelt. Din config er på: server / public / apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Center her",
               "src": "machine",
@@ -27075,6 +28250,11 @@
               "t": "Kopiér koordinater",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plot koordinater",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot markør",
@@ -27104,16 +28284,16 @@
           }
         },
         "de": {
-          "file": "4fc158ed1759",
+          "file": "d516ca2e1cd6",
           "counts": {
             "esri": 48,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 214,
+            "machine": 218,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -28151,6 +29331,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Die App Config konnte nicht geladen werden. Bitte geben Sie die Widget-ID manuell ein. Ihre Konfiguration ist: server/public/apps/{value1}/config.json Suchen Sie nach \"property-report\", um die Widget-ID zu finden.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Die App Config konnte nicht geladen werden. Bitte geben Sie die Widget-ID manuell ein. Ihre Konfiguration ist: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Die App Config konnte nicht geladen werden. Bitte geben Sie die Widget-ID manuell ein. Ihre Konfiguration ist: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Mitte hier",
               "src": "machine",
@@ -28160,6 +29355,11 @@
               "t": "Koordinaten kopieren",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Flächenkoordinaten",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -28189,16 +29389,16 @@
           }
         },
         "el": {
-          "file": "ddef99580c4c",
+          "file": "d91c0041bb92",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -29221,6 +30421,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Αδυναμία φόρτωσης ρυθμίσεων εφαρμογής. Παρακαλώ εισάγετε την ταυτότητα γραφικού συστατικού χειροκίνητα. Η συσκευή σας είναι: server/public/apps/{value1}/config.json Αναζήτηση για \" property-report\" για να βρείτε την ταυτότητα widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Αδυναμία φόρτωσης ρυθμίσεων εφαρμογής. Παρακαλώ εισάγετε την ταυτότητα γραφικού συστατικού χειροκίνητα. Η συσκευή σας είναι: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Αδυναμία φόρτωσης ρυθμίσεων εφαρμογής. Παρακαλώ εισάγετε την ταυτότητα γραφικού συστατικού χειροκίνητα. Η συσκευή σας είναι: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Κέντρο εδώ",
               "src": "machine",
@@ -29230,6 +30445,11 @@
               "t": "Αντιγραφή συντεταγμένων",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Συντεταγμένες σχεδίασης",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Σήμανση σχεδίασης",
@@ -29259,16 +30479,16 @@
           }
         },
         "es": {
-          "file": "08ed3259bf7d",
+          "file": "245e6311f324",
           "counts": {
             "esri": 49,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -30301,6 +31521,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "No podía cargar configuración de aplicaciones. Por favor, introduzca el ID de widget manualmente. Su configuración está en: servidor/public/apps/{value1}/config.json Busque \"property-report\" para encontrar el ID de widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "No podía cargar configuración de aplicaciones. Por favor, introduzca el ID de widget manualmente. Su configuración está en: servidor/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "No podía cargar configuración de aplicaciones. Por favor, introduzca el ID de widget manualmente. Su configuración está en: servidor/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centro Aquí",
               "src": "machine",
@@ -30310,6 +31545,11 @@
               "t": "Copie coordenadas",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordenadas de Parcela",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marcador de trama",
@@ -30339,16 +31579,16 @@
           }
         },
         "et": {
-          "file": "0595bf704c37",
+          "file": "4a6e3a8b707f",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -31371,6 +32611,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Rakenduse seadistuse laadimine nurjus. Palun sisesta vidina ID käsitsi. Sinu seadistus on: server/public/apps/{value1}/config.json. Otsige vidina ID leidmiseks \"omandiaruanne\".",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Rakenduse seadistuse laadimine nurjus. Palun sisesta vidina ID käsitsi. Sinu seadistus on: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Rakenduse seadistuse laadimine nurjus. Palun sisesta vidina ID käsitsi. Sinu seadistus on: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Keskus",
               "src": "machine",
@@ -31380,6 +32635,11 @@
               "t": "Kopeeri koordinaadid",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Koordinaatide joonistamine",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Joonisetähis",
@@ -31409,16 +32669,16 @@
           }
         },
         "fi": {
-          "file": "ea9a53f68558",
+          "file": "cacf72cb3a67",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 210,
+            "machine": 214,
             "stale": 0,
-            "missing": 5
+            "missing": 1
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -32436,6 +33696,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Sovellusta ei voitu ladata. Anna widget ID manuaalisesti. Konfigisi on osoitteessa: server/public/apps/{value1}/config.json Etsi \"Omistaja-raportti\" löytää widget ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Sovellusta ei voitu ladata. Anna widget ID manuaalisesti. Konfigisi on osoitteessa: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Sovellusta ei voitu ladata. Anna widget ID manuaalisesti. Konfigisi on osoitteessa: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Keskitä tähän",
               "src": "machine",
@@ -32445,6 +33720,11 @@
               "t": "Kopioi koordinaatit",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Tonttikoordinaatit",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Tonttimerkki",
@@ -32474,16 +33754,16 @@
           }
         },
         "fr": {
-          "file": "2d2f35a96743",
+          "file": "f9c29089fc3d",
           "counts": {
             "esri": 45,
             "esri-check": 4,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 214,
+            "machine": 218,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -33521,6 +34801,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Impossible de charger la configuration de l'application. Veuillez saisir l'ID du widget manuellement. Votre configuration est à : serveur/public/apps/{value1}/config.json Recherchez \"propriété-rapport\" pour trouver l'ID du widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Impossible de charger la configuration de l'application. Veuillez saisir l'ID du widget manuellement. Votre configuration est à : serveur/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Impossible de charger la configuration de l'application. Veuillez saisir l'ID du widget manuellement. Votre configuration est à : serveur/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centre ici",
               "src": "machine",
@@ -33530,6 +34825,11 @@
               "t": "Copier les coordonnées",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordonnées du lot",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marqueur du lot",
@@ -33559,16 +34859,16 @@
           }
         },
         "he": {
-          "file": "3cefbd6ca4c3",
+          "file": "a67448769dfe",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -34591,6 +35891,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "לא יכול לטעון תצורה של אפליקציה. אנא הזן את מזהה widget באופן ידני. התצורה שלך היא: שרת/ציבור/apps/{value1}המונחים:json חפש את \"property-report\" כדי למצוא את מזהה widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "לא יכול לטעון תצורה של אפליקציה. אנא הזן את מזהה widget באופן ידני. התצורה שלך היא: שרת/ציבור/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "לא יכול לטעון תצורה של אפליקציה. אנא הזן את מזהה widget באופן ידני. התצורה שלך היא: שרת/ציבור/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "מרכז כאן",
               "src": "machine",
@@ -34600,6 +35915,11 @@
               "t": "העתק קואורד",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "המונחים:",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "תגית: Marker",
@@ -34643,16 +35963,16 @@
           "entries": {}
         },
         "hu": {
-          "file": "8499594db564",
+          "file": "75113e5fa1db",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -35675,6 +36995,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nem sikerült betölteni az alkalmazásbeállítást. Adja meg manuálisan a widget azonosítóját. A config: szerver / public / apps /{value1}/ config.json Keresse meg a \"Property- report\", hogy megtalálja a widget ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nem sikerült betölteni az alkalmazásbeállítást. Adja meg manuálisan a widget azonosítóját. A config: szerver / public / apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nem sikerült betölteni az alkalmazásbeállítást. Adja meg manuálisan a widget azonosítóját. A config: szerver / public / apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Középre",
               "src": "machine",
@@ -35684,6 +37019,11 @@
               "t": "Koordináták másolása",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Terület koordináták",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -35713,16 +37053,16 @@
           }
         },
         "id": {
-          "file": "d55b48f71fa6",
+          "file": "86a6694fbd3e",
           "counts": {
             "esri": 46,
             "esri-check": 4,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -36755,6 +38095,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Tak bisa memuat konfigurasi aplikasi. Silakan masukkan ID widget secara manual. Konfig Anda berada di: server / public / apps /{value1}/ config.json Cari \"properti-laporan\" untuk menemukan ID widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Tak bisa memuat konfigurasi aplikasi. Silakan masukkan ID widget secara manual. Konfig Anda berada di: server / public / apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Tak bisa memuat konfigurasi aplikasi. Silakan masukkan ID widget secara manual. Konfig Anda berada di: server / public / apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Pusat Disini",
               "src": "machine",
@@ -36764,6 +38119,11 @@
               "t": "Koordinat Salin",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Koordinat Plot",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -36793,16 +38153,16 @@
           }
         },
         "it": {
-          "file": "f30f703c90fc",
+          "file": "3537be77fdaa",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -37825,6 +39185,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Non poteva caricare config app. Si prega di inserire manualmente il widget ID. La configurazione è in: server/public/apps/{value1}/config.json Cerca \"property-report\" per trovare il widget ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Non poteva caricare config app. Si prega di inserire manualmente il widget ID. La configurazione è in: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Non poteva caricare config app. Si prega di inserire manualmente il widget ID. La configurazione è in: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centro Qui",
               "src": "machine",
@@ -37834,6 +39209,11 @@
               "t": "Copia Coordinate",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordinate di trama",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Trama Marker",
@@ -37863,16 +39243,16 @@
           }
         },
         "ja": {
-          "file": "25d21887a286",
+          "file": "2a8ab12dd4fa",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -38895,6 +40275,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "app config をロードできません。 ウィジェットIDを手動で入力してください。 構成はサーバー/public/apps/にあります。{value1}/config.json ディレクティブ ウィジェットIDを見つけるために「プロパティレポート」を検索します。",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "app config をロードできません。 ウィジェットIDを手動で入力してください。 構成はサーバー/public/apps/にあります。{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "app config をロードできません。 ウィジェットIDを手動で入力してください。 構成はサーバー/public/apps/にあります。",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "詳細はこちら",
               "src": "machine",
@@ -38904,6 +40299,11 @@
               "t": "コピー座標",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "プロット座標",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "プロットマーカー",
@@ -38933,16 +40333,16 @@
           }
         },
         "ko": {
-          "file": "a90845bc3ef1",
+          "file": "2260aac1d2a5",
           "counts": {
             "esri": 49,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -39965,6 +41365,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "앱 구성을로드 할 수 없습니다. 위젯 ID를 수동으로 입력하세요. 설정은 다음과 같습니다. 서버/public/apps/{value1}/config.json / 설정 위젯 ID를 찾기 위해 \"property-report\"검색.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "앱 구성을로드 할 수 없습니다. 위젯 ID를 수동으로 입력하세요. 설정은 다음과 같습니다. 서버/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "앱 구성을로드 할 수 없습니다. 위젯 ID를 수동으로 입력하세요. 설정은 다음과 같습니다. 서버/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "오시는 길",
               "src": "machine",
@@ -39974,6 +41389,11 @@
               "t": "복사 좌표",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plot 좌표",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot 감적",
@@ -40003,16 +41423,16 @@
           }
         },
         "lt": {
-          "file": "d440540e3c6a",
+          "file": "d9400573cb68",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -41035,6 +42455,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nepavyko įkelti programėlių konfigūracijos. Įveskite valdiklio ID rankiniu būdu. Konfigūracija: serveris / viešasis / programėlės /{value1}/ config.json Ieškoti \"property-report\" rasti valdikliui ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nepavyko įkelti programėlių konfigūracijos. Įveskite valdiklio ID rankiniu būdu. Konfigūracija: serveris / viešasis / programėlės /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nepavyko įkelti programėlių konfigūracijos. Įveskite valdiklio ID rankiniu būdu. Konfigūracija: serveris / viešasis / programėlės /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centruoti čia",
               "src": "machine",
@@ -41044,6 +42479,11 @@
               "t": "Kopijuoti koordinates",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plotų koordinatės",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plotas Žymeklis",
@@ -41073,16 +42513,16 @@
           }
         },
         "lv": {
-          "file": "a7127c61f69c",
+          "file": "6c7f6787a3aa",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -42105,6 +43545,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Neizdevās ielādēt lietotnes konfigurāciju. Lūdzu ievadiet logdaļas ID manuāli. Jūsu konfigurācija ir: serveris/publisks/apps/{value1}/config.json Meklēt \"īpašuma ziņojumu\", lai atrastu logdaļas ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Neizdevās ielādēt lietotnes konfigurāciju. Lūdzu ievadiet logdaļas ID manuāli. Jūsu konfigurācija ir: serveris/publisks/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Neizdevās ielādēt lietotnes konfigurāciju. Lūdzu ievadiet logdaļas ID manuāli. Jūsu konfigurācija ir: serveris/publisks/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centrēt šeit",
               "src": "machine",
@@ -42114,6 +43569,11 @@
               "t": "Kopēt koordinātas",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Stencils",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -42143,16 +43603,16 @@
           }
         },
         "no": {
-          "file": "afe604bef772",
+          "file": "02016dbd6f03",
           "counts": {
             "esri": 48,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 212,
+            "machine": 216,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -43180,6 +44640,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Kunne ikke laste appoppsett. Skriv inn widget-ID manuelt. Konfigurasjonen din er på: server/public/apps/{value1}/config.json Søk etter \"property-report\" for å finne widget-ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Kunne ikke laste appoppsett. Skriv inn widget-ID manuelt. Konfigurasjonen din er på: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Kunne ikke laste appoppsett. Skriv inn widget-ID manuelt. Konfigurasjonen din er på: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Senter her",
               "src": "machine",
@@ -43189,6 +44664,11 @@
               "t": "Kopier Koordinater",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plot Koordinater",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -43218,16 +44698,16 @@
           }
         },
         "nl": {
-          "file": "42cae4302046",
+          "file": "393b49529150",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -44250,6 +45730,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Kon app-configuratie niet laden. Voer het widget-id handmatig in. Uw configuratie is op: server/public/apps/{value1}/config.json Zoek naar \"property-report\" om het widget-ID te vinden.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Kon app-configuratie niet laden. Voer het widget-id handmatig in. Uw configuratie is op: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Kon app-configuratie niet laden. Voer het widget-id handmatig in. Uw configuratie is op: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Midden hier",
               "src": "machine",
@@ -44259,6 +45754,11 @@
               "t": "Coördinaten kopiëren",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plotcoördinaten",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plotmarkering",
@@ -44288,16 +45788,16 @@
           }
         },
         "pl": {
-          "file": "82a590345fa9",
+          "file": "f945fdf33a8b",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -45320,6 +46820,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nie można wczytać konfiguracji aplikacji. Proszę wprowadzić identyfikator widżetu ręcznie. Twój config jest na: serwer / publiczny / aplikacje /{value1}/ Config.json Szukaj \"property- report\", aby znaleźć identyfikator widgetu.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nie można wczytać konfiguracji aplikacji. Proszę wprowadzić identyfikator widżetu ręcznie. Twój config jest na: serwer / publiczny / aplikacje /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nie można wczytać konfiguracji aplikacji. Proszę wprowadzić identyfikator widżetu ręcznie. Twój config jest na: serwer / publiczny / aplikacje /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Tutaj",
               "src": "machine",
@@ -45329,6 +46844,11 @@
               "t": "Kopiuj współrzędne",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Współrzędne wykresu",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Wykres",
@@ -45358,16 +46878,16 @@
           }
         },
         "pt-br": {
-          "file": "7732697ad619",
+          "file": "cf417c66c527",
           "counts": {
             "esri": 47,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -46400,6 +47920,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Não foi possível carregar a configuração do aplicativo. Por favor, digite o ID do widget manualmente. Sua configuração está em: servidor/público/apps/{value1}/config.json Procure por \"relatório de propriedade\" para encontrar a identidade do widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Não foi possível carregar a configuração do aplicativo. Por favor, digite o ID do widget manualmente. Sua configuração está em: servidor/público/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Não foi possível carregar a configuração do aplicativo. Por favor, digite o ID do widget manualmente. Sua configuração está em: servidor/público/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centro aqui.",
               "src": "machine",
@@ -46409,6 +47944,11 @@
               "t": "Copiar coordenadas",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordenadas do gráfico",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marcador de Gráficos",
@@ -46438,16 +47978,16 @@
           }
         },
         "pt-pt": {
-          "file": "14f212043550",
+          "file": "59d8df4253e7",
           "counts": {
             "esri": 48,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 212,
+            "machine": 216,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -47475,6 +49015,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Não foi possível carregar a configuração da aplicação. Digite o ID do widget manualmente. A sua configuração está em: servidor/público/apps/{value1}/config.json Procurar por \"propriedade-relato\" para encontrar o ID do widget.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Não foi possível carregar a configuração da aplicação. Digite o ID do widget manualmente. A sua configuração está em: servidor/público/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Não foi possível carregar a configuração da aplicação. Digite o ID do widget manualmente. A sua configuração está em: servidor/público/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centrar aqui",
               "src": "machine",
@@ -47484,6 +49039,11 @@
               "t": "Copiar Coordenadas",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordenadas do gráfico",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marcador de Gráficos",
@@ -47513,16 +49073,16 @@
           }
         },
         "ro": {
-          "file": "0c32cadf10b7",
+          "file": "e2e261fa42a2",
           "counts": {
             "esri": 46,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 5
+            "missing": 1
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -48555,6 +50115,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nu am putut încărca configurarea aplicației. Introduceți manual ID-ul widget-ului. Configurația dvs. este la: server/public/apps/{value1}/config.json Caută \"raport de proprietate\" pentru a găsi ID-ul widget-ului.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nu am putut încărca configurarea aplicației. Introduceți manual ID-ul widget-ului. Configurația dvs. este la: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nu am putut încărca configurarea aplicației. Introduceți manual ID-ul widget-ului. Configurația dvs. este la: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Centru aici",
               "src": "machine",
@@ -48564,6 +50139,11 @@
               "t": "Copiază coordonatele",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Coordonare plot",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Marcator plot",
@@ -48593,16 +50173,16 @@
           }
         },
         "ru": {
-          "file": "97e42eae5ff1",
+          "file": "1bdcb7671446",
           "counts": {
             "esri": 48,
             "esri-check": 4,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -49625,6 +51205,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Не удалось загрузить конфигурацию приложения. Пожалуйста, введите идентификатор виджета вручную. Конфигурация находится по адресу: server/public/apps/{value1}/config.json Ищите «отчет о собственности», чтобы найти идентификатор виджета.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Не удалось загрузить конфигурацию приложения. Пожалуйста, введите идентификатор виджета вручную. Конфигурация находится по адресу: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Не удалось загрузить конфигурацию приложения. Пожалуйста, введите идентификатор виджета вручную. Конфигурация находится по адресу: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Центр здесь",
               "src": "machine",
@@ -49634,6 +51229,11 @@
               "t": "Координаты копирования",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Координаты сюжета",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Маркер сюжета",
@@ -49663,16 +51263,16 @@
           }
         },
         "sk": {
-          "file": "7f8267b3af39",
+          "file": "c92469318405",
           "counts": {
             "esri": 48,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 209,
+            "machine": 213,
             "stale": 0,
-            "missing": 8
+            "missing": 4
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -50685,6 +52285,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Nepodarilo sa načítať konfig aplikácie. Prosím zadajte ID widgetu ručne. Vaša konfig je na serveri/verejnom/apps/{value1}/config.json Vyhľadajte \"správu o stave\" a nájdite ID prvku.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Nepodarilo sa načítať konfig aplikácie. Prosím zadajte ID widgetu ručne. Vaša konfig je na serveri/verejnom/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Nepodarilo sa načítať konfig aplikácie. Prosím zadajte ID widgetu ručne. Vaša konfig je na serveri/verejnom/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Tu stred",
               "src": "machine",
@@ -50694,6 +52309,11 @@
               "t": "Kopírovať súradnice",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Súradnice grafov",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Name",
@@ -50723,16 +52343,16 @@
           }
         },
         "sl": {
-          "file": "39d25c94b6d5",
+          "file": "80298bca9018",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 210,
+            "machine": 214,
             "stale": 0,
-            "missing": 5
+            "missing": 1
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -51750,6 +53370,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Ni moč naložiti nastavitve aplikacije. Prosim vnesite ID gradnika ročno. Vaš konfig je na: strežnik/javna/apps/{value1}/config.json Iščite \"primernost-poročanje\", da bi našli ID gradnika.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Ni moč naložiti nastavitve aplikacije. Prosim vnesite ID gradnika ročno. Vaš konfig je na: strežnik/javna/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Ni moč naložiti nastavitve aplikacije. Prosim vnesite ID gradnika ročno. Vaš konfig je na: strežnik/javna/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Središče tukaj",
               "src": "machine",
@@ -51759,6 +53394,11 @@
               "t": "Kopiraj koordinate",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Nariši koordinate",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Nariši označevalnik",
@@ -51802,16 +53442,16 @@
           "entries": {}
         },
         "sv": {
-          "file": "2165b6c3a564",
+          "file": "d8f39c4c09c0",
           "counts": {
             "esri": 49,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -52844,6 +54484,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Kan inte ladda app config. Ange widget-ID manuellt. Din konfig är på: server/public/apps/{value1}/config.json Sök efter \"egendomsrapport\" för att hitta widget-ID.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Kan inte ladda app config. Ange widget-ID manuellt. Din konfig är på: server/public/apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Kan inte ladda app config. Ange widget-ID manuellt. Din konfig är på: server/public/apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Center här",
               "src": "machine",
@@ -52853,6 +54508,11 @@
               "t": "Kopiera samordnar",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plot Coordinates",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -52882,16 +54542,16 @@
           }
         },
         "th": {
-          "file": "cb48a8b1fb26",
+          "file": "1326cbba8bfc",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -53914,6 +55574,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "ไม่สามารถเรียกใช้ปรับแต่งโปรแกรมได้ โปรดป้อนหมายเลขของวิดเจ็ตด้วยตนเอง การปรับแต่งของคุณอยู่ที่: แม่ข่าย/ เผย แพร่/ apps/{value1}/ config.json ค้นหา \"report\" เพื่อค้นหาหมายเลขของวิดเจ็ต",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "ไม่สามารถเรียกใช้ปรับแต่งโปรแกรมได้ โปรดป้อนหมายเลขของวิดเจ็ตด้วยตนเอง การปรับแต่งของคุณอยู่ที่: แม่ข่าย/ เผย แพร่/ apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "ไม่สามารถเรียกใช้ปรับแต่งโปรแกรมได้ โปรดป้อนหมายเลขของวิดเจ็ตด้วยตนเอง การปรับแต่งของคุณอยู่ที่: แม่ข่าย/ เผย แพร่/ apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "ตรงกลางนี่",
               "src": "machine",
@@ -53923,6 +55598,11 @@
               "t": "พิกัดคัดลอก",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "พิกัดพล็อต",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "ตัวทําเครื่องหมาย pottown",
@@ -53952,16 +55632,16 @@
           }
         },
         "tr": {
-          "file": "fe94b86be0d0",
+          "file": "635692308011",
           "counts": {
             "esri": 45,
             "esri-check": 5,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 213,
+            "machine": 217,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -54994,6 +56674,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Uygulamayı yükleyemez. yapılandır. Lütfen widget ID'ye manuel olarak girin. Yapınız şu anda: sunucu/public/apps /{value1}/ yapılandır.json Widget ID bulmak için \"property-report\" için arayın.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Uygulamayı yükleyemez. yapılandır. Lütfen widget ID'ye manuel olarak girin. Yapınız şu anda: sunucu/public/apps /{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Uygulamayı yükleyemez. yapılandır. Lütfen widget ID'ye manuel olarak girin. Yapınız şu anda: sunucu/public/apps /",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Burada Merkez",
               "src": "machine",
@@ -55003,6 +56698,11 @@
               "t": "Kopyalama koordinatları",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Plot koordinates",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Plot Marker",
@@ -55032,16 +56732,16 @@
           }
         },
         "zh-cn": {
-          "file": "dd049c17ff5c",
+          "file": "955f2d778568",
           "counts": {
             "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -56064,6 +57764,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "无法装入应用程序配置 。 请手动输入部件标识 。 您的配置位于: 服务器/ 公用/ apps/{value1}/config.json (英语). 搜索“ 财产报告” 以找到部件 ID 。",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "无法装入应用程序配置 。 请手动输入部件标识 。 您的配置位于: 服务器/ 公用/ apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "无法装入应用程序配置 。 请手动输入部件标识 。 您的配置位于: 服务器/ 公用/ apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "中间",
               "src": "machine",
@@ -56073,6 +57788,11 @@
               "t": "复制坐标",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "绘图坐标",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "绘图标记",
@@ -56102,16 +57822,16 @@
           }
         },
         "uk": {
-          "file": "f3ccad882ba3",
+          "file": "6d1282773edd",
           "counts": {
             "esri": 51,
             "esri-check": 1,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -57134,6 +58854,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Не навантажуйте налаштування програми. Будь ласка, введіть ідентифікатор віджету вручну. Веб-сайт: www.facebook.com{value1}Українська Пошук \"property-report\" для пошуку ідентифікатора віджету.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Не навантажуйте налаштування програми. Будь ласка, введіть ідентифікатор віджету вручну. Веб-сайт: www.facebook.com{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Не навантажуйте налаштування програми. Будь ласка, введіть ідентифікатор віджету вручну. Веб-сайт: www.facebook.com",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Центр Тут",
               "src": "machine",
@@ -57143,6 +58878,11 @@
               "t": "Копіювати координати",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Географічні координати міста Плот",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Плот Маркер",
@@ -57172,16 +58912,16 @@
           }
         },
         "vi": {
-          "file": "1726782d951d",
+          "file": "efe5e331f11e",
           "counts": {
             "esri": 49,
             "esri-check": 3,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -58204,6 +59944,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "Không thể nạp cấu hình ứng dụng. Hãy nhập vào tự ID ô điều khiển. Cấu hình của bạn ở: máy chủ/ công chúng/ apps/{value1}/cong.json Tìm « Thông tin- đáng tin » để tìm ID ô điều khiển.",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "Không thể nạp cấu hình ứng dụng. Hãy nhập vào tự ID ô điều khiển. Cấu hình của bạn ở: máy chủ/ công chúng/ apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "Không thể nạp cấu hình ứng dụng. Hãy nhập vào tự ID ô điều khiển. Cấu hình của bạn ở: máy chủ/ công chúng/ apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "Giữa",
               "src": "machine",
@@ -58213,6 +59968,11 @@
               "t": "Chép Tọa độ",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "Tọa độ Đồ thị",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "Dấu vẽ đồ thị",
@@ -58242,16 +60002,16 @@
           }
         },
         "zh-hk": {
-          "file": "06306c9502f2",
+          "file": "d28bdce96a81",
           "counts": {
             "esri": 52,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -59274,6 +61034,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/{value1}/ config.json 搜尋「 財產報告 」 以找到元件代碼 。",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "居中",
               "src": "machine",
@@ -59283,6 +61058,11 @@
               "t": "复制座標",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "地圖座標",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "繪圖標示",
@@ -59312,16 +61092,16 @@
           }
         },
         "zh-tw": {
-          "file": "06306c9502f2",
+          "file": "d28bdce96a81",
           "counts": {
             "esri": 52,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 211,
+            "machine": 215,
             "stale": 0,
-            "missing": 4
+            "missing": 0
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -60344,6 +62124,21 @@
               "src": "machine",
               "h": "288c11237e7d"
             },
+            "couldNotLoadAppConfigPlease": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/{value1}/ config.json 搜尋「 財產報告 」 以找到元件代碼 。",
+              "src": "machine",
+              "h": "eaa6c6d5b631"
+            },
+            "couldNotLoadAppConfigPlease2": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/{value1}",
+              "src": "machine",
+              "h": "e6bcbd85c3ab"
+            },
+            "couldNotLoadAppConfigPlease3": {
+              "t": "無法載入應用程式配置 。 請手動輸入元件代碼 。 您的配置在 : 伺服器/ 公用/ apps/",
+              "src": "machine",
+              "h": "0a6a4bce44c4"
+            },
             "centerHere": {
               "t": "居中",
               "src": "machine",
@@ -60353,6 +62148,11 @@
               "t": "复制座標",
               "src": "machine",
               "h": "905720ddb618"
+            },
+            "plotCoordinates": {
+              "t": "地圖座標",
+              "src": "machine",
+              "h": "5a5b607a48d9"
             },
             "plotMarker": {
               "t": "繪圖標示",
