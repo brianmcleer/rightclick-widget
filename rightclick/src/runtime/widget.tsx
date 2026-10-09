@@ -773,12 +773,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     // Help guide (handoff Section 10). Strings come from translations/default.ts;
     // {token} placeholders are filled from `values`.
     const t = React.useCallback((id: string, values?: Record<string, string>): string => {
+        const __intl: any = (props as any).intl; if (__intl && typeof __intl.formatMessage === "function") { try { return __intl.formatMessage({ id, defaultMessage: (defaultMessages as any)[id] ?? id }, values) } catch (e) { } }
         let msg: string = (defaultMessages as any)[id] ?? id;
         if (values) {
             Object.keys(values).forEach((k) => { msg = msg.split(`{${k}}`).join(values[k]); });
         }
         return msg;
-    }, []);
+    }, [(props as any).intl]);
     const [helpOpen, setHelpOpen] = React.useState(false);
 
     const mapWidgetIds = props.config?.useMapWidgetIds || (props as any).useMapWidgetIds;
