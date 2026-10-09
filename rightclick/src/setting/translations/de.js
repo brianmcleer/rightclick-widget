@@ -47,7 +47,7 @@ System.register([], function (e) {
         eGWidget82: "e.g. widget_82",
         theAccordionWidgetThatHoldsThe: "The accordion widget that holds the Property Information section. After the controller panel opens, the right-click widget will expand this accordion's matching section.",
         menuLabel: "Menu Label",
-        propertyInformation: "Property Information",
+        propertyInformation: "Immobilieninformationen",
         theTextShownInTheRight: "The text shown in the right-click context menu. Leave blank to use \"Property Information\".",
         mailingLabelsSettings: "Mailing Labels Settings",
         opensTheMailingLabelsWidgetIn: "Opens the Mailing Labels widget in its widget controller at the right-clicked location. Before launching, the user is asked whether to apply a buffer to the selection.",
@@ -144,7 +144,7 @@ System.register([], function (e) {
         displayNameForThisLayer: "Display name for this layer",
         featureServiceUrl: "Feature Service URL",
         loadFieldsFromService: "Load fields from service",
-        fieldsToDisplay: "Fields to Display",
+        fieldsToDisplay: "Felder zum Anzeigen",
         enterAFeatureServiceUrlAbove: "Enter a Feature Service URL above to load available fields",
         clickTheRefreshButtonToLoad: "Click the refresh button to load fields from the service",
         loadingFieldsFromService: "Loading fields from service...",
@@ -198,7 +198,7 @@ System.register([], function (e) {
         headerTitleOptional: "Header title (optional)",
         leaveBlankToUseTheLayer: "Leave blank to use the layer name",
         contentHtml: "Content (HTML)",
-        use: "Use",
+        use: "Verwendung",
         forAttributesAnd: "for attributes and",
         forArcadeResults: "for Arcade results.",
         arcadeExpressions: "Arcade-Ausdrücke",
@@ -242,7 +242,18 @@ System.register([], function (e) {
         ifTheFingerMovesMoreThan: "If the finger moves more than the threshold before the duration elapses, the gesture is treated as a pan and the menu does not open.",
         help: "Hilfe",
         showHelpGuide: "Show Help Guide",
-        showTheQuestionMarkButtonThat: "Zeigen Sie die Fragezeichentaste an, die das Widget-Hilfehandbuch öffnet"
+        showTheQuestionMarkButtonThat: "Zeigen Sie die Fragezeichentaste an, die das Widget-Hilfehandbuch öffnet",
+        expand: "Erweitern",
+        collapse: "Ausblenden",
+        trustedEveryNestedLayerCurrentFuture: "Trusted: every nested layer (current + future) is included automatically. Click to un-trust.",
+        clickToTrustThisGroupEvery: "Click to trust this group — every nested layer (current + future) will be auto-included in What’s Here.",
+        trusted: "🔒 Trusted",
+        failedToFetchFieldsFromService: "Failed to fetch fields from service",
+        unknownError: "unknown error",
+        failedToParseXml: "Failed to parse XML.",
+        failedToApplyTheImportedConfiguration: "Failed to apply the imported configuration.",
+        sublayerId: "Sublayer {id}",
+        layer: "Schicht"
       })
     }
   }

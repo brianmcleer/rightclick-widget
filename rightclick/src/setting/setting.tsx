@@ -23,6 +23,7 @@ import {
 import { IMConfig, FeatureLayerConfig, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereLayerSelection, WhatsHereHighlightConfig, defaultWhatsHereHighlight, computeLayerSelectionKey } from '../config';
 import { hooks as __exbI18nHooks } from 'jimu-core';
 import __exbI18nMessages from './translations/default';
+import { __setIntl, __t, __tc } from './i18n-t'
 
 
 // Define the field interface
@@ -100,7 +101,7 @@ const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
                     <button
                         type="button"
                         onClick={() => setCollapsed(c => !c)}
-                        aria-label={collapsed ? 'Expand' : 'Collapse'}
+                        aria-label={collapsed ? __t("expand") : __t("collapse")}
                         style={{
                             width: `${ARROW_W}px`,
                             height: '20px',
@@ -178,8 +179,8 @@ const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
                             }}
                             title={
                                 trusted
-                                    ? 'Trusted: every nested layer (current + future) is included automatically. Click to un-trust.'
-                                    : 'Click to trust this group — every nested layer (current + future) will be auto-included in What\u2019s Here.'
+                                    ? __t("trustedEveryNestedLayerCurrentFuture")
+                                    : __t("clickToTrustThisGroupEvery")
                             }
                             style={{
                                 flexShrink: 0,
@@ -197,7 +198,7 @@ const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
                                 whiteSpace: 'nowrap'
                             }}
                         >
-                            {trusted ? '🔒 Trusted' : 'Trust'}
+                            {trusted ? __t("trusted") : __t("trust")}
                         </button>
                     );
                 })()}
@@ -399,6 +400,7 @@ interface SettingProps {
 }
 
 const Setting = (props: SettingProps) => {
+  __setIntl((props as any).intl)
   const t = __exbI18nHooks.useTranslation(__exbI18nMessages);
     const { config } = props;
 
@@ -698,7 +700,7 @@ const Setting = (props: SettingProps) => {
                 [layerIndex]: {
                     fields: [],
                     loading: false,
-                    error: error.message || 'Failed to fetch fields from service'
+                    error: __tc(error.message, "failedToFetchFieldsFromService")
                 }
             }));
         }
@@ -742,7 +744,7 @@ const Setting = (props: SettingProps) => {
         } catch (err) {
             // Surface the error in the export textarea so the user sees
             // something concrete instead of a silent failure.
-            setExportXml(`<!-- Download failed: ${(err as any)?.message || 'unknown error'} -->\n${xml}`);
+            setExportXml(`<!-- Download failed: ${(err as any)?.message || __t("unknownError")} -->\n${xml}`);
         }
     };
 
@@ -778,7 +780,7 @@ const Setting = (props: SettingProps) => {
         try {
             parsed = parseXmlToConfig(text);
         } catch (err: any) {
-            setImportError(err?.message || 'Failed to parse XML.');
+            setImportError(__tc(err?.message, "failedToParseXml"));
             return;
         }
         if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
@@ -805,7 +807,7 @@ const Setting = (props: SettingProps) => {
                 config: Immutable(parsed) as any
             });
         } catch (err: any) {
-            setImportError(err?.message || 'Failed to apply the imported configuration.');
+            setImportError(__tc(err?.message, "failedToApplyTheImportedConfiguration"));
             return;
         }
 
@@ -1233,7 +1235,7 @@ const Setting = (props: SettingProps) => {
                     leafKeys.push(subKey);
                     children.push({
                         key: subKey,
-                        title: sub.title || `Sublayer ${sub.id}`,
+                        title: sub.title || __t("sublayerId", { id: sub.id }),
                         queryable: true,
                         isGroup: false,
                         children: []
@@ -1252,7 +1254,7 @@ const Setting = (props: SettingProps) => {
 
             return {
                 key,
-                title: lyr.title || lyr.id || 'Layer',
+                title: __tc(lyr.title || lyr.id, "layer"),
                 queryable: queryable && !isGroup && !isMapImageLike,
                 isGroup: isGroup || isMapImageLike,
                 children
@@ -2963,7 +2965,7 @@ const Setting = (props: SettingProps) => {
                             <div style={styles.inputContainer}>
                                 <label style={styles.inputLabel}>{t('fontFamily')}</label>
                                 <Select
-                                    value={textSettings.fontFamily || 'Arial'}
+                                    value={__tc(textSettings.fontFamily, "arial")}
                                     onChange={(e) => updateTextSetting('fontFamily', e.target.value)}
                                     size="sm"
                                 >

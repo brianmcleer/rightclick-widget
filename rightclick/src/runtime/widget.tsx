@@ -29,6 +29,7 @@ import TextSymbol from 'esri/symbols/TextSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
 
 import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereHighlightConfig, computeLayerSelectionKey } from '../config';
+import { __setIntl, __t, __tc } from './i18n-t'
 
 // Ambient declarations for the `__esri` global namespace. Esri's TypeScript
 // definitions normally expose this globally via @types/arcgis-js-api, but
@@ -736,6 +737,7 @@ const createLabelSuppressor = (mapView: any) => {
 };
 
 const Widget = (props: AllWidgetProps<IMConfig>) => {
+  __setIntl((props as any).intl)
     // Get theme from Redux store (more reliable than props.theme)
     const storeTheme = ReactRedux.useSelector((state: any) => state?.appStateInBuilder?.theme || state?.appConfig?.theme);
 
@@ -3560,7 +3562,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             if (!lyr || depth > 20) return;
 
             // Feature-like layers: query them directly.
-            tryAdd(lyr, lyr.title || `Layer ${lyr.id ?? ''}`);
+            tryAdd(lyr, lyr.title || __t("layerValue", { value: lyr.id ?? '' }));
 
             // Descend into GroupLayer children. Try every collection name
             // and access mode — `.items` works for already-materialized
@@ -3594,7 +3596,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     // Skip group sublayers — they aren't queryable themselves,
                     // but their children are reachable through this same loop
                     // because allSublayers is flat.
-                    tryAdd(sub, sub.title || `Sublayer ${sub.id ?? ''}`);
+                    tryAdd(sub, sub.title || __t("sublayerValue", { value: sub.id ?? '' }));
                 }
             }
         };
@@ -4705,7 +4707,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             });
 
             (mapView as any).openPopup({
-                title: "📍 What's here?",
+                title: __t("whatSHere"),
                 content: root,
                 location: session.mapPoint
             });
@@ -4786,7 +4788,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 ));
                 wireDetailActions(root, feature);
                 (mapView as any).openPopup({
-                    title: "📍 What's here?",
+                    title: __t("whatSHere"),
                     content: root,
                     location: session.mapPoint
                 });
@@ -4807,7 +4809,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             ));
             wireDetailActions(loadingRoot, feature);
             (mapView as any).openPopup({
-                title: "📍 What's here?",
+                title: __t("whatSHere"),
                 content: loadingRoot,
                 location: session.mapPoint
             });
@@ -4845,7 +4847,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 ));
                 wireDetailActions(finalRoot, feature);
                 (mapView as any).openPopup({
-                    title: "📍 What's here?",
+                    title: __t("whatSHere"),
                     content: finalRoot,
                     location: session2.mapPoint
                 });
@@ -5097,7 +5099,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     } catch (error) {
                         beaconRef.current?.error(error, 'whats-here');
                         (mapView as any).openPopup({
-                            title: "📍 What's here?",
+                            title: __t("whatSHere"),
                             content: '<div style="color:#d32f2f;padding:16px;text-align:center;"><strong>Error querying location information.</strong></div>',
                             location: mapPoint
                         });
@@ -5563,58 +5565,58 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const cm = state.contextMenu;
 
         // Navigation
-        if (ea.zoomIn !== false) items.push({ action: 'zoom-in', icon: 'zoom-in-fixed', text: 'Zoom In', enabled: true, group: 'nav' });
-        if (ea.zoomOut !== false) items.push({ action: 'zoom-out', icon: 'zoom-out-fixed', text: 'Zoom Out', enabled: true, group: 'nav' });
-        if (ea.centerHere !== false) items.push({ action: 'center-here', icon: 'gps-on', text: 'Center Here', enabled: true, group: 'nav' });
+        if (ea.zoomIn !== false) items.push({ action: 'zoom-in', icon: 'zoom-in-fixed', text: __t("zoomIn"), enabled: true, group: 'nav' });
+        if (ea.zoomOut !== false) items.push({ action: 'zoom-out', icon: 'zoom-out-fixed', text: __t("zoomOut"), enabled: true, group: 'nav' });
+        if (ea.centerHere !== false) items.push({ action: 'center-here', icon: 'gps-on', text: __t("centerHere"), enabled: true, group: 'nav' });
 
         // Coordinates
         if (ea.copyCoordinates !== false && cm.coordinateLabel) {
-            items.push({ action: 'get-coordinates', icon: 'copy-to-clipboard', text: 'Copy Coordinates', enabled: true, group: 'coords', hint: cm.coordinateLabel });
+            items.push({ action: 'get-coordinates', icon: 'copy-to-clipboard', text: __t("copyCoordinates"), enabled: true, group: 'coords', hint: cm.coordinateLabel });
             if (ms.showCoordinateFormats !== false && cm.coordAlternates) {
                 const expanded = !!cm.copyFormatsExpanded;
-                items.push({ action: 'copy-formats-toggle', icon: expanded ? 'chevron-down' : 'chevron-right', text: expanded ? 'Fewer formats' : 'More coordinate formats', enabled: true, group: 'coords' });
+                items.push({ action: 'copy-formats-toggle', icon: expanded ? 'chevron-down' : 'chevron-right', text: expanded ? __t("fewerFormats") : __t("moreCoordinateFormats"), enabled: true, group: 'coords' });
                 if (expanded) {
                     const alt = cm.coordAlternates;
-                    if (alt.dd) items.push({ action: 'copy-dd', icon: 'globe', text: 'Lat / Lon (decimal)', enabled: true, group: 'coords', sub: true, hint: alt.dd });
-                    if (alt.dms) items.push({ action: 'copy-dms', icon: 'compass', text: 'Lat / Lon (DMS)', enabled: true, group: 'coords', sub: true, hint: alt.dms });
+                    if (alt.dd) items.push({ action: 'copy-dd', icon: 'globe', text: __t("latLonDecimal"), enabled: true, group: 'coords', sub: true, hint: alt.dd });
+                    if (alt.dms) items.push({ action: 'copy-dms', icon: 'compass', text: __t("latLonDms"), enabled: true, group: 'coords', sub: true, hint: alt.dms });
                     if (alt.utm) items.push({ action: 'copy-utm', icon: 'grid', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
-                    if (alt.custom) items.push({ action: 'copy-custom', icon: 'coordinate-system', text: 'Custom projection', enabled: true, group: 'coords', sub: true, hint: alt.custom });
-                    if (alt.native) items.push({ action: 'copy-native', icon: 'map', text: 'Map native X / Y', enabled: true, group: 'coords', sub: true, hint: alt.native });
-                    if (alt.geojson) items.push({ action: 'copy-geojson', icon: 'code', text: 'GeoJSON point', enabled: true, group: 'coords', sub: true, hint: alt.geojson });
+                    if (alt.custom) items.push({ action: 'copy-custom', icon: 'coordinate-system', text: __t("customProjection"), enabled: true, group: 'coords', sub: true, hint: alt.custom });
+                    if (alt.native) items.push({ action: 'copy-native', icon: 'map', text: __t("mapNativeXY"), enabled: true, group: 'coords', sub: true, hint: alt.native });
+                    if (alt.geojson) items.push({ action: 'copy-geojson', icon: 'code', text: __t("geoJSONPoint"), enabled: true, group: 'coords', sub: true, hint: alt.geojson });
                 }
             }
         }
         if (typeof cm.addressText === 'string' && cm.addressText) {
-            items.push({ action: 'copy-address', icon: 'home', text: 'Copy Address', enabled: true, group: 'coords', hint: cm.addressText });
+            items.push({ action: 'copy-address', icon: 'home', text: __t("copyAddress"), enabled: true, group: 'coords', hint: cm.addressText });
         }
 
         // Graphics
-        if (ea.plotMarker !== false) items.push({ action: 'plot-marker', icon: 'pin', text: 'Plot Marker', enabled: true, group: 'graphics' });
-        if (ea.plotCoordinates !== false) items.push({ action: 'plot-coordinates', icon: 'point', text: 'Plot Coordinate', enabled: true, group: 'graphics' });
-        if (ea.addText !== false) items.push({ action: 'add-text', icon: 'text', text: 'Add Text', enabled: true, group: 'graphics' });
+        if (ea.plotMarker !== false) items.push({ action: 'plot-marker', icon: 'pin', text: __t("plotMarker"), enabled: true, group: 'graphics' });
+        if (ea.plotCoordinates !== false) items.push({ action: 'plot-coordinates', icon: 'point', text: __t("plotCoordinate"), enabled: true, group: 'graphics' });
+        if (ea.addText !== false) items.push({ action: 'add-text', icon: 'text', text: __t("addText"), enabled: true, group: 'graphics' });
         const graphicCount = state.coordinateMarkers.length + state.simpleMarkers.length + state.textGraphics.length;
         const anyGraphicAction = ea.plotCoordinates !== false || ea.plotMarker !== false || ea.addText !== false;
         if (graphicCount > 0 && anyGraphicAction) {
-            items.push({ action: 'undo-last-graphic', icon: 'undo', text: 'Undo Last Graphic', enabled: true, group: 'graphics' });
-            items.push({ action: 'clear-all-graphics', icon: 'trash', text: `Clear All Graphics (${graphicCount})`, enabled: true, group: 'graphics' });
+            items.push({ action: 'undo-last-graphic', icon: 'undo', text: __t("undoLastGraphic"), enabled: true, group: 'graphics' });
+            items.push({ action: 'clear-all-graphics', icon: 'trash', text: __t("clearAllGraphicsGraphicCount", { graphicCount: graphicCount }), enabled: true, group: 'graphics' });
         }
 
         // External
-        if (ea.streetView !== false) items.push({ action: 'street-view', icon: 'walking', text: 'Open in Google Street View', enabled: true, group: 'external' });
-        if (ea.googleMaps !== false) items.push({ action: 'google-maps', icon: 'map-pin', text: 'Open in Google Maps', enabled: true, group: 'external' });
-        if (ea.pictometry !== false && props.config?.pictometryUrl) items.push({ action: 'pictometry', icon: 'camera', text: 'Open in Pictometry', enabled: true, group: 'external' });
+        if (ea.streetView !== false) items.push({ action: 'street-view', icon: 'walking', text: __t("openInGoogleStreetView"), enabled: true, group: 'external' });
+        if (ea.googleMaps !== false) items.push({ action: 'google-maps', icon: 'map-pin', text: __t("openInGoogleMaps"), enabled: true, group: 'external' });
+        if (ea.pictometry !== false && props.config?.pictometryUrl) items.push({ action: 'pictometry', icon: 'camera', text: __t("openInPictometry"), enabled: true, group: 'external' });
 
         // Tools
-        if (ea.measureDistance !== false) items.push({ action: 'measure-distance', icon: 'measure', text: 'Measure Distance', enabled: true, group: 'tools' });
-        if (ea.measureArea !== false) items.push({ action: 'measure-area', icon: 'measure-area', text: 'Measure Area', enabled: true, group: 'tools' });
+        if (ea.measureDistance !== false) items.push({ action: 'measure-distance', icon: 'measure', text: __t("measureDistance"), enabled: true, group: 'tools' });
+        if (ea.measureArea !== false) items.push({ action: 'measure-area', icon: 'measure-area', text: __t("measureArea"), enabled: true, group: 'tools' });
 
         // Information
-        if (ea.whatsHere !== false) items.push({ action: 'whats-here', icon: 'question', text: "What's here?", enabled: true, group: 'info' });
+        if (ea.whatsHere !== false) items.push({ action: 'whats-here', icon: 'question', text: __t("whatSHere2"), enabled: true, group: 'info' });
         if (ea.propertyReport && props.config?.propertyReportSettings?.targetWidgetId) {
-            items.push({ action: 'property-report', icon: 'information', text: props.config.propertyReportSettings.menuLabel || 'Property Information', enabled: true, group: 'info' });
+            items.push({ action: 'property-report', icon: 'information', text: __tc(props.config.propertyReportSettings.menuLabel, "propertyInformation"), enabled: true, group: 'info' });
         }
         if (ea.mailingLabels && props.config?.mailingLabelsSettings?.targetWidgetId) {
-            items.push({ action: 'mailing-labels', icon: 'envelope', text: props.config.mailingLabelsSettings.menuLabel || 'Mailing Labels', enabled: true, group: 'info' });
+            items.push({ action: 'mailing-labels', icon: 'envelope', text: __tc(props.config.mailingLabelsSettings.menuLabel, "mailingLabels"), enabled: true, group: 'info' });
         }
 
         return items;
@@ -5648,8 +5650,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             mailingLabels: !!ea.mailingLabels && !!props.config?.mailingLabelsSettings?.targetWidgetId,
             hotkeys: ms.showHotkeys !== false,
             longPress: props.config?.longPressSettings?.enabled !== false,
-            propertyReportLabel: props.config?.propertyReportSettings?.menuLabel || 'Property Information',
-            mailingLabelsLabel: props.config?.mailingLabelsSettings?.menuLabel || 'Mailing Labels',
+            propertyReportLabel: __tc(props.config?.propertyReportSettings?.menuLabel, "propertyInformation"),
+            mailingLabelsLabel: __tc(props.config?.mailingLabelsSettings?.menuLabel, "mailingLabels"),
             measureUnits: props.config?.measurementSettings?.defaultUnits || 'feet'
         };
     })();

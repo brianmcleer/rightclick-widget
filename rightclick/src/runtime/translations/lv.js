@@ -3,7 +3,7 @@ System.register([], function (e) {
   return {
     execute: function () {
       e({
-        _widgetLabel: "Right Click",
+        _widgetLabel: "Labais klikšķis",
         helpTitle: "Palīdzība",
         close: "Aizvērt",
         helpIntro: "Right click anywhere on the map to get a menu of things you can do at that spot.",
@@ -112,7 +112,35 @@ System.register([], function (e) {
         meters: "Metri",
         kilometers: "Kilometri",
         miles: "Jūdzes",
-        apply: "Lietot"
+        apply: "Lietot",
+        layerValue: "Layer {value}",
+        sublayerValue: "Sublayer {value}",
+        whatSHere: "📍 What's here?",
+        zoomIn: "Tuvināt",
+        zoomOut: "Tālināt",
+        centerHere: "Center Here",
+        copyCoordinates: "Copy Coordinates",
+        fewerFormats: "Fewer formats",
+        moreCoordinateFormats: "More coordinate formats",
+        latLonDecimal: "Lat / Lon (decimal)",
+        latLonDms: "Lat / Lon (DMS)",
+        customProjection: "Custom projection",
+        mapNativeXY: "Map native X / Y",
+        geoJSONPoint: "GeoJSON point",
+        copyAddress: "Kopēt adresi",
+        plotMarker: "Plot Marker",
+        plotCoordinate: "Plot Coordinate",
+        undoLastGraphic: "Undo Last Graphic",
+        clearAllGraphicsGraphicCount: "Clear All Graphics ({graphicCount})",
+        openInGoogleStreetView: "Open in Google Street View",
+        openInGoogleMaps: "Open in Google Maps",
+        openInPictometry: "Open in Pictometry",
+        measureDistance: "Attāluma mērīšana",
+        measureArea: "Mērīt laukumu",
+        whatSHere2: "What's here?",
+        propertyInformation: "Īpašības informācija",
+        unknownError: "unknown error",
+        unserializableError: "unserializable error"
       })
     }
   }

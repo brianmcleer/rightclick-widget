@@ -242,7 +242,18 @@ System.register([], function (e) {
         ifTheFingerMovesMoreThan: "If the finger moves more than the threshold before the duration elapses, the gesture is treated as a pan and the menu does not open.",
         help: "Pomoć",
         showHelpGuide: "Show help guide",
-        showTheQuestionMarkButtonThat: "Show the question-mark button that opens the widget help guide"
+        showTheQuestionMarkButtonThat: "Show the question-mark button that opens the widget help guide",
+        expand: "Proširi",
+        collapse: "Sažmi",
+        trustedEveryNestedLayerCurrentFuture: "Trusted: every nested layer (current + future) is included automatically. Click to un-trust.",
+        clickToTrustThisGroupEvery: "Click to trust this group — every nested layer (current + future) will be auto-included in What’s Here.",
+        trusted: "🔒 Trusted",
+        failedToFetchFieldsFromService: "Failed to fetch fields from service",
+        unknownError: "unknown error",
+        failedToParseXml: "Failed to parse XML.",
+        failedToApplyTheImportedConfiguration: "Failed to apply the imported configuration.",
+        sublayerId: "Sublayer {id}",
+        layer: "Sloj"
       })
     }
   }
