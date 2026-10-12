@@ -63,7 +63,7 @@ System.register([], function (e) {
         helpTroubleCopy: "Kopiraj nije učinio ništa: preglednik je blokirao clipboard. Umjesto toga se pojavljuje mali okvir sa tekstom; izaberite ga i kopirajte.",
         helpTroubleExternal: "Google ili Pictomery link nije otvoren: preglednik je blokirao pop-up. Dopusti pop-upove za ovu stranicu i pokušaj ponovo.",
         helpTroubleContact: "Još uvijek zapeo? Kontaktirajte GIS odjel i spomenite ime pravog klika i ovu aplikaciju.",
-        helpTipsTitle: "Dobro je znati.",
+        helpTipsTitle: "Dobro je znati",
         helpTips1: "Možete kliknuti desno na vrh vlastitih markera i bilješki; i meni tu radi.",
         helpTips2: "Meni uvijek ostaje potpuno na ekranu. Pored ruba koji se otvara prema sredini karte.",
         helpTips3: "Dugme Help na meniju otvara ovaj vodič bilo kada.",

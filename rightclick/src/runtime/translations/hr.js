@@ -63,7 +63,7 @@ System.register([], function (e) {
         helpTroubleCopy: "Kopiraj nije učinio ništa: preglednik je blokirao međuspremnik. Umjesto toga se pojavljuje mala kutija s tekstom; odaberite ga i kopirajte.",
         helpTroubleExternal: "Google ili Pictomery link nije otvoren: preglednik je blokirao iskakanje. Dopusti pop-upove za ovu stranicu i pokušaj ponovno.",
         helpTroubleContact: "Još uvijek zaglavi? Kontaktirajte GIS Division i spomenuti pravo Kliknite ime i ovu aplikaciju.",
-        helpTipsTitle: "Dobro je znati.",
+        helpTipsTitle: "Dobro je znati",
         helpTips1: "Možete desno kliknuti na vrh vlastitih markera i bilješki; izbornik radi i tamo.",
         helpTips2: "Izbornik uvijek ostaje u potpunosti na zaslonu. Blizu ruba se otvara prema sredini karte umjesto.",
         helpTips3: "Tipka Pomoć na izborniku otvara ovaj vodič u svako doba.",

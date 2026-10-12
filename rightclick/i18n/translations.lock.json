@@ -1393,14 +1393,14 @@
           }
         },
         "bs": {
-          "file": "d6d167c7651e",
+          "file": "bdf2b52fc5d6",
           "counts": {
-            "esri": 17,
+            "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 124,
+            "machine": 118,
             "stale": 0,
             "missing": 3
           },
@@ -1419,16 +1419,6 @@
               "t": "Pretraži vodič (pokušajkopija ilimjera",
               "src": "machine",
               "h": "00a3df1d5a2c"
-            },
-            "helpNoMatches": {
-              "t": "Ništa u vodiču ne odgovara toj riječi.",
-              "src": "machine",
-              "h": "3fe179f75330"
-            },
-            "helpStartTitle": {
-              "t": "Počnite ovdje: tri koraka",
-              "src": "machine",
-              "h": "789320b4831d"
             },
             "helpStart1": {
               "t": "Desno kliknite na mapu gdje ste zainteresirani. Na telefonu ili tabletu, pritisnite i držite umjesto toga.",
@@ -1660,11 +1650,6 @@
               "src": "machine",
               "h": "76c5fdfdc8cb"
             },
-            "helpTroubleTitle": {
-              "t": "Ako nešto nije u redu",
-              "src": "machine",
-              "h": "6f7fec3ff1e0"
-            },
             "helpTroubleNoMenu": {
               "t": "Ništa se ne događa na desnom kliku: klik je sletio izvan mape ili je izbornik preglednik preuzeo. Desni klik ponovo na samu mapu.",
               "src": "machine",
@@ -1689,11 +1674,6 @@
               "t": "Još uvijek zapeo? Kontaktirajte GIS odjel i spomenite ime pravog klika i ovu aplikaciju.",
               "src": "machine",
               "h": "6168e3eb6c5d"
-            },
-            "helpTipsTitle": {
-              "t": "Dobro je znati.",
-              "src": "machine",
-              "h": "79fc372dc790"
             },
             "helpTips1": {
               "t": "Možete kliknuti desno na vrh vlastitih markera i bilješki; i meni tu radi.",
@@ -1984,16 +1964,6 @@
               "t": "Podaci o osobinama",
               "src": "machine",
               "h": "ca8911ec4193"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
-            },
-            "unserializableError": {
-              "t": "Neserijalizacijska greška",
-              "src": "machine",
-              "h": "76e73551597a"
             },
             "errorCreatingTextGraphicValue1": {
               "t": "Greška tokom čitanja datoteke '%s': {value1}",
@@ -8233,14 +8203,14 @@
           }
         },
         "hr": {
-          "file": "107cff931dc2",
+          "file": "9414ad718004",
           "counts": {
-            "esri": 17,
+            "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 126,
+            "machine": 120,
             "stale": 0,
             "missing": 1
           },
@@ -8259,16 +8229,6 @@
               "t": "Pretraži vodič (pokušajte kopirati ilimjera",
               "src": "machine",
               "h": "00a3df1d5a2c"
-            },
-            "helpNoMatches": {
-              "t": "Ništa u vodiču ne odgovara toj riječi. Pokušajte drugi, ili otvorite dijelove iznad.",
-              "src": "machine",
-              "h": "3fe179f75330"
-            },
-            "helpStartTitle": {
-              "t": "Počnite ovdje: tri koraka",
-              "src": "machine",
-              "h": "789320b4831d"
             },
             "helpStart1": {
               "t": "Desno kliknite na kartu gdje ste zainteresirani. Na telefonu ili tabletu, pritisnite i držite umjesto toga.",
@@ -8500,11 +8460,6 @@
               "src": "machine",
               "h": "76c5fdfdc8cb"
             },
-            "helpTroubleTitle": {
-              "t": "Ako nešto izgleda loše",
-              "src": "machine",
-              "h": "6f7fec3ff1e0"
-            },
             "helpTroubleNoMenu": {
               "t": "Ništa se ne događa na desnom kliku: klik sletio izvan karte, ili preglednik izbornik preuzeo. Desni kliknite opet na samu kartu.",
               "src": "machine",
@@ -8529,11 +8484,6 @@
               "t": "Još uvijek zaglavi? Kontaktirajte GIS Division i spomenuti pravo Kliknite ime i ovu aplikaciju.",
               "src": "machine",
               "h": "6168e3eb6c5d"
-            },
-            "helpTipsTitle": {
-              "t": "Dobro je znati.",
-              "src": "machine",
-              "h": "79fc372dc790"
             },
             "helpTips1": {
               "t": "Možete desno kliknuti na vrh vlastitih markera i bilješki; izbornik radi i tamo.",
@@ -8834,16 +8784,6 @@
               "t": "Informacije o svojini",
               "src": "machine",
               "h": "ca8911ec4193"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
-            },
-            "unserializableError": {
-              "t": "Neserijalizacijska greška",
-              "src": "machine",
-              "h": "76e73551597a"
             },
             "errorCreatingTextGraphicValue1": {
               "t": "Greška pri stvaranju tekstualne grafike: {value1}",
@@ -18798,14 +18738,14 @@
           }
         },
         "sr": {
-          "file": "5a184c1e8ed2",
+          "file": "e4d001f777a4",
           "counts": {
-            "esri": 17,
+            "esri": 23,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 126,
+            "machine": 120,
             "stale": 0,
             "missing": 1
           },
@@ -18824,16 +18764,6 @@
               "t": "Pretraži vodiè (probajkopija ilimera",
               "src": "machine",
               "h": "00a3df1d5a2c"
-            },
-            "helpNoMatches": {
-              "t": "Ništa u vodièu ne odgovara toj reèi.",
-              "src": "machine",
-              "h": "3fe179f75330"
-            },
-            "helpStartTitle": {
-              "t": "Poènite ovde: tri koraka.",
-              "src": "machine",
-              "h": "789320b4831d"
             },
             "helpStart1": {
               "t": "Desni klik na mapu gde ste zainteresovani. Na telefonu ili tabletu, pritisnite i držite umesto toga.",
@@ -19060,11 +18990,6 @@
               "src": "machine",
               "h": "76c5fdfdc8cb"
             },
-            "helpTroubleTitle": {
-              "t": "Ako nešto nije u redu",
-              "src": "machine",
-              "h": "6f7fec3ff1e0"
-            },
             "helpTroubleNoMenu": {
               "t": "Ništa se ne dešava na desnom kliku: klik je sleteo van mape, ili je izbornik preglednika preuzeo. Desni klik ponovo na samu mapu.",
               "src": "machine",
@@ -19089,11 +19014,6 @@
               "t": "Još uvek zaglavljen? Kontaktirajte GIS Odsek i pomenite ime desnog klika i ovu aplikaciju.",
               "src": "machine",
               "h": "6168e3eb6c5d"
-            },
-            "helpTipsTitle": {
-              "t": "Dobro je znati.",
-              "src": "machine",
-              "h": "79fc372dc790"
             },
             "helpTips1": {
               "t": "Možete kliknuti desno na vrh sopstvenih markera i bilješki; jelovnik radi i tamo.",
@@ -19399,16 +19319,6 @@
               "t": "Informacije o svojini",
               "src": "machine",
               "h": "ca8911ec4193"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
-            },
-            "unserializableError": {
-              "t": "Neserijalizacijska greška",
-              "src": "machine",
-              "h": "76e73551597a"
             },
             "errorCreatingTextGraphicValue1": {
               "t": "Greška pri stvaranju grafike teksta: {value1}",
@@ -26860,12 +26770,12 @@
         "bs": {
           "file": "aec1e312f30e",
           "counts": {
-            "esri": 48,
+            "esri": 52,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 217,
+            "machine": 213,
             "stale": 0,
             "missing": 2
           },
@@ -26949,11 +26859,6 @@
               "t": "Izaberi grafički element...",
               "src": "machine",
               "h": "d3a2d11fde2c"
-            },
-            "selectAWidget2": {
-              "t": "_Izaberi grafički element",
-              "src": "machine",
-              "h": "755320bd0c62"
             },
             "eGWidget3": {
               "t": "Na primjer, grafički element_3",
@@ -27855,16 +27760,6 @@
               "src": "machine",
               "h": "5b4ba71beef6"
             },
-            "showHelpGuide": {
-              "t": "Pokaži vodič za pomoć",
-              "src": "machine",
-              "h": "03e9f0b81336"
-            },
-            "showTheQuestionMarkButtonThat": {
-              "t": "Pokaži dugme sa znakom pitanja koje otvara vodič za pomoć grafičkog elementa",
-              "src": "machine",
-              "h": "62c4e81a84ca"
-            },
             "trustedEveryNestedLayerCurrentFuture": {
               "t": "Povjereno: svaki ugniježđeni sloj (trenutačno + budućnost) je uključen automatski. Kliknite na nepovjerenje.",
               "src": "machine",
@@ -27884,11 +27779,6 @@
               "t": "Nisam uspio dobaviti polja iz servisa",
               "src": "machine",
               "h": "fd2b7be484c4"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
             },
             "failedToParseXml": {
               "t": "Neuspješno tumačenje XML-a.",
@@ -38920,12 +38810,12 @@
         "hr": {
           "file": "14d6371d8f36",
           "counts": {
-            "esri": 48,
+            "esri": 52,
             "esri-check": 0,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 218,
+            "machine": 214,
             "stale": 0,
             "missing": 1
           },
@@ -39009,11 +38899,6 @@
               "t": "Odaberi widget...",
               "src": "machine",
               "h": "d3a2d11fde2c"
-            },
-            "selectAWidget2": {
-              "t": "— Odaberite widget —",
-              "src": "machine",
-              "h": "755320bd0c62"
             },
             "eGWidget3": {
               "t": "Na primjer widget_3",
@@ -39915,16 +39800,6 @@
               "src": "machine",
               "h": "5b4ba71beef6"
             },
-            "showHelpGuide": {
-              "t": "Prikaži vodič pomoći",
-              "src": "machine",
-              "h": "03e9f0b81336"
-            },
-            "showTheQuestionMarkButtonThat": {
-              "t": "Prikaži gumb s upitnikom koji otvara vodič za pomoć widgetu",
-              "src": "machine",
-              "h": "62c4e81a84ca"
-            },
             "trustedEveryNestedLayerCurrentFuture": {
               "t": "Povjereno: svaki ugniježđeni sloj (trenutačno + budućnost) je uključen automatski. Kliknite na nepovjerenje.",
               "src": "machine",
@@ -39944,11 +39819,6 @@
               "t": "Neuspjelo dobavljanje polja iz servisa",
               "src": "machine",
               "h": "fd2b7be484c4"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
             },
             "failedToParseXml": {
               "t": "Neuspjelo tumačenje XML- a.",
@@ -57490,12 +57360,12 @@
         "sr": {
           "file": "0c4192cff593",
           "counts": {
-            "esri": 46,
+            "esri": 50,
             "esri-check": 2,
             "community": 0,
             "manual": 0,
             "existing": 0,
-            "machine": 219,
+            "machine": 215,
             "stale": 0,
             "missing": 0
           },
@@ -57579,11 +57449,6 @@
               "t": "Izaberi grafički element...",
               "src": "machine",
               "h": "d3a2d11fde2c"
-            },
-            "selectAWidget2": {
-              "t": "— Izaberi grafički element —",
-              "src": "machine",
-              "h": "755320bd0c62"
             },
             "eGWidget3": {
               "t": "На пример, виџет_3",
@@ -58490,16 +58355,6 @@
               "src": "machine",
               "h": "5b4ba71beef6"
             },
-            "showHelpGuide": {
-              "t": "Pokaži vodič za pomoć",
-              "src": "machine",
-              "h": "03e9f0b81336"
-            },
-            "showTheQuestionMarkButtonThat": {
-              "t": "Prikaži dugme sa znakom pitanja koje otvara vodič za pomoć grafičkom elementu",
-              "src": "machine",
-              "h": "62c4e81a84ca"
-            },
             "trustedEveryNestedLayerCurrentFuture": {
               "t": "Povereni: svaki ugnježđeni sloj (trenut + budućnost) je uključen automatski. Klikni na nepoverenje.",
               "src": "machine",
@@ -58519,11 +58374,6 @@
               "t": "Neuspjelo dobavljanje polja iz servisa",
               "src": "machine",
               "h": "fd2b7be484c4"
-            },
-            "unknownError": {
-              "t": "nepoznata greška",
-              "src": "machine",
-              "h": "af6321ca7a8b"
             },
             "failedToParseXml": {
               "t": "Neuspjelo tumačenje XML- a.",
