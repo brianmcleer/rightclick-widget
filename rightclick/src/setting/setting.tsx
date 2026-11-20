@@ -20,7 +20,7 @@ import {
     Checkbox,
     Loading
 } from 'jimu-ui';
-import { IMConfig, FeatureLayerConfig, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereLayerSelection, WhatsHereHighlightConfig, defaultWhatsHereHighlight, computeLayerSelectionKey } from '../config';
+import { IMConfig, FeatureLayerConfig, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereLayerSelection, WhatsHereHighlightConfig, CustomActionConfig, ImportedCoordinateSystem, defaultWhatsHereHighlight, defaultCustomAction, computeLayerSelectionKey, parseWktInfo, normalizeWkt } from '../config';
 import { hooks as __exbI18nHooks } from 'jimu-core';
 import __exbI18nMessages from './translations/default';
 import { __setIntl, __t, __tc } from './i18n-t'
@@ -374,7 +374,7 @@ const parseXmlToConfig = (xmlStr: string): any => {
     const doc = parser.parseFromString(xmlStr, 'text/xml');
     const parseError = doc.querySelector('parsererror');
     if (parseError) {
-        throw new Error('Invalid XML — the document is not well-formed');
+        throw new Error('Invalid XML: the document is not well-formed');
     }
     const root = doc.documentElement;
     if (!root || root.tagName !== RIGHTCLICK_CONFIG_ROOT_TAG) {
@@ -942,6 +942,74 @@ const Setting = (props: SettingProps) => {
         });
     };
 
+    // ── Imported coordinate systems (.prj file or pasted WKT) ──────────────
+    // Each one adds a copy row to the context menu. The text is only checked
+    // for structure here (parseWktInfo, pure text); the Maps SDK does the real
+    // parsing at runtime, because nothing under src/setting may import esri/*.
+    const importedSystems: ImportedCoordinateSystem[] = React.useMemo(() => {
+        const list: any = (config.copySettings as any)?.importedSystems;
+        if (!list || !list.length) return [];
+        const out: ImportedCoordinateSystem[] = [];
+        for (let i = 0; i < list.length; i++) out.push({ ...(list[i] as any) });
+        return out;
+    }, [config.copySettings]);
+
+    const [crsPasteText, setCrsPasteText] = React.useState<string>('');
+    const [crsPasteOpen, setCrsPasteOpen] = React.useState<boolean>(false);
+    const [crsError, setCrsError] = React.useState<string | null>(null);
+    const crsFileInputRef = React.useRef<HTMLInputElement>(null);
+
+    const saveImportedSystems = (next: ImportedCoordinateSystem[]) => {
+        updateCopySetting('importedSystems' as any, next);
+    };
+
+    // Validate the text and append it to the list. Returns true when added.
+    const addImportedSystem = (rawText: string, sourceName?: string): boolean => {
+        const wkt = normalizeWkt(rawText);
+        const info = parseWktInfo(wkt);
+        if (!info.valid) {
+            setCrsError(
+                info.reason === 'empty' ? t('crsErrorEmpty')
+                    : info.reason === 'unbalanced' ? t('crsErrorUnbalanced')
+                        : t('crsErrorNotWkt')
+            );
+            return false;
+        }
+        if (importedSystems.some(sys => normalizeWkt(sys.wkt) === wkt)) {
+            setCrsError(t('crsErrorDuplicate', { name: info.name }));
+            return false;
+        }
+        // Label: the name inside the WKT, else the file name without extension.
+        const fromFile = (sourceName || '').replace(/\.[^.]+$/, '');
+        const label = info.name || fromFile || t('crsDefaultLabel');
+        const id = `crs_${Date.now().toString(36)}_${Math.floor(Math.random() * 1e6).toString(36)}`;
+        saveImportedSystems([
+            ...importedSystems,
+            { id, label, wkt, decimalPlaces: info.projected ? 2 : 6, axisOrder: 'en', showInMainMenu: true }
+        ]);
+        setCrsError(null);
+        return true;
+    };
+
+    const handleCrsFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => { addImportedSystem((ev.target?.result as string) || '', file.name); };
+        reader.onerror = () => { setCrsError(t('crsErrorRead')); };
+        reader.readAsText(file);
+        // Clear the input so choosing the same file twice still fires onChange.
+        if (crsFileInputRef.current) crsFileInputRef.current.value = '';
+    };
+
+    const updateImportedSystem = (index: number, patch: Partial<ImportedCoordinateSystem>) => {
+        saveImportedSystems(importedSystems.map((sys, i) => (i === index ? { ...sys, ...patch } : sys)));
+    };
+
+    const removeImportedSystem = (index: number) => {
+        saveImportedSystems(importedSystems.filter((_, i) => i !== index));
+    };
+
     const updateWhatsHereUrl = (value: string) => {
         props.onSettingChange({
             id: (props as any).id,
@@ -1181,6 +1249,43 @@ const Setting = (props: SettingProps) => {
         exprs.splice(exprIndex, 1);
         current[overrideIndex] = { ...current[overrideIndex], expressionInfos: exprs };
         updatePopupOverrides(current);
+    };
+
+    // ─── Custom action helpers ───────────────────────────────────────────────
+    const customActionsList = (): CustomActionConfig[] => {
+        const raw: any = config.customActions;
+        const arr = raw && typeof raw.asMutable === 'function' ? raw.asMutable({ deep: true }) : raw;
+        return Array.isArray(arr) ? arr.slice() : [];
+    };
+
+    const writeCustomActions = (next: CustomActionConfig[]) => {
+        props.onSettingChange({
+            id: (props as any).id,
+            config: Immutable({ ...configToPlainJs(config), customActions: next })
+        });
+    };
+
+    const addCustomAction = () => writeCustomActions([...customActionsList(), defaultCustomAction()]);
+
+    const updateCustomAction = (index: number, patch: Partial<CustomActionConfig>) => {
+        const current = customActionsList();
+        if (!current[index]) return;
+        current[index] = { ...current[index], ...patch };
+        writeCustomActions(current);
+    };
+
+    const removeCustomAction = (index: number) => {
+        const current = customActionsList();
+        current.splice(index, 1);
+        writeCustomActions(current);
+    };
+
+    const moveCustomAction = (index: number, dir: -1 | 1) => {
+        const current = customActionsList();
+        const j = index + dir;
+        if (!current[index] || !current[j]) return;
+        const tmp = current[index]; current[index] = current[j]; current[j] = tmp;
+        writeCustomActions(current);
     };
 
     // ─── Layer-selection tree state + helpers ────────────────────────────────
@@ -2314,6 +2419,240 @@ const Setting = (props: SettingProps) => {
                     </SettingRow>
                 </SettingSection>
             )}
+
+            {/* Custom actions: app-author rows. Always-on rows or rows that
+                only show when a feature from a matching layer is under the
+                right click. Each row opens a link, copies text, opens a
+                widget, or selects the feature in its data source. */}
+            <SettingSection title={t('customActions')}>
+                <SettingRow>
+                    <div style={styles.sectionDescription}>{t('customActionsIntro')}</div>
+                </SettingRow>
+
+                {customActionsList().map((a: CustomActionConfig, idx: number, all: CustomActionConfig[]) => {
+                    const isFeature = a.scope === 'feature';
+                    const queryableTitles = (() => {
+                        const out: string[] = [];
+                        const walk = (n: LayerTreeNode) => { if (n.queryable && !n.isGroup) out.push(n.title); (n.children || []).forEach(walk); };
+                        layerTree.forEach(walk);
+                        return Array.from(new Set(out)).sort((x, y) => x.localeCompare(y));
+                    })();
+                    return (
+                        <div
+                            key={a.id || idx}
+                            style={{
+                                border: '1px solid var(--light-400)',
+                                borderRadius: '4px',
+                                padding: '10px',
+                                marginBottom: '12px',
+                                background: 'var(--light-200)',
+                                boxSizing: 'border-box',
+                                width: '100%',
+                                minWidth: 0,
+                                overflow: 'hidden'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px', minWidth: 0 }}>
+                                <Switch checked={a.enabled !== false} onChange={(e) => updateCustomAction(idx, { enabled: e.target.checked })} />
+                                <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: '13px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={a.label}>
+                                    {t('actionIdx', { idx: idx + 1 })}{a.label ? ` : ${a.label}` : ''}
+                                </span>
+                                <Button size="sm" type="tertiary" disabled={idx === 0} onClick={() => moveCustomAction(idx, -1)} aria-label={t('moveUp')} title={t('moveUp')}>&#9650;</Button>
+                                <Button size="sm" type="tertiary" disabled={idx === all.length - 1} onClick={() => moveCustomAction(idx, 1)} aria-label={t('moveDown')} title={t('moveDown')}>&#9660;</Button>
+                                <Tooltip title={t('removeThisAction')} placement="top">
+                                    <Button size="sm" type="tertiary" onClick={() => removeCustomAction(idx)} aria-label={t('removeThisAction')}>
+                                        <TrashOutlined />
+                                    </Button>
+                                </Tooltip>
+                            </div>
+
+                            <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                <label style={styles.inputLabel}>{t('menuLabel')}</label>
+                                <TextInput size="sm" value={a.label || ''} placeholder={t('customActionLabelPlaceholder')} onChange={(e) => updateCustomAction(idx, { label: e.target.value })} style={{ width: '100%' }} />
+                                {isFeature && (<span style={styles.helpText}>{t('labelTokensHelp')} <code>{'{layer} {objectid} {FIELDNAME}'}</code></span>)}
+                            </div>
+
+                            <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                <label style={styles.inputLabel}>{t('icon')}</label>
+                                <TextInput size="sm" value={a.icon || ''} placeholder="launch" onChange={(e) => updateCustomAction(idx, { icon: e.target.value })} style={{ width: '100%' }} />
+                                <span style={styles.helpText}>{t('calciteIconNameHelp')}</span>
+                            </div>
+
+                            <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                <label style={styles.inputLabel}>{t('menuGroup')}</label>
+                                <Select size="sm" value={a.group || 'custom'} onChange={(e) => updateCustomAction(idx, { group: e.target.value })}>
+                                    <Option value="custom">{t('groupCustom')}</Option>
+                                    <Option value="nav">{t('groupNav')}</Option>
+                                    <Option value="coords">{t('groupCoords')}</Option>
+                                    <Option value="graphics">{t('groupGraphics')}</Option>
+                                    <Option value="external">{t('groupExternal')}</Option>
+                                    <Option value="tools">{t('groupTools')}</Option>
+                                    <Option value="info">{t('groupInfo')}</Option>
+                                </Select>
+                                <span style={styles.helpText}>{t('menuGroupHelp')}</span>
+                            </div>
+
+                            <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                <label style={styles.inputLabel}>{t('showThisRow')}</label>
+                                <Select size="sm" value={a.scope || 'always'} onChange={(e) => updateCustomAction(idx, { scope: e.target.value })}>
+                                    <Option value="always">{t('scopeAlways')}</Option>
+                                    <Option value="feature">{t('scopeFeature')}</Option>
+                                </Select>
+                            </div>
+
+                            {isFeature && (
+                                <div style={{ border: '1px dashed var(--light-500)', borderRadius: '4px', padding: '8px', marginBottom: '10px' }}>
+                                    {queryableTitles.length > 0 && (
+                                        <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
+                                            <label style={styles.inputLabel}>{t('pickALayerFromTheMap')}</label>
+                                            <Select size="sm" value="" placeholder={t('pickALayerFromTheMap')} onChange={(e) => { if (e.target.value) updateCustomAction(idx, { matchTitle: e.target.value }); }}>
+                                                <Option value="">{t('pickALayerFromTheMap')}</Option>
+                                                {queryableTitles.map(title => <Option key={title} value={title}>{title}</Option>)}
+                                            </Select>
+                                        </div>
+                                    )}
+                                    <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
+                                        <label style={styles.inputLabel}>{t('matchLayerTitleContains')}</label>
+                                        <TextInput size="sm" value={a.matchTitle || ''} placeholder={t('eGParcels')} onChange={(e) => updateCustomAction(idx, { matchTitle: e.target.value })} style={{ width: '100%' }} />
+                                        <span style={styles.helpText}>{t('matchTitleCoversChildren')}</span>
+                                    </div>
+                                    <div style={{ ...styles.inputContainer, marginBottom: '8px' }}>
+                                        <label style={styles.inputLabel}>{t('matchUrlContains')}</label>
+                                        <TextInput size="sm" value={a.matchUrl || ''} placeholder={t('eGParcelsFeatureServer0')} onChange={(e) => updateCustomAction(idx, { matchUrl: e.target.value })} style={{ width: '100%' }} />
+                                    </div>
+                                    <div style={{ ...styles.inputContainer, marginBottom: '4px' }}>
+                                        <label style={styles.inputLabel}>{t('hintField')}</label>
+                                        <TextInput size="sm" value={a.hintField || ''} placeholder="e.g. ADDRESS" onChange={(e) => updateCustomAction(idx, { hintField: e.target.value })} style={{ width: '100%' }} />
+                                        <span style={styles.helpText}>{t('hintFieldHelp')}</span>
+                                    </div>
+                                    {!(a.matchTitle || '').trim() && !(a.matchUrl || '').trim() && (
+                                        <Alert form="basic" type="info" text={t('featureScopeAnyLayer')} />
+                                    )}
+                                </div>
+                            )}
+
+                            <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                <label style={styles.inputLabel}>{t('whatItDoes')}</label>
+                                <Select size="sm" value={a.type || 'url'} onChange={(e) => updateCustomAction(idx, { type: e.target.value })}>
+                                    <Option value="url">{t('typeUrl')}</Option>
+                                    <Option value="copy">{t('typeCopy')}</Option>
+                                    <Option value="widget">{t('typeWidget')}</Option>
+                                    <Option value="select" disabled={!isFeature}>{t('typeSelect')}</Option>
+                                </Select>
+                                {a.type === 'select' && !isFeature && (
+                                    <Alert form="basic" type="warning" text={t('selectNeedsFeatureScope')} />
+                                )}
+                            </div>
+
+                            {(a.type === 'url' || a.type === 'copy') && (
+                                <div style={{ ...styles.inputContainer, marginBottom: '10px' }}>
+                                    <label style={styles.inputLabel}>{a.type === 'url' ? t('linkTemplate') : t('textTemplate')}</label>
+                                    <TextArea
+                                        value={a.template || ''}
+                                        placeholder={a.type === 'url' ? 'https://example.org/lookup?pin={PARCELNUM}&lat={lat}&lon={lon}' : '{layer} {objectid}: {lat}, {lon}'}
+                                        onChange={(e) => updateCustomAction(idx, { template: e.target.value })}
+                                        style={{ width: '100%', minHeight: '64px', fontFamily: 'monospace', fontSize: '12px' }}
+                                    />
+                                    <span style={styles.helpText}>
+                                        {t('templateTokensHelp')} <code>{'{lat} {lon} {x} {y} {wkid} {address} {scale} {zoom}'}</code>
+                                        {isFeature && (<> {t('templateTokensFeatureHelp')} <code>{'{layer} {layerUrl} {objectid} {FIELDNAME}'}</code></>)}
+                                    </span>
+                                    {a.type === 'url' && (
+                                        <Select size="sm" value={a.openIn || 'newTab'} onChange={(e) => updateCustomAction(idx, { openIn: e.target.value })}>
+                                            <Option value="newTab">{t('openInNewTab')}</Option>
+                                            <Option value="sameTab">{t('openInSameTab')}</Option>
+                                        </Select>
+                                    )}
+                                </div>
+                            )}
+
+                            {a.type === 'widget' && (
+                                <div style={{ ...styles.inputContainer, marginBottom: '6px' }}>
+                                    <label style={styles.inputLabel}>{t('targetWidget')}</label>
+                                    <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                        <Button size="sm" type="primary" onClick={scanForPropertyReportWidgets} disabled={scanning} style={{ whiteSpace: 'nowrap' }}>
+                                            {scanning ? 'Scanning...' : t('scanApp')}
+                                        </Button>
+                                        <span style={{ ...styles.helpText, margin: 0 }}>{t('readsAppConfigToFindWidgets')}</span>
+                                    </div>
+                                    {detectedWidgets.length > 0 ? (
+                                        <Select size="sm" value={a.targetWidgetId || ''} onChange={(e) => updateCustomAction(idx, { targetWidgetId: e.target.value })} placeholder={t('selectAWidget')}>
+                                            <Option value="">{t('selectAWidget2')}</Option>
+                                            {detectedWidgets.map((w) => <Option key={w.id} value={w.id}>{w.label}</Option>)}
+                                        </Select>
+                                    ) : (
+                                        <TextInput size="sm" value={a.targetWidgetId || ''} placeholder={t('eGWidget3')} onChange={(e) => updateCustomAction(idx, { targetWidgetId: e.target.value })} />
+                                    )}
+                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('parentContainer')}</label>
+                                    {detectedWidgets.length > 0 ? (
+                                        <Select
+                                            size="sm"
+                                            value={a.parentControllerId || ''}
+                                            onChange={(e) => {
+                                                const id = e.target.value;
+                                                const picked = detectedWidgets.find(w => w.id === id);
+                                                const cls = classifyContainerUri(picked?.uri);
+                                                const newType = cls === 'accordion' ? 'accordion' : (cls === 'controller' ? 'controller' : (id ? 'controller' : 'none'));
+                                                updateCustomAction(idx, { parentControllerId: id, parentContainerType: newType });
+                                            }}
+                                            placeholder={t('selectTheParentContainer')}
+                                        >
+                                            <Option value="">{t('noneTargetWidgetOpensDirectly')}</Option>
+                                            {containerWidgets.map((w) => {
+                                                const cls = classifyContainerUri(w.uri);
+                                                const badge = cls === 'accordion' ? t('accordion') : (cls === 'controller' ? t('controller') : '');
+                                                return <Option key={w.id} value={w.id}>{w.label}{badge}</Option>;
+                                            })}
+                                        </Select>
+                                    ) : (
+                                        <TextInput size="sm" value={a.parentControllerId || ''} placeholder={t('eGWidget75')} onChange={(e) => updateCustomAction(idx, { parentControllerId: e.target.value })} />
+                                    )}
+                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('containerType')}</label>
+                                    <Select size="sm" value={a.parentContainerType || 'none'} onChange={(e) => updateCustomAction(idx, { parentContainerType: e.target.value })}>
+                                        <Option value="controller">{t('widgetControllerOpenCloseAsA')}</Option>
+                                        <Option value="accordion">{t('accordionExpandTheMatchingSection')}</Option>
+                                        <Option value="controller+accordion">{t('widgetControllerAccordionNested')}</Option>
+                                        <Option value="none">{t('noContainerJustOpenTheTarget')}</Option>
+                                    </Select>
+                                    {a.parentContainerType === 'controller+accordion' && (
+                                        <>
+                                            <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('accordionWidgetInsideTheController')}</label>
+                                            {detectedWidgets.length > 0 ? (
+                                                <Select size="sm" value={a.accordionWidgetId || ''} onChange={(e) => updateCustomAction(idx, { accordionWidgetId: e.target.value })} placeholder={t('selectTheAccordionWidget')}>
+                                                    <Option value="">{t('selectAccordion')}</Option>
+                                                    {containerWidgets
+                                                        .filter(w => classifyContainerUri(w.uri) === 'accordion' || (w.label || '').toLowerCase().includes('accordion'))
+                                                        .map((w) => <Option key={w.id} value={w.id}>{w.label}</Option>)}
+                                                </Select>
+                                            ) : (
+                                                <TextInput size="sm" value={a.accordionWidgetId || ''} placeholder={t('eGWidget82')} onChange={(e) => updateCustomAction(idx, { accordionWidgetId: e.target.value })} />
+                                            )}
+                                        </>
+                                    )}
+                                    <label style={{ ...styles.inputLabel, marginTop: '8px' }}>{t('storeKey')}</label>
+                                    <TextInput size="sm" value={a.storeKey || ''} placeholder="actionPoint" onChange={(e) => updateCustomAction(idx, { storeKey: e.target.value })} />
+                                    <span style={styles.helpText}>{t('storeKeyHelp')}</span>
+                                </div>
+                            )}
+
+                            {a.type === 'select' && isFeature && (
+                                <div style={styles.helpText}>{t('selectTypeHelp')}</div>
+                            )}
+                        </div>
+                    );
+                })}
+
+                <SettingRow>
+                    <Button onClick={addCustomAction} type="primary" size="sm">
+                        <PlusOutlined /> {t('addCustomAction')}
+                    </Button>
+                </SettingRow>
+                {customActionsList().length === 0 && (
+                    <SettingRow>
+                        <div style={styles.helpText}>{t('noCustomActionsYet')}</div>
+                    </SettingRow>
+                )}
+            </SettingSection>
 
             {/* Plot Coordinates Settings - Only show if plotCoordinates is enabled */}
             {enabledActions.plotCoordinates && (
@@ -3618,7 +3957,7 @@ const Setting = (props: SettingProps) => {
                                     }}
                                     title={override.title || t('overrideIdx', { idx: idx + 1 })}
                                 >
-                                    {t('overrideIdx', { idx: idx + 1 })}{override.title ? ` — ${override.title}` : ''}
+                                    {t('overrideIdx', { idx: idx + 1 })}{override.title ? `: ${override.title}` : ''}
                                 </span>
                                 <Tooltip title={t('removeThisOverride')} placement="top">
                                     <Button size="sm" type="tertiary" onClick={() => removePopupOverride(idx)} aria-label={t('removeOverride')}>
@@ -3788,7 +4127,7 @@ const Setting = (props: SettingProps) => {
                                                     onChange={(e) => updateOverrideExpression(idx, eIdx, { expression: e.target.value })}
                                                     rows={5}
                                                     spellCheck={false}
-                                                    placeholder="// Arcade — $feature is available&#10;return $feature.OBJECTID;"
+                                                    placeholder="// Arcade: $feature is available&#10;return $feature.OBJECTID;"
                                                     style={{
                                                         width: '100%',
                                                         maxWidth: '100%',
@@ -3944,6 +4283,152 @@ const Setting = (props: SettingProps) => {
                             </div>
                         </SettingRow>
                     )}
+
+                    {/* Imported coordinate systems: .prj file or pasted WKT */}
+                    <SettingRow>
+                        <div style={styles.inputContainer}>
+                            <label style={styles.inputLabel}>{t('crsHeading')}</label>
+                            <div style={styles.helpText}>{t('crsDescription')}</div>
+                        </div>
+                    </SettingRow>
+
+                    {importedSystems.map((sys, index) => {
+                        const info = parseWktInfo(sys.wkt);
+                        const idBase = `rc-crs-${sys.id}`;
+                        return (
+                            <SettingRow key={sys.id}>
+                                <div style={styles.featureLayerContainer}>
+                                    <div style={styles.featureLayerHeader}>
+                                        <div style={styles.featureLayerTitle}>
+                                            {sys.label || info.name || t('crsDefaultLabel')}
+                                        </div>
+                                        <Button
+                                            type="tertiary"
+                                            size="sm"
+                                            icon
+                                            onClick={() => removeImportedSystem(index)}
+                                            style={styles.removeButton}
+                                            title={t('crsRemove')}
+                                            aria-label={t('crsRemove')}
+                                        >
+                                            <TrashOutlined />
+                                        </Button>
+                                    </div>
+                                    <div style={styles.featureLayerContent}>
+                                        <div style={styles.fieldRow}>
+                                            <label style={styles.inputLabel} htmlFor={`${idBase}-label`}>{t('crsMenuLabel')}</label>
+                                            <TextInput
+                                                id={`${idBase}-label`}
+                                                size="sm"
+                                                value={sys.label || ''}
+                                                placeholder={info.name}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateImportedSystem(index, { label: e.target.value })}
+                                            />
+                                            <div style={styles.helpText}>{t('crsMenuLabelHelp')}</div>
+                                        </div>
+                                        <div style={styles.fieldRow}>
+                                            <div style={styles.helpText}>
+                                                {info.valid
+                                                    ? t('crsSummary', {
+                                                        name: info.name || '?',
+                                                        kind: info.projected ? t('crsKindProjected') : t('crsKindGeographic'),
+                                                        unit: info.unit || '?'
+                                                    })
+                                                    : t('crsErrorNotWkt')}
+                                            </div>
+                                        </div>
+                                        <div style={styles.settingsGrid}>
+                                            <div style={styles.inputContainer}>
+                                                <label style={styles.inputLabel} htmlFor={`${idBase}-order`}>{t('crsAxisOrder')}</label>
+                                                <Select
+                                                    id={`${idBase}-order`}
+                                                    size="sm"
+                                                    value={sys.axisOrder === 'ne' ? 'ne' : 'en'}
+                                                    onChange={(e: any) => updateImportedSystem(index, { axisOrder: e.target.value === 'ne' ? 'ne' : 'en' })}
+                                                >
+                                                    <Option value="en">{info.projected ? t('crsOrderEN') : t('crsOrderLonLat')}</Option>
+                                                    <Option value="ne">{info.projected ? t('crsOrderNE') : t('crsOrderLatLon')}</Option>
+                                                </Select>
+                                            </div>
+                                            <div style={styles.inputContainer}>
+                                                <label style={styles.inputLabel} htmlFor={`${idBase}-dp`}>{t('decimalPlaces')}</label>
+                                                <NumericInput
+                                                    id={`${idBase}-dp`}
+                                                    value={typeof sys.decimalPlaces === 'number' ? sys.decimalPlaces : (info.projected ? 2 : 6)}
+                                                    onChange={(value) => updateImportedSystem(index, { decimalPlaces: typeof value === 'number' && value >= 0 ? value : 0 })}
+                                                    min={0}
+                                                    max={10}
+                                                    size="sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div style={styles.fieldRow}>
+                                            <label style={styles.radioLabel}>
+                                                <Switch
+                                                    checked={sys.showInMainMenu !== false}
+                                                    onChange={(e: any) => updateImportedSystem(index, { showInMainMenu: !!e.target.checked })}
+                                                />
+                                                {t('crsShowInMainMenu')}
+                                            </label>
+                                            <div style={styles.helpText}>{t('crsShowInMainMenuHelp')}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SettingRow>
+                        );
+                    })}
+
+                    <SettingRow>
+                        <div style={styles.inputContainer}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                <Button size="sm" type="primary" onClick={() => crsFileInputRef.current?.click()}>
+                                    <PlusOutlined /> {t('crsImportFile')}
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    type="tertiary"
+                                    aria-expanded={crsPasteOpen}
+                                    onClick={() => { setCrsPasteOpen(!crsPasteOpen); setCrsError(null); }}
+                                >
+                                    {t('crsPasteToggle')}
+                                </Button>
+                                <input
+                                    ref={crsFileInputRef}
+                                    type="file"
+                                    accept=".prj,.wkt,.txt,text/plain"
+                                    onChange={handleCrsFile}
+                                    style={{ display: 'none' }}
+                                    aria-hidden="true"
+                                    tabIndex={-1}
+                                />
+                            </div>
+                            {crsPasteOpen && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+                                    <TextArea
+                                        aria-label={t('crsPasteLabel')}
+                                        placeholder={'PROJCS["...",GEOGCS["..."],PROJECTION["..."],...,UNIT["Foot",0.3048]]'}
+                                        value={crsPasteText}
+                                        onChange={(e: any) => { setCrsPasteText(e.target.value); setCrsError(null); }}
+                                        style={{ minHeight: '90px', fontFamily: 'ui-monospace, Consolas, monospace', fontSize: '11px' }}
+                                    />
+                                    <div>
+                                        <Button
+                                            size="sm"
+                                            type="primary"
+                                            disabled={!crsPasteText.trim()}
+                                            onClick={() => { if (addImportedSystem(crsPasteText)) { setCrsPasteText(''); setCrsPasteOpen(false); } }}
+                                        >
+                                            {t('crsPasteAdd')}
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
+                            {crsError && (
+                                <Alert type="error" text={crsError} closable onClose={() => setCrsError(null)} style={{ width: '100%', marginTop: '8px' }} />
+                            )}
+                            <div style={styles.helpText}>{t('crsDatumNote')}</div>
+                        </div>
+                    </SettingRow>
                 </SettingSection>
             )}
 

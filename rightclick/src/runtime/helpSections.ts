@@ -27,8 +27,14 @@ export interface HelpFeatures {
   propertyReportLabel: string
   /** Menu label of the Mailing Labels row, as the menu shows it. */
   mailingLabelsLabel: string
-  /** Default measurement units, as the settings spell them (feet, meters, ...). */
+  /** Default measurement units, already in the app language (feet, meters, ...). */
   measureUnits: string
+  /** Menu labels of the imported coordinate systems (from a .prj file), as the menu shows them. */
+  importedSystems: string[]
+  /** Labels of custom rows that show on every right click. */
+  customAlways: string[]
+  /** Labels of custom rows that show only when a matching map feature is under the pointer. */
+  customFeature: string[]
 }
 
 type T = (id: string, values?: Record<string, string>) => string
@@ -52,6 +58,7 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
     ...when(f.zoomOut, 'helpMenuZoomOut'),
     ...when(f.centerHere, 'helpMenuCenter'),
     ...when(f.copyCoordinates, 'helpMenuCopy'),
+    ...(f.copyCoordinates && f.importedSystems.length ? [t('helpMenuImported', { labels: listOf(f.importedSystems) })] : []),
     ...when(f.copyCoordinates && f.coordinateFormats, 'helpMenuFormats'),
     ...when(f.address, 'helpMenuAddress'),
     ...when(f.plotMarker, 'helpMenuPlotMarker'),
@@ -65,7 +72,9 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
     ...when(f.measureArea, 'helpMenuMeasureArea'),
     ...when(f.whatsHere, 'helpMenuWhatsHere'),
     ...(f.propertyReport ? [t('helpMenuPropertyReport', { label: f.propertyReportLabel })] : []),
-    ...(f.mailingLabels ? [t('helpMenuMailingLabels', { label: f.mailingLabelsLabel })] : [])
+    ...(f.mailingLabels ? [t('helpMenuMailingLabels', { label: f.mailingLabelsLabel })] : []),
+    ...(f.customAlways.length ? [t('helpMenuCustomAlways', { labels: listOf(f.customAlways) })] : []),
+    ...(f.customFeature.length ? [t('helpMenuCustomFeature', { labels: listOf(f.customFeature) })] : [])
   ]
 
   return [
@@ -75,18 +84,25 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
       title: t('helpStartTitle'),
       ordered: true,
       body: [
-        t('helpStart1'),
-        t('helpStart2', { address: f.address ? ' and its street address' : '' }),
+        t(f.longPress ? 'helpStart1' : 'helpStart1NoTouch'),
+        t(f.address ? 'helpStart2Address' : 'helpStart2Plain'),
         t('helpStart3')
       ]
     },
-    { key: 'menu', icon: 'ellipsis', title: t('helpMenuTitle'), intro: t('helpMenuIntro'), body: menuBody },
+    // With every action turned off there are no rows to describe: drop the section.
+    ...(menuBody.length ? [{ key: 'menu', icon: 'ellipsis', title: t('helpMenuTitle'), intro: t('helpMenuIntro'), body: menuBody }] : []),
     ...(f.copyCoordinates
       ? [{
           key: 'coords',
           icon: 'globe',
           title: t('helpCoordsTitle'),
-          body: [t('helpCoords1'), t('helpCoords2'), ...when(f.coordinateFormats, 'helpCoords3'), ...when(f.address, 'helpCoords4')]
+          body: [
+            t('helpCoords1'),
+            t('helpCoords2'),
+            ...(f.importedSystems.length ? [t('helpCoordsImported', { labels: listOf(f.importedSystems) })] : []),
+            ...when(f.coordinateFormats, 'helpCoords3'),
+            ...when(f.address, 'helpCoords4')
+          ]
         }]
       : []),
     ...(anyGraphics
@@ -115,7 +131,9 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
       title: t('helpTroubleTitle'),
       body: [
         t('helpTroubleNoMenu'),
+        ...when(f.customFeature.length > 0, 'helpTroubleCustomFeature'),
         ...when(f.address, 'helpTroubleAddress'),
+        ...when(f.copyCoordinates && f.importedSystems.length > 0, 'helpTroubleImported'),
         ...when(f.copyCoordinates, 'helpTroubleCopy'),
         ...when(anyExternal, 'helpTroubleExternal'),
         t('helpTroubleContact')

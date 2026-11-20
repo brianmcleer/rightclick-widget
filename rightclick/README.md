@@ -20,6 +20,11 @@ and Mailing Labels with the clicked location.
   detected automatically), the configured custom projection, map native X/Y,
   and a GeoJSON point, each copied on click. Plot Coordinates (numbered
   markers with optional labels), Plot Marker (simple markers)
+- **Imported coordinate systems**: import a `.prj` file (or paste WKT) in
+  settings to add a coordinate system that has no WKID, such as a county or
+  project grid. Each one adds a menu row that copies the clicked location in
+  that system, with its own label, decimal places and coordinate order
+  (Easting, Northing or Northing, Easting)
 - **Graphics**: Add Text (custom font, color, halo, optional background),
   Undo Last Graphic, Clear All Graphics
 - **External services**: Open in Google Street View, Open in Google Maps,
@@ -34,12 +39,26 @@ and Mailing Labels with the clicked location.
   opened at the right-click point. Supports three container layouts: a
   plain Widget Controller, a plain Accordion, or an Accordion nested
   inside a Widget Controller
+- **Custom actions**: add your own rows in settings. A row shows on every
+  right click, or only when the user right clicks on a feature from a layer
+  you name (by title or URL; nested group layers and map service sublayers
+  at any depth). Each row opens a link, copies text, opens another widget
+  in the app, or selects the feature in its data source so Table, List and
+  Chart widgets on that data source follow. Link and copy rows use templates
+  with `{lat}` `{lon}` `{x}` `{y}` `{wkid}` `{address}` `{scale}` `{zoom}`
+  and, for feature rows, `{layer}` `{layerUrl}` `{objectid}` and any
+  `{FIELDNAME}`. Widget rows hand the target the point, address and matched
+  feature through `MutableStoreManager` (key `actionPoint` by default) and
+  a `rightclick-action` window event
 
 ### Settings
 
 - Toggle each action on or off
+- Add, reorder and remove custom actions (link, copy, widget, select)
 - Configure coordinate systems, marker styles, text formatting, popups,
   measurement units, reverse geocoding service, and Pictometry URL
+- Import coordinate systems from `.prj` files under Copy Coordinates
+  Settings (see "Imported coordinate systems" below)
 - Configure What's Here layer selection with a tri-state tree, trust
   toggles for groups, and Arcade-based popup overrides
 - Import and export the full configuration as XML for backup or
@@ -47,8 +66,9 @@ and Mailing Labels with the clicked location.
 
 ## Requirements
 
-- ArcGIS Experience Builder Developer Edition **1.19 or 1.20** (React 19).
-  EB 1.18 and earlier are not supported.
+- ArcGIS Experience Builder Developer Edition **1.21** (built and tested
+  there; `exbVersion` in the manifest is 1.21.0). EB 1.18 and earlier
+  (React 18) are not supported.
 
 ## Install
 
@@ -72,16 +92,18 @@ and Mailing Labels with the clicked location.
    direct child of the widget folder, or Experience Builder won't register
    it. See the troubleshooting note below.
 
-3. From the `client` folder, run:
+3. From the `client` folder, install and start. Experience Builder 1.21
+   and later use pnpm:
 
    ```
-   npm install
+   pnpm install
    npm start
    ```
 
-   Experience Builder will auto-install any widget dependencies on the
-   first `npm install`. After `npm start` compiles, the widget appears in
-   the Custom section of the widget picker in the builder.
+   On Experience Builder 1.20 and earlier, use `npm install` in place of
+   `pnpm install`. This widget has no third-party dependencies, so the
+   install step adds nothing for it. After `npm start` compiles, the widget
+   appears in the Custom section of the widget picker in the builder.
 
 4. Drop the widget into an experience, open its settings, pick the map
    widget(s) it should listen to, and turn on the actions you want.
@@ -119,6 +141,72 @@ the page (the context menu and dialogs are overlays). Recommended:
   second dropdown for the inner Accordion's widget id, and the widget
   will open the controller's panel, then expand the right accordion
   section automatically.
+
+### Custom action examples
+
+- Parcel lookup in the county assessor site, only on parcels: Show this row =
+  only on a matching feature, Match layer title = `Parcels`, What it does =
+  Open a link, Link =
+  `https://assessor.example.org/parcel/{PARCELNUM}`, Hint field = `PARCELNUM`.
+- Copy a Google Maps link for any spot: Show this row = on every right click,
+  What it does = Copy text, Text =
+  `https://www.google.com/maps/search/?api=1&query={lat},{lon}`.
+- Send a street segment to a custom widget: Show this row = only on a
+  matching feature, Match layer URL = `/Transportation/MapServer/3`, What it
+  does = Open a widget, pick the widget and its container. The widget reads
+  `MutableStoreManager` key `actionPoint` (or your own Store key); the
+  payload is `{ point, latLon, address, feature: { attributes, geometry,
+  layerTitle, layerUrl, objectId }, actionId, actionLabel, timestamp }`.
+  A `rightclick-action` window event carries the same payload with
+  `targetWidgetId`.
+- Search the web for whatever was clicked: Show this row = only on a
+  matching feature, leave both match fields blank, Menu Label =
+  `Search the web for {layer}`, What it does = Open a link, Link =
+  `https://www.google.com/search?q={layer}+{objectid}`. The row follows
+  any layer that is on in the map.
+- Select a hydrant in the Table widget: Show this row = only on a matching
+  feature, Match layer title = `Hydrants`, What it does = Select the feature.
+  Works for layers the connected map widget exposes as data sources.
+
+## Imported coordinate systems
+
+Some coordinate systems have no WKID: county grids, low distortion
+projections, project grids. To put one on the menu:
+
+1. In the widget settings, open **Copy Coordinates Settings** and find
+   **Imported coordinate systems**.
+2. Click **Import .prj file** and choose the file, or click **Paste WKT
+   instead** and paste the text. Esri and OGC WKT 1 (`PROJCS[...]`,
+   `GEOGCS[...]`) and WKT 2 (`PROJCRS[...]`) are accepted.
+3. Set the menu label, decimal places and coordinate order. Leave **Show as
+   its own row in the menu** on, or turn it off to move the row under "More
+   coordinate formats".
+
+The row appears on right click with the coordinates under its label; click it
+to copy. The definition is saved in the app config and is included in the XML
+export.
+
+Two things to know:
+
+- **Datum.** The definition is used exactly as written. If its datum differs
+  from the map's (for example a WGS 1984 definition on a NAD 1983 map), the
+  Maps SDK applies its default datum transformation for the area, which can
+  move the result by about a meter. If your organization treats the two datums
+  as the same, edit the `GEOGCS` part of the `.prj` to match the map's datum
+  before importing, and no shift is applied.
+- **Checking it.** Right click a point whose coordinates you already know in
+  that system and compare. A system's origin is the easiest: it should read
+  the false easting and false northing from the file.
+
+## For developers
+
+- `docs/handover/README.md` is the starting point: code map, routine
+  maintenance, troubleshooting, the XML export format and the 1.21 porting
+  notes.
+- Checks, run from the widget folder inside an Experience Builder client:
+  `npx tsc -p .` (type check) and `node --test "tests/*.test.cjs"` (tests).
+  The tests need no install; they use the TypeScript that ships in the
+  client.
 
 ## Usage telemetry
 

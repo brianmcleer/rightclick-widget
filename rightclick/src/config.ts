@@ -10,10 +10,101 @@ export interface FeatureLayerConfig {
     aliasFields?: Record<string, string>; // Field name aliases for display
 }
 
+// ─── Custom actions (the context menu engine) ───────────────────────────
+// A custom action is a menu row the app author adds in settings. It can show
+// on every right click, or only when a feature from a matching map layer is
+// under the pointer (the widget queries matching layers at the click point
+// when the menu opens). What the row does is picked by `type`:
+//   url     opens a link built from `template`
+//   copy    copies text built from `template` to the clipboard
+//   widget  opens another widget in the app (same container handling as the
+//           Property Report row) and hands it the point and the feature
+//           through MutableStoreManager (key `storeKey`, default
+//           'actionPoint') and a window event 'rightclick-action'
+//   select  selects the feature in its Experience Builder data source, so
+//           Table, List, Chart and any other widget using that data source
+//           follow along
+//
+// Template tokens, replaced at run time (url type URL-encodes each value):
+//   {lat} {lon}            WGS84 latitude / longitude
+//   {x} {y} {wkid}         map coordinates and spatial reference
+//   {address}              reverse-geocoded address when configured
+//   {scale} {zoom}         current view scale / zoom level
+//   {layer} {layerUrl}     the matched layer's title / URL (feature scope)
+//   {objectid}             the matched feature's object id (feature scope)
+//   {FIELDNAME}            any attribute of the matched feature, case-insensitive
+export type CustomActionType = 'url' | 'copy' | 'widget' | 'select';
+export type CustomActionScope = 'always' | 'feature';
+export type CustomActionGroup = 'nav' | 'coords' | 'graphics' | 'external' | 'tools' | 'info' | 'custom';
+
+export interface CustomActionConfig {
+    id: string;                      // stable id for React keys and the menu action name
+    enabled?: boolean;               // undefined means on
+    label: string;                   // menu row text; feature rows may use {layer}, {objectid} and {FIELDNAME} tokens
+    icon?: string;                   // Calcite icon name, default 'launch'
+    // Where the row sits in the menu: inside one of the built-in groups
+    // (after that group's last row) or in its own group at the end.
+    group?: CustomActionGroup;       // default 'custom'
+    scope?: CustomActionScope;       // 'always' (default) or 'feature'
+    // Feature scope: which layers count. Case-insensitive substring matches
+    // against the live layer's title path ("Group / Service / Layer", so a
+    // parent's title covers every layer under it) and/or its URL; both must
+    // match when both are set. Both blank = any layer that is on in the map,
+    // so the row follows whatever the user right clicks on.
+    matchTitle?: string;
+    matchUrl?: string;
+    hintField?: string;              // attribute shown under the label (feature scope), default: layer title
+    type: CustomActionType;
+    template?: string;               // url and copy types
+    openIn?: 'newTab' | 'sameTab';   // url type, default newTab
+    // widget type
+    targetWidgetId?: string;
+    parentContainerType?: 'controller' | 'accordion' | 'controller+accordion' | 'none';
+    parentControllerId?: string;
+    accordionWidgetId?: string;
+    storeKey?: string;               // MutableStoreManager key, default 'actionPoint'
+}
+
+export const defaultCustomAction = (): CustomActionConfig => ({
+    id: `ca-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`,
+    enabled: true,
+    label: '',
+    icon: 'launch',
+    group: 'custom',
+    scope: 'always',
+    matchTitle: '',
+    matchUrl: '',
+    hintField: '',
+    type: 'url',
+    template: '',
+    openIn: 'newTab',
+    targetWidgetId: '',
+    parentContainerType: 'none',
+    parentControllerId: '',
+    accordionWidgetId: '',
+    storeKey: 'actionPoint'
+});
+
+/** A layer matches an action when every non-empty match string is a substring
+ *  of the layer's title path / URL; with no match strings every layer matches. Shared by widget.tsx (menu rows) and setting.tsx
+ *  (preview of which layers an action would match). */
+export const customActionMatchesLayer = (a: CustomActionConfig, layerTitle: string, layerUrl: string): boolean => {
+    const mt = (a.matchTitle || '').trim().toLowerCase();
+    const mu = (a.matchUrl || '').trim().toLowerCase();
+    if (!mt && !mu) return true; // no filter: any layer that is on
+    if (mt && (layerTitle || '').toLowerCase().indexOf(mt) < 0) return false;
+    if (mu && (layerUrl || '').toLowerCase().indexOf(mu) < 0) return false;
+    return true;
+};
+
 export interface IMConfig {
+    // false turns anonymous usage and error telemetry (src/shared/beacon.ts) off for this app.
+    telemetry?: boolean;
   /** Show the question-mark button that opens the help guide. Undefined means on,
    *  so apps configured before this setting existed keep their help button. */
   showHelp?: boolean
+    // Custom actions: app-author rows added to the menu. See CustomActionConfig.
+    customActions?: CustomActionConfig[];
     useMapWidgetIds: string[];
     coordinateSystem?: 'map' | 'webMercator';
     enabledActions?: {
@@ -177,6 +268,10 @@ export interface IMConfig {
         customWkid?: number;           // Custom WKID for coordinate copy
         coordinateFormat?: 'decimal' | 'dms';  // Format for lat/lon display
         decimalPlaces?: number;        // Number of decimal places
+        // Coordinate systems the builder imported from a .prj file (or pasted
+        // as WKT). Each one adds a copy row to the context menu. This is how a
+        // local system with no WKID (a county or project grid) gets on the menu.
+        importedSystems?: ImportedCoordinateSystem[];
     };
 
     // NEW: Per-layer popup display overrides driven by Arcade. Matched at
@@ -455,6 +550,72 @@ export const defaultTextSettings = {
     haloSize: 2,
     backgroundColor: 'transparent',
     backgroundOpacity: 0.8
+};
+
+// A coordinate system imported from a .prj file or pasted as WKT.
+export interface ImportedCoordinateSystem {
+    id: string;                    // Stable id, used as the menu action key
+    label: string;                 // Row label in the menu (defaults to the WKT name)
+    wkt: string;                   // The well-known text, exactly as imported
+    decimalPlaces?: number;        // Default 2
+    axisOrder?: 'en' | 'ne';       // 'en' = Easting, Northing (X, Y); 'ne' = Northing, Easting (Y, X)
+    showInMainMenu?: boolean;      // true (default) = its own row; false = under "More coordinate formats"
+}
+
+export interface WktInfo {
+    valid: boolean;
+    /** 'empty' | 'notWkt' | 'unbalanced' when not valid */
+    reason?: 'empty' | 'notWkt' | 'unbalanced';
+    name: string;                  // Name of the outer coordinate system
+    unit: string;                  // Name of the last UNIT/LENGTHUNIT/ANGLEUNIT in the text
+    projected: boolean;            // PROJCS / PROJCRS
+    wkt2: boolean;                 // ISO 19162 keywords (PROJCRS, GEOGCRS, ...)
+}
+
+const WKT1_ROOTS = ['PROJCS', 'GEOGCS', 'COMPD_CS', 'VERT_CS', 'GEOCCS', 'LOCAL_CS'];
+const WKT2_ROOTS = ['PROJCRS', 'PROJECTEDCRS', 'GEOGCRS', 'GEOGRAPHICCRS', 'GEODCRS', 'GEODETICCRS', 'BOUNDCRS', 'COMPOUNDCRS', 'ENGCRS', 'ENGINEERINGCRS'];
+
+// Strip a byte-order mark and collapse the whitespace a .prj file may carry.
+export const normalizeWkt = (raw: string): string =>
+    String(raw == null ? '' : raw).replace(/^\uFEFF/, '').replace(/[\r\n\t]+/g, ' ').trim();
+
+// Light structural check of a WKT string. Pure text work, no Maps SDK, so the
+// settings panel can call it (nothing under src/setting may import esri/*).
+// It answers "does this look like a coordinate system definition" and pulls
+// out the name and unit for display. The Maps SDK does the real parsing at
+// runtime, when the widget builds the SpatialReference.
+export const parseWktInfo = (raw: string): WktInfo => {
+    const wkt = normalizeWkt(raw);
+    const out: WktInfo = { valid: false, name: '', unit: '', projected: false, wkt2: false };
+    if (!wkt) { out.reason = 'empty'; return out; }
+
+    const root = /^([A-Za-z_]+)\s*[\[(]\s*"([^"]*)"/.exec(wkt);
+    const keyword = root ? root[1].toUpperCase() : '';
+    const isWkt1 = WKT1_ROOTS.indexOf(keyword) !== -1;
+    const isWkt2 = WKT2_ROOTS.indexOf(keyword) !== -1;
+    if (!root || (!isWkt1 && !isWkt2)) { out.reason = 'notWkt'; return out; }
+
+    // Brackets must balance, ignoring anything inside quoted names.
+    let depth = 0;
+    let inQuote = false;
+    let balanced = true;
+    for (let i = 0; i < wkt.length; i++) {
+        const c = wkt[i];
+        if (c === '"') { inQuote = !inQuote; continue; }
+        if (inQuote) continue;
+        if (c === '[' || c === '(') depth++;
+        else if (c === ']' || c === ')') { depth--; if (depth < 0) { balanced = false; break; } }
+    }
+    if (!balanced || depth !== 0 || inQuote) { out.reason = 'unbalanced'; return out; }
+
+    out.valid = true;
+    out.name = root[2];
+    out.wkt2 = isWkt2;
+    out.projected = keyword === 'PROJCS' || keyword === 'PROJCRS' || keyword === 'PROJECTEDCRS';
+    const unitRe = /(?:LENGTHUNIT|ANGLEUNIT|UNIT)\s*[\[(]\s*"([^"]*)"/gi;
+    let m: RegExpExecArray | null;
+    while ((m = unitRe.exec(wkt)) !== null) out.unit = m[1];
+    return out;
 };
 
 // NEW: Default copy settings

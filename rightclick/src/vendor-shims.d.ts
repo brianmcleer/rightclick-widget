@@ -4,25 +4,11 @@
 // Widget-specific editor declarations for the Right Click widget. Sits beside
 // the untouched master copy of exb-editor-shims.d.ts (copied from
 // widgets\_vs) so the master can stay byte-identical across widgets.
-// Editor only: emits nothing, the Experience Builder webpack build never
-// reads this file.
+// Editor only: emits nothing. publish.ps1 keeps this file out of the release
+// zip (its ambient blocks would leak into other widgets).
 //
 // Keep this file a script (no top-level import/export) so every block below
 // stays ambient and merges with the master shim's declarations.
-
-// ── Classic JSX (tsconfig "jsx": "react") ───────────────────────────────────
-// widget.tsx uses the /** @jsx jsx */ pragma (emotion via jimu-core), which
-// is typed `any`, so TypeScript falls back to this global JSX namespace.
-// setting.tsx has no pragma and compiles through React.createElement.
-declare namespace JSX {
-    type Element = any
-    interface IntrinsicElements { [elemName: string]: any }
-    interface ElementClass { render (): any }
-    interface ElementAttributesProperty { props: {} }
-    interface ElementChildrenAttribute { children: {} }
-    interface IntrinsicAttributes { [key: string]: any }
-    interface IntrinsicClassAttributes<T> { [key: string]: any }
-}
 
 // ── jimu-core members the master shim does not list ─────────────────────────
 declare module 'jimu-core' {

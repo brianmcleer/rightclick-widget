@@ -22,8 +22,9 @@ By Brian McLeer, GIS Administrator/Developer, City of Grand Junction, CO.
 
 Download `rightclick.zip` from the latest release, extract, and drop the
 `rightclick/` folder into `client/your-extensions/widgets/` in your
-Experience Builder install. From `client/`, run `npm install` and `npm
-start`. The widget then appears in the Custom section of the builder.
+Experience Builder install. From `client/`, run `pnpm install` (Experience
+Builder 1.21 and later; `npm install` on 1.20 and earlier) and `npm start`.
+The widget then appears in the Custom section of the builder.
 
 Full install steps and configuration tips are in the widget's own
 [README](rightclick/README.md).
@@ -36,9 +37,8 @@ If you clone the repository instead of using the zip, delete `rightclick/src/exb
 
 ## Compatibility
 
-Built and tested on ArcGIS Experience Builder Developer Edition **1.19
-and 1.20** (React 19). Earlier EB versions (1.18 and below) are not
-supported.
+Built and tested on ArcGIS Experience Builder Developer Edition **1.21**
+(`exbVersion` 1.21.0). EB 1.18 and earlier (React 18) are not supported.
 
 ## Repository layout
 
@@ -79,7 +79,7 @@ release.
 - Edit the three variables at the top of `publish.ps1` if needed
   (`$WidgetName`, `$RepoName`, `$ExbWidgetPath`). For this repo they're
   already set to `rightclick`, `rightclick-widget`, and the standard
-  EB 1.20 path.
+  EB 1.21 path.
 
 ### Every later update
 
@@ -90,19 +90,22 @@ From a terminal opened in the repo folder:
 powershell -ExecutionPolicy Bypass -File .\publish.ps1
 
 # Code update plus a new release
-powershell -ExecutionPolicy Bypass -File .\publish.ps1 -Release v1.1.0
+powershell -ExecutionPolicy Bypass -File .\publish.ps1 -Release v2.1.0
 ```
 
 The script does the following on every run:
 
-1. Mirrors the widget from `client\your-extensions\widgets\rightclick`
-   into the `rightclick/` subfolder of this repo, skipping `node_modules`
-   and `.vs`.
+1. Pulls the latest translations (skip with `-SkipTranslations`), then
+   mirrors the widget from `client\your-extensions\widgets\rightclick`
+   into the `rightclick/` subfolder of this repo, skipping `node_modules`,
+   `.vs`, `Claude outputs`, `i18n\backup` and zips. It stops if the
+   manifest and `package.json` versions differ or the tag already exists.
 2. Runs `git init` if the repo isn't initialized yet.
 3. Commits any changes.
 4. Pushes to GitHub (creating the repo via `gh` on the first run).
-5. If `-Release vX.Y.Z` was passed, zips the `rightclick/` folder and
-   cuts a GitHub Release with the zip attached.
+5. If `-Release vX.Y.Z` was passed, zips a staged copy of the `rightclick/`
+   folder (without the editor shims and the `i18n` working folder) and cuts
+   a GitHub Release with the zip attached.
 
 ### Version tag rules
 

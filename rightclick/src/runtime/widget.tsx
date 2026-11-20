@@ -9,6 +9,7 @@ import { Button } from 'jimu-ui';
 import { beacon } from '../shared/beacon';
 import type { BeaconHandle } from '../shared/beacon';
 import HelpPopup from './components/HelpPopup';
+import { TextInputDialog, MailingLabelsBufferDialog } from './components/Dialogs';
 import { buildHelpSections, HelpFeatures } from './helpSections';
 import defaultMessages from './translations/default';
 
@@ -28,7 +29,7 @@ import Graphic from 'esri/Graphic';
 import TextSymbol from 'esri/symbols/TextSymbol';
 import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
 
-import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereHighlightConfig, computeLayerSelectionKey } from '../config';
+import { IMConfig, FeatureLayerConfig, CoordinateMarker, SimpleMarker, TextGraphic, PopupOverrideConfig, ArcadeExpressionInfo, WhatsHereHighlightConfig, CustomActionConfig, ImportedCoordinateSystem, computeLayerSelectionKey, customActionMatchesLayer, parseWktInfo, normalizeWkt } from '../config';
 import { __locale, __setIntl, __t, __tc } from './i18n-t'
 
 // Ambient declarations for the `__esri` global namespace. Esri's TypeScript
@@ -57,6 +58,7 @@ declare global {
         interface Polygon { [key: string]: any }
         interface Multipoint { [key: string]: any }
         interface Extent { [key: string]: any }
+        interface SpatialReference { [key: string]: any }
         interface Graphic { [key: string]: any }
         interface GraphicsLayer { [key: string]: any }
         interface WatchHandle { [key: string]: any }
@@ -160,6 +162,18 @@ const loadLengthAreaMath = (): Promise<any> => {
     return _lengthAreaMathPromise;
 };
 
+// One feature found under the right-click point, for custom actions.
+interface HitFeature {
+    layerTitle: string;
+    /** Ancestor titles plus the layer's own, "Group / Service / Layer", so a match on a parent's title covers its children. */
+    layerPath: string;
+    layerUrl: string;
+    mapLayer: any;
+    attributes: Record<string, any>;
+    geometry: any;
+    objectId: string | number | null;
+}
+
 interface State {
     contextMenu: {
         visible: boolean;
@@ -183,6 +197,17 @@ interface State {
             geojson?: string;
         };
         copyFormatsExpanded?: boolean;
+        // Coordinates in each imported coordinate system (copySettings.
+        // importedSystems), keyed by system id. undefined = none configured,
+        // null = projection in flight (rows show "Calculating..." so their
+        // arrival never renumbers the rows below), object = resolved. A
+        // system that cannot be projected (definition rejected, point
+        // outside its area) has no entry and its row is dropped.
+        importedCoords?: { [id: string]: string } | null;
+        // Features found under the pointer for feature-scoped custom actions.
+        // undefined = not requested (no feature-scoped action enabled),
+        // null = query in flight, array = resolved (possibly empty).
+        hitFeatures?: HitFeature[] | null;
     };
     showingContextMenu: boolean;
     isMeasuring: boolean;
@@ -214,8 +239,37 @@ interface State {
     focusedMenuIndex: number;
 }
 
-// Enhanced unit and button cleanup function with MutationObserver for instant "New Measurement" suppression.
-// Returns a disconnect function to stop the observer when the measurement widget is destroyed.
+// ── Theme palette for UI built outside React ────────────────────────────────
+// The What's Here popup and the measurement panels are plain HTML handed to
+// the Maps SDK, so they cannot call the useTokens() hook. The widget copies
+// the current theme tokens in here on every render (syncRcPalette) and the
+// HTML and CSS builders below read them, so this UI follows the app's theme
+// like the context menu does. The defaults match theme.ts and only apply
+// before the first render.
+const rcPalette = {
+    primary: '#0079c1',
+    primaryText: '#ffffff',
+    surface: '#ffffff',
+    background: '#f7f8fa',
+    text: '#1b1f24',
+    textSecondary: '#5a6572',
+    divider: '#e1e5e9',
+    danger: '#d64545',
+    infoBg: '#f4f8fb',
+    radius: '4px',
+    radiusLg: '8px',
+    shadowHover: '0 6px 16px rgba(0,0,0,0.14)'
+};
+const syncRcPalette = (tokens: { [key: string]: string }) => {
+    (Object.keys(rcPalette) as Array<keyof typeof rcPalette>).forEach((k) => {
+        const v = tokens[k];
+        if (typeof v === 'string' && v) rcPalette[k] = v;
+    });
+};
+// `percent` of `color` over `base`, for hover fills and focus rings.
+const rcMix = (color: string, percent: number, base: string): string =>
+    `color-mix(in srgb, ${color} ${percent}%, ${base})`;
+
 // CSS for the What's Here popup content (master rows, Back / Zoom-to
 // buttons, links). This is injected in TWO places:
 //   1. document.head, which reaches the popup in EB 1.20 and earlier,
@@ -225,26 +279,32 @@ interface State {
 //      that document-level stylesheets cannot penetrate. A <style>
 //      element carried inside the content applies wherever the
 //      content lands, light DOM or shadow DOM.
-const RC_WH_CONTENT_CSS = `
-.rc-wh-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 4px; border-radius: 4px; box-sizing: border-box; }
-.rc-wh-row--clickable { background: #f4f8fb; border: 1px solid #d9e6ef; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
-.rc-wh-row--clickable:hover, .rc-wh-row--clickable:focus { background: #e3eef6; border-color: #0079c1; outline: none; }
-.rc-wh-row--clickable:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
-.rc-wh-row--disabled { background: #fafafa; border: 1px solid #e0e0e0; color: #6e6e6e; }
-.rc-wh-row__label { flex: 1; color: #0079c1; font-weight: 500; }
-.rc-wh-row--disabled .rc-wh-row__label { color: #6e6e6e; font-weight: 400; }
-.rc-wh-row__chevron { color: #0079c1; font-size: 16px; line-height: 1; font-weight: 600; }
-.rc-wh-row__hint { font-size: 11px; color: #999; font-style: italic; }
-.rc-wh-back { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
-.rc-wh-back:hover, .rc-wh-back:focus { background: #0079c1; color: #fff; outline: none; }
-.rc-wh-back:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
-.rc-wh-zoom-to { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: #fff; border: 1px solid #0079c1; color: #0079c1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
-.rc-wh-zoom-to:hover, .rc-wh-zoom-to:focus { background: #0079c1; color: #fff; outline: none; }
-.rc-wh-zoom-to:focus-visible { box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.35); }
-.rc-wh-popup-root a { color: #0079c1; }
-.rc-wh-popup-root a:hover, .rc-wh-popup-root a:focus { color: #005a92; }
+// Built on demand from rcPalette so it carries the current theme colors.
+const rcWhContentCss = (): string => {
+    const c = rcPalette;
+    const ring = `box-shadow: 0 0 0 2px ${rcMix(c.primary, 35, 'transparent')};`;
+    const pill = `display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: ${c.surface}; border: 1px solid ${c.primary}; color: ${c.primary}; border-radius: ${c.radius}; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; line-height: 1.2; transition: background 0.15s, color 0.15s; flex-shrink: 0;`;
+    return `
+.rc-wh-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 4px; border-radius: ${c.radius}; box-sizing: border-box; }
+.rc-wh-row--clickable { background: ${c.infoBg}; border: 1px solid ${c.divider}; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+.rc-wh-row--clickable:hover, .rc-wh-row--clickable:focus { background: ${rcMix(c.primary, 18, c.surface)}; border-color: ${c.primary}; outline: none; }
+.rc-wh-row--clickable:focus-visible { ${ring} }
+.rc-wh-row--disabled { background: ${c.background}; border: 1px solid ${c.divider}; color: ${c.textSecondary}; }
+.rc-wh-row__label { flex: 1; color: ${c.primary}; font-weight: 500; }
+.rc-wh-row--disabled .rc-wh-row__label { color: ${c.textSecondary}; font-weight: 400; }
+.rc-wh-row__chevron { color: ${c.primary}; font-size: 16px; line-height: 1; font-weight: 600; }
+.rc-wh-row__hint { font-size: 11px; color: ${c.textSecondary}; font-style: italic; }
+.rc-wh-back { ${pill} }
+.rc-wh-back:hover, .rc-wh-back:focus { background: ${c.primary}; color: ${c.primaryText}; outline: none; }
+.rc-wh-back:focus-visible { ${ring} }
+.rc-wh-zoom-to { ${pill} }
+.rc-wh-zoom-to:hover, .rc-wh-zoom-to:focus { background: ${c.primary}; color: ${c.primaryText}; outline: none; }
+.rc-wh-zoom-to:focus-visible { ${ring} }
+.rc-wh-popup-root a { color: ${c.primary}; }
+.rc-wh-popup-root a:hover, .rc-wh-popup-root a:focus { color: ${rcMix(c.primary, 75, c.text)}; }
 .rc-wh-popup-root { box-sizing: border-box; }
 `.trim();
+};
 
 // Apply the What's Here look as INLINE styles plus JS hover handlers.
 // This is the belt-and-suspenders path for EB 1.21: it needs no
@@ -254,48 +314,50 @@ const RC_WH_CONTENT_CSS = `
 // listeners. Idempotent per element via a dataset flag.
 const applyRcWhInlineStyles = (root: HTMLElement) => {
     try {
+        const c = rcPalette;
         const mark = (el: HTMLElement): boolean => {
             if (el.dataset.rcStyled) return false;
             el.dataset.rcStyled = '1';
             return true;
         };
+        const rowHover = rcMix(c.primary, 18, c.surface);
 
         root.querySelectorAll<HTMLElement>('.rc-wh-row').forEach((el) => {
             if (!mark(el)) return;
-            el.style.cssText += ';display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:4px;border-radius:4px;box-sizing:border-box;';
+            el.style.cssText += `;display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:4px;border-radius:${c.radius};box-sizing:border-box;`;
             if (el.classList.contains('rc-wh-row--clickable')) {
-                el.style.cssText += ';background:#f4f8fb;border:1px solid #d9e6ef;cursor:pointer;';
-                el.addEventListener('mouseenter', () => { el.style.background = '#e3eef6'; el.style.borderColor = '#0079c1'; });
-                el.addEventListener('mouseleave', () => { el.style.background = '#f4f8fb'; el.style.borderColor = '#d9e6ef'; });
+                el.style.cssText += `;background:${c.infoBg};border:1px solid ${c.divider};cursor:pointer;`;
+                el.addEventListener('mouseenter', () => { el.style.background = rowHover; el.style.borderColor = c.primary; });
+                el.addEventListener('mouseleave', () => { el.style.background = c.infoBg; el.style.borderColor = c.divider; });
             } else if (el.classList.contains('rc-wh-row--disabled')) {
-                el.style.cssText += ';background:#fafafa;border:1px solid #e0e0e0;color:#6e6e6e;';
+                el.style.cssText += `;background:${c.background};border:1px solid ${c.divider};color:${c.textSecondary};`;
             }
         });
 
         root.querySelectorAll<HTMLElement>('.rc-wh-row__label').forEach((el) => {
             if (!mark(el)) return;
             const disabled = !!el.closest('.rc-wh-row--disabled');
-            el.style.cssText += `;flex:1;color:${disabled ? '#6e6e6e' : '#0079c1'};font-weight:${disabled ? '400' : '500'};`;
+            el.style.cssText += `;flex:1;color:${disabled ? c.textSecondary : c.primary};font-weight:${disabled ? '400' : '500'};`;
         });
         root.querySelectorAll<HTMLElement>('.rc-wh-row__chevron').forEach((el) => {
             if (!mark(el)) return;
-            el.style.cssText += ';color:#0079c1;font-size:16px;line-height:1;font-weight:600;';
+            el.style.cssText += `;color:${c.primary};font-size:16px;line-height:1;font-weight:600;`;
         });
         root.querySelectorAll<HTMLElement>('.rc-wh-row__hint').forEach((el) => {
             if (!mark(el)) return;
-            el.style.cssText += ';font-size:11px;color:#999;font-style:italic;';
+            el.style.cssText += `;font-size:11px;color:${c.textSecondary};font-style:italic;`;
         });
 
         root.querySelectorAll<HTMLElement>('.rc-wh-back, .rc-wh-zoom-to').forEach((el) => {
             if (!mark(el)) return;
-            el.style.cssText += ';display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:#fff;border:1px solid #0079c1;color:#0079c1;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;line-height:1.2;flex-shrink:0;';
-            el.addEventListener('mouseenter', () => { el.style.background = '#0079c1'; el.style.color = '#fff'; });
-            el.addEventListener('mouseleave', () => { el.style.background = '#fff'; el.style.color = '#0079c1'; });
+            el.style.cssText += `;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:${c.surface};border:1px solid ${c.primary};color:${c.primary};border-radius:${c.radius};cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;line-height:1.2;flex-shrink:0;`;
+            el.addEventListener('mouseenter', () => { el.style.background = c.primary; el.style.color = c.primaryText; });
+            el.addEventListener('mouseleave', () => { el.style.background = c.surface; el.style.color = c.primary; });
         });
 
         root.querySelectorAll<HTMLElement>('a').forEach((el) => {
             if (!mark(el)) return;
-            el.style.color = '#0079c1';
+            el.style.color = c.primary;
         });
     } catch (e) { /* styling is best-effort */ }
 };
@@ -336,15 +398,15 @@ const beautifyMeasurePanel = (rootEl: Element | null) => {
             const t = (el.textContent || '').trim();
             if (/^(Distance|Area|Perimeter)$/i.test(t)) {
                 if (getComputedStyle(el).display === 'inline') {
-                    el.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:8px 0 2px;';
+                    el.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:8px 0 2px;`;
                     const sib = el.nextElementSibling as HTMLElement | null;
                     if (sib && /\d/.test(sib.textContent || '') && getComputedStyle(sib).display === 'inline') {
-                        sib.style.cssText += ';display:block;font-size:18px;font-weight:600;color:#151515;margin:0 0 8px;';
+                        sib.style.cssText += `;display:block;font-size:18px;font-weight:600;color:${rcPalette.text};margin:0 0 8px;`;
                     }
                 }
             } else if (/^Unit$/i.test(t)) {
                 if (getComputedStyle(el).display === 'inline') {
-                    el.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:0 0 4px;';
+                    el.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:0 0 4px;`;
                 }
             }
         }
@@ -359,10 +421,10 @@ const beautifyMeasurePanel = (rootEl: Element | null) => {
             const t1 = (c1.textContent || '').trim();
             if (/^(Distance|Area|Perimeter)$/i.test(t0) && /\d/.test(t1)) {
                 if (getComputedStyle(c0).display === 'inline') {
-                    c0.style.cssText += ';display:block;font-size:12px;color:#6e6e6e;margin:8px 0 2px;';
+                    c0.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:8px 0 2px;`;
                 }
                 if (getComputedStyle(c1).display === 'inline') {
-                    c1.style.cssText += ';display:block;font-size:18px;font-weight:600;color:#151515;margin:0 0 8px;';
+                    c1.style.cssText += `;display:block;font-size:18px;font-weight:600;color:${rcPalette.text};margin:0 0 8px;`;
                 }
             }
         }
@@ -386,6 +448,39 @@ const beautifyMeasurePanel = (rootEl: Element | null) => {
             }
         }
     } catch (e) { /* styling is best-effort */ }
+};
+
+// Close button for the measurement panels. The panel is Maps SDK DOM, not
+// React, so a jimu-ui Button cannot be rendered into it; a Calcite button is
+// the same design system and follows the app theme by itself. If Calcite's
+// element is not registered, fall back to a plain button with theme colors.
+const createMeasureCloseButton = (label: string): HTMLElement => {
+    const hasCalcite = typeof customElements !== 'undefined' && !!customElements.get('calcite-button');
+    if (hasCalcite) {
+        const btn = document.createElement('calcite-button') as HTMLElement;
+        btn.setAttribute('appearance', 'outline');
+        btn.setAttribute('kind', 'neutral');
+        btn.setAttribute('scale', 's');
+        btn.setAttribute('width', 'full');
+        btn.textContent = label;
+        btn.style.cssText = 'flex:1;';
+        return btn;
+    }
+    const c = rcPalette;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.style.cssText = `flex:1;background:${c.surface};color:${c.text};border:1px solid ${c.divider};padding:6px 14px;border-radius:${c.radius};cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;`;
+    btn.onmouseenter = () => { btn.style.background = c.background; };
+    btn.onmouseleave = () => { btn.style.background = c.surface; };
+    return btn;
+};
+
+// Panel chrome for the measurement tools: theme surface, border, radius and
+// shadow, so the panel matches the context menu in light and dark themes.
+const styleMeasurePanel = (panel: HTMLElement, fontFamily: string) => {
+    const c = rcPalette;
+    panel.style.cssText += `;background:${c.surface};color:${c.text};border-radius:${c.radiusLg};box-shadow:${c.shadowHover};border:1px solid ${c.divider};min-width:260px;font-family:${fontFamily};`;
 };
 
 const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'distance'): (() => void) => {
@@ -736,6 +831,11 @@ const createLabelSuppressor = (mapView: any) => {
     return { snapshotLayers, startSuppression };
 };
 
+// Menu label for an imported coordinate system: the builder's label, or the
+// name inside the WKT when the label was left empty.
+const importedSystemLabel = (sys: ImportedCoordinateSystem): string =>
+    (sys.label && sys.label.trim()) || parseWktInfo(sys.wkt).name || sys.id;
+
 const Widget = (props: AllWidgetProps<IMConfig>) => {
   __setIntl((props as any).intl)
     // Get theme from Redux store (more reliable than props.theme)
@@ -771,6 +871,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
     // Theme tokens for the menu (colors, radii, shadows follow the Experience's theme).
     const tokens = useTokens();
+    // Share them with the HTML built outside React (What's Here popup,
+    // measurement panels).
+    syncRcPalette(tokens as any);
 
     // Help guide (handoff Section 10). Strings come from translations/default.ts;
     // {token} placeholders are filled from `values`.
@@ -825,16 +928,15 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     // UTM projection) from a previous right-click are discarded.
     const menuOpenTokenRef = React.useRef<number>(0);
     const menuRef = React.useRef<HTMLDivElement | null>(null);
-    const dialogRef = React.useRef<HTMLDivElement | null>(null);
-    const textInputRef = React.useRef<HTMLInputElement | null>(null);
-    const mailingLabelsDialogRef = React.useRef<HTMLDivElement | null>(null);
-    const mailingLabelsApplyBufferBtnRef = React.useRef<HTMLInputElement | null>(null);
     const previousActiveElement = React.useRef<HTMLElement | null>(null);
     const beaconRef = React.useRef<BeaconHandle | null>(null);
     React.useEffect(() => { beaconRef.current = beacon.init(props) }, []);
     // Track event handlers to prevent duplicates
     const handlersAttachedRef = React.useRef<boolean>(false);
     const lastMapViewRef = React.useRef<__esri.MapView | null>(null);
+    // The JimuMapView behind mapViewRef. Custom actions of type 'select' need
+    // it to reach the Experience Builder data source of a map layer.
+    const jimuMapViewRef = React.useRef<JimuMapView | null>(null);
     // Holds the current "What's Here" session so master/detail navigation
     // (the click handlers on the popup's clickable rows and the Back button)
     // can re-render without re-running the underlying queries.
@@ -875,6 +977,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             setState(prev => ({ ...prev, announceMessage: message }));
         }, 50);
     }, []);
+
+    // Error message for the user: written to the live region for screen
+    // readers and shown in a dialog. Use this instead of a bare alert().
+    const notify = React.useCallback((message: string) => {
+        announce(message);
+        alert(message);
+    }, [announce]);
 
     // Prevent browser context menu
     React.useEffect(() => {
@@ -972,10 +1081,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             document.body.removeChild(textArea);
 
             if (!successful) {
-                prompt('Please copy these coordinates manually:', coords);
+                prompt(__t("copyManually"), coords);
             }
         } catch {
-            prompt('Please copy these coordinates manually:', coords);
+            prompt(__t("copyManually"), coords);
         }
     }, []);
 
@@ -1013,6 +1122,64 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             return projected || point;
         } catch {
             return point;
+        }
+    }, []);
+
+    // Imported coordinate systems (from a .prj file or pasted WKT) that are
+    // usable: enabled copy action, non-empty label, WKT that passes the
+    // structural check. Computed once per config change.
+    const importedSystems: ImportedCoordinateSystem[] = React.useMemo(() => {
+        if (props.config?.enabledActions?.copyCoordinates === false) return [];
+        const list: any = props.config?.copySettings?.importedSystems;
+        if (!list || !list.length) return [];
+        const out: ImportedCoordinateSystem[] = [];
+        for (let i = 0; i < list.length; i++) {
+            const sys = list[i];
+            if (!sys || !sys.id || !sys.wkt) continue;
+            if (!parseWktInfo(sys.wkt).valid) continue;
+            out.push(sys);
+        }
+        return out;
+    }, [props.config?.copySettings?.importedSystems, props.config?.enabledActions?.copyCoordinates]);
+
+    // SpatialReference objects built from WKT, cached by the WKT text so a
+    // system is parsed once, not on every right click. null = the Maps SDK
+    // rejected the definition; it is not retried.
+    const wktSpatialRefCacheRef = React.useRef<{ [wkt: string]: __esri.SpatialReference | null }>({});
+
+    // Project a map point into a coordinate system defined by WKT. Returns
+    // null when the definition is rejected or the result is not finite, so
+    // the caller can leave that row out of the menu.
+    const projectToWkt = React.useCallback(async (point: __esri.Point, rawWkt: string): Promise<__esri.Point | null> => {
+        try {
+            const wkt = normalizeWkt(rawWkt);
+            const cache = wktSpatialRefCacheRef.current;
+            let spatialRef = cache[wkt];
+            if (spatialRef === null) return null;
+            await ensureProjectOperator();
+            if (!spatialRef) {
+                try {
+                    // WKT 2 (PROJCRS, GEOGCRS, ...) goes in `wkt2`; classic
+                    // Esri / OGC WKT 1 (PROJCS, GEOGCS) goes in `wkt`.
+                    spatialRef = parseWktInfo(wkt).wkt2
+                        ? new SpatialReference({ wkt2: wkt } as any)
+                        : new SpatialReference({ wkt } as any);
+                } catch {
+                    cache[wkt] = null;
+                    return null;
+                }
+                cache[wkt] = spatialRef;
+            }
+            const sourcePoint = new Point({
+                x: point.x,
+                y: point.y,
+                spatialReference: point.spatialReference
+            });
+            const projected = projectOperator.execute(sourcePoint, spatialRef) as __esri.Point;
+            if (!projected || !isFinite(projected.x) || !isFinite(projected.y)) return null;
+            return projected;
+        } catch {
+            return null;
         }
     }, []);
 
@@ -1265,7 +1432,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 previousActiveElement.current?.focus();
 
             } catch (error) {
-                alert(__t("errorCreatingTextGraphicValue1", { value1: error.message }));
+                notify(__t("errorCreatingTextGraphicValue1", { value1: error.message }));
                 setState(prev => ({
                     ...prev,
                     showTextDialog: false,
@@ -1274,7 +1441,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             }
 
         } catch (error) {
-            alert(t('errorAddingTextToMapMessage', { message: String(error.message) }));
+            notify(t('errorAddingTextToMapMessage', { message: String(error.message) }));
             setState(prev => ({
                 ...prev,
                 showTextDialog: false,
@@ -1719,7 +1886,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 // Inline validation — keep the dialog open and surface the error.
                 setState(prev => ({
                     ...prev,
-                    mailingLabelsBufferError: 'Please enter a buffer distance greater than 0.'
+                    mailingLabelsBufferError: t('bufferDistanceInvalid')
                 }));
                 return;
             }
@@ -1919,10 +2086,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                 // Create popup content
                 let popupContent = `<div style="font-family: ${themeFont}; font-size: 12px; line-height: 1.6; padding: 8px;">`;
-                popupContent += `<div style="font-weight: bold; margin-bottom: 8px;">Marker ${markerNumber}</div>`;
+                popupContent += `<div style="font-weight: bold; margin-bottom: 8px;">${__t("markerNumber", { number: String(markerNumber) })}</div>`;
 
                 if (plotSettings.showCoordinateText) {
-                    popupContent += `<div style="background-color: #f5f5f5; padding: 6px; border-radius: 3px; white-space: pre-line;">${coordinateText}</div>`;
+                    popupContent += `<div style="background-color: ${rcPalette.background}; padding: 6px; border-radius: 3px; white-space: pre-line;">${coordinateText}</div>`;
                 }
 
                 popupContent += `</div>`;
@@ -1940,7 +2107,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         wkid: mapPoint.spatialReference?.wkid
                     },
                     popupTemplate: {
-                        title: `📍 Coordinate Marker ${markerNumber}`,
+                        title: __t("coordinateMarkerNumber", { number: String(markerNumber) }),
                         content: popupContent
                     } as any
                 });
@@ -2021,11 +2188,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 announce(t('coordinateMarkerMarkerNumberPlacedOnMap', { markerNumber: String(markerNumber) }));
 
             } catch (error) {
-                alert(__t("errorCreatingCoordinateMarkerValue1", { value1: error.message }));
+                notify(__t("errorCreatingCoordinateMarkerValue1", { value1: error.message }));
             }
 
         } catch (error) {
-            alert(t('errorPlottingCoordinateMessage', { message: String(error.message) }));
+            notify(t('errorPlottingCoordinateMessage', { message: String(error.message) }));
         }
     }, [state.contextMenu, state.nextMarkerNumber, props.config?.plotSettings, manualProjectToLatLon, convertToDMS, announce, themeFont]);
 
@@ -2108,11 +2275,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 announce(t('markerPlacedOnMap'));
 
             } catch (error) {
-                alert(__t("errorCreatingSimpleMarkerValue1", { value1: error.message }));
+                notify(__t("errorCreatingSimpleMarkerValue1", { value1: error.message }));
             }
 
         } catch (error) {
-            alert(t('errorPlottingSimpleMarkerMessage', { message: String(error.message) }));
+            notify(t('errorPlottingSimpleMarkerMessage', { message: String(error.message) }));
         }
     }, [state.contextMenu, props.config?.markerSettings, announce]);
 
@@ -2270,7 +2437,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
 
         if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-            alert(t('invalidCoordinatesCannotOpenStreetView'));
+            notify(t('invalidCoordinatesCannotOpenStreetView'));
             return;
         }
 
@@ -2287,7 +2454,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const { lat, lon } = projectedLatLon ?? manualProjectToLatLon(mapPoint);
 
         if (Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-            alert(t('invalidCoordinatesCannotOpenPictometry'));
+            notify(t('invalidCoordinatesCannotOpenPictometry'));
             return;
         }
 
@@ -2584,11 +2751,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             const container = document.createElement('div');
                             container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
 
-                            const closeBtn = document.createElement('button');
-                            closeBtn.textContent = 'Close';
-                            closeBtn.style.cssText = `background:#6c757d;color:white;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:500;font-family:${themeFont};`;
-                            closeBtn.onmouseenter = () => closeBtn.style.background = '#545b62';
-                            closeBtn.onmouseleave = () => closeBtn.style.background = '#6c757d';
+                            const closeBtn = createMeasureCloseButton(t('close'));
                             closeBtn.onclick = (e) => {
                                 e.preventDefault(); e.stopPropagation();
                                 cleanup();
@@ -2598,7 +2761,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             container.appendChild(closeBtn);
                             widget.appendChild(container);
 
-                            widget.style.cssText += `background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.1);min-width:260px;font-family:${themeFont};`;
+                            styleMeasurePanel(widget, themeFont);
                         }, 300);
                     });
 
@@ -2608,9 +2771,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         measurementWidget: distanceMeasurement2D
                     }));
                 } catch (err: any) {
+                    // Setting the tool up failed after the modules loaded.
+                    beaconRef.current?.error(err, 'measure');
+                    announce(t('measureToolFailed'));
                 }
             }).catch((err: any) => {
+                // The modules did not load. Tell the user; a silent failure
+                // here looks like a menu row that does nothing.
                 console.warn('[rightclick] Failed to load distance measurement modules:', err);
+                beaconRef.current?.error(err, 'measure');
+                notify(t('measureToolFailed'));
             });
         } catch (err: any) {
             beaconRef.current?.error(err, 'measure');
@@ -2700,9 +2870,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     // --- Custom area label helpers ---
                     const unitDisplayNames: Record<string, string> = {
-                        'square-feet': 'sq ft', 'square-meters': 'sq m',
-                        'square-miles': 'sq mi', 'square-kilometers': 'sq km',
-                        'square-yards': 'sq yd', 'acres': 'acres'
+                        'square-feet': __t("unitSqFt"), 'square-meters': __t("unitSqM"),
+                        'square-miles': __t("unitSqMi"), 'square-kilometers': __t("unitSqKm"),
+                        'square-yards': __t("unitSqYd"), 'acres': __t("unitAcres")
                     };
 
                     const areaConversions: Record<string, number> = {
@@ -2734,7 +2904,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             'square-yards': 'yards', 'acres': 'feet'
                         };
                         const linearUnit = linearUnitMap[unit] || 'feet';
-                        return `Perimeter: ${perim.toLocaleString(__locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${linearUnit}`;
+                        return __t("perimeterValue", { value: perim.toLocaleString(__locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }), unit: __t(linearUnit) });
                     };
 
                     const createAreaLabel = (pt: __esri.Point, text: string, attrType: string) => {
@@ -2841,11 +3011,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             const container = document.createElement('div');
                             container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
 
-                            const closeBtn = document.createElement('button');
-                            closeBtn.textContent = 'Close';
-                            closeBtn.style.cssText = `background:#6c757d;color:white;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:500;font-family:${themeFont};`;
-                            closeBtn.onmouseenter = () => closeBtn.style.background = '#545b62';
-                            closeBtn.onmouseleave = () => closeBtn.style.background = '#6c757d';
+                            const closeBtn = createMeasureCloseButton(t('close'));
                             closeBtn.onclick = (e) => {
                                 e.preventDefault(); e.stopPropagation();
                                 cleanup();
@@ -2855,7 +3021,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             container.appendChild(closeBtn);
                             widget.appendChild(container);
 
-                            widget.style.cssText += `background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.1);min-width:260px;font-family:${themeFont};`;
+                            styleMeasurePanel(widget, themeFont);
                         }, 300);
                     });
 
@@ -2920,9 +3086,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     document.addEventListener('keydown', handleKeyPress);
 
                 } catch (error) {
+                    beaconRef.current?.error(error, 'measure-area');
+                    announce(t('measureToolFailed'));
                 }
             }).catch((error: any) => {
                 console.warn('[rightclick] Failed to load area measurement modules:', error);
+                beaconRef.current?.error(error, 'measure-area');
+                notify(t('measureToolFailed'));
             });
 
         } catch (error) {
@@ -3115,10 +3285,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 content += `
                     <div style="
                         font-weight: 600; 
-                        color: #323232; 
+                        color: ${rcPalette.text}; 
                         margin: ${layerIndex > 0 ? '20px' : '0px'} 0 12px 0; 
                         padding-bottom: 6px;
-                        border-bottom: 2px solid #0079c1;
+                        border-bottom: 2px solid ${rcPalette.primary};
                         font-size: 15px;
                         text-transform: uppercase;
                         letter-spacing: 0.5px;
@@ -3138,11 +3308,11 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             align-items: flex-start;
                             margin-bottom: 8px;
                             padding: 6px 0;
-                            border-bottom: 1px solid #e0e0e0;
+                            border-bottom: 1px solid ${rcPalette.divider};
                         ">
                             <div style="
                                 font-weight: 600;
-                                color: #0079c1;
+                                color: ${rcPalette.primary};
                                 white-space: nowrap;
                                 flex-shrink: 0;
                                 min-width: 60px;
@@ -3151,7 +3321,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 Layer:
                             </div>
                             <div style="
-                                color: #323232;
+                                color: ${rcPalette.text};
                                 word-wrap: break-word;
                                 flex: 1;
                                 margin-left: 8px;
@@ -3184,7 +3354,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         ">
                             <div style="
                                 font-weight: 600;
-                                color: #0079c1;
+                                color: ${rcPalette.primary};
                                 white-space: nowrap;
                                 flex-shrink: 0;
                                 min-width: 120px;
@@ -3194,7 +3364,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                 ${displayName}:
                             </div>
                             <div style="
-                                color: #323232;
+                                color: ${rcPalette.text};
                                 word-wrap: break-word;
                                 flex: 1;
                                 margin-left: 8px;
@@ -3208,12 +3378,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 });
 
                 if (featureIndex < features.length - 1) {
-                    content += '<div style="margin: 16px 0; border-bottom: 1px solid #e8e8e8;"></div>';
+                    content += `<div style="margin: 16px 0; border-bottom: 1px solid ${rcPalette.divider};"></div>`;
                 }
             });
         });
 
-        return content || '<div style="color: #6e6e6e; font-style: italic; text-align: center; padding: 20px;">No features found at this location.</div>';
+        return content || `<div style="color: ${rcPalette.textSecondary}; font-style: italic; text-align: center; padding: 20px;">${escapePopupHtml(__t("whNoFeatures"))}</div>`;
     }, [props.config?.uiSettings, state.layerFieldMetadata]);
 
     const getFieldDisplayName = React.useCallback((fieldName: string, layerUrl: string, useAliases: boolean): string => {
@@ -3229,60 +3399,62 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             return layer.aliasFields[fieldName];
         }
 
+        // Fallback display names for common system fields, used only when the
+        // layer itself gives the field no alias. Values are translation keys.
         const commonAliases: Record<string, string> = {
-            'OBJECTID': 'Object ID',
-            'ObjectID': 'Object ID',
-            'FID': 'Feature ID',
-            'SHAPE': 'Geometry',
-            'Shape': 'Geometry',
-            'SHAPE_Area': 'Area',
-            'SHAPE_Length': 'Length',
-            'Shape_Area': 'Area',
-            'Shape_Length': 'Length',
-            'CREATED_DATE': 'Created Date',
-            'LAST_EDITED_DATE': 'Last Modified',
-            'CreationDate': 'Created Date',
-            'EditDate': 'Last Modified',
-            'GlobalID': 'Global ID',
-            'GLOBALID': 'Global ID',
-            'NAME': 'Name',
-            'Name': 'Name',
-            'TYPE': 'Type',
-            'Type': 'Type',
-            'STATUS': 'Status',
-            'Status': 'Status',
-            'DESCRIPTION': 'Description',
-            'Description': 'Description',
-            'ADDRESS': 'Address',
-            'Address': 'Address',
-            'CITY': 'City',
-            'City': 'City',
-            'STATE': 'State',
-            'State': 'State',
-            'ZIP': 'ZIP Code',
-            'ZIPCODE': 'ZIP Code',
-            'ZIP_CODE': 'ZIP Code',
-            'PHONE': 'Phone',
-            'Phone': 'Phone',
-            'EMAIL': 'Email',
-            'Email': 'Email',
-            'URL': 'Website',
-            'WEBSITE': 'Website',
-            'Website': 'Website',
-            'TRACTCE20': 'Census Tract',
-            'NAMELSAD20': 'Census Tract Name',
-            'TOTALPOP': 'Total Population',
-            'GEOID20': 'Geographic ID'
+            'OBJECTID': 'aliasObjectId',
+            'ObjectID': 'aliasObjectId',
+            'FID': 'aliasFeatureId',
+            'SHAPE': 'aliasGeometry',
+            'Shape': 'aliasGeometry',
+            'SHAPE_Area': 'aliasArea',
+            'SHAPE_Length': 'aliasLength',
+            'Shape_Area': 'aliasArea',
+            'Shape_Length': 'aliasLength',
+            'CREATED_DATE': 'aliasCreatedDate',
+            'LAST_EDITED_DATE': 'aliasLastModified',
+            'CreationDate': 'aliasCreatedDate',
+            'EditDate': 'aliasLastModified',
+            'GlobalID': 'aliasGlobalId',
+            'GLOBALID': 'aliasGlobalId',
+            'NAME': 'aliasName',
+            'Name': 'aliasName',
+            'TYPE': 'aliasType',
+            'Type': 'aliasType',
+            'STATUS': 'aliasStatus',
+            'Status': 'aliasStatus',
+            'DESCRIPTION': 'aliasDescription',
+            'Description': 'aliasDescription',
+            'ADDRESS': 'aliasAddress',
+            'Address': 'aliasAddress',
+            'CITY': 'aliasCity',
+            'City': 'aliasCity',
+            'STATE': 'aliasState',
+            'State': 'aliasState',
+            'ZIP': 'aliasZipCode',
+            'ZIPCODE': 'aliasZipCode',
+            'ZIP_CODE': 'aliasZipCode',
+            'PHONE': 'aliasPhone',
+            'Phone': 'aliasPhone',
+            'EMAIL': 'aliasEmail',
+            'Email': 'aliasEmail',
+            'URL': 'aliasWebsite',
+            'WEBSITE': 'aliasWebsite',
+            'Website': 'aliasWebsite',
+            'TRACTCE20': 'aliasCensusTract',
+            'NAMELSAD20': 'aliasCensusTractName',
+            'TOTALPOP': 'aliasTotalPopulation',
+            'GEOID20': 'aliasGeographicId'
         };
 
         if (commonAliases[fieldName]) {
-            return commonAliases[fieldName];
+            return __t(commonAliases[fieldName]);
         }
 
         const lowerFieldName = fieldName.toLowerCase();
         const matchingKey = Object.keys(commonAliases).find(key => key.toLowerCase() === lowerFieldName);
         if (matchingKey) {
-            return commonAliases[matchingKey];
+            return __t(commonAliases[matchingKey]);
         }
 
         return fieldName
@@ -3309,9 +3481,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         if (typeof value === 'number') {
             if (fieldName.toLowerCase().includes('area')) {
-                return value.toLocaleString(__locale()) + ' sq units';
+                return __t("valueSqUnits", { value: value.toLocaleString(__locale()) });
             } else if (fieldName.toLowerCase().includes('length') || fieldName.toLowerCase().includes('distance')) {
-                return value.toLocaleString(__locale()) + ' units';
+                return __t("valueUnits", { value: value.toLocaleString(__locale()) });
             } else if (value % 1 !== 0) {
                 return value.toFixed(2);
             } else {
@@ -3548,7 +3720,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             seenKeys.add(key);
 
             entries.push({
-                name: lyr.title || fallbackName || 'Layer',
+                name: lyr.title || fallbackName || __t("layerFallbackName"),
                 mapLayer: lyr,
                 layerUrl: url,
                 popupEnabled: lyr.popupEnabled !== false
@@ -3814,7 +3986,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
 
         const oid = attrs.OBJECTID ?? attrs.ObjectID ?? attrs.FID;
-        return oid !== undefined ? `Feature #${oid}` : 'Feature';
+        return oid !== undefined ? __t("featureNumber", { id: String(oid) }) : __t("featureFallbackName");
     }, [findMapLayerByUrl]);
 
     // Build the master ("What's Here?" landing) popup HTML: address banner plus
@@ -3827,13 +3999,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const uiSettings = props.config?.uiSettings || {};
         const showLayerNames = uiSettings.showLayerNames !== false;
 
-        let content = `<div style="font-family: ${themeFont}; color: #323232; line-height: 1.4; font-size: 13px; padding: 4px 0;">`;
+        let content = `<div style="font-family: ${themeFont}; color: ${rcPalette.text}; line-height: 1.4; font-size: 13px; padding: 4px 0;">`;
 
         if (addressText) {
             content += `
-                <div style="display:flex;align-items:flex-start;margin-bottom:12px;padding:8px 0;border-bottom:2px solid #0079c1;">
-                    <div style="font-weight:600;color:#0079c1;white-space:nowrap;flex-shrink:0;min-width:90px;font-size:13px;">Location:</div>
-                    <div style="color:#323232;word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;font-weight:500;">${escapePopupHtml(addressText)}</div>
+                <div style="display:flex;align-items:flex-start;margin-bottom:12px;padding:8px 0;border-bottom:2px solid ${rcPalette.primary};">
+                    <div style="font-weight:600;color:${rcPalette.primary};white-space:nowrap;flex-shrink:0;min-width:90px;font-size:13px;">${escapePopupHtml(__t("whLocationLabel"))}</div>
+                    <div style="color:${rcPalette.text};word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;font-weight:500;">${escapePopupHtml(addressText)}</div>
                 </div>
             `;
         }
@@ -3843,12 +4015,12 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         if (totalFeatures === 0) {
             if (!addressText) {
-                content += `<div style="color:#6e6e6e;font-style:italic;text-align:center;padding:20px;background-color:#f8f9fa;border-radius:4px;margin:10px 0;">No information found at this location.</div>`;
+                content += `<div style="color:${rcPalette.textSecondary};font-style:italic;text-align:center;padding:20px;background-color:${rcPalette.background};border-radius:4px;margin:10px 0;">${escapePopupHtml(__t("whNoInformation"))}</div>`;
             } else {
-                content += `<div style="color:#6e6e6e;font-style:italic;padding:10px 0;font-size:12px;">No features found at this location.</div>`;
+                content += `<div style="color:${rcPalette.textSecondary};font-style:italic;padding:10px 0;font-size:12px;">${escapePopupHtml(__t("whNoFeatures"))}</div>`;
             }
         } else {
-            content += `<div style="font-size:12px;color:#6e6e6e;margin-bottom:10px;">Found <strong>${totalFeatures}</strong> feature${totalFeatures === 1 ? '' : 's'} across <strong>${populatedResults.length}</strong> layer${populatedResults.length === 1 ? '' : 's'}. Click an item to view details.</div>`;
+            content += `<div style="font-size:12px;color:${rcPalette.textSecondary};margin-bottom:10px;">${escapePopupHtml(__t("whFoundSummary", { features: String(totalFeatures), layers: String(populatedResults.length) }))}</div>`;
 
             populatedResults.forEach(({ layerName, features, layerUrl, popupEnabled, mapLayer }, layerIndex) => {
                 // Resolve the original result index so click handlers can look up
@@ -3857,8 +4029,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                 if (showLayerNames) {
                     content += `
-                        <div style="font-weight:600;color:#323232;margin:${layerIndex > 0 ? '14px' : '0px'} 0 6px 0;padding-bottom:4px;border-bottom:2px solid #0079c1;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;">
-                            ${escapePopupHtml(layerName)} <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#6e6e6e;font-size:12px;">(${features.length})</span>
+                        <div style="font-weight:600;color:${rcPalette.text};margin:${layerIndex > 0 ? '14px' : '0px'} 0 6px 0;padding-bottom:4px;border-bottom:2px solid ${rcPalette.primary};font-size:14px;text-transform:uppercase;letter-spacing:0.5px;">
+                            ${escapePopupHtml(layerName)} <span style="font-weight:400;text-transform:none;letter-spacing:0;color:${rcPalette.textSecondary};font-size:12px;">(${features.length})</span>
                         </div>
                     `;
                 }
@@ -3878,16 +4050,16 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                                  data-rc-action="show-feature"
                                  data-rc-layer-idx="${originalIndex}"
                                  data-rc-feature-idx="${featureIndex}"
-                                 title="View details">
+                                 title="${escapePopupHtml(__t("whViewDetails"))}">
                                 <span class="rc-wh-row__label">${safeLabel}</span>
                                 <span class="rc-wh-row__chevron">›</span>
                             </div>
                         `;
                     } else {
                         content += `
-                            <div class="rc-wh-row rc-wh-row--disabled" title="Popups are disabled for this layer">
+                            <div class="rc-wh-row rc-wh-row--disabled" title="${escapePopupHtml(__t("whPopupsDisabledTitle"))}">
                                 <span class="rc-wh-row__label">${safeLabel}</span>
-                                <span class="rc-wh-row__hint">popups disabled</span>
+                                <span class="rc-wh-row__hint">${escapePopupHtml(__t("whPopupsDisabled"))}</span>
                             </div>
                         `;
                     }
@@ -3915,20 +4087,20 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const attributes = feature?.attributes || {};
         const mapLayer = mapLayerOverride || findMapLayerByUrl(layerUrl);
 
-        let content = `<div style="font-family: ${themeFont}; color: #323232; line-height: 1.4; font-size: 13px; padding: 4px 0;">`;
+        let content = `<div style="font-family: ${themeFont}; color: ${rcPalette.text}; line-height: 1.4; font-size: 13px; padding: 4px 0;">`;
 
         // Back button + layer name header + Zoom-to button. Inline event
         // handlers are stripped by Esri's popup sanitizer; wireDetailActions
         // attaches the listeners after parsing this HTML.
         const headerText = (overrideHeaderText && overrideHeaderText.trim()) || layerName;
         content += `
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #0079c1;">
-                <button type="button" class="rc-wh-back" data-rc-action="show-master" title="Back to What's Here list">
-                    <span style="font-size:14px;line-height:1;">‹</span> Back
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid ${rcPalette.primary};">
+                <button type="button" class="rc-wh-back" data-rc-action="show-master" title="${escapePopupHtml(__t("whBackTitle"))}">
+                    <span style="font-size:14px;line-height:1;" aria-hidden="true">‹</span> ${escapePopupHtml(__t("whBack"))}
                 </button>
-                <div style="flex:1;min-width:0;font-weight:600;color:#323232;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapePopupHtml(headerText)}">${escapePopupHtml(headerText)}</div>
-                <button type="button" class="rc-wh-zoom-to" data-rc-action="zoom-to-feature" title="Zoom map to this feature">
-                    <span style="font-size:13px;line-height:1;" aria-hidden="true">⊕</span> Zoom to
+                <div style="flex:1;min-width:0;font-weight:600;color:${rcPalette.text};font-size:14px;text-transform:uppercase;letter-spacing:0.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapePopupHtml(headerText)}">${escapePopupHtml(headerText)}</div>
+                <button type="button" class="rc-wh-zoom-to" data-rc-action="zoom-to-feature" title="${escapePopupHtml(__t("whZoomToTitle"))}">
+                    <span style="font-size:13px;line-height:1;" aria-hidden="true">⊕</span> ${escapePopupHtml(__t("whZoomTo"))}
                 </button>
             </div>
         `;
@@ -4000,8 +4172,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     const formatted = formatFieldValue(value, fi.fieldName);
                     return `
                         <div style="display:flex;align-items:flex-start;margin-bottom:6px;padding:2px 0;min-height:20px;">
-                            <div style="font-weight:600;color:#0079c1;white-space:nowrap;flex-shrink:0;min-width:120px;font-size:13px;line-height:1.4;">${escapePopupHtml(label)}:</div>
-                            <div style="color:#323232;word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;line-height:1.4;">${escapePopupHtml(formatted)}</div>
+                            <div style="font-weight:600;color:${rcPalette.primary};white-space:nowrap;flex-shrink:0;min-width:120px;font-size:13px;line-height:1.4;">${escapePopupHtml(label)}:</div>
+                            <div style="color:${rcPalette.text};word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;line-height:1.4;">${escapePopupHtml(formatted)}</div>
                         </div>
                     `;
                 })
@@ -4023,8 +4195,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 const formatted = formatFieldValue(value, name);
                 return `
                     <div style="display:flex;align-items:flex-start;margin-bottom:6px;padding:2px 0;min-height:20px;">
-                        <div style="font-weight:600;color:#0079c1;white-space:nowrap;flex-shrink:0;min-width:120px;font-size:13px;line-height:1.4;">${escapePopupHtml(label)}:</div>
-                        <div style="color:#323232;word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;line-height:1.4;">${escapePopupHtml(formatted)}</div>
+                        <div style="font-weight:600;color:${rcPalette.primary};white-space:nowrap;flex-shrink:0;min-width:120px;font-size:13px;line-height:1.4;">${escapePopupHtml(label)}:</div>
+                        <div style="color:${rcPalette.text};word-wrap:break-word;flex:1;margin-left:8px;font-size:13px;line-height:1.4;">${escapePopupHtml(formatted)}</div>
                     </div>
                 `;
             }).join('');
@@ -4064,7 +4236,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         // chart/image rendering is beyond this widget's scope.
                         const items: any[] = Array.isArray(el.mediaInfos) ? el.mediaInfos : [];
                         for (const mi of items) {
-                            if (mi?.title) parts.push(`<div style="font-style:italic;color:#6e6e6e;font-size:12px;">${escapePopupHtml(mi.title)}</div>`);
+                            if (mi?.title) parts.push(`<div style="font-style:italic;color:${rcPalette.textSecondary};font-size:12px;">${escapePopupHtml(mi.title)}</div>`);
                         }
                     }
                     // Unsupported types (attachments, custom) are skipped
@@ -4098,7 +4270,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
 
         if (!body.trim()) {
-            content += `<div style="color:#6e6e6e;font-style:italic;text-align:center;padding:20px;">No attributes to display for this feature.</div>`;
+            content += `<div style="color:${rcPalette.textSecondary};font-style:italic;text-align:center;padding:20px;">${escapePopupHtml(__t("whNoAttributes"))}</div>`;
         } else {
             content += body;
         }
@@ -4527,7 +4699,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             // on mount for EB 1.20 and earlier) cannot reach. A <style>
             // element inside the root applies in either world.
             const embeddedStyle = document.createElement('style');
-            embeddedStyle.textContent = RC_WH_CONTENT_CSS;
+            embeddedStyle.textContent = rcWhContentCss();
             root.appendChild(embeddedStyle);
 
             // Belt and suspenders for EB 1.21: also apply the same look as
@@ -4804,7 +4976,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 layerResult.layerUrl,
                 feature,
                 layerResult.mapLayer,
-                `<div style="color:#6e6e6e;padding:20px;text-align:center;font-style:italic;">Loading…</div>`,
+                `<div style="color:${rcPalette.textSecondary};padding:20px;text-align:center;font-style:italic;">${escapePopupHtml(__t("whLoading"))}</div>`,
                 override.title || undefined
             ));
             wireDetailActions(loadingRoot, feature);
@@ -4829,7 +5001,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     );
                 } catch (err) {
                     const msg = (err && (err as any).message) ? (err as any).message : 'unknown';
-                    body = `<div style="color:#d32f2f;padding:12px;"><strong>Error rendering custom popup:</strong> ${escapePopupHtml(msg)}</div>`;
+                    body = `<div style="color:${rcPalette.danger};padding:12px;"><strong>${escapePopupHtml(__t("whPopupRenderError"))}</strong> ${escapePopupHtml(msg)}</div>`;
                 }
 
                 // Bail out if a newer renderFeature call has already started.
@@ -4861,7 +5033,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     // This document.head copy styles the popup in EB 1.20 and earlier
     // (light-DOM popup). In EB 1.21 / JS API 5.x the popup content sits in
     // a shadow root this stylesheet cannot reach, so buildPopupRoot also
-    // embeds RC_WH_CONTENT_CSS inside the content element itself. The
+    // embeds rcWhContentCss() inside the content element itself. The
     // chrome rules (:has() on .esri-popup*) stay document-level only:
     // the popup chrome remains in the light DOM.
     React.useEffect(() => {
@@ -4869,7 +5041,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         if (document.getElementById(STYLE_ID)) return;
         const styleEl = document.createElement('style');
         styleEl.id = STYLE_ID;
-        styleEl.textContent = RC_WH_CONTENT_CSS + `
+        styleEl.textContent = rcWhContentCss() + `
 
 /* Make the host popup chrome itself the resizable element when our
  * What's Here wrapper is mounted inside it. The CSS resize property needs
@@ -4903,11 +5075,341 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         // and another widget instance may still be using it.
     }, []);
 
+    // ─── Custom actions (context menu engine) ───────────────────────────────
+    // App-author rows from config.customActions. See CustomActionConfig in
+    // config.ts for the shape and the template tokens.
+
+    const enabledCustomActions = React.useMemo((): CustomActionConfig[] => {
+        const list: any = props.config?.customActions;
+        const arr: CustomActionConfig[] = list && typeof list.asMutable === 'function' ? list.asMutable({ deep: true }) : (list || []);
+        return (arr || []).filter(a => a && a.enabled !== false && (a.label || '').trim());
+    }, [props.config?.customActions]);
+
+    const featureScopedActions = React.useMemo(
+        () => enabledCustomActions.filter(a => a.scope === 'feature'),
+        [enabledCustomActions]
+    );
+
+    // Feature tokens in a row label: {layer}, {objectid}, {FIELDNAME}.
+    const fillCustomLabel = (label: string, f: HitFeature | null): string => {
+        if (!f) return label;
+        const keys = Object.keys(f.attributes || {});
+        return String(label || '').replace(/\{([^{}]+)\}/g, (whole: string, raw: string) => {
+            const k = raw.trim().toLowerCase();
+            if (k === 'layer') return f.layerTitle;
+            if (k === 'objectid') return f.objectId == null ? '' : String(f.objectId);
+            const ak = keys.find(x => x.toLowerCase() === k);
+            if (ak === undefined) return whole;
+            const v = f.attributes[ak];
+            return v == null ? '' : String(v);
+        });
+    };
+
+    // Every queryable, currently visible layer in the map (FeatureLayers,
+    // MapImageLayer / TileLayer sublayers, GroupLayer children). Unlike
+    // collectQueryableLayersFromMap this ignores the What's Here layer
+    // selection: custom actions choose their own layers by title / URL.
+    const collectLayersForCustomActions = React.useCallback((): Array<{ name: string; titlePath: string; mapLayer: any; layerUrl: string; popupEnabled: boolean }> => {
+        const mv = mapViewRef.current;
+        if (!mv?.map) return [];
+        const out: Array<{ name: string; titlePath: string; mapLayer: any; layerUrl: string; popupEnabled: boolean }> = [];
+        const seen = new Set<any>();
+        const visibleChain = (lyr: any): boolean => {
+            let cur = lyr; let hops = 0;
+            while (cur && hops < 50) {
+                if (cur.visible === false) return false;
+                const next = cur.parent;
+                if (!next || next === cur) break;
+                const cls = String(next?.declaredClass || '');
+                if (cls === 'esri.Map' || cls === 'esri.WebMap' || cls === 'esri.WebScene' || cls === 'esri.Basemap') break;
+                cur = next; hops++;
+            }
+            return true;
+        };
+        const add = (lyr: any, fallback: string, parents: string[]) => {
+            if (!lyr || seen.has(lyr) || typeof lyr.queryFeatures !== 'function') return;
+            if (!visibleChain(lyr)) return;
+            seen.add(lyr);
+            const name = String(lyr.title || fallback);
+            out.push({ name, titlePath: [...parents, name].join(' / '), mapLayer: lyr, layerUrl: String(lyr.url || ''), popupEnabled: lyr.popupEnabled !== false });
+        };
+        const items = (c: any): any[] => (Array.isArray(c) ? c : (c?.items || (typeof c?.toArray === 'function' ? c.toArray() : [])));
+        // Map service sublayers: group sublayers hold more sublayers, to any
+        // depth. Only the leaves (no children) can be queried.
+        const walkSub = (sub: any, depth: number, parents: string[]) => {
+            if (!sub || depth > 50) return;
+            const kids = items(sub.sublayers);
+            if (kids.length) { for (const k of kids) walkSub(k, depth + 1, [...parents, String(sub.title || `Sublayer ${sub.id}`)]); return; }
+            add(sub, `Sublayer ${sub.id}`, parents);
+        };
+        // Map layers: GroupLayers hold more layers, to any depth; a map
+        // service (MapImageLayer / TileLayer) holds sublayers; anything else
+        // is a candidate itself.
+        const walkLayer = (lyr: any, depth: number, parents: string[]) => {
+            if (!lyr || depth > 50) return;
+            const type = String(lyr.type || '');
+            const cls = String(lyr.declaredClass || '');
+            const own = String(lyr.title || lyr.id || '');
+            if (type === 'group' || cls.indexOf('GroupLayer') >= 0) {
+                for (const c of items(lyr.layers)) walkLayer(c, depth + 1, [...parents, own]);
+                return;
+            }
+            if (type === 'map-image' || type === 'tile' || cls.indexOf('MapImageLayer') >= 0 || cls.indexOf('TileLayer') >= 0) {
+                for (const s of items(lyr.sublayers)) walkSub(s, depth + 1, [...parents, own]);
+                return;
+            }
+            add(lyr, String(lyr.id || ''), parents);
+        };
+        for (const lyr of items(mv.map.layers)) walkLayer(lyr, 0, []);
+        // Walk order is bottom to top; callers want the topmost layer first.
+        return out.reverse();
+    }, []);
+
+    // Query every layer matched by a feature-scoped action at the click point
+    // and store the results on the open menu. Token-guarded so a fast second
+    // right click never shows the first click's features.
+    const resolveHitFeatures = React.useCallback(async (mapPoint: __esri.Point, stillCurrent: () => boolean) => {
+        const found: HitFeature[] = [];
+        try {
+            const layers = collectLayersForCustomActions().filter(e =>
+                featureScopedActions.some(a => customActionMatchesLayer(a, e.titlePath, e.layerUrl)));
+            if (layers.length) {
+                const settled = await Promise.allSettled(layers.map(e => queryLayerEntryAtPoint(e, mapPoint).then(res => ({ res, titlePath: e.titlePath }))));
+                for (const s of settled) {
+                    if (s.status !== 'fulfilled' || !s.value.res.features.length) continue;
+                    const r = { value: s.value.res };
+                    const lyr = r.value.mapLayer;
+                    const oidField = lyr?.objectIdField || 'OBJECTID';
+                    for (const f of r.value.features) {
+                        const attrs = f?.attributes || {};
+                        const oidKey = Object.keys(attrs).find(k => k.toLowerCase() === String(oidField).toLowerCase());
+                        found.push({
+                            layerTitle: r.value.layerName,
+                            layerPath: s.value.titlePath,
+                            layerUrl: r.value.layerUrl,
+                            mapLayer: lyr,
+                            attributes: attrs,
+                            geometry: f?.geometry || null,
+                            objectId: oidKey ? attrs[oidKey] : null
+                        });
+                    }
+                }
+            }
+        } catch (err) {
+            beaconRef.current?.error(err, 'custom-hit');
+        }
+        // Smallest targets first (points, then lines, then polygons); within a
+        // type keep the layer order, which is topmost first.
+        const rank = (f: HitFeature): number => {
+            const t = String(f.geometry?.type || f.mapLayer?.geometryType || '').toLowerCase();
+            if (t.indexOf('point') >= 0) return 0;
+            if (t.indexOf('line') >= 0) return 1;
+            return 2;
+        };
+        const indexed = found.map((f, i) => ({ f, i }));
+        indexed.sort((x, y) => (rank(x.f) - rank(y.f)) || (x.i - y.i));
+        found.splice(0, found.length, ...indexed.map(x => x.f));
+        if (!stillCurrent()) return;
+        setState(prev => prev.contextMenu.visible
+            ? { ...prev, contextMenu: { ...prev.contextMenu, hitFeatures: found } }
+            : prev);
+    }, [collectLayersForCustomActions, featureScopedActions, queryLayerEntryAtPoint]);
+
+    // Features under the pointer that the action's layer match accepts, one
+    // per layer found (every layer that is on). The menu scrolls when long.
+    const featuresForCustomAction = React.useCallback((a: CustomActionConfig, hits?: HitFeature[] | null): HitFeature[] => {
+        if (!hits || !hits.length) return [];
+        const out: HitFeature[] = [];
+        const seenLayers = new Set<any>();
+        for (const h of hits) {
+            if (!customActionMatchesLayer(a, h.layerPath, h.layerUrl)) continue;
+            if (seenLayers.has(h.mapLayer)) continue;
+            seenLayers.add(h.mapLayer);
+            out.push(h);
+        }
+        return out;
+    }, []);
+
+    // Fill template tokens. `encode` wraps each value for use inside a URL.
+    const fillCustomTemplate = React.useCallback((template: string, feature: HitFeature | null, encode: boolean): string => {
+        const cm = state.contextMenu;
+        const mv = mapViewRef.current;
+        const mp = cm.mapPoint;
+        const ll = cm.projectedLatLon || (mp ? manualProjectToLatLon(mp) : { lat: NaN, lon: NaN });
+        const base: Record<string, any> = {
+            lat: isFinite(ll.lat) ? ll.lat.toFixed(7) : '',
+            lon: isFinite(ll.lon) ? ll.lon.toFixed(7) : '',
+            x: mp ? mp.x : '',
+            y: mp ? mp.y : '',
+            wkid: mp?.spatialReference?.wkid ?? '',
+            address: typeof cm.addressText === 'string' ? cm.addressText : '',
+            scale: mv?.scale != null ? Math.round(mv.scale) : '',
+            zoom: mv?.zoom != null ? mv.zoom : '',
+            layer: feature?.layerTitle ?? '',
+            layerurl: feature?.layerUrl ?? '',
+            objectid: feature?.objectId ?? ''
+        };
+        const attrs = feature?.attributes || {};
+        const attrKeys = Object.keys(attrs);
+        return String(template || '').replace(/\{([^{}]+)\}/g, (whole: string, rawKey: string) => {
+            const key = rawKey.trim();
+            const lower = key.toLowerCase();
+            let v: any;
+            if (Object.prototype.hasOwnProperty.call(base, lower)) v = base[lower];
+            else {
+                const ak = attrKeys.find(k => k.toLowerCase() === lower);
+                if (ak === undefined) return whole; // unknown token: leave as typed
+                v = attrs[ak];
+            }
+            const s = v == null ? '' : String(v);
+            return encode ? encodeURIComponent(s) : s;
+        });
+    }, [state.contextMenu, manualProjectToLatLon]);
+
+    // Select the feature in the Experience Builder data source that backs its
+    // map layer, so Table / List / Chart widgets on that data source follow.
+    const selectFeatureInDataSource = React.useCallback(async (feature: HitFeature): Promise<boolean> => {
+        const jmv: any = jimuMapViewRef.current;
+        if (!jmv || !feature?.mapLayer) return false;
+        const views: any = jmv.jimuLayerViews || {};
+        let jlv: any = null;
+        for (const id of Object.keys(views)) {
+            const v = views[id];
+            if (v?.layer === feature.mapLayer) { jlv = v; break; }
+        }
+        if (!jlv) return false;
+        let ds: any = null;
+        try { ds = typeof jlv.getLayerDataSource === 'function' ? jlv.getLayerDataSource() : null; } catch { ds = null; }
+        if (!ds && typeof jlv.createLayerDataSource === 'function') {
+            try { ds = await jlv.createLayerDataSource(); } catch { ds = null; }
+        }
+        if (!ds || typeof ds.selectRecordsByIds !== 'function') return false;
+        const idField: string = ds.getIdField?.() || feature.mapLayer?.objectIdField || 'OBJECTID';
+        const idKey = Object.keys(feature.attributes).find(k => k.toLowerCase() === String(idField).toLowerCase());
+        const id = idKey ? feature.attributes[idKey] : feature.objectId;
+        if (id == null) return false;
+        let record: any = null;
+        try {
+            if (typeof ds.buildRecord === 'function') {
+                record = ds.buildRecord(new Graphic({ attributes: feature.attributes, geometry: feature.geometry || undefined }));
+            }
+        } catch { record = null; }
+        try {
+            await ds.selectRecordsByIds([String(id)], record ? [record] : undefined);
+            return true;
+        } catch { return false; }
+    }, []);
+
+    // Open a target widget and hand it the point plus the matched feature.
+    const launchCustomWidget = React.useCallback((a: CustomActionConfig, feature: HitFeature | null) => {
+        const cm = state.contextMenu;
+        const mp = cm.mapPoint;
+        if (!a.targetWidgetId || !mp) return;
+        const ll = cm.projectedLatLon || manualProjectToLatLon(mp);
+        const payload = {
+            point: {
+                x: mp.x,
+                y: mp.y,
+                spatialReference: mp.spatialReference?.toJSON?.() || mp.spatialReference || { wkid: 4326 }
+            },
+            latLon: { lat: ll.lat, lon: ll.lon },
+            address: typeof cm.addressText === 'string' ? cm.addressText : null,
+            feature: feature ? {
+                layerTitle: feature.layerTitle,
+                layerUrl: feature.layerUrl,
+                objectId: feature.objectId,
+                attributes: feature.attributes,
+                geometry: feature.geometry?.toJSON?.() || feature.geometry || null
+            } : null,
+            actionId: a.id,
+            actionLabel: a.label,
+            autoOpenSection: null,
+            timestamp: Date.now()
+        };
+        try { window.dispatchEvent(new CustomEvent('rightclick-action', { detail: { targetWidgetId: a.targetWidgetId, ...payload } })); } catch { /* ignore */ }
+        openContainerAndTarget(a.targetWidgetId, a.parentContainerType, a.accordionWidgetId);
+        const storeKey = (a.storeKey || '').trim() || 'actionPoint';
+        const send = (delay: number) => {
+            setTimeout(() => {
+                try {
+                    MutableStoreManager.getInstance().updateStateValue(a.targetWidgetId!, storeKey, payload);
+                    getAppStore().dispatch(appActions.widgetStatePropChange(a.targetWidgetId!, 'actionTriggered', true));
+                } catch { /* silent */ }
+            }, delay);
+        };
+        send(350); send(1000); send(1800);
+    }, [state.contextMenu, manualProjectToLatLon, openContainerAndTarget]);
+
+    const runCustomAction = React.useCallback((a: CustomActionConfig, featureIndex: number = 0) => {
+        const feature = a.scope === 'feature' ? (featuresForCustomAction(a, state.contextMenu.hitFeatures)[featureIndex] || null) : null;
+        if (a.scope === 'feature' && !feature) return;
+        beaconRef.current?.action('custom', a.type);
+        try {
+            switch (a.type) {
+                case 'url': {
+                    const url = fillCustomTemplate(a.template || '', feature, true).trim();
+                    if (!/^(https?:|mailto:|tel:)/i.test(url)) { announce(t('customActionBadUrl')); return; }
+                    if (a.openIn === 'sameTab') window.location.href = url;
+                    else window.open(url, '_blank', 'noopener');
+                    break;
+                }
+                case 'copy': {
+                    const text = fillCustomTemplate(a.template || '', feature, false);
+                    copyWithPrompt(text);
+                    announce(t('copiedValue', { value: text }));
+                    break;
+                }
+                case 'widget':
+                    launchCustomWidget(a, feature);
+                    break;
+                case 'select':
+                    if (feature) {
+                        selectFeatureInDataSource(feature).then(ok => {
+                            announce(ok ? t('customActionSelected', { layer: feature.layerTitle }) : t('customActionSelectFailed'));
+                        });
+                    }
+                    break;
+            }
+        } catch (err) {
+            beaconRef.current?.error(err, 'custom');
+        }
+    }, [state.contextMenu.hitFeatures, featuresForCustomAction, fillCustomTemplate, launchCustomWidget, selectFeatureInDataSource, copyWithPrompt, announce, t]);
+
     const handleContextMenuAction = React.useCallback((action: string) => {
         const { mapPoint, projectedLatLon } = state.contextMenu;
         const mapView = mapViewRef.current;
 
         if (!mapView || !mapPoint) {
+            hideContextMenu();
+            return;
+        }
+
+        // Custom actions: rows added by the app author in settings.
+        if (action.indexOf('custom:') === 0) {
+            // custom:<id> or custom:<id>#<featureIndex>
+            const hash = action.lastIndexOf('#');
+            const id = hash > 0 ? action.slice(7, hash) : action.slice(7);
+            const featureIndex = hash > 0 ? Number(action.slice(hash + 1)) || 0 : 0;
+            const a = enabledCustomActions.find(x => x.id === id);
+            if (a) runCustomAction(a, featureIndex);
+            hideContextMenu();
+            return;
+        }
+
+        // Imported coordinate systems: copy the value shown on the row. The
+        // value was projected when the menu opened, so this stays synchronous
+        // (clipboard access needs an unbroken user-gesture chain).
+        if (action.indexOf('copy-crs:') === 0) {
+            const coords = state.contextMenu.importedCoords;
+            // Still projecting: leave the menu open so the user can click
+            // again when the numbers show.
+            if (coords === null) return;
+            const value = coords ? coords[action.slice(9)] : undefined;
+            if (value) {
+                beaconRef.current?.action('copy-coordinates', 'imported');
+                copyWithPrompt(value);
+                announce(t('copiedValue', { value: String(value) }));
+            }
             hideContextMenu();
             return;
         }
@@ -5100,7 +5602,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         beaconRef.current?.error(error, 'whats-here');
                         (mapView as any).openPopup({
                             title: __t("whatSHere"),
-                            content: '<div style="color:#d32f2f;padding:16px;text-align:center;"><strong>Error querying location information.</strong></div>',
+                            content: `<div style="color:${rcPalette.danger};padding:16px;text-align:center;"><strong>${escapePopupHtml(__t("whQueryError"))}</strong></div>`,
                             location: mapPoint
                         });
                     }
@@ -5113,7 +5615,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 const mv = mapViewRef.current;
                 const hasAnyLayers = !!mv?.map && (((mv.map as any).allLayers?.items?.length || 0) > 0);
                 if (!props.config?.reverseGeocodeUrl && !hasAnyLayers && (!props.config?.featureLayers || props.config.featureLayers.length === 0)) {
-                    alert(t('whatSHereFunctionalityRequiresThe'));
+                    notify(t('whatSHereFunctionalityRequiresThe'));
                     break;
                 }
 
@@ -5171,7 +5673,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
 
         hideContextMenu();
-    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, undoLastGraphic, openGoogleMaps, copyWithPrompt, announce, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName]);
+    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, undoLastGraphic, openGoogleMaps, copyWithPrompt, announce, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName, enabledCustomActions, runCustomAction]);
 
     // Long-press (mobile) refs. Mobile touch devices have no right-click,
     // so the user presses and holds on the map to open the same context
@@ -5269,7 +5771,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 projectedLatLon: initialLatLon,
                 addressText: wantAddress ? null : undefined,
                 copyFormatsExpanded: false,
-                coordAlternates: wantFormats ? buildSyncAlternates(initialLatLon.lat, initialLatLon.lon) : undefined
+                coordAlternates: wantFormats ? buildSyncAlternates(initialLatLon.lat, initialLatLon.lon) : undefined,
+                importedCoords: importedSystems.length ? null : undefined,
+                hitFeatures: featureScopedActions.length ? null : undefined
             }
         }));
 
@@ -5278,6 +5782,13 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         const openToken = Date.now() + Math.random();
         menuOpenTokenRef.current = openToken;
         const stillCurrent = () => menuOpenTokenRef.current === openToken;
+
+        // Features under the pointer, for feature-scoped custom actions. Those
+        // rows sit at the end of the menu, so appearing late never renumbers
+        // the rows above them.
+        if (featureScopedActions.length) {
+            resolveHitFeatures(mapPoint, stillCurrent);
+        }
 
         // Address for the menu header (only when configured).
         if (wantAddress) {
@@ -5301,6 +5812,34 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 setState(prev => ({
                     ...prev,
                     contextMenu: { ...prev.contextMenu, addressText }
+                }));
+            })();
+        }
+
+        // Imported coordinate systems (.prj / WKT). Projected in parallel and
+        // written in one state update, so the rows appear together and the
+        // menu re-places itself once. Runs whether or not the "More
+        // coordinate formats" submenu is enabled.
+        if (importedSystems.length) {
+            (async () => {
+                const results = await Promise.all(importedSystems.map(async (sys) => {
+                    const p = await projectToWkt(mapPoint, sys.wkt);
+                    if (!p) return null;
+                    const info = parseWktInfo(sys.wkt);
+                    const dp = typeof sys.decimalPlaces === 'number' && sys.decimalPlaces >= 0
+                        ? Math.min(10, Math.floor(sys.decimalPlaces))
+                        : (info.projected ? 2 : 6);
+                    const text = sys.axisOrder === 'ne'
+                        ? `${p.y.toFixed(dp)}, ${p.x.toFixed(dp)}`
+                        : `${p.x.toFixed(dp)}, ${p.y.toFixed(dp)}`;
+                    return { id: sys.id, text };
+                }));
+                if (!stillCurrent()) return;
+                const importedCoords: { [id: string]: string } = {};
+                results.forEach(r => { if (r) importedCoords[r.id] = r.text; });
+                setState(prev => ({
+                    ...prev,
+                    contextMenu: { ...prev.contextMenu, importedCoords }
                 }));
             })();
         }
@@ -5381,12 +5920,19 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 }));
             }).catch(() => { });
         }
-    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, props.config?.copySettings, props.config?.menuSettings, props.config?.reverseGeocodeUrl]);
+    }, [projectToLatLon, manualProjectToLatLon, projectToSpatialReference, convertToDMS, props.config?.copySettings, props.config?.menuSettings, props.config?.reverseGeocodeUrl, featureScopedActions, resolveHitFeatures, importedSystems, projectToWkt]);
+
+    // The map pointer handlers are attached once per view, so they would keep
+    // the first openContextMenuAtPoint closure (and its config) forever. Call
+    // through a ref so settings changes in the builder's live view apply.
+    const openContextMenuAtPointRef = React.useRef(openContextMenuAtPoint);
+    openContextMenuAtPointRef.current = openContextMenuAtPoint;
 
     const onActiveViewChange = React.useCallback((jmv: JimuMapView) => {
         if (jmv?.view) {
             const mapView = jmv.view as __esri.MapView;
             mapViewRef.current = mapView;
+            jimuMapViewRef.current = jmv;
 
             // Only attach handlers once per map view instance
             if (handlersAttachedRef.current && lastMapViewRef.current === mapView) {
@@ -5408,7 +5954,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         }
                         event.stopPropagation();
                         const mapPoint = mapView.toMap({ x: event.x, y: event.y });
-                        openContextMenuAtPoint(mapPoint, event.x, event.y);
+                        openContextMenuAtPointRef.current(mapPoint, event.x, event.y);
                         return;
                     }
 
@@ -5459,7 +6005,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                         const startX = longPressStartXRef.current;
                         const startY = longPressStartYRef.current;
                         const mp = mapView.toMap({ x: startX, y: startY });
-                        if (mp) openContextMenuAtPoint(mp, startX, startY);
+                        if (mp) openContextMenuAtPointRef.current(mp, startX, startY);
 
                         // Clear the just-fired flag after a short window.
                         // Long enough to swallow the trailing click,
@@ -5572,6 +6118,18 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         // Coordinates
         if (ea.copyCoordinates !== false && cm.coordinateLabel) {
             items.push({ action: 'get-coordinates', icon: 'copy-to-clipboard', text: __t("copyCoordinates"), enabled: true, group: 'coords', hint: cm.coordinateLabel });
+            // Imported coordinate systems. A system gets its own row unless
+            // the builder moved it under "More coordinate formats"; when that
+            // submenu is turned off, every system gets its own row so none is
+            // unreachable. A row appears once its projection has resolved.
+            const formatsOn = ms.showCoordinateFormats !== false && !!cm.coordAlternates;
+            const importedRow = (sys: ImportedCoordinateSystem, sub: boolean) => {
+                const pending = cm.importedCoords === null;
+                const value = cm.importedCoords ? cm.importedCoords[sys.id] : undefined;
+                if (!pending && !value) return;
+                items.push({ action: `copy-crs:${sys.id}`, icon: 'coordinate-system', text: importedSystemLabel(sys), enabled: true, group: 'coords', sub, hint: pending ? __t("calculating") : value });
+            };
+            importedSystems.forEach(sys => { if (sys.showInMainMenu !== false || !formatsOn) importedRow(sys, false); });
             if (ms.showCoordinateFormats !== false && cm.coordAlternates) {
                 const expanded = !!cm.copyFormatsExpanded;
                 items.push({ action: 'copy-formats-toggle', icon: expanded ? 'chevron-down' : 'chevron-right', text: expanded ? __t("fewerFormats") : __t("moreCoordinateFormats"), enabled: true, group: 'coords' });
@@ -5581,6 +6139,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     if (alt.dms) items.push({ action: 'copy-dms', icon: 'compass', text: __t("latLonDms"), enabled: true, group: 'coords', sub: true, hint: alt.dms });
                     if (alt.utm) items.push({ action: 'copy-utm', icon: 'grid', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
                     if (alt.custom) items.push({ action: 'copy-custom', icon: 'coordinate-system', text: __t("customProjection"), enabled: true, group: 'coords', sub: true, hint: alt.custom });
+                    importedSystems.forEach(sys => { if (sys.showInMainMenu === false) importedRow(sys, true); });
                     if (alt.native) items.push({ action: 'copy-native', icon: 'map', text: __t("mapNativeXY"), enabled: true, group: 'coords', sub: true, hint: alt.native });
                     if (alt.geojson) items.push({ action: 'copy-geojson', icon: 'code', text: __t("geoJSONPoint"), enabled: true, group: 'coords', sub: true, hint: alt.geojson });
                 }
@@ -5619,8 +6178,57 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             items.push({ action: 'mailing-labels', icon: 'envelope', text: __tc(props.config.mailingLabelsSettings.menuLabel, "mailingLabels"), enabled: true, group: 'info' });
         }
 
+        // Custom actions. Each row goes after the last row of its chosen
+        // built-in group, or into its own group at the end (the default,
+        // so feature rows that arrive after the query never renumber the
+        // rows above them). Feature-scoped rows show only when a feature
+        // from a matching layer is under the pointer.
+        const builtInGroups = ['nav', 'coords', 'graphics', 'external', 'tools', 'info'];
+        const customRows: MenuItem[] = [];
+        for (const a of enabledCustomActions) {
+            const group = a.group && builtInGroups.indexOf(a.group) >= 0 ? a.group : 'custom';
+            const icon = (a.icon || '').trim() || 'launch';
+            if (a.scope !== 'feature') {
+                customRows.push({ action: `custom:${a.id}`, icon, text: a.label, enabled: true, group });
+                continue;
+            }
+            // One row per layer found under the pointer, every layer that is
+            // on (points, then lines, then polygons, topmost first), so a click
+            // on a street inside a district offers both.
+            const feats = featuresForCustomAction(a, cm.hitFeatures);
+            feats.forEach((f, fi) => {
+                const hf = (a.hintField || '').trim().toLowerCase();
+                let hint = '';
+                if (hf) {
+                    const k = Object.keys(f.attributes).find(x => x.toLowerCase() === hf);
+                    if (k && f.attributes[k] != null && String(f.attributes[k]) !== '') hint = String(f.attributes[k]);
+                }
+                const text = fillCustomLabel(a.label, f);
+                if (!hint) hint = text.indexOf(f.layerTitle) >= 0 ? (f.objectId != null ? `ID ${f.objectId}` : '') : f.layerTitle;
+                customRows.push({ action: `custom:${a.id}#${fi}`, icon, text, enabled: true, group, hint: hint || undefined });
+            });
+        }
+        for (const row of customRows) {
+            const group = row.group;
+            if (group === 'custom') { items.push(row); continue; }
+            // Insert after the last existing row of that group; if the group
+            // has no rows (all its actions turned off), the row still lands
+            // where the group would sit, by walking the group order.
+            let at = -1;
+            for (let i = items.length - 1; i >= 0; i--) { if (items[i].group === group) { at = i; break; } }
+            if (at < 0) {
+                const gi = builtInGroups.indexOf(group);
+                for (let i = 0; i < items.length; i++) {
+                    const ig = builtInGroups.indexOf(items[i].group);
+                    if (ig > gi) { at = i - 1; break; }
+                }
+                if (at < 0 && items.length && builtInGroups.indexOf(items[items.length - 1].group) <= gi) at = items.length - 1;
+            }
+            items.splice(at + 1, 0, row);
+        }
+
         return items;
-    }, [props.config?.enabledActions, props.config?.menuSettings, props.config?.pictometryUrl, props.config?.propertyReportSettings?.targetWidgetId, props.config?.propertyReportSettings?.menuLabel, props.config?.mailingLabelsSettings?.targetWidgetId, props.config?.mailingLabelsSettings?.menuLabel, state.contextMenu, state.coordinateMarkers.length, state.simpleMarkers.length, state.textGraphics.length]);
+    }, [props.config?.enabledActions, props.config?.menuSettings, props.config?.pictometryUrl, props.config?.propertyReportSettings?.targetWidgetId, props.config?.propertyReportSettings?.menuLabel, props.config?.mailingLabelsSettings?.targetWidgetId, props.config?.mailingLabelsSettings?.menuLabel, state.contextMenu, state.coordinateMarkers.length, state.simpleMarkers.length, state.textGraphics.length, enabledCustomActions, featuresForCustomAction, importedSystems]);
 
 
     const menuItems = getMenuItems();
@@ -5652,7 +6260,14 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
             longPress: props.config?.longPressSettings?.enabled !== false,
             propertyReportLabel: __tc(props.config?.propertyReportSettings?.menuLabel, "propertyInformation"),
             mailingLabelsLabel: __tc(props.config?.mailingLabelsSettings?.menuLabel, "mailingLabels"),
-            measureUnits: props.config?.measurementSettings?.defaultUnits || 'feet'
+            measureUnits: (() => {
+                // Config stores the unit as an English key; show it in the app language.
+                const u = String(props.config?.measurementSettings?.defaultUnits || 'feet');
+                return ['feet', 'meters', 'kilometers', 'miles'].indexOf(u) !== -1 ? __t(u) : u;
+            })(),
+            importedSystems: importedSystems.map(importedSystemLabel),
+            customAlways: enabledCustomActions.filter(a => a.scope !== 'feature').map(a => a.label),
+            customFeature: enabledCustomActions.filter(a => a.scope === 'feature').map(a => a.label)
         };
     })();
 
@@ -5783,22 +6398,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         };
     }, [state.contextMenu.visible, hideContextMenu]);
 
-    // Focus trap for text dialog
-    React.useEffect(() => {
-        if (state.showTextDialog && textInputRef.current) {
-            textInputRef.current.focus();
-        }
-    }, [state.showTextDialog]);
-
-    // Focus the "Apply buffer" checkbox when the Mailing Labels dialog opens
-    // so keyboard / screen-reader users land on the first interactive element.
-    // From there they can Tab to the distance input and unit dropdown, or just
-    // press Enter on the input field to submit.
-    React.useEffect(() => {
-        if (state.showMailingLabelsBufferDialog && mailingLabelsApplyBufferBtnRef.current) {
-            mailingLabelsApplyBufferBtnRef.current.focus();
-        }
-    }, [state.showMailingLabelsBufferDialog]);
+    // The Add Text and Mailing Labels dialogs (components/Dialogs.tsx) manage
+    // their own focus: jimu-ui's Modal keeps Tab inside, and each dialog puts
+    // focus on its first field when it opens.
 
     const placement = menuPlacementRef.current;
     const contextMenuStyle: React.CSSProperties = {
@@ -6043,525 +6645,42 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 {state.announceMessage}
             </div>
 
-            {/* Accessible text input dialog */}
-            {state.showTextDialog && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        zIndex: 2000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                    onClick={(e) => {
-                        // Close on backdrop click
-                        if (e.target === e.currentTarget) {
-                            cancelTextInput();
-                        }
-                    }}
-                    role="presentation"
-                >
-                    <div
-                        ref={dialogRef}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="text-dialog-title"
-                        aria-describedby="text-dialog-description"
-                        style={{
-                            backgroundColor: 'white',
-                            borderRadius: '8px',
-                            padding: '24px',
-                            minWidth: '400px',
-                            maxWidth: '500px',
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                            fontFamily: themeFont
-                        }}
-                        onKeyDown={(e) => {
-                            // Focus trap - prevent Tab from leaving dialog
-                            if (e.key === 'Tab') {
-                                const focusableElements = dialogRef.current?.querySelectorAll(
-                                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                                );
-                                if (focusableElements && focusableElements.length > 0) {
-                                    const firstElement = focusableElements[0] as HTMLElement;
-                                    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+            {/* Add Text dialog (jimu-ui Modal, theme colors) */}
+            <TextInputDialog
+                open={state.showTextDialog}
+                onSubmit={addTextToMap}
+                onCancel={cancelTextInput}
+                title={t('enterYourText')}
+                description={t('typeTheTextYouWantTo')}
+                inputLabel={t('textLabel')}
+                placeholder={t('enterTextHere')}
+                submitLabel={t('addText')}
+                cancelLabel={t('cancel')}
+            />
 
-                                    if (e.shiftKey && document.activeElement === firstElement) {
-                                        e.preventDefault();
-                                        lastElement.focus();
-                                    } else if (!e.shiftKey && document.activeElement === lastElement) {
-                                        e.preventDefault();
-                                        firstElement.focus();
-                                    }
-                                }
-                            }
-                            if (e.key === 'Escape') {
-                                cancelTextInput();
-                            }
-                        }}
-                    >
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '16px',
-                            paddingBottom: '12px',
-                            borderBottom: '1px solid #e0e0e0'
-                        }}>
-                            <h2
-                                id="text-dialog-title"
-                                style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}
-                            >
-                                <span aria-hidden="true">🅰️ </span>{t('enterYourText')}
-                            </h2>
-                            <button
-                                onClick={cancelTextInput}
-                                aria-label={t('closeDialog')}
-                                style={{
-                                    background: 'none',
-                                    border: '2px solid transparent',
-                                    fontSize: '24px',
-                                    cursor: 'pointer',
-                                    color: '#555',
-                                    padding: '4px',
-                                    width: '36px',
-                                    height: '36px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    borderRadius: '4px'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = 'transparent'; }}
-                            >
-                                <span aria-hidden="true">✕</span>
-                            </button>
-                        </div>
-                        <p
-                            id="text-dialog-description"
-                            style={{
-                                margin: '0 0 8px 0',
-                                color: '#555',
-                                fontSize: '14px',
-                                fontFamily: themeFont,
-                                lineHeight: '1.4'
-                            }}
-                        >
-                            {t('typeTheTextYouWantTo')}
-                        </p>
-                        <label
-                            htmlFor="map-text-input"
-                            style={{
-                                display: 'block',
-                                marginBottom: '4px',
-                                fontSize: '14px',
-                                fontWeight: '500',
-                                color: '#333'
-                            }}
-                        >
-                            {t('textLabel')}
-                        </label>
-                        <input
-                            ref={textInputRef}
-                            id="map-text-input"
-                            type="text"
-                            placeholder={t('enterTextHere')}
-                            aria-describedby="text-dialog-description"
-                            style={{
-                                width: '100%',
-                                padding: '12px',
-                                border: '2px solid #ccc',
-                                borderRadius: '4px',
-                                fontSize: '14px',
-                                fontFamily: themeFont,
-                                marginBottom: '20px',
-                                boxSizing: 'border-box'
-                            }}
-                            onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                            onBlur={(e) => { e.currentTarget.style.borderColor = '#ccc'; }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    const target = e.target as HTMLInputElement;
-                                    if (target.value.trim()) {
-                                        addTextToMap(target.value);
-                                    }
-                                }
-                            }}
-                        />
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: '12px'
-                        }}>
-                            <button
-                                onClick={cancelTextInput}
-                                style={{
-                                    padding: '10px 20px',
-                                    border: '2px solid #555',
-                                    borderRadius: '4px',
-                                    backgroundColor: 'white',
-                                    color: '#333',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    fontWeight: '500'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#555'; }}
-                            >
-                                {t('cancel')}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (textInputRef.current && textInputRef.current.value.trim()) {
-                                        addTextToMap(textInputRef.current.value);
-                                    }
-                                }}
-                                style={{
-                                    padding: '10px 20px',
-                                    border: '2px solid #0066cc',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#0066cc',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    fontWeight: '500'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#004499'; e.currentTarget.style.backgroundColor = '#004499'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#0066cc'; e.currentTarget.style.backgroundColor = '#0066cc'; }}
-                            >
-                                {t('addText')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Mailing Labels buffer-choice dialog. Mirrors the text-input dialog
-                for visual consistency; user picks "Yes" or "No" (or cancels) and
-                launchMailingLabels handles the actual widget open. */}
-            {state.showMailingLabelsBufferDialog && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        zIndex: 2000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                    onClick={(e) => {
-                        if (e.target === e.currentTarget) {
-                            cancelMailingLabelsBufferDialog();
-                        }
-                    }}
-                    role="presentation"
-                >
-                    <div
-                        ref={mailingLabelsDialogRef}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="mailing-labels-dialog-title"
-                        aria-describedby="mailing-labels-dialog-description"
-                        style={{
-                            backgroundColor: 'white',
-                            borderRadius: '8px',
-                            padding: '24px',
-                            minWidth: '400px',
-                            maxWidth: '500px',
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                            fontFamily: themeFont
-                        }}
-                        onKeyDown={(e) => {
-                            // Focus trap — keep Tab inside the dialog.
-                            if (e.key === 'Tab') {
-                                const focusableElements = mailingLabelsDialogRef.current?.querySelectorAll(
-                                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                                );
-                                if (focusableElements && focusableElements.length > 0) {
-                                    const firstElement = focusableElements[0] as HTMLElement;
-                                    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-                                    if (e.shiftKey && document.activeElement === firstElement) {
-                                        e.preventDefault();
-                                        lastElement.focus();
-                                    } else if (!e.shiftKey && document.activeElement === lastElement) {
-                                        e.preventDefault();
-                                        firstElement.focus();
-                                    }
-                                }
-                            }
-                            if (e.key === 'Escape') {
-                                cancelMailingLabelsBufferDialog();
-                            }
-                        }}
-                    >
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '16px',
-                            paddingBottom: '12px',
-                            borderBottom: '1px solid #e0e0e0'
-                        }}>
-                            <h2
-                                id="mailing-labels-dialog-title"
-                                style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}
-                            >
-                                <span aria-hidden="true">✉️ </span>{t('mailingLabels')}
-                            </h2>
-                            <button
-                                onClick={cancelMailingLabelsBufferDialog}
-                                aria-label={t('closeDialog')}
-                                style={{
-                                    background: 'none',
-                                    border: '2px solid transparent',
-                                    fontSize: '24px',
-                                    cursor: 'pointer',
-                                    color: '#555',
-                                    padding: '4px',
-                                    width: '36px',
-                                    height: '36px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    borderRadius: '4px'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = 'transparent'; }}
-                            >
-                                <span aria-hidden="true">✕</span>
-                            </button>
-                        </div>
-                        <p
-                            id="mailing-labels-dialog-description"
-                            style={{
-                                margin: '0 0 16px 0',
-                                color: '#333',
-                                fontSize: '14px',
-                                fontFamily: themeFont,
-                                lineHeight: '1.5'
-                            }}
-                        >
-                            {t('wouldYouLikeToApplyA')}
-                        </p>
-
-                        {/* Apply-buffer toggle */}
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            marginBottom: '12px'
-                        }}>
-                            <input
-                                ref={mailingLabelsApplyBufferBtnRef}
-                                id="mailing-labels-apply-buffer"
-                                type="checkbox"
-                                checked={state.mailingLabelsBufferEnabled}
-                                onChange={(e) => {
-                                    const checked = e.target.checked;
-                                    setState(prev => ({
-                                        ...prev,
-                                        mailingLabelsBufferEnabled: checked,
-                                        // Clear any prior validation error when the checkbox is toggled
-                                        mailingLabelsBufferError: ''
-                                    }));
-                                }}
-                                style={{
-                                    width: '18px',
-                                    height: '18px',
-                                    cursor: 'pointer',
-                                    margin: 0
-                                }}
-                            />
-                            <label
-                                htmlFor="mailing-labels-apply-buffer"
-                                style={{
-                                    fontSize: '14px',
-                                    fontWeight: '500',
-                                    color: '#333',
-                                    cursor: 'pointer',
-                                    userSelect: 'none'
-                                }}
-                            >
-                                {t('applyABufferToTheSelection')}
-                            </label>
-                        </div>
-
-                        {/* Distance + unit inputs. Disabled (greyed out) when the
-                            checkbox above is off, so the relationship between the
-                            toggle and the inputs is visually obvious. */}
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            marginBottom: '8px',
-                            opacity: state.mailingLabelsBufferEnabled ? 1 : 0.5
-                        }}>
-                            <label
-                                htmlFor="mailing-labels-buffer-distance"
-                                style={{
-                                    fontSize: '14px',
-                                    color: '#333',
-                                    minWidth: '70px'
-                                }}
-                            >
-                                {t('distance')}
-                            </label>
-                            <input
-                                id="mailing-labels-buffer-distance"
-                                type="number"
-                                min={0}
-                                step="any"
-                                value={state.mailingLabelsBufferDistance}
-                                disabled={!state.mailingLabelsBufferEnabled}
-                                onChange={(e) => {
-                                    const v = e.target.value;
-                                    setState(prev => ({
-                                        ...prev,
-                                        mailingLabelsBufferDistance: v,
-                                        // Clear stale error message once the user edits the value
-                                        mailingLabelsBufferError: ''
-                                    }));
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        launchMailingLabels();
-                                    }
-                                }}
-                                style={{
-                                    flex: '0 0 100px',
-                                    padding: '8px 10px',
-                                    border: '2px solid #ccc',
-                                    borderRadius: '4px',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    boxSizing: 'border-box'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#ccc'; }}
-                                aria-describedby={state.mailingLabelsBufferError ? 'mailing-labels-buffer-error' : undefined}
-                            />
-                            <label
-                                htmlFor="mailing-labels-buffer-unit"
-                                style={{
-                                    position: 'absolute',
-                                    width: '1px',
-                                    height: '1px',
-                                    padding: 0,
-                                    margin: '-1px',
-                                    overflow: 'hidden',
-                                    clip: 'rect(0,0,0,0)',
-                                    border: 0
-                                }}
-                            >
-                                {t('bufferUnit')}
-                            </label>
-                            <select
-                                id="mailing-labels-buffer-unit"
-                                value={state.mailingLabelsBufferUnit}
-                                disabled={!state.mailingLabelsBufferEnabled}
-                                onChange={(e) => {
-                                    const v = e.target.value as 'feet' | 'meters' | 'kilometers' | 'miles';
-                                    setState(prev => ({
-                                        ...prev,
-                                        mailingLabelsBufferUnit: v
-                                    }));
-                                }}
-                                style={{
-                                    flex: 1,
-                                    padding: '8px 10px',
-                                    border: '2px solid #ccc',
-                                    borderRadius: '4px',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    backgroundColor: 'white',
-                                    boxSizing: 'border-box'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#ccc'; }}
-                            >
-                                <option value="feet">{t('feet')}</option>
-                                <option value="meters">{t('meters')}</option>
-                                <option value="kilometers">{t('kilometers')}</option>
-                                <option value="miles">{t('miles')}</option>
-                            </select>
-                        </div>
-
-                        {/* Inline validation error. Only rendered when something
-                            is wrong, so the dialog stays compact otherwise. */}
-                        {state.mailingLabelsBufferError && (
-                            <div
-                                id="mailing-labels-buffer-error"
-                                role="alert"
-                                style={{
-                                    color: '#b00020',
-                                    fontSize: '13px',
-                                    margin: '0 0 16px 0',
-                                    lineHeight: '1.4'
-                                }}
-                            >
-                                {state.mailingLabelsBufferError}
-                            </div>
-                        )}
-
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: '12px',
-                            marginTop: state.mailingLabelsBufferError ? '4px' : '20px',
-                            flexWrap: 'wrap'
-                        }}>
-                            <button
-                                onClick={cancelMailingLabelsBufferDialog}
-                                style={{
-                                    padding: '10px 20px',
-                                    border: '2px solid #555',
-                                    borderRadius: '4px',
-                                    backgroundColor: 'white',
-                                    color: '#333',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    fontWeight: '500'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#1976d2'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#555'; }}
-                            >
-                                {t('cancel')}
-                            </button>
-                            <button
-                                onClick={() => launchMailingLabels()}
-                                style={{
-                                    padding: '10px 20px',
-                                    border: '2px solid #0066cc',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#0066cc',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontFamily: themeFont,
-                                    fontWeight: '500'
-                                }}
-                                onFocus={(e) => { e.currentTarget.style.borderColor = '#004499'; e.currentTarget.style.backgroundColor = '#004499'; e.currentTarget.style.outline = 'none'; }}
-                                onBlur={(e) => { e.currentTarget.style.borderColor = '#0066cc'; e.currentTarget.style.backgroundColor = '#0066cc'; }}
-                            >
-                                {t('apply')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Mailing Labels buffer dialog. The user ticks the box and enters
+                a distance, or leaves it off; launchMailingLabels validates and
+                opens the target widget. */}
+            <MailingLabelsBufferDialog
+                open={state.showMailingLabelsBufferDialog}
+                enabled={state.mailingLabelsBufferEnabled}
+                distance={state.mailingLabelsBufferDistance}
+                unit={state.mailingLabelsBufferUnit}
+                error={state.mailingLabelsBufferError}
+                onEnabledChange={(enabled) => setState(prev => ({ ...prev, mailingLabelsBufferEnabled: enabled, mailingLabelsBufferError: '' }))}
+                onDistanceChange={(distance) => setState(prev => ({ ...prev, mailingLabelsBufferDistance: distance, mailingLabelsBufferError: '' }))}
+                onUnitChange={(unit) => setState(prev => ({ ...prev, mailingLabelsBufferUnit: unit }))}
+                onSubmit={launchMailingLabels}
+                onCancel={cancelMailingLabelsBufferDialog}
+                title={__tc(props.config?.mailingLabelsSettings?.menuLabel, "mailingLabels")}
+                description={t('wouldYouLikeToApplyA')}
+                applyBufferLabel={t('applyABufferToTheSelection')}
+                distanceLabel={t('distance')}
+                unitLabel={t('bufferUnit')}
+                unitNames={{ feet: t('feet'), meters: t('meters'), kilometers: t('kilometers'), miles: t('miles') }}
+                submitLabel={t('apply')}
+                cancelLabel={t('cancel')}
+            />
 
         </div>
     );
