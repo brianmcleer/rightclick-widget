@@ -6118,8 +6118,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         // Coordinates
         if (ea.copyCoordinates !== false && cm.coordinateLabel) {
             items.push({ action: 'get-coordinates', icon: 'copy-to-clipboard', text: __t("copyCoordinates"), enabled: true, group: 'coords', hint: cm.coordinateLabel });
-            // Imported coordinate systems. A system gets its own row unless
-            // the builder moved it under "More coordinate formats"; when that
+            // Imported coordinate systems. A system sits under "More coordinate
+            // formats" unless the builder gave it its own row; when that
             // submenu is turned off, every system gets its own row so none is
             // unreachable. A row appears once its projection has resolved.
             const formatsOn = ms.showCoordinateFormats !== false && !!cm.coordAlternates;
@@ -6129,7 +6129,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 if (!pending && !value) return;
                 items.push({ action: `copy-crs:${sys.id}`, icon: 'coordinate-system', text: importedSystemLabel(sys), enabled: true, group: 'coords', sub, hint: pending ? __t("calculating") : value });
             };
-            importedSystems.forEach(sys => { if (sys.showInMainMenu !== false || !formatsOn) importedRow(sys, false); });
+            importedSystems.forEach(sys => { if (sys.showInMainMenu === true || !formatsOn) importedRow(sys, false); });
             if (ms.showCoordinateFormats !== false && cm.coordAlternates) {
                 const expanded = !!cm.copyFormatsExpanded;
                 items.push({ action: 'copy-formats-toggle', icon: expanded ? 'chevron-down' : 'chevron-right', text: expanded ? __t("fewerFormats") : __t("moreCoordinateFormats"), enabled: true, group: 'coords' });
@@ -6139,7 +6139,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     if (alt.dms) items.push({ action: 'copy-dms', icon: 'compass', text: __t("latLonDms"), enabled: true, group: 'coords', sub: true, hint: alt.dms });
                     if (alt.utm) items.push({ action: 'copy-utm', icon: 'grid', text: 'UTM', enabled: true, group: 'coords', sub: true, hint: alt.utm });
                     if (alt.custom) items.push({ action: 'copy-custom', icon: 'coordinate-system', text: __t("customProjection"), enabled: true, group: 'coords', sub: true, hint: alt.custom });
-                    importedSystems.forEach(sys => { if (sys.showInMainMenu === false) importedRow(sys, true); });
+                    importedSystems.forEach(sys => { if (sys.showInMainMenu !== true) importedRow(sys, true); });
                     if (alt.native) items.push({ action: 'copy-native', icon: 'map', text: __t("mapNativeXY"), enabled: true, group: 'coords', sub: true, hint: alt.native });
                     if (alt.geojson) items.push({ action: 'copy-geojson', icon: 'code', text: __t("geoJSONPoint"), enabled: true, group: 'coords', sub: true, hint: alt.geojson });
                 }

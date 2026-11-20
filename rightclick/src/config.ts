@@ -559,7 +559,7 @@ export interface ImportedCoordinateSystem {
     wkt: string;                   // The well-known text, exactly as imported
     decimalPlaces?: number;        // Default 2
     axisOrder?: 'en' | 'ne';       // 'en' = Easting, Northing (X, Y); 'ne' = Northing, Easting (Y, X)
-    showInMainMenu?: boolean;      // true (default) = its own row; false = under "More coordinate formats"
+    showInMainMenu?: boolean;      // true = its own row; false or unset (default) = under "More coordinate formats"
 }
 
 export interface WktInfo {

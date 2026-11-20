@@ -2,6 +2,18 @@
 
 Newest first. `manifest.json` and `package.json` are bumped together.
 
+## 2.2.1 (2026-11-19)
+
+### Changed
+
+- Imported coordinate systems now sit under "More coordinate formats" by
+  default, with the other alternate formats, instead of taking a row in the
+  main menu. The per-system switch "Show as its own row in the menu" is off
+  for new imports and unset means off. A system saved with the switch on
+  keeps its own row until the switch is turned off. If "More coordinate
+  formats" is turned off for the app, imported rows still show in the main
+  menu so they stay reachable.
+
 ## 2.2.0 (2026-11-19)
 
 ### Changed

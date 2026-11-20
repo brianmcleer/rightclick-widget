@@ -51,7 +51,7 @@ a string when it has none.
         <wkt>PROJCS["MCLCSGVA",GEOGCS["GCS_WGS_1984",...],UNIT["Foot",0.3048]]</wkt>
         <decimalPlaces type="number">2</decimalPlaces>
         <axisOrder>ne</axisOrder>
-        <showInMainMenu type="boolean">true</showInMainMenu>
+        <showInMainMenu type="boolean">false</showInMainMenu>
       </item>
     </importedSystems>
   </copySettings>

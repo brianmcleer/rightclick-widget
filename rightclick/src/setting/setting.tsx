@@ -985,7 +985,7 @@ const Setting = (props: SettingProps) => {
         const id = `crs_${Date.now().toString(36)}_${Math.floor(Math.random() * 1e6).toString(36)}`;
         saveImportedSystems([
             ...importedSystems,
-            { id, label, wkt, decimalPlaces: info.projected ? 2 : 6, axisOrder: 'en', showInMainMenu: true }
+            { id, label, wkt, decimalPlaces: info.projected ? 2 : 6, axisOrder: 'en', showInMainMenu: false }
         ]);
         setCrsError(null);
         return true;
@@ -4365,7 +4365,7 @@ const Setting = (props: SettingProps) => {
                                         <div style={styles.fieldRow}>
                                             <label style={styles.radioLabel}>
                                                 <Switch
-                                                    checked={sys.showInMainMenu !== false}
+                                                    checked={sys.showInMainMenu === true}
                                                     onChange={(e: any) => updateImportedSystem(index, { showInMainMenu: !!e.target.checked })}
                                                 />
                                                 {t('crsShowInMainMenu')}

@@ -24838,7 +24838,7 @@
       }
     },
     "setting": {
-      "en": "faa01b16831b",
+      "en": "9e710e26bab9",
       "keys": 338,
       "hashes": {
         "customActions": "fc09acd633d5",
@@ -24948,7 +24948,7 @@
         "customWkid": "627161c69949",
         "enterTheWkidWellKnownId": "25619137d371",
         "crsHeading": "6fe21ad752fa",
-        "crsDescription": "aa281bd488fc",
+        "crsDescription": "94c367291215",
         "crsImportFile": "ae57805abe26",
         "crsPasteToggle": "689d4385e0ce",
         "crsPasteLabel": "4cccca597d99",
@@ -24964,7 +24964,7 @@
         "crsOrderLonLat": "142bcafa13e2",
         "crsOrderLatLon": "8b1f906b2885",
         "crsShowInMainMenu": "797d1d7743e6",
-        "crsShowInMainMenuHelp": "518353ef4b12",
+        "crsShowInMainMenuHelp": "172f06bc1958",
         "crsRemove": "50e794120d65",
         "crsDefaultLabel": "8b17f172f60a",
         "crsDatumNote": "d2c2bc39af7d",
@@ -25182,7 +25182,7 @@
       },
       "locales": {
         "ar": {
-          "file": "fa1c1e20be44",
+          "file": "fe8e86e89e13",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -25190,8 +25190,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -25294,11 +25294,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- لا شيء )يفتح النظام المستهدف مباشرة("
-            },
             "accordion": {
               "t": "[التسجيل]",
               "src": "machine",
@@ -25358,11 +25353,6 @@
               "t": "...اختاروا أسلاك الأكورديون",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- اتفاق اختيار -"
             },
             "eGWidget82": {
               "t": "e.g. widget 82",
@@ -25844,11 +25834,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "زر بجانب مجموعة أو دائرة خرائط لتضمين كل طبقة محفورة - الحالية والمقبلة. الجماعات المشمولة بالوصاية لا تحتاج لصناديق فحص طبقات فردية وطبقات جديدة أضيفت إلى الخدمة لاحقاً سوف تلتقط تلقائياً بدون إنقاذ هذه الأماكن"
-            },
             "trust": {
               "t": "الثقة",
               "src": "machine",
@@ -26189,11 +26174,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "وستُدرج في ما هو موجود هنا كل طبقة مكتظة بالثقة بهذه المجموعة - أي كل طبقة ملونة )مستقبلا حاليا(."
-            },
             "trusted": {
               "t": "🔒 Trusted",
               "src": "machine",
@@ -26277,7 +26257,7 @@
           }
         },
         "bg": {
-          "file": "a96f12bf8f59",
+          "file": "5e4bf2135e73",
           "counts": {
             "esri": 52,
             "esri-check": 4,
@@ -26285,8 +26265,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -26389,11 +26369,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Не се отваря директно."
-            },
             "accordion": {
               "t": ".",
               "src": "machine",
@@ -26453,11 +26428,6 @@
               "t": "Изберете акордеон джаджа...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "Изберете акордеон."
             },
             "eGWidget82": {
               "t": "напр. джаджа 82",
@@ -26939,11 +26909,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "бутон в непосредствена близост до група или услуга карта за автоматично включване на всеки гнездящ слой . Доверените групи не се нуждаят от отделни пластове, а нови слоеве, добавени към услугата по-късно, ще бъдат прибирани автоматично, без да се запазват тези настройки."
-            },
             "trust": {
               "t": "Доверие",
               "src": "machine",
@@ -27284,11 +27249,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Кликнете, за да се доверите на тази група, всеки гнездящ слой (текущ + бъдеще) ще бъде автоматично включен в Whats."
-            },
             "trusted": {
               "t": "год.",
               "src": "machine",
@@ -27372,7 +27332,7 @@
           }
         },
         "bs": {
-          "file": "7f8edcceec2a",
+          "file": "7e58865116e9",
           "counts": {
             "esri": 56,
             "esri-check": 0,
@@ -27380,8 +27340,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 210,
-            "stale": 4,
-            "missing": 68
+            "stale": 0,
+            "missing": 72
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -27484,11 +27444,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Nijedan (ciljani grafički element se ne otvara direktno) —"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -27548,11 +27503,6 @@
               "t": "Izaberi grafički element harmonike",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "_Izaberi harmoniku..."
             },
             "eGWidget82": {
               "t": "_Naprimjer, grafički element_82",
@@ -28029,11 +27979,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Dugme pored grupe ili servisa mape za automatsko uključivanje svakog ugniježđenog sloja — trenutnog i budućeg. Povjerene grupe ne trebaju pojedinačne kutije za provjeru slojeva, a novi slojevi koji su dodani u servis kasnije će biti automatski podignuti bez ponovnog čuvanja ovih postavki."
-            },
             "trust": {
               "t": "Povjerenje",
               "src": "machine",
@@ -28374,11 +28319,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kliknite za povjerenje ove grupe — svaki ugniježđeni sloj (trenutačno + budućnost) će biti automatski uključen u What's Here."
-            },
             "trusted": {
               "t": "Povjereno",
               "src": "machine",
@@ -28457,7 +28397,7 @@
           }
         },
         "ca": {
-          "file": "0703384cf2fb",
+          "file": "7df85bd8ff77",
           "counts": {
             "esri": 52,
             "esri-check": 0,
@@ -28465,8 +28405,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 216,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "textTemplate": {
@@ -28574,11 +28514,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Athelstan Cap (l' estri de l' objectiu obre directament)"
-            },
             "accordion": {
               "t": "[Acordió]",
               "src": "machine",
@@ -28638,11 +28573,6 @@
               "t": "Seleccioneu l' estri d' acordió...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "StefanSuion"
             },
             "eGWidget82": {
               "t": "p. ex. estri 248",
@@ -29139,11 +29069,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Botó al costat d' un grup o servei de mapa a autoinclou totes les capes niats actual i futur. Els grups de confiança no necessiten caixes de capes individuals, i noves capes afegides al servei després s' escolliran automàticament sense tornar a desar aquests arranjaments."
-            },
             "trust": {
               "t": "Confiança",
               "src": "machine",
@@ -29484,11 +29409,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Cliqueu per confiar en aquest grup BASE cada capa nimbricada (actual + futur) serà autoinclouda en el que dígits aquí."
-            },
             "trusted": {
               "t": "Turted confiança",
               "src": "machine",
@@ -29572,7 +29492,7 @@
           }
         },
         "cs": {
-          "file": "ff7e71317a87",
+          "file": "05ba5f6999d8",
           "counts": {
             "esri": 52,
             "esri-check": 3,
@@ -29580,8 +29500,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "textTemplate": {
@@ -29689,11 +29609,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Žádné (cíl widget se otevře přímo) -"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -29753,11 +29668,6 @@
               "t": "Vyberte akordeon widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Vyberte akordeon -"
             },
             "eGWidget82": {
               "t": "např. widget _ 82",
@@ -30239,11 +30149,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "tlačítko vedle skupinové nebo mapové služby k automatickému-zahrnovat každou vnořenou vrstvu - proud a budoucnost. Důvěryhodné skupiny nepotřebují jednotlivé políčka a nové vrstvy přidány do služby později budou automaticky vyzvednuty bez opětovného uložení těchto nastavení."
-            },
             "trust": {
               "t": "Důvěra",
               "src": "machine",
@@ -30584,11 +30489,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klikněte pro důvěru této skupiny - každá vnořená vrstva (aktuální + budoucnost) bude automaticky zařazena do What 's Here."
-            },
             "trusted": {
               "t": "Trusted",
               "src": "machine",
@@ -30672,7 +30572,7 @@
           }
         },
         "da": {
-          "file": "7ab0be30432b",
+          "file": "a1706aab92af",
           "counts": {
             "esri": 50,
             "esri-check": 3,
@@ -30680,8 +30580,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 215,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -30794,11 +30694,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Ingen (mål kontrol åbner direkte) -"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -30858,11 +30753,6 @@
               "t": "Vælg harmonika- kontrol...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Vælg harmonika -"
             },
             "eGWidget82": {
               "t": "f.eks. widget _ 82",
@@ -31349,11 +31239,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "knap ved siden af en gruppe eller kort service til auto- omfatte hvert indlejret lag - nuværende og fremtid. Trusted grupper behøver ikke individuelle lag afkrydsningsfelter, og nye lag tilføjet til tjenesten senere vil blive afhentet automatisk uden at gen- gemme disse indstillinger."
-            },
             "trust": {
               "t": "Tillid",
               "src": "machine",
@@ -31694,11 +31579,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klik for at stole på denne gruppe - hvert indlejret lag (nuværende + fremtid) vil blive automatisk inkluderet i Hvad er her."
-            },
             "trusted": {
               "t": "Trusted",
               "src": "machine",
@@ -31782,7 +31662,7 @@
           }
         },
         "de": {
-          "file": "3b1396419c15",
+          "file": "9725a53d8df2",
           "counts": {
             "esri": 50,
             "esri-check": 1,
@@ -31790,8 +31670,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 217,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -31904,11 +31784,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Keine (Ziel-Widget öffnet sich direkt) -"
-            },
             "accordion": {
               "t": "[Einstimmung]",
               "src": "machine",
@@ -31968,11 +31843,6 @@
               "t": "Wählen Sie das Akkordeon-Widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Akkordeon auswählen —"
             },
             "eGWidget82": {
               "t": "z.B. widget 82",
@@ -32459,11 +32329,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Schaltfläche neben einem Gruppen- oder Kartendienst, um jede verschachtelte Schicht automatisch einzubeziehen - aktuell und zukünftig. Vertrauenswürdige Gruppen benötigen keine einzelnen Kontrollkästchen, und neue Schichten, die später zum Dienst hinzugefügt wurden, werden automatisch aufgenommen, ohne diese Einstellungen erneut zu speichern."
-            },
             "trust": {
               "t": "Vertrauen",
               "src": "machine",
@@ -32814,11 +32679,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klicken Sie, um dieser Gruppe zu vertrauen - jede verschachtelte Schicht (aktuell + Zukunft) wird automatisch in What's Here aufgenommen."
-            },
             "trusted": {
               "t": "🔒 Vertrauen",
               "src": "machine",
@@ -32902,7 +32762,7 @@
           }
         },
         "el": {
-          "file": "af35a49f6413",
+          "file": "7ce6ed935f66",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -32910,8 +32770,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -33014,11 +32874,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Κανένα (το γραφικό συστατικό-στόχος ανοίγει άμεσα)"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -33078,11 +32933,6 @@
               "t": "Επιλέξτε το γραφικό συστατικό ακορντεόν...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Επιλογή ακορντεόν"
             },
             "eGWidget82": {
               "t": "π.χ. widget 82",
@@ -33564,11 +33414,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "κουμπί δίπλα σε μια υπηρεσία ομάδας ή χάρτη για την αυτόματη ενσωμάτωση κάθε φωλεό στρώμα - το ρεύμα και το μέλλον. Εμπιστευμένες ομάδες δεν χρειάζονται μεμονωμένα πλαίσια ελέγχου στρώματος, και τα νέα στρώματα που προστίθενται στην υπηρεσία αργότερα θα παραληφθούν αυτόματα χωρίς την επανα-αποθήκευση αυτών των ρυθμίσεων."
-            },
             "trust": {
               "t": "Εμπιστοσύνη",
               "src": "machine",
@@ -33909,11 +33754,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Κάντε κλικ για να εμπιστευτείτε αυτή την ομάδα — κάθε φωλιασμένο στρώμα (τρέχον + μέλλον) θα περιλαμβάνεται αυτόματα στο What’s Here."
-            },
             "trusted": {
               "t": "🔒 Εμπιστευμένη",
               "src": "machine",
@@ -33997,7 +33837,7 @@
           }
         },
         "es": {
-          "file": "d0004da8dafa",
+          "file": "32cbd422ccac",
           "counts": {
             "esri": 53,
             "esri-check": 1,
@@ -34005,8 +33845,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 214,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -34109,11 +33949,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "—Ninguno (el widget de dispositivo se abre directamente) —"
-            },
             "accordion": {
               "t": "[Acordion]",
               "src": "machine",
@@ -34173,11 +34008,6 @@
               "t": "Seleccione el widget de acordeón...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Select accordion —"
             },
             "eGWidget82": {
               "t": "por ejemplo widget 82",
@@ -34669,11 +34499,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "botón junto a un servicio de grupo o mapa para auto-incluir cada capa anidada — actual y futuro. Los grupos confiados no necesitan casillas de verificación de capas individuales, y las nuevas capas agregadas al servicio más tarde serán recogidas automáticamente sin volver a guardar estas configuraciones."
-            },
             "trust": {
               "t": "Trust",
               "src": "machine",
@@ -35014,11 +34839,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Haga clic para confiar en este grupo: cada capa anida (actual + futuro) será auto-incluida en Lo que está aquí."
-            },
             "trusted": {
               "t": "🔒 Trusted",
               "src": "machine",
@@ -35102,7 +34922,7 @@
           }
         },
         "et": {
-          "file": "1ebd9e8b6ed7",
+          "file": "ac5f4e53dec0",
           "counts": {
             "esri": 53,
             "esri-check": 2,
@@ -35110,8 +34930,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -35219,11 +35039,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Puudub (sihtvidina avaneb otse) —"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -35283,11 +35098,6 @@
               "t": "Vali akordioni vidin...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Vali akordion —"
             },
             "eGWidget82": {
               "t": "nt vidin 82",
@@ -35769,11 +35579,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "nupp rühma või kaarditeenuse kõrval, et automaatselt kaasata iga pesastatud kiht - praegune ja tulevik. Usaldusväärsed rühmad ei vaja individuaalseid kihi märkekaste ja uued kihid, mis hiljem teenusesse lisatakse, võetakse automaatselt ilma neid seadeid uuesti salvestamata."
-            },
             "trust": {
               "t": "Usalda",
               "src": "machine",
@@ -36114,11 +35919,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klõpsake selle rühma usaldamiseks - iga pesastatud kiht (praegune + tulevik) lisatakse automaatselt \"Mis on siin\"."
-            },
             "trusted": {
               "t": "🔒 Usaldusväärne",
               "src": "machine",
@@ -36202,7 +36002,7 @@
           }
         },
         "fi": {
-          "file": "2b88e8d1345a",
+          "file": "5fd335662516",
           "counts": {
             "esri": 55,
             "esri-check": 1,
@@ -36210,8 +36010,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 3,
-            "missing": 67
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -36373,11 +36173,6 @@
               "t": "Valitse haitarielementti...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "Valitse haitari"
             },
             "eGWidget82": {
               "t": "esim. widget 82",
@@ -36859,11 +36654,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "painike vieressä ryhmän tai kartan palvelun automaattisesti sisällyttää jokaisen pesiytyneen kerroksen nykyinen ja tuleva. Luotettavat ryhmät eivät tarvitse yksittäisiä kerrosvalintaruutuja, ja myöhemmin palveluun lisätyt uudet kerrokset poimitaan automaattisesti ilman näiden asetusten säätämistä."
-            },
             "trust": {
               "t": "Luottamus",
               "src": "machine",
@@ -37204,11 +36994,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klikkaa luottaaksesi tähän ryhmään Jokainen pesitty kerros (nykyinen + tulevaisuus) sisällytetään automaattisesti What."
-            },
             "trusted": {
               "t": "Luotettu",
               "src": "machine",
@@ -37292,7 +37077,7 @@
           }
         },
         "fr": {
-          "file": "73aa699bcb57",
+          "file": "08b9530a0883",
           "counts": {
             "esri": 49,
             "esri-check": 4,
@@ -37300,8 +37085,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 215,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -37404,11 +37189,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Aucun (le widget cible s'ouvre directement) —"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -37468,11 +37248,6 @@
               "t": "Sélectionnez le widget accordéon...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Sélectionner l'accordéon"
             },
             "eGWidget82": {
               "t": "Par exemple widget 82",
@@ -37964,11 +37739,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "bouton à côté d'un service de groupe ou de carte pour inclure automatiquement chaque couche imbriquée — actuelle et future. Les groupes de confiance n'ont pas besoin de cases à cocher individuelles, et les nouveaux calques ajoutés au service seront automatiquement récupérés sans réenregistrer ces paramètres."
-            },
             "trust": {
               "t": "Confiance",
               "src": "machine",
@@ -38314,11 +38084,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Cliquez pour faire confiance à ce groupe — chaque couche imbriquée (courante + future) sera automatiquement incluse dans What's Here."
-            },
             "trusted": {
               "t": "Confiance",
               "src": "machine",
@@ -38402,7 +38167,7 @@
           }
         },
         "he": {
-          "file": "5bd07a64c2a9",
+          "file": "be968857fc14",
           "counts": {
             "esri": 55,
             "esri-check": 1,
@@ -38410,8 +38175,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -38514,11 +38279,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- אף אחד לא נפתח ישירות -"
-            },
             "accordion": {
               "t": "[תיקון]",
               "src": "machine",
@@ -38578,11 +38338,6 @@
               "t": "בחרו את ההסכמה...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "הסכם בחירה –"
             },
             "eGWidget82": {
               "t": "תגית: widget 82",
@@ -39064,11 +38819,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "כפתור ליד קבוצה או מפה שירות כדי למנוע כל שכבה מקוננת - נוכחי ועתיד. קבוצות מבוססות אמון אינן זקוקות לסורקי שכבה בודדים, ושכבות חדשות שנוספו לשירות מאוחר יותר יימחקו באופן אוטומטי ללא החזרת ההגדרות הללו."
-            },
             "trust": {
               "t": "אמון",
               "src": "machine",
@@ -39409,11 +39159,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "לחץ על האמון בקבוצה זו - כל שכבה מזוננת (נוכחית + עתיד) תהיה אוטו-בודדת במה שנמצא כאן."
-            },
             "trusted": {
               "t": "אמון",
               "src": "machine",
@@ -39497,7 +39242,7 @@
           }
         },
         "hr": {
-          "file": "a7e4c681fc6f",
+          "file": "ed7049aece02",
           "counts": {
             "esri": 56,
             "esri-check": 0,
@@ -39505,8 +39250,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 211,
-            "stale": 4,
-            "missing": 67
+            "stale": 0,
+            "missing": 71
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -39609,11 +39354,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Nijedan (ciljni widget otvara izravno)"
-            },
             "accordion": {
               "t": "[Skordija]",
               "src": "machine",
@@ -39673,11 +39413,6 @@
               "t": "Odaberi harmoniku...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Odaberite harmoniku —"
             },
             "eGWidget82": {
               "t": "Na primjer widget_82",
@@ -40154,11 +39889,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "gumb pored grupe ili karti usluga za automatsko uključivanje svakog ugniježđenog sloja — trenutnog i budućeg. Povjerene grupe ne trebaju pojedinačne okvire za slojeve, a novi slojevi dodani u uslugu kasnije će biti automatski podignuti bez ponovnog čuvanja ovih postavki."
-            },
             "trust": {
               "t": "Povjerenje",
               "src": "machine",
@@ -40499,11 +40229,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kliknite za povjerenje ove skupine — svaki ugniježđeni sloj (trenutačno + budućnost) će biti automatski uključen u What's Here."
-            },
             "trusted": {
               "t": "Povjerenje",
               "src": "machine",
@@ -40587,7 +40312,7 @@
           }
         },
         "hu": {
-          "file": "da2e6571d065",
+          "file": "776ea0bc8781",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -40595,8 +40320,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -40699,11 +40424,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Nincs (a cél widget közvetlenül nyílik) -"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -40763,11 +40483,6 @@
               "t": "Válassza ki a harmonika widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Válassza ki a harmonikát!"
             },
             "eGWidget82": {
               "t": "pl. widget _ 82",
@@ -41249,11 +40964,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "gomb mellett egy csoport vagy térkép szolgáltatás autoinclude minden fészkes réteg - jelenlegi és jövőbeli. Megbízható csoportok nem kell egyéni réteg ellenőrződobozok, és új rétegek hozzáadott a szolgáltatás később automatikusan felveszi anélkül, hogy újra mentse ezeket a beállításokat."
-            },
             "trust": {
               "t": "Bizalom",
               "src": "machine",
@@ -41594,11 +41304,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kattintson ide, hogy megbízzon ebben a csoportban - minden fészkes réteg (jelenlegi + jövő) automatikusan bekerül a Mi van itt."
-            },
             "trusted": {
               "t": "- Megbízható",
               "src": "machine",
@@ -41682,7 +41387,7 @@
           }
         },
         "id": {
-          "file": "3a2eff205c1a",
+          "file": "240b57ecd55b",
           "counts": {
             "esri": 50,
             "esri-check": 4,
@@ -41690,8 +41395,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 214,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -41794,11 +41499,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Tidak ada (widget target terbuka langsung) -"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -41858,11 +41558,6 @@
               "t": "Pilih widget akordion...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Pilih akordion -"
             },
             "eGWidget82": {
               "t": "mis. Widget _ 82",
@@ -42354,11 +42049,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "button di samping grup atau layanan peta ke otomatis-termasuk setiap nested lapis - sekarang dan masa depan. Grup terpercaya tidak perlu kotak-kotak lapis individu, dan lapis baru ditambahkan ke layanan nanti akan diambil secara otomatis tanpa menyimpan ulang pengaturan ini."
-            },
             "trust": {
               "t": "Kepercayaan",
               "src": "machine",
@@ -42699,11 +42389,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klik untuk mempercayai grup ini - setiap lapis nested (current + future) akan otomatis disertakan dalam What 's Here."
-            },
             "trusted": {
               "t": "Dipercaya",
               "src": "machine",
@@ -42787,7 +42472,7 @@
           }
         },
         "it": {
-          "file": "0a93ca48374d",
+          "file": "95c9a103b5d8",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -42795,8 +42480,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -42899,11 +42584,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Nessuno (il widget di destinazione si apre direttamente) —"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -42963,11 +42643,6 @@
               "t": "Selezionare il widget di fisarmonica...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Seleziona fisarmonica —"
             },
             "eGWidget82": {
               "t": "ad esempio widget 82",
@@ -43449,11 +43124,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "pulsante accanto a un servizio di gruppo o mappa per includere automaticamente ogni strato nidificato — corrente e futuro. I gruppi fidati non hanno bisogno di caselle di controllo individuali, e nuovi strati aggiunti al servizio in seguito verranno raccolti automaticamente senza salvare queste impostazioni."
-            },
             "trust": {
               "t": "Fiducia",
               "src": "machine",
@@ -43794,11 +43464,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Fare clic per fidarsi di questo gruppo — ogni strato nidificato (corrente + futuro) sarà automaticamente incluso in Che cosa è Qui."
-            },
             "trusted": {
               "t": "🔒 Trusted",
               "src": "machine",
@@ -43882,7 +43547,7 @@
           }
         },
         "ja": {
-          "file": "34378f5bb35a",
+          "file": "5bd9b36a10c5",
           "counts": {
             "esri": 55,
             "esri-check": 1,
@@ -43890,8 +43555,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -43994,11 +43659,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— なし (ウィジェットウィジェットウィジェットが直接開きます) —"
-            },
             "accordion": {
               "t": "[アコーディオン]",
               "src": "machine",
@@ -44058,11 +43718,6 @@
               "t": "アコーディオンウィジェットを選択します...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— アコーディオンを選択 —"
             },
             "eGWidget82": {
               "t": "例:ウィジェット 82",
@@ -44544,11 +44199,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "グループまたはマップサービスの横にあるボタンで、すべてのネスト層を自動含めることができます。 信頼されたグループは個々の層のチェックボックスを必要としず、サービスに追加された新しいレイヤーは、これらの設定を保存せずに自動的にピックアップされます。"
-            },
             "trust": {
               "t": "ソリューション",
               "src": "machine",
@@ -44889,11 +44539,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "このグループを信頼するためにクリックしてください。すべてのネスト層(現在の+未来)は、ここで何であるかで自動含められます。"
-            },
             "trusted": {
               "t": "信頼される",
               "src": "machine",
@@ -44977,7 +44622,7 @@
           }
         },
         "ko": {
-          "file": "44b806f47249",
+          "file": "53c4af9df635",
           "counts": {
             "esri": 53,
             "esri-check": 3,
@@ -44985,8 +44630,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -45089,11 +44734,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— 없음 (target 위젯은 직접 열립니다) —"
-            },
             "accordion": {
               "t": "[정보]",
               "src": "machine",
@@ -45153,11 +44793,6 @@
               "t": "accordion 위젯을 선택 ...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— 협정을 선택 —"
             },
             "eGWidget82": {
               "t": "e.g. 위젯 82",
@@ -45639,11 +45274,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "그룹이나 지도 서비스 옆에 있는 버튼은 모든 배열된 레이어를 포함하고 있습니다. 신뢰할 수있는 그룹은 개별 레이어 체크 박스를 필요로하지 않으며 나중에 서비스에 추가 된 새로운 레이어는이 설정을 다시 저장하지 않고 자동으로 픽업됩니다."
-            },
             "trust": {
               "t": "지원하다",
               "src": "machine",
@@ -45984,11 +45614,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "이 그룹을 신뢰하기 위해 클릭 - 모든 둥지 레이어 (현재 + 미래)는 여기에 자동 포함 될 것입니다."
-            },
             "trusted": {
               "t": "ღ♥ღ",
               "src": "machine",
@@ -46072,7 +45697,7 @@
           }
         },
         "lt": {
-          "file": "2e51c1508f9d",
+          "file": "59936fede84d",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -46080,8 +45705,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -46184,11 +45809,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Nėra (taikinys valdikliui atidaro tiesiogiai) -"
-            },
             "accordion": {
               "t": "[Acordion]",
               "src": "machine",
@@ -46248,11 +45868,6 @@
               "t": "Parinkite akordeono valdiklį...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Pasirinkite akordeoną -"
             },
             "eGWidget82": {
               "t": "Pvz., valdiklis _ 82",
@@ -46734,11 +46349,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "mygtuką šalia grupės ar žemėlapio paslauga automatiškai įtraukti kiekvieną įdėtas sluoksnis - dabartinė ir ateitis. Patikimoms grupėms nereikia atskirų sluoksnių žymeklių, o vėliau prie paslaugos pridėti nauji sluoksniai bus automatiškai paimti iš naujo neišsaugant šių nustatymų."
-            },
             "trust": {
               "t": "Pasitikėjimas",
               "src": "machine",
@@ -47079,11 +46689,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Spustelėkite, jei norite pasitikėti šia grupe - kiekvienas įdėtas sluoksnis (dabartinis + ateities) bus automatiškai įtrauktas į Kas čia."
-            },
             "trusted": {
               "t": "® Patikimas",
               "src": "machine",
@@ -47167,7 +46772,7 @@
           }
         },
         "lv": {
-          "file": "93be793412b0",
+          "file": "47a6685af496",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -47175,8 +46780,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -47279,11 +46884,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Nav (mērķa logdaļa atveras tieši) —"
-            },
             "accordion": {
               "t": "[Akordeons]",
               "src": "machine",
@@ -47343,11 +46943,6 @@
               "t": "Izvēlieties akordeona sīkrīku...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Akordeons —"
             },
             "eGWidget82": {
               "t": "Piemēram, widget 82",
@@ -47829,11 +47424,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "poga blakus grupai vai karti pakalpojumu automātiski iekļaut katru ligzdo slāni — pašreizējo un nākotni. Uzticamajām grupām nav nepieciešamas individuāla slāņa izvēles rūtiņas, un jauni slāņi, kas pievienoti pakalpojumam vēlāk, tiks automātiski uzņemti bez šo iestatījumu atkārtotas saglabāšanas."
-            },
             "trust": {
               "t": "Uzticība",
               "src": "machine",
@@ -48174,11 +47764,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Noklikšķiniet, lai uzticētos šai grupai — katrs ligzdotais slānis (pašreiz + nākotne) tiks automātiski iekļauts What's Here."
-            },
             "trusted": {
               "t": "י Uzticams",
               "src": "machine",
@@ -48262,7 +47847,7 @@
           }
         },
         "no": {
-          "file": "8726cdf7cb2b",
+          "file": "474a179bb003",
           "counts": {
             "esri": 52,
             "esri-check": 3,
@@ -48270,8 +47855,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -48374,11 +47959,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Ingen (mål widget åpnes direkte) —"
-            },
             "accordion": {
               "t": "[Acordion]",
               "src": "machine",
@@ -48438,11 +48018,6 @@
               "t": "Velg trekkspill- widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Velg trekkspill —"
             },
             "eGWidget82": {
               "t": "f.eks. widget 82",
@@ -48929,11 +48504,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "knappen ved siden av en gruppe eller kart tjeneste for å automatisk inkludere alle reired lag - gjeldende og fremtidig. Trudde grupper trenger ikke individuelle lag avkrysningsbokser, og nye lag som er lagt til tjenesten senere vil bli plukket opp automatisk uten å lagre disse innstillingene igjen."
-            },
             "trust": {
               "t": "tillit",
               "src": "machine",
@@ -49274,11 +48844,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klikk for å stole på denne gruppen - hvert reired lag (nåværende + fremtid) vil bli automatisk inkludert i Hva er her."
-            },
             "trusted": {
               "t": "🔒 Stolt på",
               "src": "machine",
@@ -49362,7 +48927,7 @@
           }
         },
         "nl": {
-          "file": "3517373827e8",
+          "file": "89afe8f69f00",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -49370,8 +48935,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -49474,11 +49039,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Geen enkel (doelwidget opent direct)"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -49538,11 +49098,6 @@
               "t": "Selecteer het accordeon-widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "Selecteer accordeon"
             },
             "eGWidget82": {
               "t": "bv. widget 82",
@@ -50024,11 +49579,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "knop naast een groep of kaartservice om automatisch elke geneste laag te omvatten Vertrouwde groepen hebben geen individuele laag selectievakken nodig, en nieuwe lagen die later aan de service worden toegevoegd, worden automatisch opgepikt zonder deze instellingen opnieuw op te slaan."
-            },
             "trust": {
               "t": "Vertrouwen",
               "src": "machine",
@@ -50369,11 +49919,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klik hier om deze groep te vertrouwen.Elke geneste laag (huidige + toekomstige) wordt automatisch opgenomen in Wat hier."
-            },
             "trusted": {
               "t": "Vertrouwd",
               "src": "machine",
@@ -50457,7 +50002,7 @@
           }
         },
         "pl": {
-          "file": "eba9bb2c2938",
+          "file": "4f3c09437f95",
           "counts": {
             "esri": 54,
             "esri-check": 1,
@@ -50465,8 +50010,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -50574,11 +50119,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Brak (widget docelowy otwiera się bezpośrednio) -"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -50638,11 +50178,6 @@
               "t": "Wybierz widżet akordeonu...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "Wybierz akordeon"
             },
             "eGWidget82": {
               "t": "np. widget _ 82",
@@ -51124,11 +50659,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "przycisk obok grupy lub usługi mapy do auto- zawierają każdą zagnieżdżoną warstwę - bieżącą i przyszłą. Zaufane grupy nie potrzebują indywidualnych pól kontrolnych warstw, a nowe warstwy dodane do usługi zostaną automatycznie odebrane bez ponownego zapisywania tych ustawień."
-            },
             "trust": {
               "t": "Zaufanie",
               "src": "machine",
@@ -51469,11 +50999,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kliknij, aby zaufać tej grupie - każda zagnieżdżona warstwa (obecna + przyszłość) zostanie automatycznie włączona do What 's Here."
-            },
             "trusted": {
               "t": "Zaufane",
               "src": "machine",
@@ -51557,7 +51082,7 @@
           }
         },
         "pt-br": {
-          "file": "09eb1c2eaafc",
+          "file": "488b62f64cd4",
           "counts": {
             "esri": 51,
             "esri-check": 3,
@@ -51565,8 +51090,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 214,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -51674,11 +51199,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Não, nenhum."
-            },
             "accordion": {
               "t": "[Acordão]",
               "src": "machine",
@@ -51738,11 +51258,6 @@
               "t": "Selecione o elemento acordeão...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Selecione acordeão..."
             },
             "eGWidget82": {
               "t": "Por exemplo, widget 82",
@@ -52229,11 +51744,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "botão ao lado de um grupo ou serviço de mapa para auto-incluir cada camada aninhada - atual e futuro. Grupos confiáveis não precisam de caixas de seleção individuais, e novas camadas adicionadas ao serviço serão captadas automaticamente sem salvar essas configurações."
-            },
             "trust": {
               "t": "Confiança",
               "src": "machine",
@@ -52574,11 +52084,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Clique para confiar neste grupo. Cada camada aninhada (atual + futuro) será incluída automaticamente no O Que Está Aqui."
-            },
             "trusted": {
               "t": "Confiado",
               "src": "machine",
@@ -52662,7 +52167,7 @@
           }
         },
         "pt-pt": {
-          "file": "bb281c26ff6f",
+          "file": "034a47678dbd",
           "counts": {
             "esri": 52,
             "esri-check": 3,
@@ -52670,8 +52175,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -52774,11 +52279,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Nenhuma (o widget alvo é aberto diretamente) —"
-            },
             "accordion": {
               "t": "[Acordão]",
               "src": "machine",
@@ -52838,11 +52338,6 @@
               "t": "Selecione o elemento acordeão...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Seleccionar acordeão —"
             },
             "eGWidget82": {
               "t": "Por exemplo, widget 82",
@@ -53329,11 +52824,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "botão ao lado de um grupo ou serviço de mapa para incluir automaticamente cada camada aninhada — atual e futuro. Grupos confiáveis não precisam de caixas de seleção de camadas individuais, e novas camadas adicionadas ao serviço serão captadas automaticamente sem salvar essas configurações."
-            },
             "trust": {
               "t": "Confiança",
               "src": "machine",
@@ -53674,11 +53164,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Clique para confiar neste grupo — cada camada aninhada (atual + futuro) será auto-incluída no O Que Está Aqui."
-            },
             "trusted": {
               "t": "□ Confiado",
               "src": "machine",
@@ -53762,7 +53247,7 @@
           }
         },
         "ro": {
-          "file": "172ecfe7588f",
+          "file": "a457b6611a28",
           "counts": {
             "esri": 49,
             "esri-check": 3,
@@ -53770,8 +53255,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 216,
-            "stale": 3,
-            "missing": 67
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "textTemplate": {
@@ -53888,11 +53373,6 @@
               "t": "Selectaţi recipientul părinte...",
               "src": "machine",
               "h": "d0900509486b"
-            },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Nu există nici unul (ținta widget se deschide direct)"
             },
             "accordion": {
               "t": "[Acordion]",
@@ -54439,11 +53919,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "buton lângă un grup sau serviciu de hartă pentru a auto-include fiecare strat cuibat Grupurile sigure nu au nevoie de cutii individuale de verificare a straturilor, iar noile straturi adăugate la serviciu vor fi preluate automat fără a reeconomi aceste setări."
-            },
             "trust": {
               "t": "Încredere",
               "src": "machine",
@@ -54784,11 +54259,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Click pentru a avea încredere în acest grup"
-            },
             "trusted": {
               "t": "De încredere",
               "src": "machine",
@@ -54872,7 +54342,7 @@
           }
         },
         "ru": {
-          "file": "ef37ae064103",
+          "file": "5965416efa61",
           "counts": {
             "esri": 52,
             "esri-check": 4,
@@ -54880,8 +54350,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -54984,11 +54454,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Нет (целевой виджет открывается напрямую)"
-            },
             "accordion": {
               "t": "[Согласие]",
               "src": "machine",
@@ -55048,11 +54513,6 @@
               "t": "Выберите виджет аккордеона...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Выбрать аккордеон -"
             },
             "eGWidget82": {
               "t": "Например, widget 82",
@@ -55534,11 +54994,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "кнопка рядом с групповым или картографическим сервисом для автоматического включения каждого вложенного слоя — текущего и будущего. Доверенным группам не нужны отдельные контрольные коробки, и новые слои, добавленные в сервис позже, будут автоматически подобраны без сохранения этих настроек."
-            },
             "trust": {
               "t": "Доверие",
               "src": "machine",
@@ -55879,11 +55334,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Нажмите, чтобы довериться этой группе - каждый вложенный слой (текущее + будущее) будет автоматически включен в What's Here."
-            },
             "trusted": {
               "t": "Доверенный",
               "src": "machine",
@@ -55967,7 +55417,7 @@
           }
         },
         "sk": {
-          "file": "72a36fa864c5",
+          "file": "317fea8d28b6",
           "counts": {
             "esri": 52,
             "esri-check": 2,
@@ -55975,8 +55425,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 2,
-            "missing": 69
+            "stale": 0,
+            "missing": 71
           },
           "entries": {
             "textTemplate": {
@@ -56629,11 +56079,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "tlačidlo vedľa skupiny alebo mapové služby automaticky-zahŕňa každú vnorenú vrstvu Dôveryhodné skupiny nepotrebujú jednotlivé zaškrtávacie políčka a nové vrstvy, ktoré budú neskôr pridané do služby, budú automaticky vyzdvihnuté bez opätovného uloženia týchto nastavení."
-            },
             "trust": {
               "t": "Dôvera",
               "src": "machine",
@@ -56974,11 +56419,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kliknite pre dôveru tejto skupine"
-            },
             "failedToFetchFieldsFromService": {
               "t": "Zlyhalo sťahovanie polí zo služby",
               "src": "machine",
@@ -57057,7 +56497,7 @@
           }
         },
         "sl": {
-          "file": "e27d87463ff3",
+          "file": "dea5b84f1035",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -57065,8 +56505,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 211,
-            "stale": 4,
-            "missing": 67
+            "stale": 0,
+            "missing": 71
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -57169,11 +56609,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Jih ni (ciljni gradnik odpre neposredno) —"
-            },
             "accordion": {
               "t": "[Priznanje]",
               "src": "machine",
@@ -57233,11 +56668,6 @@
               "t": "Izberite gradnik za harmoniko...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Izberite harmoniko —"
             },
             "eGWidget82": {
               "t": "Npr. widget 82",
@@ -57719,11 +57149,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "gumb poleg storitve skupine ali zemljevida, da se samodejno vključi vsak ugnezdeni sloj – sedanji in prihodnji. Zaupne skupine ne potrebujejo posameznih polj za preverjanje slojev, nove plasti, dodane v storitev, pa bodo kasneje samodejno pobrane brez ponovnega shranjevanja teh nastavitev."
-            },
             "trust": {
               "t": "Zaupanje",
               "src": "machine",
@@ -58064,11 +57489,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Kliknite, da zaupate tej skupini – vsaka vgnezdena plast (trenutno + prihodnost) bo samodejno vključena v Kaj je tukaj."
-            },
             "failedToFetchFieldsFromService": {
               "t": "Ni moč pridobiti polj iz storitve",
               "src": "machine",
@@ -58147,7 +57567,7 @@
           }
         },
         "sr": {
-          "file": "4cdc5e5a38f0",
+          "file": "dfd93b200c5b",
           "counts": {
             "esri": 53,
             "esri-check": 2,
@@ -58155,8 +57575,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 213,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -58264,11 +57684,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Nijedan (ciljni vidžet se otvara direktno) —"
-            },
             "accordion": {
               "t": "[Skok]",
               "src": "machine",
@@ -58328,11 +57743,6 @@
               "t": "Izaberi harmoniku...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Izaberi harmoniku —"
             },
             "eGWidget82": {
               "t": "Na primer, vidžet_82",
@@ -58814,11 +58224,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Dugme pored grupe ili servisa mape za automatsko uključivanje svakog ugnježđenog sloja — trenutnog i budućeg. Poverenim grupama nisu potrebne pojedinačne kutije sa slojevima, a novi slojevi koji se dodaju u servis kasnije će biti automatski podignuti bez ponovnog čuvanja ovih postavki."
-            },
             "trust": {
               "t": "Poverenje.",
               "src": "machine",
@@ -59159,11 +58564,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klikni da veruješ ovoj grupi — svaki ugnježđeni sloj (current + future) biće automatski uključen u What's Here."
-            },
             "trusted": {
               "t": "- Poverljivo.",
               "src": "machine",
@@ -59247,7 +58647,7 @@
           }
         },
         "sv": {
-          "file": "be922f570d9e",
+          "file": "c86dfe48a219",
           "counts": {
             "esri": 52,
             "esri-check": 1,
@@ -59255,8 +58655,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 215,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "textTemplate": {
@@ -59369,11 +58769,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "Ingen (mål widget öppnas direkt)"
-            },
             "accordion": {
               "t": "[Avtalet]",
               "src": "machine",
@@ -59433,11 +58828,6 @@
               "t": "Välj accordion widget...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "Välj ackordion -"
             },
             "eGWidget82": {
               "t": "t ex widget 82",
@@ -59924,11 +59314,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "knappen bredvid en grupp eller karttjänst för att automatiskt inkludera varje kapslad lager - nuvarande och framtida. Betrodda grupper behöver inte enskilda lagercheckboxar, och nya lager som läggs till tjänsten senare kommer att hämtas automatiskt utan att spara dessa inställningar."
-            },
             "trust": {
               "t": "Trust",
               "src": "machine",
@@ -60269,11 +59654,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Klicka för att lita på den här gruppen - varje kapslad lager (nuvarande + framtida) kommer att ingå automatiskt i vad som finns här."
-            },
             "trusted": {
               "t": "Trusted",
               "src": "machine",
@@ -60357,7 +59737,7 @@
           }
         },
         "th": {
-          "file": "3c11f657c115",
+          "file": "0c38b9073869",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -60365,8 +59745,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -60469,11 +59849,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— ไม่ มี ใคร (ประตู เปิด ตรง) —"
-            },
             "accordion": {
               "t": "[ประกาศ]",
               "src": "machine",
@@ -60533,11 +59908,6 @@
               "t": "เลือกวิดเจ็ตของคอนคอร์ด...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— เลือก คู่ สมรส —"
             },
             "eGWidget82": {
               "t": "e.g. วิดเจ็ต 82",
@@ -61019,11 +60389,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "ปุ่มถัดจากกลุ่มหรือแผนที่บริการเพื่อรวมทุกชั้นที่อยู่ในรังอัตโนมัติ ทั้งปัจจุบันและในอนาคต กลุ่มที่เชื่อถือไม่ต้องการการกาเลือกชั้นในแต่ละชั้น และชั้นใหม่ที่ถูกเพิ่มไปยังบริการ จะถูกเลือกให้โดยอัตโนมัติ โดยไม่ต้องบันทึกการตั้งค่าเหล่านี้ใหม่อีกครั้ง"
-            },
             "trust": {
               "t": "ความไว้วางใจ",
               "src": "machine",
@@ -61364,11 +60729,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "คลิกเพื่อความไว้วางใจกลุ่มนี้ — ทุกชั้นที่อยู่ในรัง (ปัจจุบัน + อนาคต) จะถูกรวมโดยอัตโนมัติในสิ่งใด"
-            },
             "trusted": {
               "t": "○ ไว้ วางใจ",
               "src": "machine",
@@ -61452,7 +60812,7 @@
           }
         },
         "tr": {
-          "file": "6c07b5c0517b",
+          "file": "4a84e45d92fc",
           "counts": {
             "esri": 48,
             "esri-check": 5,
@@ -61460,8 +60820,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 215,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "linkTemplate": {
@@ -61569,11 +60929,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- Hayır (herhangi bir hedef öğesi doğrudan açılır) –"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -61633,11 +60988,6 @@
               "t": "Purion widget'ı seçin...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Anlaşmayı seçin -"
             },
             "eGWidget82": {
               "t": "e.g. widget 82",
@@ -62124,11 +61474,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Bir grup veya harita hizmetinin her nested katmanı dahil etmek için bir sonraki düğme - mevcut ve gelecek. Güvenilen gruplar bireysel katman çekboxlara ihtiyaç duymazlar ve daha sonra hizmete eklenen yeni katmanlar bu ayarları yeniden tasarruf etmeden otomatik olarak alınır."
-            },
             "trust": {
               "t": "Güven Güven Güven",
               "src": "machine",
@@ -62474,11 +61819,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Bu gruba güvenmek için tıklayın - her nested tabaka (şimdi + gelecek) burada ne olduğu konusunda otomatik olarak yer alacak."
-            },
             "trusted": {
               "t": "Trusted",
               "src": "machine",
@@ -62562,7 +61902,7 @@
           }
         },
         "zh-cn": {
-          "file": "3d24cea4c0f4",
+          "file": "b6ee33c4c6ef",
           "counts": {
             "esri": 54,
             "esri-check": 2,
@@ -62570,8 +61910,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -62674,11 +62014,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- 无(目标部件直接打开) -"
-            },
             "accordion": {
               "t": "[约.",
               "src": "machine",
@@ -62738,11 +62073,6 @@
               "t": "选择手风琴部件...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "——选择手风琴."
             },
             "eGWidget82": {
               "t": "例如部件 82",
@@ -63224,11 +62554,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "按钮在组合或地图服务旁边自动包含每个嵌套层——当前和未来。 信任的组不需要单个的层复选框,在不重新保存这些设置的情况下,稍后会自动拾取添加到服务中的新层."
-            },
             "trust": {
               "t": "信托",
               "src": "machine",
@@ -63569,11 +62894,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "点击以信任这个组——每个嵌套层(当前+未来)都将自动包含在“这里”中。"
-            },
             "trusted": {
               "t": "🔒 信任",
               "src": "machine",
@@ -63657,7 +62977,7 @@
           }
         },
         "uk": {
-          "file": "7fec94ac4e23",
+          "file": "50a0b8be1199",
           "counts": {
             "esri": 55,
             "esri-check": 1,
@@ -63665,8 +62985,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -63769,11 +63089,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Ні (віджет відtarget відкривається безпосередньо) —"
-            },
             "accordion": {
               "t": "[Акордеон]",
               "src": "machine",
@@ -63833,11 +63148,6 @@
               "t": "Виберіть віджет акордеон ...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "— Оберіть акордеон —"
             },
             "eGWidget82": {
               "t": "JavaScript licenses API Веб-сайт Go1.13.8",
@@ -64319,11 +63629,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "кнопка поруч з груповим або картковим сервісом для автоматичного включення кожного шару — поточного і майбутнього. Довірені групи не потребують індивідуальних контрольних скриньок шару, а нові шари, додані в послугу, пізніше будуть підібрані автоматично без перезбереження цих налаштувань."
-            },
             "trust": {
               "t": "Довіра",
               "src": "machine",
@@ -64664,11 +63969,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Натисніть, щоб довірити цю групу - кожен шар (поточний + майбутній) буде автоматично включений в Що тут."
-            },
             "trusted": {
               "t": "й",
               "src": "machine",
@@ -64752,7 +64052,7 @@
           }
         },
         "vi": {
-          "file": "863637e1d735",
+          "file": "344f9c08f23f",
           "counts": {
             "esri": 53,
             "esri-check": 3,
@@ -64760,8 +64060,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -64864,11 +64164,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "— Không có ô điều khiển nào mở trực tiếp —"
-            },
             "accordion": {
               "t": "[Accordion]",
               "src": "machine",
@@ -64928,11 +64223,6 @@
               "t": "Chọn ô điều khiển màn hình...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- Chọn"
             },
             "eGWidget82": {
               "t": "e.g. ô điều khiển 82",
@@ -65414,11 +64704,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "Nút bên cạnh một nhóm hoặc dịch vụ bản đồ để tự động đóng mỗi lớp tổ — hiện tại và tương lai. Các nhóm được tín nhiệm không cần mỗi hộp kiểm tra lớp riêng, và các lớp mới được thêm vào dịch vụ sau này sẽ được tự động chọn lại mà không cần thiết lập lại."
-            },
             "trust": {
               "t": "Tin tưởng",
               "src": "machine",
@@ -65759,11 +65044,6 @@
               "src": "machine",
               "h": "f3b343b485d0"
             },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "Nhấn vào để tin tưởng nhóm này — mỗi lớp tổ (hiện tại và tương lai) sẽ được tự động bao bọc trong những gì ở đây."
-            },
             "trusted": {
               "t": "▪ Tin cậy",
               "src": "machine",
@@ -65847,7 +65127,7 @@
           }
         },
         "zh-hk": {
-          "file": "22c6a7b41030",
+          "file": "894b7cefb31a",
           "counts": {
             "esri": 56,
             "esri-check": 0,
@@ -65855,8 +65135,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -65959,11 +65239,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- 沒有(目標元件直接開啟) -"
-            },
             "accordion": {
               "t": "〔征〕",
               "src": "machine",
@@ -66023,11 +65298,6 @@
               "t": "選擇手風琴元件...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- 選擇手風琴..."
             },
             "eGWidget82": {
               "t": "例如元件 82",
@@ -66509,11 +65779,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "在群組或地圖服務旁的按鈕可以自動包含每一個嵌套層——目前和未來。 信任的群組不需要單一的層面對話框, 而後來新增到服務的層面會在不重新儲存這些設定的情况下被自動取回 。"
-            },
             "trust": {
               "t": "信任",
               "src": "machine",
@@ -66853,11 +66118,6 @@
               "t": "信任: 自動包含每一個嵌套層( 目前 + 未來 ) 。 點擊到不信任 。",
               "src": "machine",
               "h": "f3b343b485d0"
-            },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "依據創用CC授權使用"
             },
             "trusted": {
               "t": "信任",
@@ -66942,7 +66202,7 @@
           }
         },
         "zh-tw": {
-          "file": "22c6a7b41030",
+          "file": "894b7cefb31a",
           "counts": {
             "esri": 56,
             "esri-check": 0,
@@ -66950,8 +66210,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 212,
-            "stale": 4,
-            "missing": 66
+            "stale": 0,
+            "missing": 70
           },
           "entries": {
             "couldNotDetermineAppIdFrom": {
@@ -67054,11 +66314,6 @@
               "src": "machine",
               "h": "d0900509486b"
             },
-            "noneTargetWidgetOpensDirectly": {
-              "src": "stale",
-              "h": "340d6a6468bc",
-              "old": "- 沒有(目標元件直接開啟) -"
-            },
             "accordion": {
               "t": "〔征〕",
               "src": "machine",
@@ -67118,11 +66373,6 @@
               "t": "選擇手風琴元件...",
               "src": "machine",
               "h": "95f1855ad084"
-            },
-            "selectAccordion": {
-              "src": "stale",
-              "h": "331d2b2693d7",
-              "old": "- 選擇手風琴..."
             },
             "eGWidget82": {
               "t": "例如元件 82",
@@ -67604,11 +66854,6 @@
               "src": "machine",
               "h": "340d33e2025f"
             },
-            "buttonNextToAGroupOr": {
-              "src": "stale",
-              "h": "4a0856d29afa",
-              "old": "在群組或地圖服務旁的按鈕可以自動包含每一個嵌套層——目前和未來。 信任的群組不需要單一的層面對話框, 而後來新增到服務的層面會在不重新儲存這些設定的情况下被自動取回 。"
-            },
             "trust": {
               "t": "信任",
               "src": "machine",
@@ -67948,11 +67193,6 @@
               "t": "信任: 自動包含每一個嵌套層( 目前 + 未來 ) 。 點擊到不信任 。",
               "src": "machine",
               "h": "f3b343b485d0"
-            },
-            "clickToTrustThisGroupEvery": {
-              "src": "stale",
-              "h": "910fd1d89df8",
-              "old": "依據創用CC授權使用"
             },
             "trusted": {
               "t": "信任",

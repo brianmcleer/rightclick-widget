@@ -22,7 +22,7 @@ and Mailing Labels with the clicked location.
   markers with optional labels), Plot Marker (simple markers)
 - **Imported coordinate systems**: import a `.prj` file (or paste WKT) in
   settings to add a coordinate system that has no WKID, such as a county or
-  project grid. Each one adds a menu row that copies the clicked location in
+  project grid. Each one adds a row under "More coordinate formats" that copies the clicked location in
   that system, with its own label, decimal places and coordinate order
   (Easting, Northing or Northing, Easting)
 - **Graphics**: Add Text (custom font, color, halo, optional background),
@@ -178,12 +178,12 @@ projections, project grids. To put one on the menu:
 2. Click **Import .prj file** and choose the file, or click **Paste WKT
    instead** and paste the text. Esri and OGC WKT 1 (`PROJCS[...]`,
    `GEOGCS[...]`) and WKT 2 (`PROJCRS[...]`) are accepted.
-3. Set the menu label, decimal places and coordinate order. Leave **Show as
-   its own row in the menu** on, or turn it off to move the row under "More
-   coordinate formats".
+3. Set the menu label, decimal places and coordinate order. The row sits
+   under "More coordinate formats"; turn on **Show as its own row in the
+   menu** to put it in the main menu instead.
 
-The row appears on right click with the coordinates under its label; click it
-to copy. The definition is saved in the app config and is included in the XML
+Right click, open "More coordinate formats", and the row shows the
+coordinates under its label; click it to copy. The definition is saved in the app config and is included in the XML
 export.
 
 Two things to know:
