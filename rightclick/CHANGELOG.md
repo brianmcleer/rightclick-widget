@@ -2,6 +2,12 @@
 
 Newest first. `manifest.json` and `package.json` are bumped together.
 
+## 2.3.0 (2026-11-23)
+
+- Changed: **Measure Distance** and **Measure Area** now run on the Maps SDK `arcgis-distance-measurement-2d` and `arcgis-area-measurement-2d` components instead of the `DistanceMeasurement2D` and `AreaMeasurement2D` widget classes. Reason: Esri deprecated the widgets in the ArcGIS Maps SDK for JavaScript at version 5.0 and plans to remove them as early as Q1 2027, so anything built on them stops working on an Experience Builder release that ships without them. See [Deprecation: Widgets in ArcGIS Maps SDK for JavaScript](https://support.esri.com/en-us/knowledge-base/deprecation-widgets-in-arcgis-maps-sdk-for-javascript-000040437).
+- The measurement panel is the component inside a themed panel with the same Close button. The unit list is limited through the component's `unitOptions` and the "New measurement" button is hidden through `hideStartButton`, so the code that removed those from the widget's markup is gone (`hideUnwantedUnits`, `beautifyMeasurePanel`).
+- The widget's own segment, total, area and perimeter labels are drawn from the component's analysis geometry. Esri's built-in on-map label is still suppressed; in the components it is part of a CIM symbol, so the label suppressor now takes the text out of that symbol.
+
 ## 2.2.1 (2026-11-19)
 
 ### Changed

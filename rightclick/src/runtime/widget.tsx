@@ -12,13 +12,17 @@ import HelpPopup from './components/HelpPopup';
 import { TextInputDialog, MailingLabelsBufferDialog } from './components/Dialogs';
 import { buildHelpSections, HelpFeatures } from './helpSections';
 import defaultMessages from './translations/default';
+// Registers the Maps SDK map components (<arcgis-distance-measurement-2d>,
+// <arcgis-area-measurement-2d>) through Experience Builder's shared bundle.
+// Nothing is bundled here.
+import 'arcgis-map-components';
 
 // Hoisted Esri module imports (JS API 5.x ESM pattern). Modules used on every
 // right-click or routinely throughout the widget are imported statically here
 // so they're tree-shaken into the bundle and don't pay a lazy-load cost on
-// each invocation. Heavy / rarely-used modules (DistanceMeasurement2D,
-// AreaMeasurement2D, length/area math) are loaded lazily at their call sites
-// via loadArcGISJSAPIModules so they don't bloat the initial widget bundle.
+// each invocation. Heavy / rarely-used modules (length/area math) are loaded
+// lazily at their call sites via loadArcGISJSAPIModules so they don't bloat
+// the initial widget bundle.
 import Point from 'esri/geometry/Point';
 import SpatialReference from 'esri/geometry/SpatialReference';
 import * as projectOperator from 'esri/geometry/operators/projectOperator';
@@ -62,8 +66,6 @@ declare global {
         interface Graphic { [key: string]: any }
         interface GraphicsLayer { [key: string]: any }
         interface WatchHandle { [key: string]: any }
-        interface DistanceMeasurement2D { [key: string]: any }
-        interface AreaMeasurement2D { [key: string]: any }
         interface Measurement { [key: string]: any }
         interface Popup { [key: string]: any }
         interface PopupTemplate { [key: string]: any }
@@ -211,9 +213,10 @@ interface State {
     };
     showingContextMenu: boolean;
     isMeasuring: boolean;
-    measurementWidget: __esri.DistanceMeasurement2D | null;
+    // Handle of the open measurement panel (see createMeasurePanel); null when closed.
+    measurementWidget: { destroy: () => void } | null;
     isMeasuringArea: boolean;
-    areaMeasurementWidget: __esri.Measurement | null;
+    areaMeasurementWidget: { destroy: () => void } | null;
     layerFieldMetadata: { [layerUrl: string]: { [fieldName: string]: { alias: string; type: string } } };
     // Coordinate plotting state
     coordinateMarkers: CoordinateMarker[];
@@ -378,80 +381,9 @@ const rcParentAcrossShadow = (el: HTMLElement | null): HTMLElement | null => {
     return null;
 };
 
-// Restore the 1.20-style stacked layout inside the Esri measurement panel
-// WITHOUT depending on Esri class names, which changed in EB 1.21 /
-// JS API 5.x and left the panel unstyled ("Distance328.91 ft" on one
-// line). Elements are identified by their CONTENT: a leaf element whose
-// text is exactly a known label gets label styling; the value next to it
-// gets value styling. Every rule is guarded so it only fires when the
-// element is visibly unstyled (inline display), making this a no-op on
-// EB 1.20 where Esri's own stylesheet still applies.
-const beautifyMeasurePanel = (rootEl: Element | null) => {
-    if (!rootEl) return;
-    try {
-        const allEls = Array.from(rootEl.querySelectorAll<HTMLElement>('*'));
-
-        // Pass 1: leaf label elements ("Distance", "Area", "Perimeter",
-        // "Unit") and their sibling values.
-        for (const el of allEls) {
-            if (el.childElementCount !== 0) continue;
-            const t = (el.textContent || '').trim();
-            if (/^(Distance|Area|Perimeter)$/i.test(t)) {
-                if (getComputedStyle(el).display === 'inline') {
-                    el.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:8px 0 2px;`;
-                    const sib = el.nextElementSibling as HTMLElement | null;
-                    if (sib && /\d/.test(sib.textContent || '') && getComputedStyle(sib).display === 'inline') {
-                        sib.style.cssText += `;display:block;font-size:18px;font-weight:600;color:${rcPalette.text};margin:0 0 8px;`;
-                    }
-                }
-            } else if (/^Unit$/i.test(t)) {
-                if (getComputedStyle(el).display === 'inline') {
-                    el.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:0 0 4px;`;
-                }
-            }
-        }
-
-        // Pass 2: a parent holding exactly [label, value] as its two
-        // children (the 4.x span-pair pattern) where both render inline.
-        for (const el of allEls) {
-            if (el.childElementCount !== 2) continue;
-            const c0 = el.children[0] as HTMLElement;
-            const c1 = el.children[1] as HTMLElement;
-            const t0 = (c0.textContent || '').trim();
-            const t1 = (c1.textContent || '').trim();
-            if (/^(Distance|Area|Perimeter)$/i.test(t0) && /\d/.test(t1)) {
-                if (getComputedStyle(c0).display === 'inline') {
-                    c0.style.cssText += `;display:block;font-size:12px;color:${rcPalette.textSecondary};margin:8px 0 2px;`;
-                }
-                if (getComputedStyle(c1).display === 'inline') {
-                    c1.style.cssText += `;display:block;font-size:18px;font-weight:600;color:${rcPalette.text};margin:0 0 8px;`;
-                }
-            }
-        }
-
-        // Unit dropdowns fill the panel width.
-        rootEl.querySelectorAll<HTMLElement>('select, calcite-select').forEach((s) => {
-            if (!s.dataset.rcWidthApplied) {
-                s.dataset.rcWidthApplied = '1';
-                s.style.cssText += ';width:100%;box-sizing:border-box;margin-bottom:6px;';
-            }
-        });
-
-        // If the panel itself lost its padding (1.21 unstyled state), give
-        // it breathing room. Skip when Esri's own padding is in effect.
-        const panel = rootEl as HTMLElement;
-        if (panel.style && !panel.dataset.rcPadApplied) {
-            const cs = getComputedStyle(panel);
-            if (parseFloat(cs.paddingLeft || '0') < 4) {
-                panel.dataset.rcPadApplied = '1';
-                panel.style.cssText += ';padding:12px 14px;';
-            }
-        }
-    } catch (e) { /* styling is best-effort */ }
-};
-
-// Close button for the measurement panels. The panel is Maps SDK DOM, not
-// React, so a jimu-ui Button cannot be rendered into it; a Calcite button is
+// Close button for the measurement panels. The panel is plain DOM around a
+// Maps SDK component, not React, so a jimu-ui Button cannot be rendered into
+// it; a Calcite button is
 // the same design system and follows the app theme by itself. If Calcite's
 // element is not registered, fall back to a plain button with theme colors.
 const createMeasureCloseButton = (label: string): HTMLElement => {
@@ -480,242 +412,106 @@ const createMeasureCloseButton = (label: string): HTMLElement => {
 // shadow, so the panel matches the context menu in light and dark themes.
 const styleMeasurePanel = (panel: HTMLElement, fontFamily: string) => {
     const c = rcPalette;
-    panel.style.cssText += `;background:${c.surface};color:${c.text};border-radius:${c.radiusLg};box-shadow:${c.shadowHover};border:1px solid ${c.divider};min-width:260px;font-family:${fontFamily};`;
+    // overflow:hidden clips the component's square corners to the radius.
+    panel.style.cssText += `;background:${c.surface};color:${c.text};border-radius:${c.radiusLg};box-shadow:${c.shadowHover};border:1px solid ${c.divider};min-width:260px;font-family:${fontFamily};overflow:hidden;`;
 };
 
-const hideUnwantedUnits = (widget: any, widgetType: 'distance' | 'area' = 'distance'): (() => void) => {
-    const unwantedUnits = {
-        distance: [
-            'imperial', 'metric', 'inches', 'nautical miles', 'nautical-miles',
-            'feet (us)', 'feet-us', 'us feet', 'us-feet'
-        ],
-        area: [
-            'imperial', 'metric', 'square inches', 'square-inches',
-            'square nautical miles', 'square-nautical-miles',
-            'square feet (us)', 'square-feet-us', 'square us feet', 'square-us-feet',
-            'ares'
-        ]
+// The measurement tools are the Maps SDK <arcgis-distance-measurement-2d> and
+// <arcgis-area-measurement-2d> components. They replace the
+// DistanceMeasurement2D / AreaMeasurement2D widget classes, which Esri
+// deprecated in SDK 5.0 and scheduled for removal.
+type MeasureTag = 'arcgis-distance-measurement-2d' | 'arcgis-area-measurement-2d';
+
+// Resolves once the component's custom element is registered. Rejects after
+// 15 seconds so a missing component reports "measure tool failed" instead of
+// leaving a menu row that does nothing.
+const whenMeasureComponent = (tag: MeasureTag): Promise<void> => new Promise<void>((resolve, reject) => {
+    const timer = setTimeout(() => { reject(new Error(`${tag} is not registered`)); }, 15000);
+    customElements.whenDefined(tag).then(
+        () => { clearTimeout(timer); resolve(); },
+        (e) => { clearTimeout(timer); reject(e); }
+    );
+});
+
+interface MeasurePanel {
+    /** Goes into mapView.ui. Holds the component and the Close button. */
+    host: HTMLDivElement;
+    /** The measurement component. */
+    element: any;
+    /** Settles when the component has loaded. Never rejects. */
+    ready: Promise<void>;
+    /** Removes the panel from the map and destroys the component. */
+    destroy: () => void;
+}
+
+const createMeasurePanel = (tag: MeasureTag, mapView: any, unitOptions: string[]): MeasurePanel => {
+    const host = document.createElement('div');
+    host.className = 'rc-measure-panel';
+    const element: any = document.createElement(tag);
+    // Set before the element is attached, so the component binds to this
+    // view instead of looking for a parent <arcgis-map>.
+    element.view = mapView;
+    // Only these units are offered in the unit dropdown.
+    element.unitOptions = unitOptions;
+    // The panel gets its own Close button below, and one measurement per
+    // menu pick is the widget's behavior, so "New measurement" is hidden.
+    element.hideStartButton = true;
+    // Fill the panel and let the panel's own themed background show through
+    // (the same host styling Esri's Measurement widget applies).
+    element.style.display = 'block';
+    element.style.width = '100%';
+    element.style.setProperty('--calcite-color-foreground-1', 'transparent');
+    host.appendChild(element);
+    const ready: Promise<void> = (typeof element.componentOnReady === 'function'
+        ? Promise.resolve(element.componentOnReady()).then((): void => undefined)
+        : Promise.resolve()
+    ).catch((): void => undefined);
+    let destroyed = false;
+    const destroy = () => {
+        if (destroyed) return;
+        destroyed = true;
+        try { mapView.ui.remove(host); } catch (e) { /* ignore */ }
+        try { Promise.resolve(element.destroy && element.destroy()).catch((): void => undefined); } catch (e) { /* ignore */ }
+        try { host.remove(); } catch (e) { /* ignore */ }
     };
-
-    const targetUnits = unwantedUnits[widgetType];
-    let observer: MutationObserver | null = null;
-    let styleEl: HTMLStyleElement | null = null;
-
-    // Inject CSS to instantly hide known "New Measurement" / clear button classes before paint
-    const injectHideCSS = () => {
-        try {
-            styleEl = document.createElement('style');
-            styleEl.textContent = `
-                .esri-distance-measurement-2d__clear-button,
-                .esri-area-measurement-2d__clear-button,
-                .esri-direct-line-measurement-3d__clear-button,
-                .esri-measurement__clear-button {
-                    display: none !important;
-                    visibility: hidden !important;
-                    height: 0 !important;
-                    overflow: hidden !important;
-                    pointer-events: none !important;
-                }
-
-                /* Layout restore for JS API 5.x (EB 1.21). The measurement
-                   widget's Calcite rework can collapse the label and value
-                   onto one line with no separation ("Distance378.15 ft")
-                   and shrink the panel. Force the 1.20-style stacked
-                   layout: label on its own line, value below it in a
-                   larger bold face, with breathing room. These rules are
-                   additive and match the widget's own 1.20 styling, so
-                   they are harmless on older versions. */
-                .esri-distance-measurement-2d__measurement-item-title,
-                .esri-area-measurement-2d__measurement-item-title {
-                    display: block !important;
-                    margin-bottom: 4px;
-                }
-                .esri-distance-measurement-2d__measurement-item-value,
-                .esri-area-measurement-2d__measurement-item-value {
-                    display: block !important;
-                    font-size: 16px;
-                    font-weight: 600;
-                }
-                .esri-distance-measurement-2d__measurement-item,
-                .esri-area-measurement-2d__measurement-item {
-                    display: block !important;
-                    margin: 8px 0;
-                }
-                .esri-distance-measurement-2d__measurement,
-                .esri-area-measurement-2d__measurement {
-                    display: block !important;
-                    padding: 6px 0;
-                }
-                .esri-distance-measurement-2d,
-                .esri-area-measurement-2d {
-                    min-width: 220px;
-                    box-sizing: border-box;
-                }
-            `;
-            document.head.appendChild(styleEl);
-        } catch (e) {
-            // Silent fail
-        }
-    };
-
-    // Remove "New Measurement" buttons and hint elements from a container
-    const removeNewMeasurementButtons = (container: Element) => {
-        try {
-            const buttons = container.querySelectorAll('button, calcite-button');
-            buttons.forEach((button: any) => {
-                const text = (button.textContent || '').toLowerCase().trim();
-                // Exact-match only, and never remove an element that also
-                // contains a digit. In JS API 5.x (EB 1.21) the widget DOM
-                // moved to Calcite components where a parent's textContent
-                // includes all child text; a substring match could remove a
-                // wrapper that holds the live measurement value.
-                const isExactNewMeasurement = text === 'new measurement';
-                const hasNumericContent = /\d/.test(text);
-                if (isExactNewMeasurement && !hasNumericContent) {
-                    button.style.display = 'none';
-                    button.style.visibility = 'hidden';
-                    button.hidden = true;
-                    try { button.remove(); } catch (e) { /* silent */ }
-                }
-            });
-
-            const hints = container.querySelectorAll(
-                '.esri-distance-measurement-2d__hint, .esri-area-measurement-2d__hint, .esri-measurement__hint'
-            );
-            hints.forEach((hint: any) => {
-                // Only remove a hint that carries no numeric content. If a
-                // future JS API build repurposes or wraps the value in an
-                // element matching these selectors, leave it alone.
-                if (!/\d/.test(hint.textContent || '')) {
-                    hint.style.display = 'none';
-                    try { hint.remove(); } catch (e) { /* silent */ }
-                }
-            });
-        } catch (e) {
-            // Silent fail
-        }
-    };
-
-    // Remove unwanted unit options from dropdowns
-    const removeUnwantedOptions = (container: Element) => {
-        try {
-            const selectors = [
-                'calcite-select calcite-option',
-                'select option',
-                '[role="option"]',
-                'calcite-option'
-            ];
-
-            selectors.forEach(selector => {
-                const options = container.querySelectorAll(selector);
-                options.forEach((option: any) => {
-                    const value = (option.value || '').toLowerCase().trim();
-                    const text = (option.textContent || option.innerText || '').toLowerCase().trim();
-                    const label = (option.label || '').toLowerCase().trim();
-
-                    // Exact matches only. Substring matching (includes)
-                    // is dangerous against Calcite DOM in JS API 5.x where
-                    // wrapper elements can surface child text; an exact
-                    // match can only hit a leaf option element.
-                    const shouldRemove = targetUnits.some(unwantedUnit => {
-                        const unwanted = unwantedUnit.toLowerCase();
-                        return value === unwanted ||
-                            text === unwanted ||
-                            label === unwanted;
-                    });
-
-                    if (shouldRemove) {
-                        option.style.display = 'none';
-                        option.style.visibility = 'hidden';
-                        option.hidden = true;
-                        option.disabled = true;
-                        try { option.remove(); } catch (e) { /* silent */ }
-                    }
-                });
-            });
-        } catch (e) {
-            // Silent fail
-        }
-    };
-
-    // Full cleanup pass on the container
-    const fullCleanup = () => {
-        try {
-            const container = widget.container;
-            if (!container) return;
-            removeNewMeasurementButtons(container);
-            removeUnwantedOptions(container);
-            // Re-apply the label/value layout on every pass; the observer
-            // and timed retries make this track Esri re-renders as the
-            // measurement value updates.
-            beautifyMeasurePanel(container);
-        } catch (e) {
-            // Silent fail
-        }
-    };
-
-    // Inject CSS immediately
-    injectHideCSS();
-
-    // Run initial cleanup passes
-    fullCleanup();
-    setTimeout(fullCleanup, 10);
-    setTimeout(fullCleanup, 50);
-    setTimeout(fullCleanup, 100);
-
-    // Timed cleanup for unit options that may render later
-    let attempts = 0;
-    const timedCleanup = () => {
-        if (attempts++ > 15) return;
-        fullCleanup();
-        const delays = [50, 100, 150, 200, 300, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000, 7000, 10000];
-        if (attempts <= delays.length) {
-            setTimeout(timedCleanup, delays[attempts - 1] || 1000);
-        }
-    };
-    timedCleanup();
-
-    // Set up MutationObserver to catch "New Measurement" button the instant it appears in DOM
-    try {
-        const container = widget.container;
-        if (container) {
-            observer = new MutationObserver((mutations) => {
-                for (const mutation of mutations) {
-                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                        removeNewMeasurementButtons(container);
-                        beautifyMeasurePanel(container);
-                    }
-                }
-            });
-            observer.observe(container, { childList: true, subtree: true });
-        }
-    } catch (e) {
-        // Silent fail
-    }
-
-    // Return a disconnect function to clean up the observer and injected CSS
-    return () => {
-        try {
-            if (observer) {
-                observer.disconnect();
-                observer = null;
-            }
-            if (styleEl && styleEl.parentNode) {
-                styleEl.parentNode.removeChild(styleEl);
-                styleEl = null;
-            }
-        } catch (e) {
-            // Silent fail
-        }
-    };
+    return { host, element, ready, destroy };
 };
 
 /**
- * Suppress the ESRI measurement widget's built-in on-map text labels.
- * Each instance is scoped to only the layers added by its specific widget.
+ * Suppress the ESRI measurement tool's built-in on-map labels.
+ * Each instance is scoped to only the layers added by its specific tool.
  */
 const createLabelSuppressor = (mapView: any) => {
     let layerSnapshot: Set<any> = new Set();
+
+    // The measurement components (SDK 5.x) do not add separate text
+    // graphics. Their on-map label is a text marker inside a CIM symbol:
+    // the distance line carries it ($feature.lengthText) and the area tool
+    // adds a label-only graphic ($feature.areaText). Take the text out so
+    // only this widget's own labels show. Best-effort: if the SDK changes
+    // these internals, the worst case is Esri's label showing beside ours.
+    const neutralizeAnalysisLabel = (g: any): void => {
+        try {
+            const attrs = g?.attributes;
+            const sym = g?.symbol;
+            if (!attrs || !sym || sym.type !== 'cim') return;
+            if ('areaText' in attrs) {
+                // Label-only graphic: it draws nothing else.
+                g.symbol = null;
+                return;
+            }
+            if ('lengthText' in attrs) {
+                const data = JSON.parse(JSON.stringify(sym.data));
+                const layers = data?.symbol?.symbolLayers;
+                if (!Array.isArray(layers)) return;
+                const kept = layers.filter((l: any) => l?.type !== 'CIMVectorMarker');
+                if (kept.length === layers.length) return;
+                data.symbol.symbolLayers = kept;
+                delete data.primitiveOverrides;
+                g.symbol = new sym.constructor({ data });
+            }
+        } catch (e) { /* silent */ }
+    };
 
     const isTextGraphic = (g: any): boolean => {
         if (!g?.symbol) return false;
@@ -752,6 +548,7 @@ const createLabelSuppressor = (mapView: any) => {
             if (origAdd) {
                 graphics.add = (item: any, ...a: any[]) => {
                     if (active && isTextGraphic(item)) return;
+                    if (active) neutralizeAnalysisLabel(item);
                     return origAdd(item, ...a);
                 };
                 restorations.push(() => { graphics.add = origAdd; });
@@ -761,6 +558,7 @@ const createLabelSuppressor = (mapView: any) => {
                 graphics.addMany = (items: any[], ...a: any[]) => {
                     if (!active) return origAddMany(items, ...a);
                     const f = (items || []).filter((g: any) => !isTextGraphic(g));
+                    f.forEach(neutralizeAnalysisLabel);
                     return f.length ? origAddMany(f, ...a) : undefined;
                 };
                 restorations.push(() => { graphics.addMany = origAddMany; });
@@ -770,6 +568,7 @@ const createLabelSuppressor = (mapView: any) => {
                 graphics.push = (...items: any[]) => {
                     if (!active) return origPush(...items);
                     const f = items.filter((g: any) => !isTextGraphic(g));
+                    f.forEach(neutralizeAnalysisLabel);
                     return f.length ? origPush(...f) : graphics.length;
                 };
                 restorations.push(() => { graphics.push = origPush; });
@@ -779,6 +578,7 @@ const createLabelSuppressor = (mapView: any) => {
                 graphics.splice = (start: number, del: number, ...items: any[]) => {
                     if (!active) return origSplice(start, del, ...items);
                     const f = items.filter((g: any) => !isTextGraphic(g));
+                    f.forEach(neutralizeAnalysisLabel);
                     return origSplice(start, del, ...f);
                 };
                 restorations.push(() => { graphics.splice = origSplice; });
@@ -791,6 +591,7 @@ const createLabelSuppressor = (mapView: any) => {
                     graphics.removeMany?.(existing) ||
                         existing.forEach((g: any) => graphics.remove?.(g));
                 }
+                (graphics.items || []).forEach(neutralizeAnalysisLabel);
             } catch (e) { /* silent */ }
         };
 
@@ -2469,9 +2270,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         try {
             if (state.measurementWidget) {
-                if ((state.measurementWidget as any).__disconnectObserver) {
-                    (state.measurementWidget as any).__disconnectObserver();
-                }
                 state.measurementWidget.destroy();
             }
 
@@ -2489,25 +2287,27 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 unitDisplay: 'single'
             };
 
-            // Snapshot layers BEFORE widget creation
+            // Snapshot layers BEFORE the measurement tool is created
             const labelSuppressor = createLabelSuppressor(mapView);
             labelSuppressor.snapshotLayers();
 
             Promise.all([
                 loadArcGISJSAPIModules([
-                    'esri/widgets/DistanceMeasurement2D',
                     'esri/Graphic',
                     'esri/symbols/TextSymbol',
                     'esri/geometry/Point',
                     'esri/geometry/Polyline'
                 ]),
-                loadLengthAreaMath()
-            ]).then(([[DistanceMeasurement2D, Graphic, TextSymbol, Point, Polyline], geometryEngine]: [any[], any]) => {
+                loadLengthAreaMath(),
+                whenMeasureComponent('arcgis-distance-measurement-2d')
+            ]).then(([[Graphic, TextSymbol, Point, Polyline], geometryEngine]: [any[], any, any]) => {
                 try {
-                    const distanceMeasurement2D = new DistanceMeasurement2D({
-                        view: mapView,
-                        unitOptions: validUnits as any
-                    });
+                    // <arcgis-distance-measurement-2d> in place of the
+                    // DistanceMeasurement2D widget class (deprecated in SDK 5.0).
+                    const panel = createMeasurePanel('arcgis-distance-measurement-2d', mapView, validUnits);
+                    const distanceMeasurement2D = panel.element;
+                    // Set by cleanup(); stops late callbacks from touching a closed tool.
+                    let closed = false;
 
                     // Suppress ESRI's built-in on-map text labels
                     const cancelLabelSuppression = labelSuppressor.startSuppression();
@@ -2530,31 +2330,24 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     }
 
                     const initializeDistanceUnit = () => {
+                        if (closed) return;
                         try {
                             distanceMeasurement2D.unit = primaryUnit;
-                            if (distanceMeasurement2D.viewModel) {
-                                distanceMeasurement2D.viewModel.unit = primaryUnit;
-                            }
                         } catch (e) {
                         }
                     };
 
-                    mapView.ui.add(distanceMeasurement2D, 'top-right');
+                    mapView.ui.add(panel.host, 'top-right');
                     initializeDistanceUnit();
 
-                    distanceMeasurement2D.when(() => {
-                        const disconnectObserver = hideUnwantedUnits(distanceMeasurement2D, 'distance');
-                        // Store disconnect so cleanup can call it
-                        (distanceMeasurement2D as any).__disconnectObserver = disconnectObserver;
-                        setTimeout(() => initializeDistanceUnit(), 100);
-                        setTimeout(() => initializeDistanceUnit(), 300);
-                        setTimeout(() => initializeDistanceUnit(), 500);
-                    });
-
-                    setTimeout(() => {
-                        distanceMeasurement2D.viewModel.start();
+                    // Start drawing as soon as the component has loaded.
+                    panel.ready.then(() => {
+                        if (closed) return;
                         initializeDistanceUnit();
-                    }, 200);
+                        try {
+                            Promise.resolve(distanceMeasurement2D.start()).catch((): void => undefined);
+                        } catch (e) { /* silent */ }
+                    });
 
                     const formatDistance = (distance: number, unit: string): string => {
                         let formatted = `${distance.toFixed(2)} ${unit}`;
@@ -2596,7 +2389,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                         const points = path.map(([x, y]) => new Point({
                             x, y,
-                            spatialReference: mapView.spatialReference
+                            spatialReference: polyline.spatialReference || mapView.spatialReference
                         }));
 
                         let total = 0;
@@ -2679,59 +2472,67 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
                     const watchHandles: __esri.WatchHandle[] = [];
 
-                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.viewModel.measurement, (m: any) => {
-                        if (!m?.geometry) return;
-                        clearLabels();
-                        drawLabels(m.geometry, distanceMeasurement2D.unit);
-                    }));
+                    // The measured line is the component's analysis geometry.
+                    // It is replaced on every vertex while drawing and while
+                    // the finished line is reshaped.
+                    const currentLine = (): any => {
+                        try { return distanceMeasurement2D.analysis?.geometry || null; } catch (e) { return null; }
+                    };
 
-                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.unit, (newUnit: string) => {
-                        if (!validUnits.includes(newUnit)) {
-                            setTimeout(() => {
-                                distanceMeasurement2D.unit = primaryUnit;
-                            }, 50);
-                            return;
+                    const redrawLabels = () => {
+                        if (closed) return;
+                        const line = currentLine();
+                        clearLabels();
+                        if (line) drawLabels(line, distanceMeasurement2D.unit);
+                    };
+
+                    // 'ready' = nothing measured, 'measuring' = drawing, 'measured' = done.
+                    const onPropertyChange = (evt: any) => {
+                        if (closed) return;
+                        const name = evt?.detail?.name;
+                        if (name === 'state') {
+                            const s = distanceMeasurement2D.state;
+                            if (s === 'ready') clearLabels();
+                            else if (s === 'measured') redrawLabels();
+                        } else if (name === 'analysis') {
+                            redrawLabels();
                         }
-                        const m = distanceMeasurement2D.viewModel.measurement;
-                        if (!m?.geometry) return;
-                        clearLabels();
-                        // Handle async drawLabels function
-                        drawLabels(m.geometry, newUnit);
-                    }));
+                    };
+                    distanceMeasurement2D.addEventListener('arcgisPropertyChange', onPropertyChange);
 
-                    watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.viewModel.state, (s: string) => {
-                        if (s === 'ready') {
+                    // The analysis only exists once the component has loaded,
+                    // so the watches are attached then.
+                    panel.ready.then(() => {
+                        if (closed) return;
+                        watchHandles.push(reactiveUtils.watch(() => currentLine(), (line: any) => {
+                            if (!line) return;
                             clearLabels();
-                        } else if (s === 'measured') {
-                            // JSAPI 5.x: geometry may only be available on state='measured'
-                            // (during 'measuring' state, m.geometry can be null)
-                            const m = distanceMeasurement2D.viewModel.measurement as any;
-                            if (!m) return;
-                            clearLabels();
-                            if (m.geometry) {
-                                drawLabels(m.geometry, distanceMeasurement2D.unit);
-                            } else if (m.length > 0) {
-                                // Final fallback: show total from m.length at view center
-                                try {
-                                    createLabel(
-                                        mapView.center,
-                                        `Total: ${formatDistance(m.length, distanceMeasurement2D.unit)}`,
-                                        'total-label'
-                                    );
-                                } catch (_) { /* silent */ }
+                            drawLabels(line, distanceMeasurement2D.unit);
+                        }));
+
+                        // A unit picked in the panel lands on the analysis.
+                        watchHandles.push(reactiveUtils.watch(() => distanceMeasurement2D.analysis?.unit, () => {
+                            const newUnit = distanceMeasurement2D.unit;
+                            if (!validUnits.includes(newUnit)) {
+                                setTimeout(() => {
+                                    if (!closed) distanceMeasurement2D.unit = primaryUnit;
+                                }, 50);
+                                return;
                             }
-                        }
-                    }));
+                            const line = currentLine();
+                            if (!line) return;
+                            clearLabels();
+                            drawLabels(line, newUnit);
+                        }));
+                    });
 
                     const cleanup = () => {
+                        closed = true;
                         clearLabels();
                         cancelLabelSuppression();
-                        if ((distanceMeasurement2D as any).__disconnectObserver) {
-                            (distanceMeasurement2D as any).__disconnectObserver();
-                        }
                         watchHandles.forEach(h => h.remove());
-                        mapView.ui.remove(distanceMeasurement2D);
-                        distanceMeasurement2D.destroy();
+                        try { distanceMeasurement2D.removeEventListener('arcgisPropertyChange', onPropertyChange); } catch (e) { /* ignore */ }
+                        panel.destroy();
                         setState(prev => ({ ...prev, isMeasuring: false, measurementWidget: null }));
                     };
 
@@ -2743,32 +2544,28 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     };
                     document.addEventListener('keydown', handleKey);
 
-                    distanceMeasurement2D.when(() => {
-                        const widget = distanceMeasurement2D.container;
-                        if (!widget) return;
+                    // Close button under the component, inside the same panel.
+                    {
+                        const container = document.createElement('div');
+                        container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
 
-                        setTimeout(() => {
-                            const container = document.createElement('div');
-                            container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
+                        const closeBtn = createMeasureCloseButton(t('close'));
+                        closeBtn.onclick = (e) => {
+                            e.preventDefault(); e.stopPropagation();
+                            cleanup();
+                            document.removeEventListener('keydown', handleKey);
+                        };
 
-                            const closeBtn = createMeasureCloseButton(t('close'));
-                            closeBtn.onclick = (e) => {
-                                e.preventDefault(); e.stopPropagation();
-                                cleanup();
-                                document.removeEventListener('keydown', handleKey);
-                            };
+                        container.appendChild(closeBtn);
+                        panel.host.appendChild(container);
 
-                            container.appendChild(closeBtn);
-                            widget.appendChild(container);
-
-                            styleMeasurePanel(widget, themeFont);
-                        }, 300);
-                    });
+                        styleMeasurePanel(panel.host, themeFont);
+                    }
 
                     setState(prev => ({
                         ...prev,
                         isMeasuring: true,
-                        measurementWidget: distanceMeasurement2D
+                        measurementWidget: panel as any
                     }));
                 } catch (err: any) {
                     // Setting the tool up failed after the modules loaded.
@@ -2794,9 +2591,6 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
         try {
             if (state.areaMeasurementWidget) {
-                if ((state.areaMeasurementWidget as any).__disconnectObserver) {
-                    (state.areaMeasurementWidget as any).__disconnectObserver();
-                }
                 state.areaMeasurementWidget.destroy();
             }
 
@@ -2812,26 +2606,27 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 unitDisplay: 'single'
             };
 
-            // Snapshot layers BEFORE widget creation
+            // Snapshot layers BEFORE the measurement tool is created
             const labelSuppressor = createLabelSuppressor(mapView);
             labelSuppressor.snapshotLayers();
 
             Promise.all([
                 loadArcGISJSAPIModules([
-                    'esri/widgets/AreaMeasurement2D',
                     'esri/Graphic',
                     'esri/symbols/TextSymbol',
                     'esri/geometry/Point'
                 ]),
-                loadLengthAreaMath()
-            ]).then(([[AreaMeasurement2D, Graphic, TextSymbol, Point], geometryEngine]: [any[], any]) => {
+                loadLengthAreaMath(),
+                whenMeasureComponent('arcgis-area-measurement-2d')
+            ]).then(([[Graphic, TextSymbol, Point], geometryEngine]: [any[], any, any]) => {
                 try {
                     const validAreaUnits = ['square-feet', 'square-yards', 'square-miles', 'square-meters', 'square-kilometers', 'acres'];
-                    const areaMeasurement2D = new AreaMeasurement2D({
-                        view: mapView,
-                        unitOptions: validAreaUnits as any
-                    });
-                    const measurement = areaMeasurement2D;
+                    // <arcgis-area-measurement-2d> in place of the
+                    // AreaMeasurement2D widget class (deprecated in SDK 5.0).
+                    const panel = createMeasurePanel('arcgis-area-measurement-2d', mapView, validAreaUnits);
+                    const measurement = panel.element;
+                    // Set by cleanup(); stops late callbacks from touching a closed tool.
+                    let closed = false;
 
                     // Suppress ESRI's built-in on-map text labels
                     const cancelLabelSuppression = labelSuppressor.startSuppression();
@@ -2859,11 +2654,9 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     }
 
                     const initializeUnit = () => {
+                        if (closed) return;
                         try {
                             measurement.unit = primaryUnit;
-                            if (measurement.viewModel) {
-                                measurement.viewModel.unit = primaryUnit;
-                            }
                         } catch (e) {
                         }
                     };
@@ -2993,83 +2786,99 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     };
                     // --- End custom area label helpers ---
 
-                    mapView.ui.add(measurement, 'top-right');
+                    mapView.ui.add(panel.host, 'top-right');
                     initializeUnit();
 
-                    measurement.when(() => {
-                        const disconnectObserver = hideUnwantedUnits(measurement, 'area');
-                        // Store disconnect so cleanup can call it
-                        (measurement as any).__disconnectObserver = disconnectObserver;
-                        setTimeout(() => initializeUnit(), 100);
-                        setTimeout(() => initializeUnit(), 300);
-                        setTimeout(() => initializeUnit(), 500);
+                    // Close button under the component, inside the same panel.
+                    {
+                        const container = document.createElement('div');
+                        container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
 
-                        const widget = measurement.container;
-                        if (!widget) return;
+                        const closeBtn = createMeasureCloseButton(t('close'));
+                        closeBtn.onclick = (e) => {
+                            e.preventDefault(); e.stopPropagation();
+                            cleanup();
+                            document.removeEventListener('keydown', handleKeyPress);
+                        };
 
-                        setTimeout(() => {
-                            const container = document.createElement('div');
-                            container.style.cssText = 'display:flex;justify-content:center;gap:8px;margin-top:12px;padding:0 12px 12px;';
+                        container.appendChild(closeBtn);
+                        panel.host.appendChild(container);
 
-                            const closeBtn = createMeasureCloseButton(t('close'));
-                            closeBtn.onclick = (e) => {
-                                e.preventDefault(); e.stopPropagation();
-                                cleanup();
-                                document.removeEventListener('keydown', handleKeyPress);
-                            };
-
-                            container.appendChild(closeBtn);
-                            widget.appendChild(container);
-
-                            styleMeasurePanel(widget, themeFont);
-                        }, 300);
-                    });
-
-                    setTimeout(() => {
-                        measurement.viewModel.start();
-                        initializeUnit();
-                    }, 200);
+                        styleMeasurePanel(panel.host, themeFont);
+                    }
 
                     // Watch for measurement updates to draw custom labels
                     const areaWatchHandles: __esri.WatchHandle[] = [];
 
-                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.viewModel.measurement, (m: any) => {
-                        if (!m) return;
-                        drawAreaLabels(m, measurement.unit);
-                    }));
+                    // The measured polygon is the component's analysis geometry.
+                    // It is replaced on every vertex while drawing and while
+                    // the finished polygon is reshaped.
+                    const currentPolygon = (): any => {
+                        try { return measurement.analysis?.geometry || null; } catch (e) { return null; }
+                    };
 
-                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.unit, (newUnit: string) => {
-                        if (!validAreaUnits.includes(newUnit)) {
-                            setTimeout(() => {
-                                measurement.unit = primaryUnit;
-                            }, 50);
-                            return;
+                    const redrawAreaLabels = () => {
+                        if (closed) return;
+                        const polygon = currentPolygon();
+                        if (polygon) drawAreaLabels({ geometry: polygon }, measurement.unit);
+                        else clearAreaLabels();
+                    };
+
+                    // 'ready' = nothing measured, 'measuring' = drawing, 'measured' = done.
+                    const onPropertyChange = (evt: any) => {
+                        if (closed) return;
+                        const name = evt?.detail?.name;
+                        if (name === 'state') {
+                            const s = measurement.state;
+                            if (s === 'ready') clearAreaLabels();
+                            else if (s === 'measured') redrawAreaLabels();
+                        } else if (name === 'analysis') {
+                            redrawAreaLabels();
                         }
-                        const m = measurement.viewModel.measurement;
-                        if (m) drawAreaLabels(m, newUnit);
-                    }));
+                    };
+                    measurement.addEventListener('arcgisPropertyChange', onPropertyChange);
 
-                    areaWatchHandles.push(reactiveUtils.watch(() => measurement.viewModel.state, (s: string) => {
-                        if (s === 'ready') clearAreaLabels();
-                    }));
+                    // The analysis only exists once the component has loaded,
+                    // so drawing starts and the watches are attached then.
+                    panel.ready.then(() => {
+                        if (closed) return;
+                        initializeUnit();
+                        try {
+                            Promise.resolve(measurement.start()).catch((): void => undefined);
+                        } catch (e) { /* silent */ }
+
+                        areaWatchHandles.push(reactiveUtils.watch(() => currentPolygon(), (polygon: any) => {
+                            if (!polygon) return;
+                            drawAreaLabels({ geometry: polygon }, measurement.unit);
+                        }));
+
+                        // A unit picked in the panel lands on the analysis.
+                        areaWatchHandles.push(reactiveUtils.watch(() => measurement.analysis?.unit, () => {
+                            const newUnit = measurement.unit;
+                            if (!validAreaUnits.includes(newUnit)) {
+                                setTimeout(() => {
+                                    if (!closed) measurement.unit = primaryUnit;
+                                }, 50);
+                                return;
+                            }
+                            const polygon = currentPolygon();
+                            if (polygon) drawAreaLabels({ geometry: polygon }, newUnit);
+                        }));
+                    });
 
                     setState(prevState => ({
                         ...prevState,
                         isMeasuringArea: true,
-                        areaMeasurementWidget: measurement as any
+                        areaMeasurementWidget: panel as any
                     }));
 
                     const cleanup = () => {
+                        closed = true;
                         clearAreaLabels();
                         cancelLabelSuppression();
-                        if ((measurement as any).__disconnectObserver) {
-                            (measurement as any).__disconnectObserver();
-                        }
                         areaWatchHandles.forEach(h => h.remove());
-                        if (measurement) {
-                            mapView.ui.remove(measurement);
-                            measurement.destroy();
-                        }
+                        try { measurement.removeEventListener('arcgisPropertyChange', onPropertyChange); } catch (e) { /* ignore */ }
+                        panel.destroy();
                         setState(prevState => ({
                             ...prevState,
                             isMeasuringArea: false,
