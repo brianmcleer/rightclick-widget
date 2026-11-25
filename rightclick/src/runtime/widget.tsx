@@ -11,7 +11,7 @@ import type { BeaconHandle } from '../shared/beacon';
 import HelpPopup from './components/HelpPopup';
 import { TextInputDialog, MailingLabelsBufferDialog } from './components/Dialogs';
 import { buildHelpSections, HelpFeatures } from './helpSections';
-import { collectQueryableLayers, buildPointQuery, layerSetSignature, selectionAllows, itemsOf, QueryableLayerEntry } from './lib/layerWalk';
+import { collectQueryableLayers, buildPointQuery, layerSetSignature, makeSelectionFilter, itemsOf, QueryableLayerEntry } from './lib/layerWalk';
 import defaultMessages from './translations/default';
 // Registers the Maps SDK map components (<arcgis-distance-measurement-2d>,
 // <arcgis-area-measurement-2d>) through Experience Builder's shared bundle.
@@ -3335,7 +3335,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         return collectQueryableLayers(mv.map, {
             scale: mv.scale || 0,
             layerViewFor: layerViewLookup(mv),
-            include: (layer: any) => selectionAllows(layer, sel)
+            include: makeSelectionFilter(mv.map, sel)
         }).map(e => ({ ...e, name: entryName(e) }));
     }, []);
 

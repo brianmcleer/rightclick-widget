@@ -1438,6 +1438,13 @@ const Setting = (props: SettingProps) => {
         // Legacy include list. A trusted group counts as selected, so its
         // layers stay selected when the config is converted below.
         const stored = new Set([...(sel.selectedKeys || []), ...((sel as any).trustedGroupKeys || [])]);
+        // A top-level layer the list does not mention anywhere was added (or
+        // removed and added back with a new id) after the list was saved.
+        // The runtime searches it (makeSelectionFilter), so show it ticked
+        // and keep it ticked when the list is converted.
+        const savedPlusServices = new Set(stored);
+        for (const k of Array.from(stored)) if (k.indexOf('::sub::') > 0) savedPlusServices.add(k.slice(0, k.indexOf('::sub::')));
+        const mentions = (node: LayerTreeNode): boolean => savedPlusServices.has(node.key) || node.children.some(mentions);
 
         // Walk the tree and, for any group whose key is stored, add every
         // queryable descendant of that group to the effective set. Leaf keys
@@ -1450,7 +1457,7 @@ const Setting = (props: SettingProps) => {
             }
             for (const child of node.children) expand(child, nodeSelected);
         };
-        for (const root of layerTree) expand(root, false);
+        for (const root of layerTree) expand(root, !mentions(root));
 
         return effective;
     };

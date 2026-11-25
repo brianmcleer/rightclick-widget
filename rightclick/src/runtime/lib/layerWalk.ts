@@ -343,6 +343,52 @@ const nodeMatches = (node: any, keys: Set<string>): boolean => {
 const chainMatches = (node: any, keys: Set<string>): boolean =>
     [node, ...ancestorsOf(node)].some((n) => nodeMatches(n, keys))
 
+/** Every node in a top-level layer's tree: groups, members, map service sublayers at any depth. */
+const subtreeOf = (root: any): any[] => {
+    const out: any[] = []
+    const walk = (n: any, depth: number) => {
+        if (!n || depth > 60) return
+        out.push(n)
+        for (const c of itemsOf(n.layers)) walk(c, depth + 1)
+        for (const c of itemsOf(n.sublayers)) walk(c, depth + 1)
+    }
+    walk(root, 0)
+    return out
+}
+
+/** The top-level map layer a node sits under (the node itself when it is top level). */
+const rootOf = (node: any): any => {
+    const anc = ancestorsOf(node)
+    return anc.length ? anc[anc.length - 1] : node
+}
+
+/**
+ * A filter for collectQueryableLayers built from the What's Here layer
+ * selection, worked out once per walk.
+ *
+ * Old include lists (mode 'selected', saved before 2.4.0) name layers by
+ * their web map layer id. When a layer is removed from the web map and added
+ * back, it gets a new id and the list no longer names anything in it, which
+ * used to hide that whole layer from What's Here. So a top-level layer whose
+ * tree the list does not mention at all is treated as new and searched; the
+ * list still applies to every layer it does mention.
+ */
+export const makeSelectionFilter = (map: any, sel: LayerSelection | null | undefined): ((layer: any) => boolean) => {
+    if (!sel || sel.mode !== 'selected' || !(sel.selectedKeys || []).length) {
+        return (layer: any) => selectionAllows(layer, sel)
+    }
+    const saved = new Set([...(sel.selectedKeys || []), ...(sel.trustedGroupKeys || [])].map(String))
+    // Composite sublayer keys also name their service.
+    for (const k of Array.from(saved)) if (k.indexOf('::sub::') > 0) saved.add(k.slice(0, k.indexOf('::sub::')))
+    const known = new Map<any, boolean>()
+    for (const root of itemsOf(map?.layers)) known.set(root, subtreeOf(root).some((n) => nodeMatches(n, saved)))
+    return (layer: any) => {
+        const root = rootOf(layer)
+        if (known.has(root) && !known.get(root)) return true
+        return selectionAllows(layer, sel)
+    }
+}
+
 /**
  * Whether the What's Here layer selection lets this layer be searched.
  * 'all' or nothing: yes. 'excluded': yes unless the layer or a group above it

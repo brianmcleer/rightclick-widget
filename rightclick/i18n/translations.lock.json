@@ -232,8 +232,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -495,11 +495,6 @@
               "t": "معرفة ما هو هنا",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "ماذا هنا؟ يفتش طبقات الخرائط حول البقعة التي نقرتها ويورد ما يجده صف واحد لكل سمة"
             },
             "helpInfo2": {
               "t": "اضغطي على الصف لرؤية تفاصيله العودة إلى القائمة و(زوم) للذهاب إلى تلك المميزة",
@@ -1072,8 +1067,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -1335,11 +1330,6 @@
               "t": "Да разберем какво има тук.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Какво има тук? Претърсете слоевете на картата около мястото, което сте кликнали и изброява какво намира, един ред на функция."
             },
             "helpInfo2": {
               "t": "Натиснете ред, за да видите детайлите му. Използвайте обратно, за да се върнете към списъка и Zoom, за да отидете на тази функция.",
@@ -1912,8 +1902,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 158,
-            "stale": 1,
-            "missing": 9
+            "stale": 0,
+            "missing": 10
           },
           "entries": {
             "_widgetLabel": {
@@ -2170,11 +2160,6 @@
               "t": "Saznati šta je ovde.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Šta je ovde? Pretražuje slojeve mapa oko mesta na koje ste kliknuli i navodi šta nađe, jedan red po osobini."
             },
             "helpInfo2": {
               "t": "Kliknite red da vidite njegove detalje. Koristite Back da se vratite na listu i Zoom da biste otišli na tu osobinu.",
@@ -2722,8 +2707,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -2985,11 +2970,6 @@
               "t": "Esbrinar què hi ha aquí",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Què hi ha aquí? Cerca les capes del mapa al voltant del lloc que feu clic i llista el que troba, una fila per característica."
             },
             "helpInfo2": {
               "t": "Cliqueu una fila per a veure els seus detalls. Useu Retorn per tornar a la llista i Zoom per anar a aquesta característica.",
@@ -3562,8 +3542,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -3825,11 +3805,6 @@
               "t": "Zjistit, co je tady",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Co je tady? prohledává vrstvy mapy kolem místa, na které kliknete, a vypíše, co najde, jednu řadu na funkci."
             },
             "helpInfo2": {
               "t": "Kliknutím na řádek zobrazíte jeho detaily. Použijte Zpět pro návrat do seznamu a Zoom pro přechod na tuto funkci.",
@@ -4402,8 +4377,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -4665,11 +4640,6 @@
               "t": "Finde ud af hvad der er her",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Hvad er der? søger kortlag omkring stedet du klikkede på og lister hvad det finder, en række per funktion."
             },
             "helpInfo2": {
               "t": "Klik på en række for at se dens detaljer. Brug Tilbage til at vende tilbage til listen og Zoom til at gå til denne funktion.",
@@ -5247,8 +5217,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 167,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -5510,11 +5480,6 @@
               "t": "Herausfinden, was hier ist",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Was ist hier? Durchsucht die Kartenebenen um die Stelle, auf die Sie geklickt haben, und listet auf, was sie findet, eine Zeile pro Feature."
             },
             "helpInfo2": {
               "t": "Klicken Sie auf eine Zeile, um die Details zu sehen. Verwenden Sie Zurück, um zur Liste zurückzukehren, und Zoom, um zu dieser Funktion zu gehen.",
@@ -6102,8 +6067,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -6365,11 +6330,6 @@
               "t": "Ανακαλύπτοντας τι είναι εδώ",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Τι είναι εδώ; ψάχνει τα στρώματα χάρτη γύρω από το σημείο που κάνετε κλικ και απαριθμεί τι βρίσκει, μία σειρά ανά χαρακτηριστικό."
             },
             "helpInfo2": {
               "t": "Κάντε κλικ σε μια σειρά για να δείτε τις λεπτομέρειες της. Χρησιμοποιήστε Επιστροφή για να επιστρέψετε στη λίστα και Zoom για να μεταβείτε σε αυτή τη λειτουργία.",
@@ -6942,8 +6902,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -7205,11 +7165,6 @@
               "t": "Averiguar lo que está aquí",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "¿Qué hay aquí? busca las capas de mapa alrededor del lugar que hizo clic y enumera lo que encuentra, una fila por característica."
             },
             "helpInfo2": {
               "t": "Haga clic en una fila para ver sus detalles. Utilice Volver para volver a la lista y Zoom para ir a esa característica.",
@@ -7782,8 +7737,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -8045,11 +8000,6 @@
               "t": "Uuri välja, mis siin on",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Mis siin on? Otsib kaardi kihid ümber koha klõpsates ja loetleb, mida ta leiab, üks rida iga funktsioon."
             },
             "helpInfo2": {
               "t": "Klõpsake rida, et näha selle üksikasju. Kasutage Tagasi, et naasta loendisse ja Zoom selle funktsiooni juurde minna.",
@@ -8622,8 +8572,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -8885,11 +8835,6 @@
               "t": "Selvitetään, mitä täällä on.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Mitä täällä on? Etsi kartta kerrokset ympäri paikka napsahdit ja luettelot mitä se löytää, yksi rivi per ominaisuus."
             },
             "helpInfo2": {
               "t": "Napsauta riviä nähdäksesi sen yksityiskohdat. Käytä Takaisin palata listalle ja Zoom mennä että ominaisuus.",
@@ -9462,8 +9407,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 167,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -9725,11 +9670,6 @@
               "t": "Trouver ce qui est ici",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Qu'est-ce qu'il y a ? recherche les couches de carte autour de l'endroit que vous avez cliqué et liste ce qu'il trouve, une ligne par fonction."
             },
             "helpInfo2": {
               "t": "Cliquez sur une ligne pour voir ses détails. Utilisez Revenir à la liste et Zoom pour accéder à cette fonctionnalité.",
@@ -10317,8 +10257,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -10580,11 +10520,6 @@
               "t": "לגלות מה נמצא כאן",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "מה פה? חפש את שכבות המפה סביב המקום שבו אתה לוחץ ורשימות מה זה מוצא, שורה אחת לכל תכונה."
             },
             "helpInfo2": {
               "t": "לחץ על שורה כדי לראות את פרטיו. השתמש חזרה כדי לחזור לרשימה ו- Zoom כדי להגיע לתכונה זו.",
@@ -11157,8 +11092,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 163,
-            "stale": 1,
-            "missing": 4
+            "stale": 0,
+            "missing": 5
           },
           "entries": {
             "_widgetLabel": {
@@ -11420,11 +11355,6 @@
               "t": "Saznati što je ovdje.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Što je ovdje? Traži slojeve karte oko mjesta na koje ste kliknuli i navodi što nađe, jedan red po osobini."
             },
             "helpInfo2": {
               "t": "Kliknite red da biste vidjeli njegove detalje. Koristite Povratak na popis i Zoom ići na tu značajku.",
@@ -11992,8 +11922,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -12255,11 +12185,6 @@
               "t": "Megtudni, mi van itt.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Mi van itt? keresés a térkép rétegek körül a helyszínen kattintott, és felsorolja, mit talál, egy sor egy funkció."
             },
             "helpInfo2": {
               "t": "Kattintson egy sor, hogy a részleteket. Használja a Vissza, hogy visszatérjen a listára és Zoom menni, hogy a funkció.",
@@ -12832,8 +12757,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -13095,11 +13020,6 @@
               "t": "Mencari tahu apa yang ada di sini",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Ada apa di sini? Mencari lapisan peta di sekitar tempat Anda mengklik dan daftar apa yang ditemukan, satu baris per fitur."
             },
             "helpInfo2": {
               "t": "Klik baris untuk melihat rinciannya. Gunakan Kembali untuk kembali ke daftar dan Zoom untuk pergi ke fitur tersebut.",
@@ -13677,8 +13597,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -13940,11 +13860,6 @@
               "t": "Scoprire cosa c'è qui",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Che c'è? cerca gli strati della mappa intorno al punto che hai cliccato e elenca ciò che trova, una riga per caratteristica."
             },
             "helpInfo2": {
               "t": "Fare clic su una riga per vedere i suoi dettagli. Usare Indietro per tornare alla lista e Zoom per andare a quella funzione.",
@@ -14522,8 +14437,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -14785,11 +14700,6 @@
               "t": "ここにあるものを見つける",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "お問い合わせ クリックした場所の周りのマップレイヤーを検索し、それが見つけたもの、機能ごとの1列をリストします。"
             },
             "helpInfo2": {
               "t": "行をクリックすると詳細が表示されます。 リストに戻り、ズームしてその機能に移動します。",
@@ -15367,8 +15277,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -15630,11 +15540,6 @@
               "t": "여기에 무엇을 알아",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "여기는? 당신이 클릭 한 자리 주위에지도 레이어를 검색하고 찾을 수있는 목록, 기능 당 한 줄."
             },
             "helpInfo2": {
               "t": "다음을 클릭합니다. 뒤를 사용하여 목록과 Zoom로 돌아갑니다.",
@@ -16212,8 +16117,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -16475,11 +16380,6 @@
               "t": "Rasti, kas čia yra",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Kas čia? ieško žemėlapio sluoksnius aplink vietą, paspaudėte ir išvardyti tai, ką ji randa, po vieną eilutę už funkciją."
             },
             "helpInfo2": {
               "t": "Spustelėkite eilutę norėdami pamatyti savo detales. Naudoti atgal grįžti į sąrašą ir padidinti eiti į tą funkciją.",
@@ -17052,8 +16952,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -17315,11 +17215,6 @@
               "t": "Uzziniet, kas šeit ir",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Kas te ir? meklē kartes slāņus ap vietas, noklikšķinot, un uzskaita, ko tā atrod, vienu rindu katrai funkcijai."
             },
             "helpInfo2": {
               "t": "Noklikšķiniet uz rindu, lai redzētu tās detaļas. Izmantojiet, lai atgrieztos sarakstā un Zoom, lai dotos uz šo funkciju.",
@@ -17892,8 +17787,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 166,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -18155,11 +18050,6 @@
               "t": "Finn ut hva som er her",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Hva er det her? søker kartlagene rundt det stedet du klikket på og viser hva den finner, én rad per funksjon."
             },
             "helpInfo2": {
               "t": "Klikk på en rad for å se detaljene. Bruk Tilbake til listen og Zoom for å gå til den funksjonen.",
@@ -18742,8 +18632,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 166,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -19005,11 +18895,6 @@
               "t": "Uitzoeken wat hier is.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Wat is hier? doorzoekt de kaartlagen rond de plek die u klikte en geeft aan wat het vindt, een rij per functie."
             },
             "helpInfo2": {
               "t": "Klik op een rij om de details te zien. Gebruik Terug om terug te keren naar de lijst en Zoom om naar die functie te gaan.",
@@ -19592,8 +19477,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -19855,11 +19740,6 @@
               "t": "Dowiedzieć się, co tu jest.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Co tu jest? przeszukuje warstwy mapy wokół miejsca kliknięcia i wymienia co znajduje, jeden wiersz na funkcję."
             },
             "helpInfo2": {
               "t": "Kliknij wiersz, aby zobaczyć jego szczegóły. Użyj Back, aby powrócić do listy i Zoom, aby przejść do tej funkcji.",
@@ -20432,8 +20312,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -20695,11 +20575,6 @@
               "t": "Descobrir o que está aqui",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "O que tem aqui? procura as camadas do mapa ao redor do local que você clicou e lista o que encontra, uma linha por recurso."
             },
             "helpInfo2": {
               "t": "Clique em uma linha para ver seus detalhes. Use Back para voltar para a lista e Zoom para ir para esse recurso.",
@@ -21272,8 +21147,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -21535,11 +21410,6 @@
               "t": "Descobrir o que está aqui",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "O que há aqui? pesquisa as camadas do mapa em torno do ponto que você clicou e lista o que ele encontra, uma linha por recurso."
             },
             "helpInfo2": {
               "t": "Clique em uma linha para ver seus detalhes. Use Voltar para retornar à lista e Zoom para ir para esse recurso.",
@@ -22117,8 +21987,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -22380,11 +22250,6 @@
               "t": "Afla ce este aici",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Ce e aici? caută straturile de hartă din jurul locului pe care l-ai făcut clic şi enumeră ce găseşte, un rând pe caracteristică."
             },
             "helpInfo2": {
               "t": "Faceţi clic pe un rând pentru a vedea detaliile sale. Utilizați Înapoi pentru a reveni la lista și Zoom pentru a merge la acea caracteristică.",
@@ -22957,8 +22822,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 166,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -23220,11 +23085,6 @@
               "t": "Узнать, что здесь",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Что здесь? Поиск по слоям карты вокруг места, на которое вы нажали, и список того, что он находит, один ряд на функцию."
             },
             "helpInfo2": {
               "t": "Нажмите на строку, чтобы увидеть ее детали. Используйте Back, чтобы вернуться в список, и Zoom, чтобы перейти к этой функции.",
@@ -23807,8 +23667,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -24070,11 +23930,6 @@
               "t": "Zistiť, čo je tu",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Čo je tu? prehľadáva vrstvy mapy okolo miesta, na ktoré ste klikli, a uvádza, čo nájde, jeden riadok za funkciu."
             },
             "helpInfo2": {
               "t": "Kliknite na riadok pre zobrazenie detailov. Použite Späť na návrat do zoznamu a Zoom ísť do tejto funkcie.",
@@ -24652,8 +24507,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -24915,11 +24770,6 @@
               "t": "Ugotoviti, kaj je tukaj.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Kaj je tukaj? išče plasti zemljevida okoli mesta, ki ste ga kliknili, in navaja, kaj najde, eno vrstico na funkcijo."
             },
             "helpInfo2": {
               "t": "Kliknite vrstico za prikaz njenih podrobnosti. Uporabite Nazaj za vrnitev na seznam in Zoom, da gredo na to funkcijo.",
@@ -25492,8 +25342,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -25755,11 +25605,6 @@
               "t": "Saznati šta je ovde.",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Šta je ovde? Pretražuje slojeve mapa oko mesta gde ste kliknuli i navodi šta je našao, jedan red po osobini."
             },
             "helpInfo2": {
               "t": "Kliknite red da vidite njegove detalje. Koristite Nazad da se vratite na listu i Zoom da biste otišli na tu osobinu.",
@@ -26332,8 +26177,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -26595,11 +26440,6 @@
               "t": "Ta reda på vad som är här",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Vad är här? Söker kartlagren runt den plats du klickade på och listar vad den hittar, en rad per funktion."
             },
             "helpInfo2": {
               "t": "Klicka på en rad för att se dess detaljer. Använd Back för att återvända till listan och Zoom för att gå till den funktionen.",
@@ -27172,8 +27012,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -27435,11 +27275,6 @@
               "t": "หาว่าอะไรอยู่ที่นี่",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "อะไรอยู่ที่นี่? ค้นหาชั้นในแผนที่รอบๆ จุดที่คุณคลิกและรายการสิ่งที่มันพบ หนึ่งแถวต่อคุณสมบัติ"
             },
             "helpInfo2": {
               "t": "คลิกแถวเพื่อดูรายละเอียด ใช้ย้อนกลับไปยังรายการและย่อขยายไปยังคุณสมบัติดังกล่าว",
@@ -28017,8 +27852,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -28280,11 +28115,6 @@
               "t": "Burada ne olduğunu bulmak",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Burada ne var? Harita tabakalarını tıkladığınızda ve bulduğunu listeler, bir satır özelliği."
             },
             "helpInfo2": {
               "t": "Ayrıntıları görmek için bir satır tıklayın. Bu özellike gitmek için listeye ve Zoom'a geri dönmek için geri dönün.",
@@ -28857,8 +28687,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -29120,11 +28950,6 @@
               "t": "找出这里有什么",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "这是什么? 搜索您点击的位置周围的地图层,并列出它找到的东西,每个功能一行。"
             },
             "helpInfo2": {
               "t": "单击一行查看其细节 。 使用返回到列表中, 使用缩放到该特性 。",
@@ -29702,8 +29527,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -29965,11 +29790,6 @@
               "t": "Дізнайтеся, що тут",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Що тут? пошук шарів карти навколо місця, натисканого і списків, які він знаходить, один рядок за функцію."
             },
             "helpInfo2": {
               "t": "Натисніть рядок, щоб побачити його деталі. Використовуйте зворотний зв'язок для повернення до списку і Zoom, щоб перейти до цієї функції.",
@@ -30542,8 +30362,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 165,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -30805,11 +30625,6 @@
               "t": "Tìm xem cái gì ở đây",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "Cái gì đây? Tìm kiếm các lớp bản đồ xung quanh các điểm bạn click vào và liệt kê những gì nó tìm thấy, mỗi hàng một tính năng."
             },
             "helpInfo2": {
               "t": "Nhấn một hàng để xem chi tiết của nó. Sử dụng trở lại danh sách và Zoom để đi đến đó.",
@@ -31387,8 +31202,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -31650,11 +31465,6 @@
               "t": "找出這是什麼",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "這是什麼? 搜尋您點擊位置的地圖層, 列出它找到的東西, 每功能一列 。"
             },
             "helpInfo2": {
               "t": "點擊一列以查看其細節 。 使用回歸到清單中, 使用 Zimo 來執行此功能 。",
@@ -32227,8 +32037,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 164,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "_widgetLabel": {
@@ -32490,11 +32300,6 @@
               "t": "找出這是什麼",
               "src": "machine",
               "h": "c2d0aaf8146b"
-            },
-            "helpInfo1": {
-              "src": "stale",
-              "h": "98bacb849bf1",
-              "old": "這是什麼? 搜尋您點擊位置的地圖層, 列出它找到的東西, 每功能一列 。"
             },
             "helpInfo2": {
               "t": "點擊一列以查看其細節 。 使用回歸到清單中, 使用 Zimo 來執行此功能 。",
@@ -33415,8 +33220,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -34369,11 +34174,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "اختر أي طبقات خريطة تشارك في ما هو هنا. عن طريق التقصير كل طبقة يمكن الاستفسار عنها تَضْربُ a سلاسل تعاقبية طبقةِ جماعية إلى كُلّ الطبقاتِ المُتَعَلَّقةِ تحته."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "إختارْ a مسحة خريطة فوق أولاً لتَحْملُ شجرةَ طبقاتِه.",
               "src": "machine",
@@ -34840,8 +34640,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -35794,11 +35594,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Изберете кои картови слоеве участват в What's Here. По подразбиране е включен всеки запитващ се слой. Прегръщане на групов слой каскади до всички слоеве, сгушени под него."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Изберете карта джаджа над първо да заредите своя слой дърво.",
               "src": "machine",
@@ -36265,8 +36060,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 278,
-            "stale": 1,
-            "missing": 5
+            "stale": 0,
+            "missing": 6
           },
           "entries": {
             "customActions": {
@@ -37209,11 +37004,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Izaberite koji slojevi mape učestvuju u What's Here. Uobičajeno je uključen svaki upitni sloj. Uključujem grupne slojeve kaskade na sve slojeve koji su se gnijezdili ispod njega."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Izaberi grafički element mape prije nego što učitaš njegovo stablo sloja.",
               "src": "machine",
@@ -37675,8 +37465,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 285,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -38649,11 +38439,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Escolliu quines capes de mapa participen en el que és aquí. Per omissió s' inclou cada capa consultable. Activar un grup en cascada a totes les capes niats sota ell."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Seleccioneu un estri de mapa sobre primer per a carregar el seu arbre de capes.",
               "src": "machine",
@@ -39120,8 +38905,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -40079,11 +39864,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Vyberte si, které vrstvy mapy se podílejí na Co je tady. Ve výchozím nastavení je zahrnuta každá Queryable vrstva. Přepínání kaskád do skupin na všechny vrstvy pod ním."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Nejprve zvolte mapový widget, který načte vrstvu stromu.",
               "src": "machine",
@@ -40550,8 +40330,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 284,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -41519,11 +41299,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Vælg hvilke kortlag der deltager i Hvad er her. Som standard hver queryable lag er inkluderet. At skifte en gruppe lag kaskader til alle lag nested under det."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Vælg en kortkontrol over først for at indlæse sit lagtræ.",
               "src": "machine",
@@ -41990,8 +41765,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 286,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -42959,11 +42734,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Wählen Sie aus, welche Kartenebenen an What's Here teilnehmen. Standardmäßig ist jede abfragbare Schicht enthalten. Das Umschalten einer Gruppenschicht kaskadiert auf alle darunter liegenden Schichten."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Wählen Sie zuerst ein Karten-Widget aus, um den Layer-Baum zu laden.",
               "src": "machine",
@@ -43440,8 +43210,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -44394,11 +44164,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Επιλέξτε ποια στρώματα χάρτη συμμετέχουν στο What's Here. Εξ ορισμού περιλαμβάνεται κάθε ερωτήσιμο στρώμα. Το να εγκολπώνεις ένα ομαδικό στρώμα πέφτει σε όλα τα στρώματα που φωλιάζουν από κάτω του."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Επιλέξτε ένα γραφικό συστατικό χάρτη πάνω πρώτα για να φορτώσετε το δέντρο στρώμα του.",
               "src": "machine",
@@ -44865,8 +44630,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 283,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -45829,11 +45594,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Elija qué capas de mapa participan en lo que está aquí. Por defecto se incluye cada capa deseable. Llevar una capa de grupo cascadas a todas las capas anidadas debajo de ella."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Seleccione un widget de mapa sobre el primero para cargar su árbol de capa.",
               "src": "machine",
@@ -46300,8 +46060,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -47259,11 +47019,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Valige, millised kaardikihid osalevad Mis siin on. Vaikimisi on kaasatud kõik küsitavad kihid. Rühmakihi kaskaadide lülitamine selle all pesitsevatele kihtidele."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Vali esmalt kaardividin, et laadida selle kihipuu.",
               "src": "machine",
@@ -47730,8 +47485,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -48684,11 +48439,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Valitse mitkä karttatasot osallistuvat What's Here -tapahtumaan. Oletuksena jokainen kuulusteltava kerros on mukana. Yhdistämällä ryhmäkerroskaskadeja sen alle pesittyihin kerroksiin."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Valitse ensin karttaelementti ladataksesi sen kerrospuun.",
               "src": "machine",
@@ -49155,8 +48905,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 284,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -50119,11 +49869,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Choisissez quelles couches de cartes participent à What's Here. Par défaut, chaque calque interrogeable est inclus. Traîner une cascade de couches de groupe à toutes les couches nichées sous elle."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Sélectionnez un widget de carte au-dessus pour charger son arborescence de calques.",
               "src": "machine",
@@ -50595,8 +50340,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -51549,11 +51294,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "בחרו אילו שכבות מפה משתפות במה שנמצא כאן. כברירת מחדל כל שכבת השאילתה כלולה. להקדים שכבה קבוצתית לכל השכבות שנקנו מתחתיה."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "בחר מפה widget מעל הראשון לטעון את עץ השכבה שלו.",
               "src": "machine",
@@ -52020,8 +51760,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 280,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "customActions": {
@@ -52969,11 +52709,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Odaberite koji zemljovidni slojevi sudjeluju u What's Here. Uobičajeno svaki upitni sloj je uključen. Toggling grupni sloj kaskade na sve slojeve gnijezdio ispod njega."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Odaberite mapu widget iznad prvi učitati svoj sloj stablo.",
               "src": "machine",
@@ -53440,8 +53175,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -54394,11 +54129,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Válassza ki, mely térkép rétegek vesznek részt Mi van itt. Alapértelmezés szerint minden rétegbe be van építve. Egy csoportszintű kaszkádok átkapcsolása minden rétegre, ami alatta van."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Válassza ki a fenti térkép widget először betölteni a réteg fa.",
               "src": "machine",
@@ -54865,8 +54595,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 283,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -55829,11 +55559,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Pilih lapisan peta mana yang berpartisipasi dalam What 's Here. Secara baku setiap lapisan yang dapat diquery disertakan. Menandai suatu lapis grup cascades ke semua lapisan bersarang di bawahnya."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Pilih widget peta di atas dulu untuk memuat lapis pohon.",
               "src": "machine",
@@ -56300,8 +56025,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -57254,11 +56979,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Scegliere quali livelli di mappa partecipare a Cosa c'è qui. Per impostazione predefinita ogni strato queryable è incluso. Toggling uno strato di gruppo cascate a tutti gli strati nidificato sotto di esso."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Selezionare un widget di mappa sopra per caricare il suo albero di livello.",
               "src": "machine",
@@ -57725,8 +57445,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -58679,11 +58399,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "どのマップレイヤーがここに参加するかを選択します。 デフォルトでは、すべてのクエリ可能なレイヤーが含まれている。 グループレイヤーカスケードをネストしたすべてのレイヤーに切り替えます。"
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "最初に上のマップウィジェットを選択し、レイヤーツリーをロードします。",
               "src": "machine",
@@ -59150,8 +58865,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -60104,11 +59819,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "어떤 맵 레이어가 여기에 참여하는 것을 선택하십시오. 기본적으로 모든 쿼리 가능한 레이어가 포함되어 있습니다. 그룹 레이어 캐스케이드를 모든 레이어에 넣을 수 있습니다."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "위의 맵 위젯을 선택하여 레이어 트리를로드합니다.",
               "src": "machine",
@@ -60575,8 +60285,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -61529,11 +61239,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Pasirinkite, kurie žemėlapio sluoksniai dalyvauja Kas čia. Pagal nutylėjimą įtraukiamas kiekvienas keistinas sluoksnis. Susiduriame su grupinio sluoksnio kaskadomis į visus sluoksnius po juo."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Pažymėkite žemėlapio valdiklį virš pirmojo, kad įkeltų jo sluoksnio medį.",
               "src": "machine",
@@ -62000,8 +61705,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -62954,11 +62659,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Izvēlieties kuri kartes slāņi piedalās Kas ir šeit. Pēc noklusējuma ir iekļauts katrs vaicājamais slānis. Pārslēdzot grupas slāņa kaskādes uz visiem slāņiem, kas ligzdo zem tās."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Atzīmējiet jūsu makro beigu objektu.",
               "src": "machine",
@@ -63425,8 +63125,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -64384,11 +64084,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Velg hvilke kartlag som deltar i det som er her. Som standard er hvert søkbare lag inkludert. Tocling en gruppe lag kaskader til alle lag hekket under det."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Velg en kart widget over først for å laste lagtreet.",
               "src": "machine",
@@ -64855,8 +64550,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -65809,11 +65504,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Kies welke kaartlagen deelnemen aan Wat is Hier. Standaard is elke opgevraagde laag opgenomen. Een groeplaag cascades aan/uitzetten naar alle lagen eronder."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Selecteer een kaartwidget hierboven om de laagboom te laden.",
               "src": "machine",
@@ -66280,8 +65970,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -67239,11 +66929,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Wybierz, które warstwy mapy uczestniczą w Co jest tutaj. Domyślnie każda warstwa jest wpisana. Włączanie kaskady z warstw grupowych do wszystkich warstw zagnieżdżonych pod nią."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Wybierz widget mapy powyżej, aby najpierw załadować drzewo warstw.",
               "src": "machine",
@@ -67710,8 +67395,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 283,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -68674,11 +68359,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Escolha quais camadas de mapa participam do O Que Está Aqui. Por padrão, todas as camadas estão incluídas. Alugando uma cascata de camadas de grupo para todas as camadas aninhadas abaixo dela."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Selecione um widget de mapa para carregar sua árvore de camadas.",
               "src": "machine",
@@ -69145,8 +68825,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -70104,11 +69784,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Escolha quais camadas de mapa participam do What's Here. Por padrão, cada camada questionável está incluída. Alternando uma cascata de camada de grupo para todas as camadas aninhadas abaixo dela."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Selecione um widget de mapa acima para carregar sua árvore de camadas.",
               "src": "machine",
@@ -70575,8 +70250,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 285,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -71549,11 +71224,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Alege ce straturi de hartă participă la What's Here. În mod implicit, fiecare strat interogat este inclus. Trecerea unui strat de grup cascade la toate straturile cuib sub ea."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Selectaţi un widget hartă de mai sus primul pentru a încărca arborele său strat.",
               "src": "machine",
@@ -72020,8 +71690,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -72974,11 +72644,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Выберите, какие слои карты участвуют в том, что здесь. По умолчанию включается каждый запрашиваемый слой. Перетаскивание группового слоя каскадов ко всем слоям, вложенным под ним."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Сначала выберите виджет карты, чтобы загрузить его дерево слоя.",
               "src": "machine",
@@ -73445,8 +73110,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "customActions": {
@@ -74409,11 +74074,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Vyberte si, ktoré mapové vrstvy sa podieľajú na tom, čo je tu. Štandardne je zahrnutá každá dotazovateľná vrstva. Presúvanie skupinovej vrstvy kaskád na všetky vrstvy pod ňou."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Vyberte mapový prvok nad prvý načítať svoju vrstvu stromu.",
               "src": "machine",
@@ -74875,8 +74535,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 280,
-            "stale": 1,
-            "missing": 3
+            "stale": 0,
+            "missing": 4
           },
           "entries": {
             "customActions": {
@@ -75829,11 +75489,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Izberite, katere plasti zemljevida sodelujejo v Kaj je tukaj. Privzeto je vključena vsaka zahtevana plast. Pod njim se vgnezdi grupna plast."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Izberite gradnik zemljevida nad prvo naložiti svojo plast drevo.",
               "src": "machine",
@@ -76295,8 +75950,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 282,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -77254,11 +76909,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Izaberi koji slojevi mapa učestvuju u onome što je ovde. Podrazumeva se da je svaki sloj koji se može ispitati uključen."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Prvo izaberite grafički element mape koji će učitati njegovo stablo sloja.",
               "src": "machine",
@@ -77725,8 +77375,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 284,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -78694,11 +78344,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Välj vilka kartlager som deltar i Vad som är här. Som standard ingår varje körbart lager. Växla en grupp lager kaskader till alla lager nästlade under det."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Välj en karta widget ovan först för att ladda sitt lagerträd.",
               "src": "machine",
@@ -79165,8 +78810,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -80119,11 +79764,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "เลือกเลเยอร์ของแผนที่ที่เข้าร่วมที่นี่ โดยปริยายแล้ว ทุกชั้นที่สามารถสอบถามจะรวมเข้าไปด้วย เพื่อ จะ ให้ ชั้น หิน เหล่า นี้ ลอย ไป มา อยู่ ใต้ ชั้น หิน ทุก ชั้น."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "เลือกวิดเจ็ตของแผนที่ด้านบนก่อนในการโหลดรายการชั้นของต้นไม้",
               "src": "machine",
@@ -80590,8 +80230,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 284,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -81554,11 +81194,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Hangi harita tabakalarının burada nelere katıldığını seçin. Varsayılan olarak her sorgulanabilir tabaka dahil edilir. Bir grup katmanının altında bulunan tüm katmanlara zorlanması."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "İlk önce katmanını yüklemek için bir harita öğesi seçin.",
               "src": "machine",
@@ -82030,8 +81665,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -82984,11 +82619,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "选择哪个地图层参与“这里”。 默认包含每个可查询层 。 将一组级联拖到它下面的所有层。"
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "先在上方选择一个地图部件来加载其图层树。",
               "src": "machine",
@@ -83455,8 +83085,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -84409,11 +84039,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Виберіть які шари карт беруть участь в Що тут. За замовчуванням вказано кожен кварний шар. Для засвоєння групового шару каскадами до всіх шарів пристосувати його."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Виберіть віджет мапи над першим, щоб завантажити його шар дерева.",
               "src": "machine",
@@ -84880,8 +84505,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -85834,11 +85459,6 @@
               "src": "machine",
               "h": "55703684ff88"
             },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "Chọn những lớp bản đồ tham gia vào những gì ở đây. Theo mặc định, mọi lớp có thể truy vấn được bao gồm. Để đánh lừa một nhóm lớp tràn vào tất cả các lớp làm tổ bên dưới."
-            },
             "selectAMapWidgetAboveFirst": {
               "t": "Chọn một ô điều khiển trên bản đồ trước tiên để tải cây lớp.",
               "src": "machine",
@@ -86305,8 +85925,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -87258,11 +86878,6 @@
               "t": "這是什麼? 層次選擇",
               "src": "machine",
               "h": "55703684ff88"
-            },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "選擇加入什麼的地圖層 。 默认包含所有可查層 。 將團體層級連結到它下面的所有層級上"
             },
             "selectAMapWidgetAboveFirst": {
               "t": "選擇上面的地圖元件來先載入其層面樹 。",
@@ -87730,8 +87345,8 @@
             "manual": 0,
             "existing": 0,
             "machine": 281,
-            "stale": 1,
-            "missing": 2
+            "stale": 0,
+            "missing": 3
           },
           "entries": {
             "customActions": {
@@ -88683,11 +88298,6 @@
               "t": "這是什麼? 層次選擇",
               "src": "machine",
               "h": "55703684ff88"
-            },
-            "chooseWhichMapLayersParticipateIn": {
-              "src": "stale",
-              "h": "1f5bc47c7849",
-              "old": "選擇加入什麼的地圖層 。 默认包含所有可查層 。 將團體層級連結到它下面的所有層級上"
             },
             "selectAMapWidgetAboveFirst": {
               "t": "選擇上面的地圖元件來先載入其層面樹 。",

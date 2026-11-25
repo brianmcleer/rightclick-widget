@@ -259,3 +259,35 @@ test('andWhere skips empty parts and 1=1', () => {
   assert.equal(lw.andWhere('A = 1'), 'A = 1')
   assert.equal(lw.andWhere('1=1', 'A = 1', 'B = 2'), '(A = 1) AND (B = 2)')
 })
+
+test('legacy include list naming an old layer id: the re-added layer is searched (City Map External, Nov 2026)', () => {
+  // Saved in January against "19c05f48fe1-layer-33"; the web map's City Map
+  // service was re-added in August as "19ffd51de58-layer-33".
+  const cityMap = service('19ffd51de58-layer-33', [sub(94, 'Parks'), sub(13, 'Townships', { sublayers: [sub(15, 'Sections')] })])
+  const streets = feature('Street Centerline', { id: '191a448c18d-layer-13' })
+  const listed = feature('Listed', { id: 'keep-me' })
+  const unlisted = feature('Unticked', { id: 'drop-me' })
+  const map = webmap([streets, cityMap, listed, unlisted])
+  const sel = { mode: 'selected', selectedKeys: ['19c05f48fe1-layer-33::sub::94', '191a4104656-layer-11', 'keep-me'], trustedGroupKeys: ['19c05f48fe1-layer-33'] }
+  const allow = lw.makeSelectionFilter(map, sel)
+  assert.equal(allow(cityMap.sublayers[0]), true, 'stale service id: searched')
+  assert.equal(allow(cityMap.sublayers[1].sublayers[0]), true)
+  assert.equal(allow(streets), true, 'never mentioned: searched')
+  assert.equal(allow(listed), true)
+  assert.equal(allow(unlisted), true, 'a top-level layer the list never mentions counts as new')
+  assert.deepEqual(names(lw.collectQueryableLayers(map, { include: allow })).sort(), ['Listed', 'Parks', 'Sections', 'Street Centerline', 'Unticked'])
+})
+
+test('legacy include list still applies inside a layer it does mention', () => {
+  const svc = service('svc1', [sub(3, 'Hydrants'), sub(4, 'Valves')])
+  const map = webmap([svc])
+  const allow = lw.makeSelectionFilter(map, { mode: 'selected', selectedKeys: ['svc1::sub::3', 'svc1::sub::99'] })
+  assert.equal(allow(svc.sublayers[0]), true)
+  // Valves is in a service the list mentions; the legacy service-prefix rule picks it up.
+  assert.equal(allow(svc.sublayers[1]), true)
+  const g = group('Utilities', [feature('Water', { id: 'water' }), feature('Sewer', { id: 'sewer' })], { id: 'util' })
+  const map2 = webmap([g])
+  const allow2 = lw.makeSelectionFilter(map2, { mode: 'selected', selectedKeys: ['water'] })
+  assert.equal(allow2(g.layers[0]), true)
+  assert.equal(allow2(g.layers[1]), false, 'mentioned group: unticked member stays out')
+})

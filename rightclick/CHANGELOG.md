@@ -2,6 +2,26 @@
 
 Newest first. `manifest.json` and `package.json` are bumped together.
 
+## 2.4.1 (2026-11-25)
+
+### Fixed
+
+- What's Here found nothing on City Map External. Its saved layer selection
+  was an old include list naming the City Map service by the web map layer
+  id it had in January (`19c05f48fe1-layer-33`). The service was re-added to
+  the web map in August and got a new id (`19ffd51de58-layer-33`), so the
+  list matched nothing and every layer was filtered out. A top-level layer
+  that an old include list does not mention anywhere is now treated as new
+  and searched (`makeSelectionFilter` in `lib/layerWalk.ts`); the list still
+  applies inside layers it does mention. The settings panel uses the same
+  rule when it converts an old list, so converting can no longer untick
+  every layer. Checked on the live app: Townships, Sections, Parks and
+  Street Centerline are found where 2.4.0 found none.
+
+### Added
+
+- Two regression tests for a stale include list (66 tests).
+
 ## 2.4.0 (2026-11-25)
 
 ### Changed
