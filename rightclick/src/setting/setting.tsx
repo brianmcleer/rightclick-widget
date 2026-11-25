@@ -65,7 +65,9 @@ interface LayerSelectionTreeNodeProps {
     // Trust toggle — group/service nodes only. When ON, every current
     // and future nested layer is auto-included at runtime.
     isTrusted: (node: LayerTreeNode) => boolean;
-    onTrustToggle: (node: LayerTreeNode, trusted: boolean) => void;
+    // Omitted for the current exclusion model, where every layer that is not
+    // unticked is searched (new layers included), so trusting is not needed.
+    onTrustToggle?: (node: LayerTreeNode, trusted: boolean) => void;
 }
 
 const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
@@ -167,7 +169,7 @@ const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
                 {/* Trust toggle — group / map-service rows only. When ON, every
                     nested layer (including ones added later) is auto-included
                     at runtime without needing to re-tick anything. */}
-                {hasChildren && (() => {
+                {hasChildren && p.onTrustToggle && (() => {
                     const trusted = p.isTrusted(p.node);
                     return (
                         <button
@@ -175,7 +177,7 @@ const LayerSelectionTreeNode = (p: LayerSelectionTreeNodeProps) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                p.onTrustToggle(p.node, !trusted);
+                                p.onTrustToggle!(p.node, !trusted);
                             }}
                             title={
                                 trusted
@@ -1420,7 +1422,22 @@ const Setting = (props: SettingProps) => {
         const sel: WhatsHereLayerSelection | undefined = config.whatsHereLayerSelection as any;
         if (!sel || !sel.mode || sel.mode === 'all') return new Set(allLeafKeys);
 
-        const stored = new Set(sel.selectedKeys || []);
+        // Exclusion list (2.4.0): every leaf except those under an excluded key.
+        if (sel.mode === 'excluded') {
+            const excluded = new Set(sel.excludedKeys || []);
+            const kept = new Set<string>();
+            const walk = (node: LayerTreeNode, inheritExcluded: boolean): void => {
+                const out = inheritExcluded || excluded.has(node.key);
+                if (!node.isGroup && node.queryable && !out) kept.add(node.key);
+                for (const child of node.children) walk(child, out);
+            };
+            for (const root of layerTree) walk(root, false);
+            return kept;
+        }
+
+        // Legacy include list. A trusted group counts as selected, so its
+        // layers stay selected when the config is converted below.
+        const stored = new Set([...(sel.selectedKeys || []), ...((sel as any).trustedGroupKeys || [])]);
 
         // Walk the tree and, for any group whose key is stored, add every
         // queryable descendant of that group to the effective set. Leaf keys
@@ -1450,18 +1467,9 @@ const Setting = (props: SettingProps) => {
     // ancestor's key is in the selection. Without this collapse step, the
     // selection would be a frozen list of the leaves present at save time.
     const writeSelection = (effective: Set<string>) => {
-        // Preserve any existing trustedGroupKeys when rewriting the selection
-        // — they're orthogonal to the leaf/group selectedKeys list and must
-        // not get clobbered by a checkbox toggle.
-        const existingTrusted = (config.whatsHereLayerSelection as any)?.trustedGroupKeys || [];
-
-        const allOn = allLeafKeys.length > 0 && allLeafKeys.every(k => effective.has(k));
+        const allOn = allLeafKeys.length === 0 || allLeafKeys.every(k => effective.has(k));
         if (allOn) {
-            const next: WhatsHereLayerSelection = {
-                mode: 'all',
-                selectedKeys: [],
-                trustedGroupKeys: existingTrusted.length > 0 ? existingTrusted : undefined
-            };
+            const next: WhatsHereLayerSelection = { mode: 'all' };
             props.onSettingChange({
                 id: (props as any).id,
                 config: Immutable({ ...config, whatsHereLayerSelection: next })
@@ -1469,39 +1477,50 @@ const Setting = (props: SettingProps) => {
             return;
         }
 
-        // Walk the layer tree. For every group whose every queryable
-        // descendant is in `effective`, substitute the group's key for
-        // those descendants in the persisted set. Groups whose descendants
-        // are only partially selected stay as leaf-key lists.
-        const collapsed = new Set<string>(effective);
+        // Store what is unticked, not what is ticked. At runtime every layer
+        // that is switched on is searched unless it (or a group above it) is
+        // in this list, so layers added to the map later, by a layer list's
+        // Add data or by a web map edit, are searched without coming back
+        // here. A group whose every layer is unticked is stored as the group
+        // key, so layers added to that group later stay out too.
+        const leafOut = new Set<string>(allLeafKeys.filter(k => !effective.has(k)));
+        const excluded = new Set<string>(leafOut);
         const recurse = (node: LayerTreeNode): void => {
-            // Children first — collapse deepest groups before evaluating
-            // parents, so a parent can see a fully-covered child group as
-            // "all selected" via the leaves underneath it.
             for (const child of node.children) recurse(child);
-
             if (!node.isGroup) return;
             const leaves = collectLeafKeysUnder(node);
-            if (leaves.length === 0) return;
-            const allSelected = leaves.every(k => collapsed.has(k));
-            if (!allSelected) return;
-
-            // Drop the leaves and add the group key in their place.
-            for (const k of leaves) collapsed.delete(k);
-            collapsed.add(node.key);
+            if (leaves.length === 0 || !leaves.every(k => leafOut.has(k))) return;
+            // Replace every key below this group (leaves and smaller groups
+            // already collapsed) with the group's own key.
+            const drop = (n: LayerTreeNode): void => { for (const c of n.children) { excluded.delete(c.key); drop(c); } };
+            drop(node);
+            excluded.add(node.key);
         };
         for (const root of layerTree) recurse(root);
 
         const next: WhatsHereLayerSelection = {
-            mode: 'selected',
-            selectedKeys: Array.from(collapsed),
-            trustedGroupKeys: existingTrusted.length > 0 ? existingTrusted : undefined
+            mode: 'excluded',
+            excludedKeys: Array.from(excluded)
         };
         props.onSettingChange({
             id: (props as any).id,
             config: Immutable({ ...config, whatsHereLayerSelection: next })
         });
     };
+
+    // Configs saved before 2.4.0 hold an include list, which freezes What's
+    // Here to the layers that existed when the list was saved. Convert one to
+    // the exclusion list as soon as the layer tree is known: same layers
+    // ticked, but anything added later is searched. The builder shows a note
+    // so the author knows to save the app.
+    const [selectionConverted, setSelectionConverted] = React.useState<boolean>(false);
+    React.useEffect(() => {
+        if (!layerTreeReady || layerTree.length === 0) return;
+        const sel: any = config.whatsHereLayerSelection;
+        if (!sel || sel.mode !== 'selected') return;
+        writeSelection(getEffectiveSelection());
+        setSelectionConverted(true);
+    }, [layerTreeReady, layerTree]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Trust-toggle support. A "trusted" group / map-service means every
     // current AND future nested layer is auto-included at runtime,
@@ -3754,9 +3773,14 @@ const Setting = (props: SettingProps) => {
                                     </span>
                                 </div>
                             </SettingRow>
+                            {selectionConverted && (
+                                <SettingRow>
+                                    <Alert form="basic" type="info" text={t('whLayerSelectionConverted')} closable onClose={() => setSelectionConverted(false)} style={{ width: '100%' }} />
+                                </SettingRow>
+                            )}
                             <SettingRow>
                                 <div style={{ ...styles.helpText, padding: '4px 0' }}>
-                                    {t('useThe')} <strong>{t('trust')}</strong> {t('buttonNextToAGroupOr')}
+                                    {t('whLayerSelectionFollowsMap')}
                                 </div>
                             </SettingRow>
                             <SettingRow>
@@ -3782,7 +3806,7 @@ const Setting = (props: SettingProps) => {
                                             onToggle={toggleNode}
                                             collectLeafKeysUnder={collectLeafKeysUnder}
                                             isTrusted={isNodeTrusted}
-                                            onTrustToggle={setNodeTrusted}
+                                            onTrustToggle={(config.whatsHereLayerSelection as any)?.mode === 'selected' ? setNodeTrusted : undefined}
                                         />
                                     ))}
                                 </div>

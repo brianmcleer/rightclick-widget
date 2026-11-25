@@ -37,9 +37,10 @@ is in `CHANGELOG.md` (1.2.0 through 1.3.4).
   `declare global` block at the top of `widget.tsx`, so they merge with the real types when
   those are present and stand alone when they are not.
 
-## Still tied to 4.x-era APIs
+## Measurement (moved to components in 2.3.0)
 
-- `esri/widgets/DistanceMeasurement2D` and `esri/widgets/AreaMeasurement2D` are widget
-  classes. They load on the 1.21 client today. If a later SDK removes them, the two measure
-  rows now report the failure to the user instead of doing nothing (2.1.0); the port would
-  be to the measurement map components.
+- The `DistanceMeasurement2D` and `AreaMeasurement2D` widget classes were deprecated in
+  Maps SDK 5.0. Since 2.3.0 the measure rows use the `arcgis-distance-measurement-2d` and
+  `arcgis-area-measurement-2d` components, registered through `import
+  'arcgis-map-components'`, which Experience Builder externalizes. Nothing in the widget
+  depends on `esri/widgets/*` any more.

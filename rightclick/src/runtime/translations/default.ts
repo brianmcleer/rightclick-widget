@@ -72,7 +72,8 @@ export default {
 
   // Finding out what is here
   helpInfoTitle: 'Finding out what is here',
-  helpInfo1: 'What\'s here? searches the map layers around the spot you clicked and lists what it finds, one row per feature.',
+  helpInfo1: 'What\'s here? searches every layer that is switched on and showing at the current zoom, around the spot you clicked, and lists what it finds, one row per feature.',
+  helpInfoLive: 'Turn layers on or off in the layer list while the list is open and it updates by itself.',
   helpInfo2: 'Click a row to see its details. Use Back to return to the list and Zoom to to go to that feature.',
   helpInfo3: 'The tools it opens ({tools}) start with the spot you clicked already filled in.',
 
@@ -84,6 +85,7 @@ export default {
 
   // If something looks wrong
   helpTroubleTitle: 'If something looks wrong',
+  helpTroubleWhatsHereMissing: 'A layer is missing from What\'s here?: it is switched off, or it does not show at this zoom. Switch it on in the layer list, zoom in until it shows, and right click again.',
   helpTroubleNoMenu: 'Nothing happens on right click: the click landed outside the map, or the browser menu took over. Right click again on the map itself.',
   helpTroubleAddress: 'The address never appears: the address service did not answer. The coordinates still work; try again in a moment.',
   helpTroubleImported: 'A coordinate system row is missing: the spot you clicked is outside the area that system covers. Right click inside the area and the row comes back.',
@@ -210,6 +212,7 @@ export default {
   whZoomTo: 'Zoom to',
   whNoAttributes: 'No attributes to display for this feature.',
   whLoading: 'Loading...',
+  whUpdated: 'The What\'s here? list was updated to match the layers that are on.',
   whPopupRenderError: 'Error rendering custom popup:',
   whQueryError: 'Error querying location information.',
   aliasObjectId: 'Object ID',

@@ -2,9 +2,64 @@
 
 Newest first. `manifest.json` and `package.json` are bumped together.
 
+## 2.4.0 (2026-11-25)
+
+### Changed
+
+- **What's Here follows the map.** It searches every layer that is switched
+  on and showing at the current zoom, in Esri's Map Layers widget, Map Layers
+  Custom, or anything else that sets a layer's visibility. The walk is in the
+  new `src/runtime/lib/layerWalk.ts` and reads the live map on every right
+  click. It handles group layers at any depth, a group with visibility mode
+  "inherited", map service sublayers and group sublayers at any depth, scale
+  ranges on the layer and on every group or service above it, the layer
+  view's own "not drawn" state, and subtype group layers (only the subtypes
+  switched on are searched). Helper layers hidden from the layer list are
+  skipped. Results are listed topmost layer first, as the layer list shows.
+- **An open What's Here list updates by itself** when someone switches a
+  layer on or off, adds a layer, or zooms a layer into or out of range. It
+  waits for a short pause so a burst of toggles costs one search, keeps the
+  detail view on screen, and announces the update to screen readers.
+- **Each search matches what the layer draws**: it starts from the layer's
+  own query (definition expression, branch version, layer time), adds a
+  filter another widget set on the layer view, the subtype filter, and the
+  time slider for time-aware layers.
+- **Layer selection is now a list of layers to leave out**
+  (`whatsHereLayerSelection.mode: 'excluded'`, `excludedKeys`). Layers added
+  to the map later are searched without visiting the settings. Unticking a
+  whole group stores the group, so its future layers stay out too. Apps
+  saved with the old include list (`mode: 'selected'`) keep working; the
+  settings panel converts them to the new form with the same layers ticked
+  and shows a note to save the app. The "Trust" buttons are only shown for an
+  unconverted include list, since the new form does not need them.
+- The address lookup and the layer search now run at the same time.
+- Feature-scoped custom actions use the same layer walk, so they also skip
+  layers that are out of range at the current zoom.
+- Help guide: What's Here lines say it searches the layers that are on and
+  updates by itself; new troubleshooting line for a layer missing from the
+  list.
+
+### Fixed
+
+- What's Here read the layer selection from the first render only (the
+  layer collector was memoized with no dependencies), so a selection changed
+  in the builder did not apply until the page reloaded.
+- A subtype group layer was taken for a plain group layer and never searched.
+- A group layer's scale range was ignored, so layers inside a group that was
+  out of range were still searched.
+
+### Added
+
+- `tests/layerWalk.test.cjs`: 24 tests for the layer walk, the selection
+  rules and the query. The dependency test now also checks bare
+  `import 'x'` lines and allows the component packages Experience Builder
+  supplies (`arcgis-map-components` and friends).
+
 ## 2.3.0 (2026-11-23)
 
-- Changed: **Measure Distance** and **Measure Area** now run on the Maps SDK `arcgis-distance-measurement-2d` and `arcgis-area-measurement-2d` components instead of the `DistanceMeasurement2D` and `AreaMeasurement2D` widget classes. Reason: Esri deprecated the widgets in the ArcGIS Maps SDK for JavaScript at version 5.0 and plans to remove them as early as Q1 2027, so anything built on them stops working on an Experience Builder release that ships without them. See [Deprecation: Widgets in ArcGIS Maps SDK for JavaScript](https://support.esri.com/en-us/knowledge-base/deprecation-widgets-in-arcgis-maps-sdk-for-javascript-000040437).
+### Changed
+
+- **Measure Distance** and **Measure Area** now run on the Maps SDK `arcgis-distance-measurement-2d` and `arcgis-area-measurement-2d` components instead of the `DistanceMeasurement2D` and `AreaMeasurement2D` widget classes. Reason: Esri deprecated the widgets in the ArcGIS Maps SDK for JavaScript at version 5.0 and plans to remove them as early as Q1 2027, so anything built on them stops working on an Experience Builder release that ships without them. See [Deprecation: Widgets in ArcGIS Maps SDK for JavaScript](https://support.esri.com/en-us/knowledge-base/deprecation-widgets-in-arcgis-maps-sdk-for-javascript-000040437).
 - The measurement panel is the component inside a themed panel with the same Close button. The unit list is limited through the component's `unitOptions` and the "New measurement" button is hidden through `hideStartButton`, so the code that removed those from the widget's markup is gone (`hideUnwantedUnits`, `beautifyMeasurePanel`).
 - The widget's own segment, total, area and perimeter labels are drawn from the component's analysis geometry. Esri's built-in on-map label is still suppressed; in the components it is part of a CIM symbol, so the label suppressor now takes the text out of that symbol.
 

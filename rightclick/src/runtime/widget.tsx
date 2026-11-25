@@ -11,6 +11,7 @@ import type { BeaconHandle } from '../shared/beacon';
 import HelpPopup from './components/HelpPopup';
 import { TextInputDialog, MailingLabelsBufferDialog } from './components/Dialogs';
 import { buildHelpSections, HelpFeatures } from './helpSections';
+import { collectQueryableLayers, buildPointQuery, layerSetSignature, selectionAllows, itemsOf, QueryableLayerEntry } from './lib/layerWalk';
 import defaultMessages from './translations/default';
 // Registers the Maps SDK map components (<arcgis-distance-measurement-2d>,
 // <arcgis-area-measurement-2d>) through Experience Builder's shared bundle.
@@ -3303,304 +3304,39 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         return String(value);
     }, []);
 
-    // ─── What's Here: auto-discovery of queryable map layers ────────────────
-    // Walks the live map and returns every queryable feature-like layer
-    // (FeatureLayer, GeoJSONLayer, CSVLayer, OGCFeatureLayer, WFSLayer, and
-    // every Sublayer inside a MapImageLayer / TileLayer) — including those
-    // nested arbitrarily deep inside GroupLayers and map service group
-    // sublayers. Visibility and scale dependencies are honored so we don't
-    // query layers the user has toggled off or that aren't drawn at the
-    // current zoom. This is the bedrock that lets "What's Here" work without
-    // any per-layer configuration in widget settings.
-    const collectQueryableLayersFromMap = React.useCallback((): Array<{
-        name: string;
-        mapLayer: any;
-        layerUrl: string;
-        popupEnabled: boolean;
-    }> => {
-        const mv = mapViewRef.current;
+    // ─── What's Here: the layers that are on right now ──────────────────────
+    // Every layer that is switched on (in Esri's Map Layers widget, the GIS
+    // Division's Map Layers Custom, or anything else that sets layer.visible),
+    // drawn at the current scale, and queryable: FeatureLayers, map service
+    // sublayers at any depth, GroupLayer members, subtype group layers,
+    // GeoJSON / CSV / OGC / WFS layers. The walk lives in lib/layerWalk.ts and
+    // reads the live map on every call, so nothing goes stale. The What's
+    // Here layer selection is read through latestConfigRef for the same
+    // reason: this function is stable, and a closure would freeze the first
+    // render's config.
+    const latestConfigRef = React.useRef(props.config);
+    latestConfigRef.current = props.config;
+
+    const layerViewLookup = (mv: any): ((layer: any) => any) => {
+        const byLayer = new Map<any, any>();
+        for (const lv of itemsOf(mv?.allLayerViews)) if (lv?.layer) byLayer.set(lv.layer, lv);
+        return (layer: any) => byLayer.get(layer) || null;
+    };
+
+    const entryName = (e: QueryableLayerEntry): string =>
+        e.name || (e.mapLayer?.id !== undefined && e.mapLayer?.id !== null
+            ? __t("sublayerValue", { value: e.mapLayer.id })
+            : __t("layerFallbackName"));
+
+    const collectQueryableLayersFromMap = React.useCallback((): QueryableLayerEntry[] => {
+        const mv: any = mapViewRef.current;
         if (!mv?.map) return [];
-
-        const currentScale = mv.scale || 0;
-        const entries: Array<{ name: string; mapLayer: any; layerUrl: string; popupEnabled: boolean }> = [];
-        const seenKeys = new Set<string>();
-
-        // The Layer Selection setting drives which layers are *eligible* —
-        // and on top of that, a layer must also be currently turned on in
-        // the map (visible up the entire parent chain) and within its
-        // scale-dependency window. "What's Here" reflects what the user can
-        // actually see at this moment, so toggling a layer off in the
-        // legend or zooming past its scale range hides it from results.
-        const ROOT_CLASSES = new Set([
-            'esri.Map',
-            'esri.WebMap',
-            'esri.WebScene',
-            'esri.Basemap'
-        ]);
-
-        const effectivelyVisible = (lyr: any): boolean => {
-            // A layer is effectively visible only if its own `visible` flag
-            // AND every ancestor (parent sublayer, GroupLayer, MapImageLayer)
-            // up the chain has visible !== false. The walk terminates at the
-            // map/basemap container.
-            let cur = lyr;
-            let hops = 0;
-            while (cur && hops < 50) {
-                if (cur.visible === false) return false;
-                const next = cur.parent;
-                if (!next || next === cur) break;
-                const cls = String((next as any)?.declaredClass || '');
-                // Exact-equality only — previously `cls.includes('Map')` also
-                // matched MapImageLayer / MapNotesLayer and terminated the
-                // walk early, letting hidden parents slip through.
-                if (ROOT_CLASSES.has(cls)) break;
-                cur = next;
-                hops++;
-            }
-            return true;
-        };
-
-        const inScaleRange = (lyr: any): boolean => {
-            // Esri scale convention: minScale is the more-zoomed-OUT limit
-            // (numerically larger); maxScale is the more-zoomed-IN limit
-            // (numerically smaller). 0 means unconstrained on that end.
-            // currentScale === 0 falls through and is treated as in-range.
-            if (!currentScale) return true;
-            const min = Number(lyr?.minScale ?? 0);
-            const max = Number(lyr?.maxScale ?? 0);
-            if (min > 0 && currentScale > min) return false;
-            if (max > 0 && currentScale < max) return false;
-            return true;
-        };
-
-        const tryAdd = (lyr: any, fallbackName: string) => {
-            if (!lyr || typeof lyr.queryFeatures !== 'function') return;
-
-            // Only query layers the user has currently turned on in the map.
-            // Both helpers are deliberately permissive — undefined / null /
-            // missing visibility or scale fields are treated as "in range"
-            // rather than excluded, because a brand-new layer can briefly
-            // have those fields unset between when it's added and when
-            // Esri's reactive system finishes initializing it.
-            if (!effectivelyVisible(lyr)) return;
-            if (!inScaleRange(lyr)) return;
-
-            // Developer-controlled layer selection. If the dev configured an
-            // explicit selection list in widget settings, only layers whose
-            // selection key — OR the key of any ancestor in the layer tree —
-            // appears in that list are eligible.
-            //
-            // Fast path: if any ancestor's key (or, for sublayers, the owning
-            // MapImageLayer's key) is in `trustedGroupKeys`, the layer is
-            // included immediately regardless of selectedKeys. This is the
-            // "trust this group" feature — it makes new layers added to the
-            // service / group at runtime appear automatically without any
-            // settings change.
-            //
-            // Otherwise, the match below is intentionally permissive: it
-            // tries the computed selection key, the raw layer id, and the
-            // layer's title against the allowed set. Any match counts as a
-            // hit. This rescues stale configs from before this code shipped
-            // (which may have stored just leaf ids) AND configs that store
-            // group ancestors (which catch newly-added group children).
-            //
-            // Default (no selection configured, mode === 'all', or an
-            // empty selectedKeys list) = include every queryable layer.
-            const sel = props.config?.whatsHereLayerSelection;
-            const allowedKeys = Array.isArray(sel?.selectedKeys) ? sel!.selectedKeys! : [];
-            const trustedKeys = Array.isArray((sel as any)?.trustedGroupKeys) ? (sel as any).trustedGroupKeys as string[] : [];
-            const selectionInForce = !!sel && sel.mode === 'selected' && allowedKeys.length > 0;
-
-            // Trust fast-path runs even when selectionInForce is false, on the
-            // off-chance someone has trusted groups but mode === 'all'. In
-            // that case the layer would have been included anyway, so this
-            // is a no-op.
-            const trustedSet = new Set(trustedKeys);
-            const isInTrustedSubtree = (start: any): boolean => {
-                if (trustedSet.size === 0) return false;
-                let cur: any = start;
-                let hops = 0;
-                while (cur && hops < 30) {
-                    // Check this node's selection key, its raw id, and title
-                    // against the trusted set — any one of them counts.
-                    const k = computeLayerSelectionKey(cur);
-                    if (k && trustedSet.has(k)) return true;
-                    const idStr = cur.id != null ? String(cur.id) : '';
-                    if (idStr && trustedSet.has(idStr)) return true;
-                    const title = cur.title || '';
-                    if (title && trustedSet.has(title)) return true;
-                    const next = cur.parent;
-                    if (!next || next === cur) break;
-                    const cls = String((next as any)?.declaredClass || '');
-                    if (ROOT_CLASSES.has(cls)) break;
-                    cur = next;
-                    hops++;
-                }
-                return false;
-            };
-
-            if (selectionInForce) {
-                // If the layer (or any ancestor) is trusted, skip all other
-                // selection checks and include immediately.
-                if (isInTrustedSubtree(lyr)) {
-                    // matched — fall through to URL dedupe below
-                } else {
-                    const allowedSet = new Set(allowedKeys);
-
-                    // Extract the set of MapImageLayer / TileLayer service ids
-                    // referenced by composite "<serviceId>::sub::<subId>" keys.
-                    // If a sublayer's owning service id matches one of these,
-                    // we accept it regardless of which specific sub-id pairs
-                    // are in the saved selection. This is what lets sublayers
-                    // added to a map service later be auto-included.
-                    const allowedServiceIds = new Set<string>();
-                    for (const k of allowedKeys) {
-                        const idx = k.indexOf('::sub::');
-                        if (idx > 0) allowedServiceIds.add(k.substring(0, idx));
-                    }
-
-                    const matchesAllowed = (node: any): boolean => {
-                        if (!node) return false;
-                        const k = computeLayerSelectionKey(node);
-                        if (k && allowedSet.has(k)) return true;
-                        const idStr = node.id != null ? String(node.id) : '';
-                        if (idStr && allowedSet.has(idStr)) return true;
-                        const title = node.title || '';
-                        if (title && allowedSet.has(title)) return true;
-                        return false;
-                    };
-
-                    // First-pass match: walk own + ancestor keys.
-                    let matched = false;
-                    let cur: any = lyr;
-                    let hops = 0;
-                    while (cur && hops < 30) {
-                        if (matchesAllowed(cur)) { matched = true; break; }
-                        const next = cur.parent;
-                        if (!next || next === cur) break;
-                        const cls = String((next as any)?.declaredClass || '');
-                        if (ROOT_CLASSES.has(cls)) break;
-                        cur = next;
-                        hops++;
-                    }
-
-                    // Service-prefix fallback: if this layer is a sublayer of a
-                    // MapImageLayer / TileLayer and that service's id appears as
-                    // the prefix of any "<serviceId>::sub::<subId>" key in the
-                    // saved selection, treat it as matched. This catches sublayers
-                    // added to a service after the selection was saved.
-                    if (!matched && allowedServiceIds.size > 0) {
-                        let owner: any = lyr.parent;
-                        let oHops = 0;
-                        while (owner && oHops < 30) {
-                            const oCls = String(owner?.declaredClass || '');
-                            const oType = String(owner?.type || '');
-                            const isService =
-                                oType === 'map-image' || oType === 'tile' || oType === 'imagery-tile' ||
-                                oCls.indexOf('MapImageLayer') >= 0 || oCls.indexOf('TileLayer') >= 0;
-                            if (isService) {
-                                const ownerIdStr = owner.id != null ? String(owner.id) : '';
-                                if (ownerIdStr && allowedServiceIds.has(ownerIdStr)) {
-                                    matched = true;
-                                }
-                                break;
-                            }
-                            const nxt = owner.parent;
-                            if (!nxt || nxt === owner) break;
-                            owner = nxt;
-                            oHops++;
-                        }
-                    }
-
-                    if (!matched) return;
-                }
-            }
-
-            // Derive a URL (used both for dedupe and for downstream metadata
-            // lookups). FeatureLayers expose `url` directly; Sublayers of a
-            // MapImageLayer derive their URL from parent.url + id.
-            let url: string = lyr.url || '';
-            if (!url && lyr.id !== undefined && lyr.parent?.url) {
-                url = `${String(lyr.parent.url).replace(/\/+$/, '')}/${lyr.id}`;
-            }
-
-            const key = (url || `${lyr.declaredClass || 'layer'}::${lyr.uid || lyr.id || fallbackName}`).toLowerCase();
-            if (seenKeys.has(key)) return;
-            seenKeys.add(key);
-
-            entries.push({
-                name: lyr.title || fallbackName || __t("layerFallbackName"),
-                mapLayer: lyr,
-                layerUrl: url,
-                popupEnabled: lyr.popupEnabled !== false
-            });
-        };
-
-        // Recursive walk: handles GroupLayers (via `.layers`), MapImageLayer
-        // sublayers (via `.sublayers` / `.allSublayers`), and nested group
-        // sublayers inside a map service.
-        const visit = (lyr: any, depth: number) => {
-            if (!lyr || depth > 20) return;
-
-            // Feature-like layers: query them directly.
-            tryAdd(lyr, lyr.title || __t("layerValue", { value: lyr.id ?? '' }));
-
-            // Descend into GroupLayer children. Try every collection name
-            // and access mode — `.items` works for already-materialized
-            // Collections but is undefined on JSAPI Collections that haven't
-            // been touched yet; `.toArray()` always returns the current
-            // contents. Falling back across both shapes catches every case.
-            const childCollections = [
-                lyr?.layers?.toArray?.(),
-                lyr?.layers?.items,
-                lyr?.sublayers?.toArray?.(),
-                lyr?.sublayers?.items
-            ];
-            for (const col of childCollections) {
-                if (Array.isArray(col)) {
-                    for (const child of col) visit(child, depth + 1);
-                }
-            }
-
-            // Descend into map service sublayers (MapImageLayer, TileLayer,
-            // ImageryLayer). Prefer `allSublayers` when available — it
-            // pre-flattens any group sublayers within the service. We also
-            // call `.toArray()` because some Esri Collections lazy-build
-            // `.items` and return `undefined` before first access.
-            const subs = lyr?.allSublayers?.toArray?.()
-                || lyr?.allSublayers?.items
-                || lyr?.sublayers?.toArray?.()
-                || lyr?.sublayers?.items
-                || [];
-            if (Array.isArray(subs)) {
-                for (const sub of subs) {
-                    // Skip group sublayers — they aren't queryable themselves,
-                    // but their children are reachable through this same loop
-                    // because allSublayers is flat.
-                    tryAdd(sub, sub.title || __t("sublayerValue", { value: sub.id ?? '' }));
-                }
-            }
-        };
-
-        // Top-level walk. We feed BOTH the flat `allLayers` collection AND
-        // the raw `layers` collection into the visitor. `allLayers` is
-        // supposed to be reactive and pre-flattened across all nested
-        // GroupLayers, but in practice it occasionally lags behind layers
-        // added via direct `groupLayer.layers.add(...)` calls. Visiting both
-        // and relying on `seenKeys` dedupe inside tryAdd means a layer
-        // that's missing from one collection but present in the other still
-        // gets caught.
-        const allLayersCol = (mv.map as any).allLayers?.items
-            || (mv.map as any).allLayers?.toArray?.()
-            || [];
-        const topLayersCol = (mv.map as any).layers?.items
-            || (mv.map as any).layers?.toArray?.()
-            || [];
-
-        for (const layer of allLayersCol) visit(layer, 0);
-        for (const layer of topLayersCol) visit(layer, 0);
-
-        return entries;
+        const sel = (latestConfigRef.current as any)?.whatsHereLayerSelection;
+        return collectQueryableLayers(mv.map, {
+            scale: mv.scale || 0,
+            layerViewFor: layerViewLookup(mv),
+            include: (layer: any) => selectionAllows(layer, sel)
+        }).map(e => ({ ...e, name: entryName(e) }));
     }, []);
 
     // Query a single discovered layer entry at the click point using the
@@ -3608,10 +3344,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
     // MapImageLayer sublayer, GeoJSONLayer, CSVLayer, WFSLayer, etc., and
     // automatically reprojects geometry as needed.
     const queryLayerEntryAtPoint = React.useCallback(async (
-        entry: { name: string; mapLayer: any; layerUrl: string; popupEnabled: boolean },
+        entry: { name: string; mapLayer: any; layerUrl: string; popupEnabled: boolean; extraWhere?: string },
         mapPoint: __esri.Point
     ): Promise<{ layerName: string; features: any[]; layerUrl: string; popupEnabled: boolean; mapLayer: any }> => {
-        const whatsHereSettings = props.config?.whatsHereSettings || {};
+        const whatsHereSettings = (latestConfigRef.current as any)?.whatsHereSettings || {};
         const maxResults = whatsHereSettings.maxResults || 10;
 
         const result = {
@@ -3629,73 +3365,50 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 try { await entry.mapLayer.load(); } catch (_) { /* keep going */ }
             }
 
-            const q: any = {
-                geometry: mapPoint,
-                spatialRelationship: 'intersects',
-                outFields: ['*'],
-                // Always return geometry: needed for the in-popup highlight
-                // and the Zoom-to button. Cost is tiny on a per-feature basis
-                // and well worth the UX. The legacy includeGeometry flag in
-                // whatsHereSettings is ignored here for that reason.
-                returnGeometry: true,
-                num: maxResults
-            };
-            // Determine click tolerance. Configured searchRadius always wins.
-            // Otherwise: zero for polygons (a click inside intersects natively),
-            // and a screen-pixel-relative buffer for points and polylines —
-            // those have effectively no clickable area at typical zoom levels
-            // and are otherwise nearly impossible to hit precisely.
-            //
-            // The buffer is computed from the view's current resolution
-            // (map units per pixel) so a missed click within ~12px of a point
-            // or line still selects it, regardless of zoom level. A small
-            // fixed fallback in meters covers the edge case where the view's
-            // resolution isn't yet available.
+            // Click tolerance. A configured search radius always wins.
+            // Otherwise polygons need none (a click inside intersects), and
+            // points and lines get about 12 screen pixels, converted to map
+            // units at the current zoom, so a near miss still hits.
+            const mv: any = mapViewRef.current;
             const POINT_LINE_PIXEL_TOLERANCE = 12;
             const FALLBACK_TOLERANCE_METERS = 10;
             const layerGeomType = String(entry.mapLayer?.geometryType || '').toLowerCase();
-            const isPointLayer = layerGeomType.indexOf('point') >= 0;       // 'point', 'multipoint', 'esriGeometryPoint', etc.
-            const isLineLayer = layerGeomType.indexOf('line') >= 0;         // 'polyline', 'esriGeometryPolyline'
-            const needsDefaultTolerance = isPointLayer || isLineLayer;
-
+            const needsDefaultTolerance = layerGeomType.indexOf('point') >= 0 || layerGeomType.indexOf('line') >= 0;
+            let distanceMeters = 0;
             if (whatsHereSettings.searchRadius && whatsHereSettings.searchRadius > 0) {
-                q.distance = whatsHereSettings.searchRadius;
-                q.units = 'meters';
+                distanceMeters = whatsHereSettings.searchRadius;
             } else if (needsDefaultTolerance) {
-                const mv = mapViewRef.current;
-                const resolution = mv?.resolution || 0; // map units / pixel
-                // For Web Mercator (the overwhelming default) resolution is
-                // already in meters; for other spatial references Esri's
-                // query API auto-converts when we declare units='meters'.
-                const dynamicMeters = resolution > 0
-                    ? resolution * POINT_LINE_PIXEL_TOLERANCE
-                    : FALLBACK_TOLERANCE_METERS;
-                q.distance = dynamicMeters;
-                q.units = 'meters';
+                const resolution = mv?.resolution || 0;
+                distanceMeters = resolution > 0 ? resolution * POINT_LINE_PIXEL_TOLERANCE : FALLBACK_TOLERANCE_METERS;
             }
-            if (whatsHereSettings.orderBy) {
-                q.orderByFields = [whatsHereSettings.orderBy];
-            }
+
+            // The query carries what shapes the layer on screen: its
+            // definition expression, a filter set by another widget, the
+            // subtypes switched on, and the time slider.
+            const q = buildPointQuery(entry.mapLayer, {
+                point: mapPoint,
+                distanceMeters,
+                maxResults,
+                orderBy: whatsHereSettings.orderBy,
+                layerView: mv ? layerViewLookup(mv)(entry.mapLayer) : null,
+                viewTimeExtent: mv?.timeExtent,
+                extraWhere: entry.extraWhere
+            });
 
             const fs = await entry.mapLayer.queryFeatures(q);
             result.features = (fs?.features || []).map((g: any) => ({
-                // Normalize to a plain object so downstream code that does
-                // Object.entries(attributes) works regardless of whether the
-                // layer returned esri/Graphic instances or POJOs. We DO keep
-                // the geometry reference — Graphic.geometry is already a real
-                // Esri Geometry instance, so highlighting and zoom-to can
-                // pass it straight to new Graphic({geometry, symbol}) and
-                // view.goTo(geometry).
+                // Plain attributes plus the real Geometry, which the highlight
+                // and Zoom to pass straight to the Maps SDK.
                 attributes: g?.attributes || {},
                 geometry: g?.geometry || null
             }));
         } catch (_e) {
             // Some sublayers (raster, etc.) advertise queryFeatures but fail
-            // when actually called — swallow and leave features = [].
+            // when actually called; leave features empty.
         }
 
         return result;
-    }, [props.config?.whatsHereSettings]);
+    }, []);
 
     // ─── What's Here: master/detail popup helpers ───────────────────────────
     // The original implementation rendered every queried feature inline in a
@@ -4260,6 +3973,60 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         });
     }, [escapePopupHtml]);
 
+    // What's Here search at a point: every layer that is on (auto-discovery)
+    // plus any feature services added in widget settings, de-duplicated by
+    // URL. Used for the first search and again whenever the layers that are
+    // on change while the list is open.
+    type WhatsHereRow = { layerName: string; features: any[]; layerUrl: string; popupEnabled?: boolean; mapLayer?: any };
+    const runWhatsHereQuery = React.useCallback(async (mapPoint: __esri.Point): Promise<WhatsHereRow[]> => {
+        const out: WhatsHereRow[] = [];
+        const normalizeUrl = (u: string) => (u || '').replace(/\/+$/, '').toLowerCase();
+        const seenUrls = new Set<string>();
+        const keep = (row: WhatsHereRow) => {
+            if (!row.features.length) return;
+            const key = normalizeUrl(row.layerUrl);
+            if (key) {
+                if (seenUrls.has(key)) return;
+                seenUrls.add(key);
+            }
+            out.push(row);
+        };
+
+        // 1) Layers that are on in the map, topmost first.
+        const discovered = collectQueryableLayersFromMap();
+        if (discovered.length > 0) {
+            const settled = await Promise.allSettled(discovered.map(entry => queryLayerEntryAtPoint(entry, mapPoint)));
+            for (const r of settled) if (r.status === 'fulfilled') keep(r.value);
+        }
+
+        // 2) Feature services added in widget settings, queried over REST.
+        const configured: any[] = (latestConfigRef.current as any)?.featureLayers || [];
+        const toQuery = configured.filter((l: any) => {
+            const key = normalizeUrl(l.url || '');
+            return key ? !seenUrls.has(key) : true;
+        });
+        if (toQuery.length > 0) {
+            const settled = await Promise.allSettled(toQuery.map(async (layer: any) => {
+                try { return await queryFeatureLayer(layer, mapPoint); }
+                catch { return { layerName: layer.name, features: [], layerUrl: layer.url }; }
+            }));
+            for (const r of settled) if (r.status === 'fulfilled') keep(r.value as WhatsHereRow);
+        }
+        return out;
+    }, [collectQueryableLayersFromMap, queryLayerEntryAtPoint, queryFeatureLayer]);
+    const runWhatsHereQueryRef = React.useRef(runWhatsHereQuery);
+    runWhatsHereQueryRef.current = runWhatsHereQuery;
+
+    // Live refresh of an open What's Here list. Removed when the popup
+    // closes, when a new search starts, and on unmount.
+    const whatsHereLiveHandleRef = React.useRef<{ remove: () => void } | null>(null);
+    const stopWhatsHereLive = React.useCallback(() => {
+        const h = whatsHereLiveHandleRef.current;
+        whatsHereLiveHandleRef.current = null;
+        if (h) { try { h.remove(); } catch (_) { /* ignore */ } }
+    }, []);
+    React.useEffect(() => () => stopWhatsHereLive(), [stopWhatsHereLive]);
+
     // Orchestrator: opens the "What's Here" popup, wires the master/detail
     // navigation handlers onto window so onclick attributes in the popup HTML
     // can call back into React-managed state.
@@ -4282,6 +4049,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }));
 
         whatsHereSessionRef.current = { mapPoint, addressText, results };
+        // A new search replaces any live refresh left from the last one.
+        stopWhatsHereLive();
 
         const popupMaxHeight = props.config?.uiSettings?.popupMaxHeight || 400;
 
@@ -4459,6 +4228,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                 (visible: boolean) => {
                     if (!visible) {
                         clearHighlight();
+                        stopWhatsHereLive();
                         if (whatsHerePopupCloseHandleRef.current) {
                             try { whatsHerePopupCloseHandleRef.current.remove(); } catch (_) { /* ignore */ }
                             whatsHerePopupCloseHandleRef.current = null;
@@ -4836,7 +4606,53 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         };
 
         renderMaster();
-    }, [isPopupEnabledForLayerUrl, generateMasterWhatsHereContent, generateFeatureDetailContent, findMatchingPopupOverride, evaluateOverrideExpressions, substituteOverrideTemplate, escapePopupHtml, props.config?.uiSettings?.popupMaxHeight]);
+
+        // ─── Follow the layer list while the popup is open ──────────────────
+        // Watch the set of layers that are on. When someone switches a layer
+        // on or off in any layer list, adds a layer, or zooms a layer into or
+        // out of range, search the same spot again and refresh the list. The
+        // watcher only fires when the set actually changes, and the search
+        // waits for a short pause so a burst of toggles costs one search.
+        // In the detail view the fresh results are kept for Back; the feature
+        // on screen is left alone.
+        try {
+            const sessionPoint = mapPoint;
+            let lastSignature = layerSetSignature(collectQueryableLayersFromMap());
+            let pending: number | null = null;
+            let runToken = 0;
+            const handle = reactiveUtils.watch(
+                () => layerSetSignature(collectQueryableLayersFromMap()),
+                (signature: string) => {
+                    if (signature === lastSignature) return;
+                    lastSignature = signature;
+                    if (pending !== null) window.clearTimeout(pending);
+                    pending = window.setTimeout(async () => {
+                        pending = null;
+                        const myToken = ++runToken;
+                        let fresh: WhatsHereRow[] = [];
+                        try { fresh = await runWhatsHereQueryRef.current(sessionPoint); } catch (_) { return; }
+                        const session = whatsHereSessionRef.current;
+                        if (myToken !== runToken || !session || session.mapPoint !== sessionPoint) return;
+                        if (!(mapView as any).popup?.visible) return;
+                        session.results = fresh.map(r => ({
+                            ...r,
+                            popupEnabled: typeof r.popupEnabled === 'boolean' ? r.popupEnabled : isPopupEnabledForLayerUrl(r.layerUrl)
+                        }));
+                        if (whatsHereMasterIsActiveRef.current) renderMaster();
+                        announce(__t("whUpdated"));
+                    }, 350);
+                }
+            );
+            whatsHereLiveHandleRef.current = {
+                remove: () => {
+                    if (pending !== null) window.clearTimeout(pending);
+                    pending = null;
+                    runToken++;
+                    try { handle.remove(); } catch (_) { /* ignore */ }
+                }
+            };
+        } catch (_) { /* live refresh is best-effort; a new right click always searches fresh */ }
+    }, [isPopupEnabledForLayerUrl, generateMasterWhatsHereContent, generateFeatureDetailContent, findMatchingPopupOverride, evaluateOverrideExpressions, substituteOverrideTemplate, escapePopupHtml, props.config?.uiSettings?.popupMaxHeight, stopWhatsHereLive, collectQueryableLayersFromMap, announce]);
 
     // Inject a stylesheet for the What's Here popup rows once on mount.
     // This document.head copy styles the popup in EB 1.20 and earlier
@@ -4914,64 +4730,15 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         });
     };
 
-    // Every queryable, currently visible layer in the map (FeatureLayers,
-    // MapImageLayer / TileLayer sublayers, GroupLayer children). Unlike
-    // collectQueryableLayersFromMap this ignores the What's Here layer
-    // selection: custom actions choose their own layers by title / URL.
-    const collectLayersForCustomActions = React.useCallback((): Array<{ name: string; titlePath: string; mapLayer: any; layerUrl: string; popupEnabled: boolean }> => {
-        const mv = mapViewRef.current;
+    // Every layer that is switched on, drawn at this zoom, and queryable
+    // (same walk as What's Here, lib/layerWalk.ts), topmost first. Unlike
+    // What's Here this ignores the What's Here layer selection: custom
+    // actions choose their own layers by title / URL.
+    const collectLayersForCustomActions = React.useCallback((): QueryableLayerEntry[] => {
+        const mv: any = mapViewRef.current;
         if (!mv?.map) return [];
-        const out: Array<{ name: string; titlePath: string; mapLayer: any; layerUrl: string; popupEnabled: boolean }> = [];
-        const seen = new Set<any>();
-        const visibleChain = (lyr: any): boolean => {
-            let cur = lyr; let hops = 0;
-            while (cur && hops < 50) {
-                if (cur.visible === false) return false;
-                const next = cur.parent;
-                if (!next || next === cur) break;
-                const cls = String(next?.declaredClass || '');
-                if (cls === 'esri.Map' || cls === 'esri.WebMap' || cls === 'esri.WebScene' || cls === 'esri.Basemap') break;
-                cur = next; hops++;
-            }
-            return true;
-        };
-        const add = (lyr: any, fallback: string, parents: string[]) => {
-            if (!lyr || seen.has(lyr) || typeof lyr.queryFeatures !== 'function') return;
-            if (!visibleChain(lyr)) return;
-            seen.add(lyr);
-            const name = String(lyr.title || fallback);
-            out.push({ name, titlePath: [...parents, name].join(' / '), mapLayer: lyr, layerUrl: String(lyr.url || ''), popupEnabled: lyr.popupEnabled !== false });
-        };
-        const items = (c: any): any[] => (Array.isArray(c) ? c : (c?.items || (typeof c?.toArray === 'function' ? c.toArray() : [])));
-        // Map service sublayers: group sublayers hold more sublayers, to any
-        // depth. Only the leaves (no children) can be queried.
-        const walkSub = (sub: any, depth: number, parents: string[]) => {
-            if (!sub || depth > 50) return;
-            const kids = items(sub.sublayers);
-            if (kids.length) { for (const k of kids) walkSub(k, depth + 1, [...parents, String(sub.title || `Sublayer ${sub.id}`)]); return; }
-            add(sub, `Sublayer ${sub.id}`, parents);
-        };
-        // Map layers: GroupLayers hold more layers, to any depth; a map
-        // service (MapImageLayer / TileLayer) holds sublayers; anything else
-        // is a candidate itself.
-        const walkLayer = (lyr: any, depth: number, parents: string[]) => {
-            if (!lyr || depth > 50) return;
-            const type = String(lyr.type || '');
-            const cls = String(lyr.declaredClass || '');
-            const own = String(lyr.title || lyr.id || '');
-            if (type === 'group' || cls.indexOf('GroupLayer') >= 0) {
-                for (const c of items(lyr.layers)) walkLayer(c, depth + 1, [...parents, own]);
-                return;
-            }
-            if (type === 'map-image' || type === 'tile' || cls.indexOf('MapImageLayer') >= 0 || cls.indexOf('TileLayer') >= 0) {
-                for (const s of items(lyr.sublayers)) walkSub(s, depth + 1, [...parents, own]);
-                return;
-            }
-            add(lyr, String(lyr.id || ''), parents);
-        };
-        for (const lyr of items(mv.map.layers)) walkLayer(lyr, 0, []);
-        // Walk order is bottom to top; callers want the topmost layer first.
-        return out.reverse();
+        return collectQueryableLayers(mv.map, { scale: mv.scale || 0, layerViewFor: layerViewLookup(mv) })
+            .map(e => ({ ...e, name: entryName(e) }));
     }, []);
 
     // Query every layer matched by a feature-scoped action at the click point
@@ -5313,7 +5080,8 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                     hideContextMenu(); // hide menu immediately before async work begins
                     try {
                         type ResultRow = { layerName: string; features: any[]; layerUrl: string; popupEnabled?: boolean; mapLayer?: any };
-                        let allResults: ResultRow[] = [];
+                        // Start the layer search now so it runs while the address is looked up.
+                        const resultsPromise = runWhatsHereQuery(mapPoint);
 
                         let addressText = '';
                         if (props.config?.reverseGeocodeUrl) {
@@ -5345,61 +5113,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
                             }
                         }
 
-                        const normalizeUrl = (u: string) => (u || '').replace(/\/+$/, '').toLowerCase();
-                        const seenUrls = new Set<string>();
-
-                        // ── 1) Auto-discovery from the map ─────────────────
-                        // Walk every queryable layer in the live map (FeatureLayers
-                        // and MapImageLayer/TileLayer sublayers, including those
-                        // nested arbitrarily deep in GroupLayers / map service
-                        // group sublayers) and query each at the click point. This
-                        // makes "What's Here" work out of the box with any webmap
-                        // — no per-layer configuration required.
-                        const discovered = collectQueryableLayersFromMap();
-                        if (discovered.length > 0) {
-                            const settled = await Promise.allSettled(
-                                discovered.map(entry => queryLayerEntryAtPoint(entry, mapPoint))
-                            );
-                            for (const r of settled) {
-                                if (r.status !== 'fulfilled') continue;
-                                if (!r.value.features.length) continue;
-                                const key = normalizeUrl(r.value.layerUrl);
-                                if (key) {
-                                    if (seenUrls.has(key)) continue;
-                                    seenUrls.add(key);
-                                }
-                                allResults.push(r.value);
-                            }
-                        }
-
-                        // ── 2) Manually configured feature layers ──────────
-                        // Anything the user explicitly added in widget settings
-                        // is still queried via the REST path. Deduped by URL
-                        // against auto-discovered results so we don't double up.
-                        if (props.config?.featureLayers?.length) {
-                            const configToQuery = props.config.featureLayers.filter(l => {
-                                const key = normalizeUrl(l.url || '');
-                                return key ? !seenUrls.has(key) : true;
-                            });
-                            if (configToQuery.length > 0) {
-                                const cfgSettled = await Promise.allSettled(
-                                    configToQuery.map(async (layer) => {
-                                        try { return await queryFeatureLayer(layer, mapPoint); }
-                                        catch { return { layerName: layer.name, features: [], layerUrl: layer.url }; }
-                                    })
-                                );
-                                for (const r of cfgSettled) {
-                                    if (r.status !== 'fulfilled') continue;
-                                    if (!r.value.features.length) continue;
-                                    const key = normalizeUrl(r.value.layerUrl);
-                                    if (key) {
-                                        if (seenUrls.has(key)) continue;
-                                        seenUrls.add(key);
-                                    }
-                                    allResults.push(r.value);
-                                }
-                            }
-                        }
+                        const allResults: ResultRow[] = await resultsPromise;
 
                         // Hand off to the master/detail orchestrator. It renders the
                         // address + clickable feature list and wires up the back/forward
@@ -5482,7 +5196,7 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
         }
 
         hideContextMenu();
-    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, undoLastGraphic, openGoogleMaps, copyWithPrompt, announce, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName, enabledCustomActions, runCustomAction]);
+    }, [state.contextMenu, hideContextMenu, copyCoordinates, plotCoordinate, plotSimpleMarker, showTextInputDialog, clearCoordinateMarkers, clearSimpleMarkers, clearTextGraphics, clearAllGraphics, undoLastGraphic, openGoogleMaps, copyWithPrompt, announce, openStreetView, openPictometryView, startMeasurement, startAreaMeasurement, projectToSpatialReference, queryFeatureLayer, collectQueryableLayersFromMap, queryLayerEntryAtPoint, openWhatsHerePopup, showMailingLabelsBufferDialog, openContainerAndTarget, props.config, getFieldDisplayName, enabledCustomActions, runCustomAction, runWhatsHereQuery]);
 
     // Long-press (mobile) refs. Mobile touch devices have no right-click,
     // so the user presses and holds on the map to open the same context

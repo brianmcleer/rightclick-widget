@@ -294,7 +294,13 @@ export interface IMConfig {
 
 // NEW: Persisted developer choice of which map layers feed What's Here.
 export interface WhatsHereLayerSelection {
-    mode?: 'all' | 'selected';   // 'all' (default) = every layer; 'selected' = only those listed
+    // 'all' (default): every layer that is switched on and drawn is searched.
+    // 'excluded' (2.4.0): the same, except layers under a key in excludedKeys.
+    //   Layers added later are searched, so What's Here follows the map.
+    // 'selected' (before 2.4.0): only layers under a key in selectedKeys.
+    //   Still honored at runtime; the settings panel converts it to 'excluded'.
+    mode?: 'all' | 'excluded' | 'selected';
+    excludedKeys?: string[];     // layer or group keys (computeLayerSelectionKey) left out when mode === 'excluded'
     selectedKeys?: string[];     // layer keys (from computeLayerSelectionKey) when mode === 'selected'
     // "Trusted" group / map-service keys. Any layer whose ancestor — or, for
     // sublayers, whose owning MapImageLayer / TileLayer — has a key in this

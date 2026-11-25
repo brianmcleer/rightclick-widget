@@ -31,10 +31,14 @@ and Mailing Labels with the clicked location.
   Open in Pictometry
 - **Measurement**: Measure Distance, Measure Area, with filtered unit options
   and single or dual unit display
-- **What's Here**: reverse geocoding plus feature-layer queries against
-  any layers in the live map, with drill-down into MapImageLayer sublayers
-  and group layers. Trusted groups auto-include any nested layers (current
-  and future) without needing the settings to be re-saved
+- **What's Here**: searches every layer that is switched on and showing at
+  the current zoom, so it follows Esri's Map Layers widget (or any layer
+  list) as people turn layers on and off. Group layers and map service
+  sublayers at any depth, subtype group layers (only the subtypes that are
+  on), and layers added at runtime with Add data are all included. Each
+  search respects the layer's definition expression, filters set by other
+  widgets, and the time slider. An open list updates by itself when layers
+  are switched on or off
 - **Launch companion widgets**: Property Report and Mailing Labels can be
   opened at the right-click point. Supports three container layouts: a
   plain Widget Controller, a plain Accordion, or an Accordion nested
@@ -59,8 +63,9 @@ and Mailing Labels with the clicked location.
   measurement units, reverse geocoding service, and Pictometry URL
 - Import coordinate systems from `.prj` files under Copy Coordinates
   Settings (see "Imported coordinate systems" below)
-- Configure What's Here layer selection with a tri-state tree, trust
-  toggles for groups, and Arcade-based popup overrides
+- Untick layers What's Here should never search (everything else that is
+  on is searched, including layers added later), and Arcade-based popup
+  overrides
 - Import and export the full configuration as XML for backup or
   transferring between applications
 
@@ -128,11 +133,11 @@ the page (the context menu and dialogs are overlays). Recommended:
 
 ## Configuration tips
 
-- **What's Here trusted groups**: in the layer-selection tree, click the
-  "Trust" pill next to a group or map service. Trusted groups
-  auto-include every nested layer, including ones added to the service
-  later, so you don't have to re-tick boxes and re-save the config every
-  time a new sublayer is added.
+- **What's Here layer selection**: leave every layer ticked to search
+  whatever is on. Untick a layer, or a whole group, to keep What's Here
+  from ever searching it. Apps saved before 2.4.0 used a list of layers to
+  include; opening the settings converts it (same layers ticked, new layers
+  searched), and you save the app once to keep it.
 - **Property Report / Mailing Labels container layout**: if the target
   widget lives inside a Widget Controller, set Container Type to "Widget
   Controller". If it lives inside an Accordion, set it to "Accordion".

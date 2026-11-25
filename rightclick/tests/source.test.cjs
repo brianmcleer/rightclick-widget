@@ -75,7 +75,9 @@ test('no dynamic import() and no @ts-nocheck', () => {
 })
 
 test('the only third-party imports are the ones Experience Builder supplies', () => {
-  const allowed = /^(\.|esri\/|jimu-|react($|\/)|calcite-components$)/
+  // Experience Builder supplies these (playbook Section 2 and 12.9: the map,
+  // charts, coding and portal component packages are externalized by EB).
+  const allowed = /^(\.|esri\/|jimu-|react($|\/)|calcite-components$|arcgis-(map|charts|coding|portal)-components$)/
   const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
     const p = path.join(dir, e.name)
     if (e.isDirectory()) return walk(p)
@@ -84,7 +86,8 @@ test('the only third-party imports are the ones Experience Builder supplies', ()
   const bad = []
   for (const file of walk(path.join(WIDGET_ROOT, 'src'))) {
     const src = code(fs.readFileSync(file, 'utf8'))
-    const re = /(?:from\s+|require\()\s*['"]([^'"]+)['"]/g
+    // Also bare side-effect imports (import 'x').
+    const re = /(?:from\s+|require\(|^\s*import\s+)\s*['"]([^'"]+)['"]/gm
     let m
     while ((m = re.exec(src)) !== null) if (!allowed.test(m[1])) bad.push(`${path.relative(WIDGET_ROOT, file)}: ${m[1]}`)
   }

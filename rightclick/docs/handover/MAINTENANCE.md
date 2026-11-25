@@ -51,6 +51,18 @@ Do not edit `HelpPopup.tsx`; it is shared.
 - The only color literals allowed in `widget.tsx` are the `rcPalette` defaults and the
   default colors of graphics drawn on the map. A test checks this.
 
+## What's Here layers
+
+- The rule for which layers are searched lives in one place,
+  `src/runtime/lib/layerWalk.ts` (`collectQueryableLayers`). Change it there and add a
+  case to `tests/layerWalk.test.cjs`; What's Here and feature-scoped custom actions both
+  follow it.
+- Nothing is cached. If What's Here ever looks stale, look for a closure that froze
+  config or a layer reference, not for a cache. Config is read through
+  `latestConfigRef`.
+- The layer selection stores the layers to leave out (`mode: 'excluded'`). Keep it that
+  way: an include list freezes What's Here to the layers that existed when it was saved.
+
 ## Imported coordinate systems
 
 - The settings panel only checks the WKT text for structure (`parseWktInfo`); it must not
@@ -65,9 +77,9 @@ Do not edit `HelpPopup.tsx`; it is shared.
 1. Bump `exbVersion` in `manifest.json`, and `$ExbWidgetPath` in the repository's `publish.ps1`.
 2. Check every `esri/*` import path against that version's Maps SDK reference. A wrong
    path fails the whole bundle at load.
-3. Confirm `esri/widgets/DistanceMeasurement2D` and `AreaMeasurement2D` still load. They
-   are loaded late through `loadArcGISJSAPIModules`; if they are gone, the two measure
-   rows show an error message and need porting to the measurement components.
+3. Confirm the `arcgis-distance-measurement-2d` and `arcgis-area-measurement-2d`
+   components still register through `import 'arcgis-map-components'` and that their
+   `unitOptions` and `hideStartButton` properties still exist (2.3.0).
 4. Re-copy `src/exb-editor-shims.d.ts` from the family master if it changed.
 5. Run the checks and the browser smoke test. Record what changed in a new
    `docs/PORTING_<version>.md`.
@@ -79,6 +91,7 @@ Do not edit `HelpPopup.tsx`; it is shared.
 | `tests/wkt.test.cjs` | `.prj` / WKT recognition, with the Mesa County file as a fixture. |
 | `tests/config.test.cjs` | Layer matching for custom actions, layer selection keys, defaults. |
 | `tests/helpGuide.test.cjs` | Help guide content, feature gating both ways, writing rules. |
+| `tests/layerWalk.test.cjs` | Which layers What's Here searches: visibility up the tree, inherited groups, sublayers, scale ranges, layer view state, subtype groups, order, the change signature, the layer selection rules, and the point query. |
 | `tests/source.test.cjs` | Every used translation key exists; no dashes or emoji in strings; no Maps SDK import in settings; no dynamic import; no undeclared dependency; no hard-coded UI colors; versions agree. |
 
 They do not cover React rendering, the Maps SDK, projection results or the popup in a

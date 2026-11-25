@@ -121,7 +121,7 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
           key: 'info',
           icon: 'question',
           title: t('helpInfoTitle'),
-          body: [...when(f.whatsHere, 'helpInfo1', 'helpInfo2'), ...(launchTools ? [t('helpInfo3', { tools: launchTools })] : [])]
+          body: [...when(f.whatsHere, 'helpInfo1', 'helpInfoLive', 'helpInfo2'), ...(launchTools ? [t('helpInfo3', { tools: launchTools })] : [])]
         }]
       : []),
     { key: 'keys', icon: 'keyboard', title: t('helpKeysTitle'), body: [...when(f.hotkeys, 'helpKeys1'), t('helpKeys2'), ...when(f.longPress, 'helpKeys3')] },
@@ -131,6 +131,7 @@ export function buildHelpSections (t: T, f: HelpFeatures): HelpSection[] {
       title: t('helpTroubleTitle'),
       body: [
         t('helpTroubleNoMenu'),
+        ...when(f.whatsHere, 'helpTroubleWhatsHereMissing'),
         ...when(f.customFeature.length > 0, 'helpTroubleCustomFeature'),
         ...when(f.address, 'helpTroubleAddress'),
         ...when(f.copyCoordinates && f.importedSystems.length > 0, 'helpTroubleImported'),
